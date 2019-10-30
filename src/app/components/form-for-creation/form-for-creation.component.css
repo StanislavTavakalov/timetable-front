@@ -1,0 +1,15 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 30%;
+  left:30%;
+
+}
+
+.example-container a > * {
+  width: 100%;
+
+}

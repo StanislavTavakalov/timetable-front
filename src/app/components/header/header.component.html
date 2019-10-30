@@ -1,0 +1,23 @@
+
+<!-- Toolbar -->
+<mat-toolbar class="toolbar" role="banner">
+  <img
+    width="80"
+    alt="BNTU Logo"
+    src="../assets/bntu-logo2.gif"
+  />
+  <span style="font-size: 20px">БНТУ</span>
+  <nav mat-tab-nav-bar >
+    <a mat-tab-link
+       *ngFor="let link of navLinks"
+       [routerLink]="link.path"
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{link.label}}
+    </a>
+  </nav>
+
+
+</mat-toolbar>
+
+

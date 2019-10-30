@@ -1,0 +1,38 @@
+﻿<div class="example-container" xmlns:position="http://www.w3.org/1999/xhtml">
+
+<mat-form-field [formGroup]="formGroup">
+    <mat-select id="course" formControlName="course" class="form-control" required (selectionChange)="valuesf(0,$event)" placeholder="Количество семестров">
+      <mat-option value="1">1</mat-option>
+      <mat-option value="2">2</mat-option>
+      <mat-option value="3">3</mat-option>
+      <mat-option value="4">4</mat-option>
+      <mat-option value="5">5</mat-option>
+      <mat-option value="6">6</mat-option>
+      <mat-option value="7">7</mat-option>
+      <mat-option value="8">8</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field [formGroup]="formGroup">
+    <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название учебного плана" (change)="valuesf(1,$event)">
+  </mat-form-field>
+
+
+  <mat-form-field [formGroup]="formGroup">
+    <input id="coefficient" formControlName="coefficient" required class="form-control" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">
+  </mat-form-field>
+
+  <a  *ngFor="let dummy of ' '.repeat(countOfSem).split(''), let i = index" style="position:relative">
+    <mat-form-field [formGroup]="formGroupHours">
+      <input  id="hours{{i}}" formControlName="hours{{i}}" required matInput placeholder="Недель в семестре {{i+1}}" (change)="changeWeeks(i,$event)">
+    </mat-form-field>
+  </a>
+  <button mat-raised-button color="warn" (click)="add()">
+    add
+  </button>
+<nav>
+  <a routerLink="/timetable">Timetable</a>
+</nav>
+
+
+</div>

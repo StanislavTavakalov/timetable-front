@@ -1,0 +1,41 @@
+/*.example-container {*/
+/*  height: 400px;*/
+/*  width: 550px;*/
+/*  overflow: auto;*/
+/*}*/
+
+table {
+  text-align: center !important;
+  width: 800px;
+
+}
+
+.mat-header-cell {
+  text-align: center;
+  font-size: 18px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+div {
+  display: flex;
+}
+
+div .a{
+
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #777;
+  cursor: pointer;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+mat-icon {
+  cursor: pointer;
+  color: #000000;
+
+}
