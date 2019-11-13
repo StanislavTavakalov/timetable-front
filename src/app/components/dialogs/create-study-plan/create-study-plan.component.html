@@ -1,0 +1,17 @@
+<div class="make-investments-dialog">
+  <h1 mat-dialog-title>Создание нового учебного плана</h1>
+  <form [formGroup]="createStudyPlanForm">
+    <mat-form-field>
+      <input matInput placeholder="Введите название нового учебного плана: " [formControlName]="'studyPlanName'" maxLength="15">
+      <mat-error *ngIf="studyPlanName.invalid" style="font-size: 16px">{{getErrorText('studyPlanName')}}</mat-error>
+    </mat-form-field>
+
+    <div class="controls">
+      <button mat-button color="primary" (click)="confirm()" [disabled]="studyPlanName.invalid" cdkFocusInitial>
+        Confirm
+      </button>
+      <button mat-button color="warn" (click)=onCancelClick()> Close</button>
+    </div>
+  </form>
+</div>
+

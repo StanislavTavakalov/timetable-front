@@ -14,6 +14,8 @@ import {FormForCreationComponent} from './components/form-for-creation/form-for-
 import {EditableModeComponent} from './components/editable-mode/editable-mode.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import {DialogsModule} from './components/dialogs/dialogs.module';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     TestComponent,
     TimetableComponent,
     FormForCreationComponent,
-    EditableModeComponent
+    EditableModeComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DialogsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

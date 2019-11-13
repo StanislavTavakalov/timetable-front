@@ -7,4 +7,5 @@ export class StudyPlan {
   public coefficient: number;
   public countOfSem: number;
   public weeks: number[];
+  public isChanged: boolean;
 }
