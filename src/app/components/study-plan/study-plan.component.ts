@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList} from '@angular/core';
 import {SubjectService} from '../../services/subject.service';
 
 import {Observable} from 'rxjs';
@@ -49,7 +49,14 @@ const STUDY_PLANS_MOCK: StudyPlan[] = [
         position: 3
       },
       {
-        id: 4, name: 'Python', semesters: [], department: '', sumOfHours: 0, freeHours: 0, numberOfDiscipline: '', isChanged: false,
+        id: 4,
+        name: 'Python',
+        semesters: [],
+        department: '',
+        sumOfHours: 0,
+        freeHours: 0,
+        numberOfDiscipline: '',
+        isChanged: false,
         position: 4
       }],
     countOfSem: 0, coefficient: 0, weeks: []
@@ -148,7 +155,17 @@ const SUBJECTS_MOCK: Subject[] = [
     isChanged: false,
     position: 0
   },
-  {id: 3, name: 'ООП', semesters: [], department: '', sumOfHours: 0, freeHours: 0, numberOfDiscipline: '', isChanged: false, position: 0},
+  {
+    id: 3,
+    name: 'ООП',
+    semesters: [],
+    department: '',
+    sumOfHours: 0,
+    freeHours: 0,
+    numberOfDiscipline: '',
+    isChanged: false,
+    position: 0
+  },
   {
     id: 4,
     name: 'Python',
@@ -171,7 +188,17 @@ const SUBJECTS_MOCK: Subject[] = [
     isChanged: false,
     position: 0
   },
-  {id: 6, name: 'Java', semesters: [], department: '', sumOfHours: 0, freeHours: 0, numberOfDiscipline: '', isChanged: false, position: 0},
+  {
+    id: 6,
+    name: 'Java',
+    semesters: [],
+    department: '',
+    sumOfHours: 0,
+    freeHours: 0,
+    numberOfDiscipline: '',
+    isChanged: false,
+    position: 0
+  },
   {
     id: 7,
     name: 'Математика',
@@ -211,10 +238,14 @@ const SUBJECTS_MOCK: Subject[] = [
 export class StudyPlanComponent implements OnInit, AfterViewInit {
 
 
-  constructor(private subjectService: SubjectService, private dialog: MatDialog, private overlay: Overlay) {
+  constructor(private subjectService: SubjectService,
+              private dialog: MatDialog,
+              private overlay: Overlay,
+              private cdr: ChangeDetectorRef) {
   }
 
   @ViewChild('table', {static: false}) table: MatTable<Subject>;
+  @ViewChildren('table') tables: QueryList<MatTable<Subject>>;
   @ViewChild('tableMain', {static: false}) studyPlansTable: MatTable<Subject>;
   //   // @ViewChild('tableMain', {static: false}) tableM: MatTable<StudyPlan>;
   // @ts-ignore
@@ -272,16 +303,36 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   public addSubjectToStudyPlan(subject: Subject) {
     this.selectedStudyPlan.subjects.push(subject);
-    this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.studyPlansTable.renderRows();
-    this.table.renderRows();
-    console.log(this.selectedStudyPlan);
-    console.log(this.studyPlans);
-    console.log(this.table.dataSource);
-    console.log(this.studyPlansTable.dataSource);
-   // this.sortSubjectsForStudyPlan(this.selectedStudyPlan);
+    const index = this.getIndex(this.selectedStudyPlan);
+    console.log(this.tables.toArray()[index]);
+    console.log(index);
+    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    this.tables.toArray()[index].renderRows();
+    // console.log(this.tables.length);
+    // console.log(this.table.dataSource);
+    // this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    // this.studyPlansTable.renderRows();
+    // this.table.renderRows();
+    // this.cdr.detectChanges();
+    // console.log(this.selectedStudyPlan);
+    // console.log(this.studyPlans);
+    // console.log(this.table.dataSource);
+    // console.log(this.studyPlansTable.dataSource);
+    // this.sortSubjectsForStudyPlan(this.selectedStudyPlan);
   }
 
+  public getIndex(studyPlan: StudyPlan) {
+    console.log('after get');
+    this.studyPlans.entries();
+    this.studyPlans.values();
+    let i = -1;
+    for (let studyPlanOb of this.studyPlans){
+      i++;
+      if (studyPlanOb.id === studyPlan.id){
+        return i;
+      }
+    }
+  }
   public deleteSubjectFromStudyPlan(subject: Subject) {
 
     for (let i = 0; i < this.selectedStudyPlan.subjects.length; ++i) {
@@ -389,8 +440,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   public createNewStudyPlan() {
     // this.dialog.open(CreateStudyPlanComponent, {
-    //   // width: '700',
-    //   // height: '700',
+    //   // width: '700px',
+    //   // height: '700px',
     //   // data: null,
     //   // scrollStrategy: this.overlay.scrollStrategies.noop()
     // });
@@ -398,7 +449,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(CreateStudyPlanComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      this.studyPlans.push(result );
+      this.studyPlans.push(result);
       console.log(result);
       console.log(this.studyPlans);
       this.studyPlansTable.renderRows();
