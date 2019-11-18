@@ -1,15 +1,23 @@
 .timetable {
-text-align:center;
-width: 98%;
+  text-align:center;
+  width: 75%;
+  top:8%;
+  position:absolute;
+  left: 20%;
 
 }
 
 .vertical {
-    word-break: break-all;
+  word-break: break-all;
 }
 
 .vertical1 {
-    word-break: break-all;
+  word-break: break-all;
+}
+
+.freeHours {
+  top:40%;
+  position: absolute;
 }
 /* plansComponent's private CSS styles */
 .plans {
@@ -17,6 +25,8 @@ width: 98%;
   list-style-type: none;
   padding: 0;
   width: 15em;
+  left: 2%;
+  position: absolute;
 }
 .plans li {
   cursor: pointer;
@@ -55,3 +65,19 @@ width: 98%;
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
 }
+
+.input1 {
+  width:20%;
+  text-align: center;
+}
+
+.input2 {
+  width:20%;
+  text-align: center;
+}
+
+.input3 {
+  width:90%;
+  text-align: center;
+}
+

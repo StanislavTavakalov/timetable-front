@@ -19,16 +19,21 @@ export class FormForCreationComponent implements OnInit {
   weeks: number[] = [];
   formGroup: any;
   formGroupHours:any;
+  plans: StudyPlan[];
+
 
   constructor(private formForCreationServiceService: FormForCreationServiceService) {
   }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      'name': new FormControl("", [Validators.required]),
+      'plans': new FormControl("", [Validators.required]),
       'coefficient': new FormControl("", [Validators.required]),
       'course': new FormControl("", [Validators.required])
 
+    });
+    this.formForCreationServiceService.getPlans().subscribe(plans => {
+      this.plans = plans;
     });
     this.countOfSem = 0;
   }
@@ -36,16 +41,16 @@ export class FormForCreationComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid && this.formGroupHours.valid) {
-
-    this.plan.name = this.name;
-    this.plan.countOfSem = this.countOfSem;
-    this.plan.weeks = this.weeks;
-    this.plan.coefficient = this.coefficient;
-    this.formForCreationServiceService.addPlan(this.plan).subscribe(() => {
-      window.alert('Учебный план успешно создан');
-    });
-  } else{
-      window.alert('Заполните обязательные поля');
+      this.plan.countOfSem = this.countOfSem;
+      this.plan.weeks = this.weeks;
+      this.plan.coefficient = this.coefficient;
+      this.formForCreationServiceService.editPlan(this.plan);
+      /*this.formForCreationServiceService.editPlan(this.plan).subscribe(() => {
+        window.alert('Учебный план успешно создан');
+      });
+    } else{
+        window.alert('Заполните обязательные поля');
+      }*/
     }
   }
 
@@ -60,7 +65,7 @@ export class FormForCreationComponent implements OnInit {
     } else if (num === 2) {
       this.coefficient = parseInt(event.value, 10);
     } else {
-      this.name = event.currentTarget.value;
+      this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan=> this.plan=plan);
     }
 
   }
