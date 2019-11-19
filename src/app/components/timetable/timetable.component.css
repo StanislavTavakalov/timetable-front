@@ -81,3 +81,11 @@
   text-align: center;
 }
 
+
+div .control-panel-inner-block{
+  position:absolute;
+  top:70%;
+  width:70%;
+  left:15%;
+  display: flex;
+}

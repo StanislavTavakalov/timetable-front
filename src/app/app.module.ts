@@ -15,6 +15,7 @@ import {EditableModeComponent} from './components/editable-mode/editable-mode.co
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {DialogsModule} from './components/dialogs/dialogs.module';
+import { EditStudyPlanComponent } from './components/dialogs/edit-study-plan/edit-study-plan.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {DialogsModule} from './components/dialogs/dialogs.module';
     TimetableComponent,
     FormForCreationComponent,
     EditableModeComponent,
+    EditStudyPlanComponent,
   ],
   imports: [
     BrowserModule,

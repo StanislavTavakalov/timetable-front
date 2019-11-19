@@ -44,11 +44,11 @@
     </tr>
    </ng-container>
   <ng-container *ngIf="editMode" >
-    <tr *ngFor="let discipline of selectedPlan.subjects">
+    <tr *ngFor="let discipline of editPlan.subjects">
       <td><input (change)="changeNumber($event,discipline.id)" class="input3" value="{{discipline.numberOfDiscipline}}">
       </td>
       <td colspan="2"><input (change)="changeName($event,discipline.id)" class="input3" value="{{discipline.name}}"></td>
-      <td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index"><input
+      <td  *ngFor="let dummy of ' '.repeat(editPlan.countOfSem).split(''), let i = index"><input
         (change)="changeHoursPerWeek($event,discipline.id,i)" class="input1"
         value="{{discipline.semesters[i].hoursPerWeek}}"> / <input
         (change)="changeCreditUnit($event,discipline.id,i)" class="input2" value="{{discipline.semesters[i].creditUnits}}"></td>
@@ -82,9 +82,19 @@
       class="example-element-row"
       (click)="onSelect(row)"></tr>
 </table>
-<div style="left: 90%;top:8%;position: absolute">
-  <mat-icon *ngIf="!editMode" (click)="editModeOn()">edit</mat-icon>
-  <mat-icon *ngIf="editMode" (click)="editModeOff()">add</mat-icon>
+
+
+
+<div class="control-panel">
+  <div class="control-panel-inner-block mat-elevation-z21">
+    <button mat-raised-button class="control-button" (click)="updateStudyPlan()"> Создать </button>
+
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="add()"> Сохранить</button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="editModeOff()"> Выйти из режима редактирования</button>
+    <div style="width: 40%"></div>
+    <button mat-raised-button class="control-button" style="margin-left: auto" [disabled]="this.selectedStudyPlan === null"> Далее </button>
+  </div>
 </div>
 
 

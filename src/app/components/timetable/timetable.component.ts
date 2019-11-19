@@ -3,6 +3,8 @@ import {Subject} from '../../model/subject.model';
 import {StudyPlan} from '../../model/study-plan.model';
 import {TimetableService} from '../../services/timetable.service';
 import {EditableModeService} from '../../services/editable-mode.service';
+import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
+import {MatDialog, MatRow, MatTable, MatTableDataSource} from '@angular/material';
 
 
 @Component({
@@ -26,7 +28,7 @@ export class TimetableComponent implements OnInit {
   subject: Subject;
 
 
-  constructor(private timetableService: TimetableService, private editableModeService: EditableModeService) {
+  constructor(private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -92,6 +94,7 @@ export class TimetableComponent implements OnInit {
   }
 
   public changeHoursPerWeek(event, id, numberOfSem): void {
+    console.log(id);
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
@@ -128,5 +131,24 @@ export class TimetableComponent implements OnInit {
 
   public editModeOff() {
     this.editMode = false;
+  }
+
+  public updateStudyPlan() {
+    // this.dialog.open(CreateStudyPlanComponent, {
+    //   // width: '700px',
+    //   // height: '700px',
+    //   // data: null,
+    //   // scrollStrategy: this.overlay.scrollStrategies.noop()
+    // });
+
+    const dialogRef = this.dialog.open(CreateStudyPlanComponent);
+
+   /* dialogRef.afterClosed().subscribe(result => {
+      this.studyPlans.push(result);
+      console.log(result);
+      console.log(this.studyPlans);
+      this.studyPlansTable.renderRows();
+      this.table.renderRows();
+    });*/
   }
 }
