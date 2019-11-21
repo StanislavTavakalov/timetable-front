@@ -1,13 +1,12 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList} from '@angular/core';
 import {SubjectService} from '../../services/subject.service';
-
-import {Observable} from 'rxjs';
-import {MatDialog, MatRow, MatTable, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatTable, MatTableDataSource} from '@angular/material';
 import {StudyPlan} from '../../model/study-plan.model';
 import {Subject} from '../../model/subject.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Overlay} from '@angular/cdk/overlay';
 import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
+import {ConfirmationComponent} from '../dialogs/confirmation/confirmation.component';
 
 
 const STUDY_PLANS_MOCK: StudyPlan[] = [
@@ -240,16 +239,12 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   constructor(private subjectService: SubjectService,
               private dialog: MatDialog,
-              private overlay: Overlay,
-              private cdr: ChangeDetectorRef) {
+              private overlay: Overlay) {
   }
 
   @ViewChild('table', {static: false}) table: MatTable<Subject>;
   @ViewChildren('table') tables: QueryList<MatTable<Subject>>;
   @ViewChild('tableMain', {static: false}) studyPlansTable: MatTable<Subject>;
-  //   // @ViewChild('tableMain', {static: false}) tableM: MatTable<StudyPlan>;
-  // @ts-ignore
-  // @ViewChild('table') table: MatTable<any>;
 
 
   public subjects: Subject[];
@@ -262,6 +257,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public studyPlannedBeforeChanges;
   public expandedStudyPlan: StudyPlan | null;
   public newStudyPlan: StudyPlan;
+  public studyPlanBackup: StudyPlan;
 
   displayedColumnsStudyPlans: string[] = ['name'];
   displayedColumnsSubjects: string[] = ['name', 'add-icon'];
@@ -291,7 +287,6 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
   public selectStudyPlan(studyPlan: StudyPlan) {
-    // this.subjects = studyPlan.subjects;
     this.selectedStudyPlan = studyPlan;
     this.sortSubjectsForStudyPlan(studyPlan);
   }
@@ -308,42 +303,32 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     console.log(index);
     this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
     this.tables.toArray()[index].renderRows();
-    // console.log(this.tables.length);
-    // console.log(this.table.dataSource);
-    // this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    // this.studyPlansTable.renderRows();
-    // this.table.renderRows();
-    // this.cdr.detectChanges();
-    // console.log(this.selectedStudyPlan);
-    // console.log(this.studyPlans);
-    // console.log(this.table.dataSource);
-    // console.log(this.studyPlansTable.dataSource);
-    // this.sortSubjectsForStudyPlan(this.selectedStudyPlan);
   }
 
   public getIndex(studyPlan: StudyPlan) {
     console.log('after get');
-    this.studyPlans.entries();
-    this.studyPlans.values();
+
     let i = -1;
-    for (let studyPlanOb of this.studyPlans){
+    for (const studyPlanOb of this.studyPlans) {
       i++;
-      if (studyPlanOb.id === studyPlan.id){
+      if (studyPlan === null) {
+        break;
+      }
+      if (studyPlanOb.id === studyPlan.id) {
         return i;
       }
     }
   }
-  public deleteSubjectFromStudyPlan(subject: Subject) {
 
+  public deleteSubjectFromStudyPlan(subject: Subject) {
     for (let i = 0; i < this.selectedStudyPlan.subjects.length; ++i) {
-      if (this.selectedStudyPlan.subjects[i].name === subject.name) {
+      if (this.selectedStudyPlan.subjects[i].id === subject.id) {
         this.selectedStudyPlan.subjects.splice(i, 1);
       }
     }
-
-    this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.studyPlansTable.renderRows();
-    this.table.renderRows();
+    const index = this.getIndex(this.selectedStudyPlan);
+    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    this.tables.toArray()[index].renderRows();
     // this.sortSubjectsForStudyPlan(this.selectedStudyPlan);
   }
 
@@ -402,21 +387,32 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
   public editModeOn() {
+    const index = this.getIndex(this.selectedStudyPlan);
     this.editMode = true;
     this.displayedColumnsForSubjects = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
       'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
-    this.studyPlansTable.renderRows();
-    this.table.renderRows();
+    this.studyPlanBackup = JSON.parse(JSON.stringify(this.selectedStudyPlan));
+    // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    this.tables.toArray()[index].renderRows();
   }
 
   public editModeOff() {
+    // let index = null;
+    // if (this.selectedStudyPlan != null) {
+    //   index = this.getIndex(this.selectedStudyPlan);
+    // }
+    // if (index != null) {
+    //   this.tables.toArray()[index].dataSource = new MatTableDataSource(this.studyPlanBackup.subjects);
+    //   this.tables.toArray()[index].renderRows();
+    // }
     this.editMode = false;
-    // this.displayedColumnsSingleStudyPlan = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
-    //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
     this.displayedColumnsForSubjects = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
       'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
-    this.studyPlansTable.renderRows();
-    this.table.renderRows();
+    this.studyPlanBackup = null;
+    // this.studyPlansTable.renderRows();
+    // this.table.renderRows();
+    // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+
   }
 
   public changeProperty(subject: Subject) {
@@ -427,34 +423,120 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public expandRow(studyPlan: StudyPlan) {
     this.expandedStudyPlan = this.expandedStudyPlan === studyPlan ? null : studyPlan;
     if (this.selectedStudyPlan === studyPlan) {
+      if (this.editMode) {
+        this.declineChanges();
+      }
       this.selectedStudyPlan = null;
     } else {
+      if (this.editMode) {
+        this.declineChanges();
+      }
       this.selectedStudyPlan = studyPlan;
+      this.renderTable(this.selectedStudyPlan);
     }
-    this.editMode = false;
-    this.studyPlansTable.renderRows();
-    this.table.renderRows();
+    // this.editModeOff();
+    // this.declineChanges();
     console.log(this.selectedStudyPlan);
     // this.isStudyPlanSelected = !this.isStudyPlanSelected;
   }
 
   public createNewStudyPlan() {
-    // this.dialog.open(CreateStudyPlanComponent, {
-    //   // width: '700px',
-    //   // height: '700px',
-    //   // data: null,
-    //   // scrollStrategy: this.overlay.scrollStrategies.noop()
-    // });
-
-    const dialogRef = this.dialog.open(CreateStudyPlanComponent);
+    const dialogRef = this.dialog.open(CreateStudyPlanComponent, {
+      width: '30%',
+      height: '25%',
+      data: {message: 'Создать новый учебный план'},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.studyPlans.push(result);
-      console.log(result);
-      console.log(this.studyPlans);
-      this.studyPlansTable.renderRows();
-      this.table.renderRows();
+      if (result != null) {
+        this.studyPlans.push(result);
+        console.log(result);
+        console.log(this.studyPlans);
+        this.studyPlansTable.renderRows();
+        this.table.renderRows();
+      }
     });
+  }
+
+  public deleteStudyPlan() {
+    const textMessage = 'Удалить учебный план';
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '23%',
+      height: '22%',
+      data: {message: textMessage}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('delete');
+        for (let i = 0; i < this.studyPlans.length; i++) {
+          if (this.studyPlans[i].id === this.selectedStudyPlan.id) {
+            this.studyPlans.splice(i, 1);
+            console.log('done');
+            console.log(this.studyPlans);
+            break;
+          }
+        }
+        this.studyPlansTable.renderRows();
+        this.selectedStudyPlan = null;
+      } else {
+        console.log('cancel');
+      }
+    });
+  }
+
+  public changeStudyPlanName() {
+    const textMessage = 'Изменить имя учебного плана';
+    const currentStudyPlanName = this.selectedStudyPlan.name;
+
+    const dialogRef = this.dialog.open(CreateStudyPlanComponent, {
+      width: '30%',
+      height: '25%',
+      data: {message: textMessage, currentName: currentStudyPlanName},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    });
+
+    dialogRef.afterClosed().subscribe(newName => {
+      newName = newName as string;
+      if (newName != null) {
+        console.log(newName);
+        for (let i = 0; i < this.studyPlans.length; i++) {
+          if (this.studyPlans[i].name === this.selectedStudyPlan.name) {
+            this.studyPlans[i].name = newName;
+            this.selectedStudyPlan.name = newName;
+          }
+        }
+        this.studyPlansTable.renderRows();
+        // this.table.renderRows();
+      }
+    });
+  }
+
+  public applyChanges() {
+    this.editModeOff();
+  }
+
+  public declineChanges() {
+    for (let i = 0; i < this.studyPlans.length; i++) {
+      if (this.studyPlans[i].id === this.selectedStudyPlan.id) {
+        this.studyPlans[i] = JSON.parse(JSON.stringify(this.studyPlanBackup));
+        this.selectedStudyPlan = this.studyPlans[i];
+        break;
+      }
+    }
+    this.editModeOff();
+    const index = this.getIndex(this.selectedStudyPlan);
+    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    this.tables.toArray()[index].renderRows();
+    //  this.studyPlansTable.renderRows();
+    // this.renderTable(this.selectedStudyPlan);
+  }
+
+  private renderTable(studyPlan: StudyPlan) {
+    const index = this.getIndex(this.selectedStudyPlan);
+    this.tables.toArray()[index].renderRows();
+    this.studyPlansTable.renderRows();
   }
 
 }

@@ -1,8 +1,8 @@
 <div class="make-investments-dialog">
-  <h1 mat-dialog-title>Создание нового учебного плана</h1>
+  <h1 mat-dialog-title>{{message}}</h1>
   <form [formGroup]="createStudyPlanForm">
     <mat-form-field>
-      <input matInput placeholder="Введите название нового учебного плана: " [formControlName]="'studyPlanName'" maxLength="15">
+      <input matInput placeholder="Введите название учебного плана: " [formControlName]="'studyPlanName'" maxLength="15">
       <mat-error *ngIf="studyPlanName.invalid" style="font-size: 16px">{{getErrorText('studyPlanName')}}</mat-error>
     </mat-form-field>
 

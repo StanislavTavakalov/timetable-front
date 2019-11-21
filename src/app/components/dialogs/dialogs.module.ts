@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../material';
 import {CreateStudyPlanComponent} from './create-study-plan/create-study-plan.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 
 @NgModule({
@@ -12,9 +13,9 @@ import {CreateStudyPlanComponent} from './create-study-plan/create-study-plan.co
     ReactiveFormsModule,
     MaterialModule
   ],
-  declarations: [CreateStudyPlanComponent],
-  exports: [CreateStudyPlanComponent],
-  entryComponents: [CreateStudyPlanComponent]
+  declarations: [CreateStudyPlanComponent, ConfirmationComponent],
+  exports: [CreateStudyPlanComponent, ConfirmationComponent],
+  entryComponents: [CreateStudyPlanComponent, ConfirmationComponent]
 })
 export class DialogsModule {
 }

@@ -1,8 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {StudyPlan} from '../../../model/study-plan.model';
-import {Subject} from '../../../model/subject.model';
 
 @Component({
   selector: 'app-create-study-plan',
@@ -12,6 +10,8 @@ import {Subject} from '../../../model/subject.model';
 export class CreateStudyPlanComponent implements OnInit {
 
   createStudyPlanForm: FormGroup;
+  message: string;
+  currentName: string = null;
 
   constructor(private fb: FormBuilder,
               public dialogRef: MatDialogRef<CreateStudyPlanComponent>,
@@ -20,6 +20,9 @@ export class CreateStudyPlanComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+    this.message = this.data.message;
+    this.currentName = this.data.currentName;
+    console.log(this.currentName);
   }
 
   private initializeForm() {
@@ -56,8 +59,11 @@ export class CreateStudyPlanComponent implements OnInit {
 
   confirm() {
     const nameOfStudyPlan = this.createStudyPlanForm.controls.studyPlanName.value;
-    console.log(nameOfStudyPlan);
-    this.dialogRef.close({id: 555, name: nameOfStudyPlan, subjects: [], coefficient: 0, countOfSem: 0, weeks: 0, isChanged: false});
+    console.log(this.currentName);
+    if (this.currentName === undefined || this.currentName === null) {
+      this.dialogRef.close({id: 555, name: nameOfStudyPlan, subjects: [], coefficient: 0, countOfSem: 0, weeks: 0, isChanged: false});
+    } else {
+      this.dialogRef.close(nameOfStudyPlan);
+    }
   }
-
 }

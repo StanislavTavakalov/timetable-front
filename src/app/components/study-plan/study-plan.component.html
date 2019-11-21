@@ -246,10 +246,11 @@
   <button mat-raised-button class="control-button" (click)="createNewStudyPlan()"> Создать </button>
 
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="editModeOff()"> Подтвердить </button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="editModeOff()"> Изменить название </button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null"> Удалить </button>
-  <div style="width: 40%"></div>
+  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="applyChanges()"> Сохранить </button>
+  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="declineChanges()"> Отменить </button>
+  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="changeStudyPlanName()"> Изменить название </button>
+  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" (click)="deleteStudyPlan()"> Удалить </button>
+<!--  <div style="background-color: red"></div>-->
   <button mat-raised-button class="control-button" style="margin-left: auto" [disabled]="this.selectedStudyPlan === null"> Далее </button>
   </div>
 </div>
