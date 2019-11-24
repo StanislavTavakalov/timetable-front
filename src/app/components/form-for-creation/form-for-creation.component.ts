@@ -18,7 +18,7 @@ export class FormForCreationComponent implements OnInit {
   coefficient: number;
   weeks: number[] = [];
   formGroup: any;
-  formGroupHours:any;
+  formGroupHours: any;
   plans: StudyPlan[];
 
 
@@ -27,9 +27,10 @@ export class FormForCreationComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      'plans': new FormControl("", [Validators.required]),
-      'coefficient': new FormControl("", [Validators.required]),
-      'course': new FormControl("", [Validators.required])
+      plans: new FormControl('', [Validators.required]),
+      coefficient: new FormControl('', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]),
+      course: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required])
 
     });
     this.formForCreationServiceService.getPlans().subscribe(plans => {
@@ -47,25 +48,24 @@ export class FormForCreationComponent implements OnInit {
       this.formForCreationServiceService.editPlan(this.plan);
       /*this.formForCreationServiceService.editPlan(this.plan).subscribe(() => {
         window.alert('Учебный план успешно создан');
-      });
-    } else{
+      });*/
+    } else {
         window.alert('Заполните обязательные поля');
-      }*/
+      }
     }
-  }
+
 
   public valuesf(num, event): void {
     if (num === 0) {
       this.countOfSem = parseInt(event.value, 10);
       this.formGroupHours = new FormGroup({});
-      for(var i=0;i<this.countOfSem;i++)
-      {
-        this.formGroupHours.addControl('hours'+i,new FormControl('', Validators.required));
+      for (let i = 0; i < this.countOfSem; i++) {
+        this.formGroupHours.addControl('hours' + i, new FormControl('', [Validators.required, Validators.min(1),Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
       }
     } else if (num === 2) {
       this.coefficient = parseInt(event.value, 10);
     } else {
-      this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan=> this.plan=plan);
+      this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan => this.plan = plan);
     }
 
   }

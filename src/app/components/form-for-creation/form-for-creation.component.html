@@ -14,12 +14,14 @@
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <mat-select id="plans" formControlName="plans" *ngFor="let plan of plans" class="form-control" required (selectionChange)="valuesf(1,$event)" placeholder="Учебный план">
-      <mat-option value="{{plan.id}}">"{{plan.name}}"</mat-option>
+    <mat-select id="plans" formControlName="plans" class="form-control" required (selectionChange)="valuesf(1,$event)" placeholder="Учебный план"  >
+      <mat-option *ngFor="let plan of plans" value="{{plan.id}}">"{{plan.name}}"</mat-option>
     </mat-select>
-    <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название учебного плана" (change)="valuesf(1,$event)">
   </mat-form-field>
 
+  <mat-form-field [formGroup]="formGroup">
+    <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название учебного плана" (change)="valuesf(1,$event)">
+  </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
     <input id="coefficient" formControlName="coefficient" required class="form-control" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">

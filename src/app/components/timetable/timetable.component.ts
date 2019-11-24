@@ -100,7 +100,7 @@ export class TimetableComponent implements OnInit {
     });
     this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek;
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10);
-    this.subject.semesters[numberOfSem].creditUnits = parseInt(event.currentTarget.value, 10) / this.selectedPlan.coefficient;
+    this.subject.semesters[numberOfSem].creditUnits = Math.round(parseInt(event.currentTarget.value, 10) / this.selectedPlan.coefficient);
     this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10);
 
   }
@@ -109,7 +109,6 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
-
     this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek;
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10) * this.selectedPlan.coefficient;
     this.subject.semesters[numberOfSem].creditUnits = parseInt(event.currentTarget.value, 10);
