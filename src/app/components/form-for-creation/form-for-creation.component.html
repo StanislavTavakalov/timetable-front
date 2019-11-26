@@ -2,14 +2,7 @@
 
 <mat-form-field [formGroup]="formGroup">
     <mat-select id="course" formControlName="course" class="form-control" required (selectionChange)="valuesf(0,$event)" placeholder="Количество семестров">
-      <mat-option value="1">1</mat-option>
-      <mat-option value="2">2</mat-option>
-      <mat-option value="3">3</mat-option>
-      <mat-option value="4">4</mat-option>
-      <mat-option value="5">5</mat-option>
-      <mat-option value="6">6</mat-option>
-      <mat-option value="7">7</mat-option>
-      <mat-option value="8">8</mat-option>
+      <mat-option *ngFor="let dummy of ' '.repeat(12).split(''), let i = index" value="{{i+1}}">{{i+1}}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -20,7 +13,7 @@
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название учебного плана" (change)="valuesf(1,$event)">
+    <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название учебного плана" (change)="valuesf(3,$event)">
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
@@ -35,9 +28,5 @@
   <button mat-raised-button color="warn" (click)="add()">
     add
   </button>
-<nav>
-  <a routerLink="/timetable">Timetable</a>
-</nav>
-
-
+  <button mat-button color="warn" (click)=onCancelClick()> Close</button>
 </div>

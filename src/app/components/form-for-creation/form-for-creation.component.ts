@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormForCreationServiceService} from '../../services/form-for-creation-service.service';
 import {StudyPlan} from '../../model/study-plan.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material';
+import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
+import {Semester} from '../../model/semester.model';
+import {Subject} from '../../model/subject.model';
 
 
 @Component({
@@ -20,9 +24,10 @@ export class FormForCreationComponent implements OnInit {
   formGroup: any;
   formGroupHours: any;
   plans: StudyPlan[];
+  oldCountOfSem: number;
 
 
-  constructor(private formForCreationServiceService: FormForCreationServiceService) {
+  constructor(private formForCreationServiceService: FormForCreationServiceService, public dialogRef: MatDialogRef<FormForCreationComponent>) {
   }
 
   ngOnInit() {
@@ -42,10 +47,13 @@ export class FormForCreationComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid && this.formGroupHours.valid) {
-      this.plan.countOfSem = this.countOfSem;
+      this.plan.name = this.name;
       this.plan.weeks = this.weeks;
+      this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
       this.formForCreationServiceService.editPlan(this.plan);
+      this.updateSubjects();
+      this.dialogRef.close(this.plan);
       /*this.formForCreationServiceService.editPlan(this.plan).subscribe(() => {
         window.alert('Учебный план успешно создан');
       });*/
@@ -60,17 +68,40 @@ export class FormForCreationComponent implements OnInit {
       this.countOfSem = parseInt(event.value, 10);
       this.formGroupHours = new FormGroup({});
       for (let i = 0; i < this.countOfSem; i++) {
-        this.formGroupHours.addControl('hours' + i, new FormControl('', [Validators.required, Validators.min(1),Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
+        this.formGroupHours.addControl('hours' + i, new FormControl('', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
       }
     } else if (num === 2) {
-      this.coefficient = parseInt(event.value, 10);
-    } else {
+      this.coefficient = parseInt(event.currentTarget.value, 10);
+    } else if (num === 1)  {
       this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan => this.plan = plan);
+      this.oldCountOfSem = this.plan.countOfSem;
+    } else if (num === 3) {
+      this.name = event.currentTarget.value;
     }
 
   }
 
   public changeWeeks(num, event) {
-    this.weeks[num] = parseInt(event.value, 10);
+    this.weeks[num] = parseInt(event.currentTarget.value, 10);
+    console.log(this.weeks);
+  }
+
+  onCancelClick() {
+    this.dialogRef.close();
+  }
+
+  public updateSubjects() {
+    if (this.oldCountOfSem < this.plan.countOfSem) {
+      for (let i = this.oldCountOfSem; i < this.countOfSem; i++) {
+        this.plan.subjects.forEach((subject) => {
+          subject.semesters.push({id: 10, number: i, hoursPerWeek: 0, creditUnits: 0});
+        });
+      }
+    } else {
+      this.plan.subjects.forEach((subject) => {
+        subject.semesters = subject.semesters.slice(0, this.countOfSem);
+      });
+    }
+    console.log(this.plan);
   }
 }

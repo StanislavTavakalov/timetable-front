@@ -5,6 +5,9 @@ import {TimetableService} from '../../services/timetable.service';
 import {EditableModeService} from '../../services/editable-mode.service';
 import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
 import {MatDialog, MatRow, MatTable, MatTableDataSource} from '@angular/material';
+import {FormForCreationComponent} from '../form-for-creation/form-for-creation.component';
+import {Overlay} from '@angular/cdk/overlay';
+import {PLANS} from '../../mock/plan-mock';
 
 
 @Component({
@@ -26,9 +29,10 @@ export class TimetableComponent implements OnInit {
   editPlan: StudyPlan;
   displayedColumnsStudyPlans: string[] = ['name'];
   subject: Subject;
+  updatedPlan: StudyPlan;
 
 
-  constructor(private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog) {
+  constructor(private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog, private overlay: Overlay) {
   }
 
   ngOnInit() {
@@ -140,14 +144,37 @@ export class TimetableComponent implements OnInit {
     //   // scrollStrategy: this.overlay.scrollStrategies.noop()
     // });
 
-    const dialogRef = this.dialog.open(CreateStudyPlanComponent);
+    const dialogRef = this.dialog.open(FormForCreationComponent, {
+      width: '30%',
+      height: '80%',
+      data: {message: 'Создать новый учебный план'},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    }) ;
 
-   /* dialogRef.afterClosed().subscribe(result => {
-      this.studyPlans.push(result);
-      console.log(result);
-      console.log(this.studyPlans);
-      this.studyPlansTable.renderRows();
-      this.table.renderRows();
-    });*/
+    dialogRef.afterClosed().subscribe(result => {
+      this.updatedPlan = result;
+      this.reculculate();
+    });
   }
+
+  public reculculate() {
+    this.plans.forEach((plan, id) => {
+      if (plan.id === this.updatedPlan.id) {
+        this.plans[id] = plan;
+      }
+    });
+    if (this.updatedPlan.id = this.selectedPlan.id) {
+      this.selectedPlan = JSON.parse(JSON.stringify(this.updatedPlan));
+      this.editPlan = JSON.parse(JSON.stringify(this.updatedPlan));
+      this.semsEven = this.selectedPlan.countOfSem;
+      if (this.selectedPlan.countOfSem % 2 !== 0) {
+        this.semsEven = this.selectedPlan.countOfSem + 1;
+      }
+      this.semsLost = this.semsEven - this.selectedPlan.countOfSem;
+      this.cources = this.semsEven / 2;
+      this.num = this.cources * 2 + 4;
+      this.num1 = this.cources * 2;
+    }
+  }
+
 }
