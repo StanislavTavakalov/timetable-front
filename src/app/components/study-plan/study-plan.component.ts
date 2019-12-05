@@ -7,7 +7,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Overlay} from '@angular/cdk/overlay';
 import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
 import {ConfirmationComponent} from '../dialogs/confirmation/confirmation.component';
-
+import {SUBJECTS_EXAMPLES} from '../../mock/study-mock';
 
 const STUDY_PLANS_MOCK: StudyPlan[] = [
   {
@@ -242,9 +242,11 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
               private overlay: Overlay) {
   }
 
+  // TODO refactor below one
   @ViewChild('table', {static: false}) table: MatTable<Subject>;
   @ViewChildren('table') tables: QueryList<MatTable<Subject>>;
   @ViewChild('tableMain', {static: false}) studyPlansTable: MatTable<Subject>;
+  @ViewChild('tablePrototypes', {static: false}) subjectPrototypesTable: MatTable<Subject>;
 
 
   public subjects: Subject[];
@@ -260,7 +262,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public studyPlanBackup: StudyPlan;
 
   displayedColumnsStudyPlans: string[] = ['name'];
-  displayedColumnsSubjects: string[] = ['name', 'add-icon'];
+  displayedColumnsSubjects: string[] = ['prototypes', 'add-icon'];
   // displayedColumnsSingleStudyPlan: string[] = ['study-plan','swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
   //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
   displayedColumnsSingleStudyPlan: string[] = ['study-plan'];
@@ -299,8 +301,6 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public addSubjectToStudyPlan(subject: Subject) {
     this.selectedStudyPlan.subjects.push(subject);
     const index = this.getIndex(this.selectedStudyPlan);
-    console.log(this.tables.toArray()[index]);
-    console.log(index);
     this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
     this.tables.toArray()[index].renderRows();
   }
@@ -324,6 +324,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.selectedStudyPlan.subjects.length; ++i) {
       if (this.selectedStudyPlan.subjects[i].id === subject.id) {
         this.selectedStudyPlan.subjects.splice(i, 1);
+        break;
       }
     }
     const index = this.getIndex(this.selectedStudyPlan);
@@ -351,12 +352,14 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
           this.selectedStudyPlan.subjects[i] = temp;
           break;
         }
-
       }
     }
-    this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.studyPlansTable.renderRows();
-    this.table.renderRows();
+    const index = this.getIndex(this.selectedStudyPlan);
+    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    this.tables.toArray()[index].renderRows();
+    // this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    // this.studyPlansTable.renderRows();
+    // this.table.renderRows();
   }
 
   public swapWithLower(subject: Subject) {
@@ -381,15 +384,18 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
       }
     }
-    this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.studyPlansTable.renderRows();
-    this.table.renderRows();
+    const index = this.getIndex(this.selectedStudyPlan);
+    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    this.tables.toArray()[index].renderRows();
+    // this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    // this.studyPlansTable.renderRows();
+    // this.table.renderRows();
   }
 
   public editModeOn() {
     const index = this.getIndex(this.selectedStudyPlan);
     this.editMode = true;
-    this.displayedColumnsForSubjects = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
+    this.displayedColumnsForSubjects = ['swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
       'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
     this.studyPlanBackup = JSON.parse(JSON.stringify(this.selectedStudyPlan));
     // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
@@ -538,5 +544,13 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.tables.toArray()[index].renderRows();
     this.studyPlansTable.renderRows();
   }
+  public showPrototypes() {
+    this.subjectPrototypesTable.dataSource = SUBJECTS_EXAMPLES;
+  }
+  public showExamples() {
+    this.subjectPrototypesTable.dataSource = SUBJECTS_MOCK;
+  }
+
+
 
 }

@@ -130,6 +130,15 @@
              [@detailExpand]="element == expandedStudyPlan ? 'expanded' : 'collapsed'">
 
           <table mat-table #table [dataSource]="element.subjects" class="mat-elevation-z8" style="width: 100%">
+
+            <ng-container matColumnDef="swap" *ngIf="editMode">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon (click)="swapWithUpper(element)">expand_less</mat-icon>
+                <mat-icon (click)="swapWithLower(element)"> expand_more</mat-icon>
+              </td>
+            </ng-container>
+
             <!-- Name Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Название дисциплины</th>
@@ -169,7 +178,7 @@
 
             <ng-container matColumnDef="auditory-lessons">
               <th mat-header-cell *matHeaderCellDef> Аудиторных занятий</th>
-              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode"> 9 </span></td>
+              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode" > 9 </span></td>
             </ng-container>
 
             <ng-container matColumnDef="lectures">
@@ -216,14 +225,19 @@
 
 
 
-  <!--  Subjects table -->
+  <!--        -------------------------------Subjects table--------------------------                   -->
 
-    <table mat-table *ngIf="editMode" [dataSource]="allSubjects" class="mat-elevation-z8"
+    <table mat-table #tablePrototypes *ngIf="editMode" [dataSource]="allSubjects" class="mat-elevation-z8"
            style="width: 15%; margin-left: 3%; margin-top: 2%">
 
       <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Учебные предметы</th>
+      <ng-container matColumnDef="prototypes">
+        <th mat-header-cell *matHeaderCellDef (click)="showPrototypes()" class="pointer"> Шаблоны </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="examples">
+        <th mat-header-cell *matHeaderCellDef (click)="showExamples()" class="pointer"> Примеры </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
@@ -236,18 +250,22 @@
       </ng-container>
 
       <!-- Display columns -->
-      <tr mat-header-row *matHeaderRowDef="['name']"></tr>
+      <tr mat-header-row *matHeaderRowDef="['prototypes', 'examples' ]"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumnsSubjects;"></tr>
     </table>
 
 </div>
+
+
+
+<!--        -------------------------------   CONTROL PANEL    --------------------------                   -->
 <div class="control-panel">
   <div class="control-panel-inner-block mat-elevation-z21">
   <button mat-raised-button class="control-button" (click)="createNewStudyPlan()"> Создать </button>
 
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="applyChanges()"> Сохранить </button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="declineChanges()"> Отменить </button>
+  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="declineChanges()"> Отменить  </button>
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="changeStudyPlanName()"> Изменить название </button>
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" (click)="deleteStudyPlan()"> Удалить </button>
 <!--  <div style="background-color: red"></div>-->

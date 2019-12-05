@@ -30,3 +30,13 @@ export const SUBJECTS1: Subject[] = [
     position: 1
   }
 ];
+
+export  const SUBJECTS_EXAMPLES: Subject[] = [
+  {
+    id: 3, numberOfDiscipline: '1.3', name: 'ЯП',
+    semesters: SEMS1,
+    department: 'ПОВТ', sumOfHours : 12, freeHours : 72,
+    isChanged: false,
+    position: 1
+  }
+];
