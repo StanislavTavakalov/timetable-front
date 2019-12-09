@@ -17,16 +17,16 @@
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <input id="coefficient" formControlName="coefficient" required class="form-control" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">
+    <input id="coefficient" formControlName="coefficient" required class="form-control" value="3" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">
   </mat-form-field>
 
   <a  *ngFor="let dummy of ' '.repeat(countOfSem).split(''), let i = index" style="position:relative">
     <mat-form-field [formGroup]="formGroupHours">
-      <input  id="hours{{i}}" formControlName="hours{{i}}" required matInput placeholder="Недель в семестре {{i+1}}" (change)="changeWeeks(i,$event)">
+      <input  id="hours{{i}}" formControlName="hours{{i}}" required matInput value="13" placeholder="Недель в семестре {{i+1}}" (change)="changeWeeks(i,$event)">
     </mat-form-field>
   </a>
   <button mat-raised-button color="warn" (click)="add()">
-    add
+    Сохранить
   </button>
-  <button mat-button color="warn" (click)=onCancelClick()> Close</button>
+  <button mat-button color="warn" (click)=onCancelClick()> Выйти </button>
 </div>

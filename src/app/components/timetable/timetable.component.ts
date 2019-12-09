@@ -8,6 +8,7 @@ import {MatDialog, MatRow, MatTable, MatTableDataSource} from '@angular/material
 import {FormForCreationComponent} from '../form-for-creation/form-for-creation.component';
 import {Overlay} from '@angular/cdk/overlay';
 import {PLANS} from '../../mock/plan-mock';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -30,21 +31,26 @@ export class TimetableComponent implements OnInit {
   displayedColumnsStudyPlans: string[] = ['name'];
   subject: Subject;
   updatedPlan: StudyPlan;
+  selectedId: string;
 
 
-  constructor(private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog, private overlay: Overlay) {
+  constructor(private route: ActivatedRoute, private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog, private overlay: Overlay) {
   }
 
   ngOnInit() {
     this.timetableService.getPlans().subscribe(plans => {
       this.plans = plans;
+      this.selectedId = this.route.snapshot.paramMap.get('id');
+      this.selectedPlan = this.plans.find((plan) => {
+        return plan.id === parseInt(this.selectedId, 10);
+      });
       this.initializeData();
     });
 
   }
 
   private initializeData(): void {
-    this.selectedPlan = this.plans[0];
+
     this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
     this.semsEven = this.selectedPlan.countOfSem;
     if (this.selectedPlan.countOfSem % 2 !== 0) {

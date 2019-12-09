@@ -269,6 +269,6 @@
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="changeStudyPlanName()"> Изменить название </button>
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" (click)="deleteStudyPlan()"> Удалить </button>
 <!--  <div style="background-color: red"></div>-->
-  <button mat-raised-button class="control-button" style="margin-left: auto" [disabled]="this.selectedStudyPlan === null"> Далее </button>
+  <button mat-raised-button class="control-button" style="margin-left: auto" [disabled]="this.selectedStudyPlan === null" *ngIf="this.selectedStudyPlan != null" routerLink="/timetable/{{this.selectedStudyPlan.id}}"> Далее </button>
   </div>
 </div>

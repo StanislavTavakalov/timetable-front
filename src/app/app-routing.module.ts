@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'study-plan', component: StudyPlanComponent },
   { path: 'test', component: TestComponent },
 
-  { path: 'timetable', component: TimetableComponent },
+  { path: 'timetable/:id', component: TimetableComponent },
   { path: 'creation', component: FormForCreationComponent },
   { path: 'edit', component: EditableModeComponent },
   { path: '**', redirectTo: 'study-plan' }

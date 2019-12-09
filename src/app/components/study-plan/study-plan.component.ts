@@ -7,7 +7,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Overlay} from '@angular/cdk/overlay';
 import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
 import {ConfirmationComponent} from '../dialogs/confirmation/confirmation.component';
-import {SUBJECTS_EXAMPLES} from '../../mock/study-mock';
+import {SUBJECTS} from '../../mock/study-mock';
 
 const STUDY_PLANS_MOCK: StudyPlan[] = [
   {
@@ -545,7 +545,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.studyPlansTable.renderRows();
   }
   public showPrototypes() {
-    this.subjectPrototypesTable.dataSource = SUBJECTS_EXAMPLES;
+    this.subjectPrototypesTable.dataSource = SUBJECTS;
   }
   public showExamples() {
     this.subjectPrototypesTable.dataSource = SUBJECTS_MOCK;

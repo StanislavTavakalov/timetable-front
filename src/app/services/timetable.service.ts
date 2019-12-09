@@ -21,4 +21,10 @@ export class TimetableService {
   getPlans(): Observable<StudyPlan[]> {
     return of(PLANS);
   }
+
+  getPlanById(id: number): Observable<StudyPlan> {
+    return of(PLANS.find((plan) => {
+      return plan.id === id;
+    }));
+  }
 }
