@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../material';
 import {CreateStudyPlanComponent} from './create-study-plan/create-study-plan.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { StudyPlanDetailsComponent } from './study-plan-details/study-plan-details.component';
 
 
 @NgModule({
@@ -13,9 +14,9 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     ReactiveFormsModule,
     MaterialModule
   ],
-  declarations: [CreateStudyPlanComponent, ConfirmationComponent],
-  exports: [CreateStudyPlanComponent, ConfirmationComponent],
-  entryComponents: [CreateStudyPlanComponent, ConfirmationComponent]
+  declarations: [CreateStudyPlanComponent, ConfirmationComponent, StudyPlanDetailsComponent],
+  exports: [CreateStudyPlanComponent, ConfirmationComponent, StudyPlanDetailsComponent],
+  entryComponents: [CreateStudyPlanComponent, ConfirmationComponent, StudyPlanDetailsComponent]
 })
 export class DialogsModule {
 }

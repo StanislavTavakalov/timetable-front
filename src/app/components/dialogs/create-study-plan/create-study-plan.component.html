@@ -2,12 +2,28 @@
   <h1 mat-dialog-title>{{message}}</h1>
   <form [formGroup]="createStudyPlanForm">
     <mat-form-field>
-      <input matInput placeholder="Введите название учебного плана: " [formControlName]="'studyPlanName'" maxLength="15">
+      <input matInput placeholder="Имя учебного плана: " [formControlName]="'studyPlanName'" maxLength="15">
       <mat-error *ngIf="studyPlanName.invalid" style="font-size: 16px">{{getErrorText('studyPlanName')}}</mat-error>
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-select placeholder="Форма обучения: " [formControlName]="'educationForm'">
+        <mat-option *ngFor="let educationForm of educationFormList" [value]="educationForm">
+          {{educationForm}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select [compareWith]="compareObjects" placeholder="Специальность: " [formControlName]="'speciality'">
+        <mat-option *ngFor="let speciality of specialityList" [value]="speciality">
+          {{speciality.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <div class="controls">
-      <button mat-button color="primary" (click)="confirm()" [disabled]="studyPlanName.invalid" cdkFocusInitial>
+      <button mat-button color="primary" (click)="confirm()" [disabled]="createStudyPlanForm.invalid">
         Confirm
       </button>
       <button mat-button color="warn" (click)=onCancelClick()> Close</button>

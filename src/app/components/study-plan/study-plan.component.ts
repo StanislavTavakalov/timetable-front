@@ -8,219 +8,8 @@ import {Overlay} from '@angular/cdk/overlay';
 import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
 import {ConfirmationComponent} from '../dialogs/confirmation/confirmation.component';
 import {SUBJECTS} from '../../mock/study-mock';
-
-const STUDY_PLANS_MOCK: StudyPlan[] = [
-  {
-    id: 1,
-    name: 'Учебный план 1',
-    isChanged: false,
-    subjects: [{
-      id: 1,
-      name: 'Графика',
-      semesters: [],
-      department: '',
-      sumOfHours: 0,
-      freeHours: 0,
-      numberOfDiscipline: '',
-      isChanged: false,
-      position: 1
-    },
-      {
-        id: 2,
-        name: 'Базы Данных (курс 1)',
-        semesters: [],
-        department: '',
-        sumOfHours: 0,
-        freeHours: 0,
-        numberOfDiscipline: '',
-        isChanged: false,
-        position: 2
-      },
-      {
-        id: 3,
-        name: 'ООП',
-        semesters: [],
-        department: '',
-        sumOfHours: 0,
-        freeHours: 0,
-        numberOfDiscipline: '',
-        isChanged: false,
-        position: 3
-      },
-      {
-        id: 4,
-        name: 'Python',
-        semesters: [],
-        department: '',
-        sumOfHours: 0,
-        freeHours: 0,
-        numberOfDiscipline: '',
-        isChanged: false,
-        position: 4
-      }],
-    countOfSem: 0, coefficient: 0, weeks: []
-  },
-  {
-    id: 2,
-    name: 'Учебный план 2',
-    isChanged: false,
-    subjects: [{
-      id: 4,
-      name: 'Python',
-      semesters: [],
-      department: '',
-      sumOfHours: 0,
-      freeHours: 0,
-      numberOfDiscipline: '',
-      isChanged: false,
-      position: 1
-    },
-      {
-        id: 5,
-        name: 'Физика (курс 2)',
-        semesters: [],
-        department: '',
-        sumOfHours: 0,
-        freeHours: 0,
-        numberOfDiscipline: '',
-        isChanged: false,
-        position: 2
-      },
-      {
-        id: 6,
-        name: 'Java',
-        semesters: [],
-        department: '',
-        sumOfHours: 0,
-        freeHours: 0,
-        numberOfDiscipline: '',
-        isChanged: false,
-        position: 3
-      }],
-    countOfSem: 0, coefficient: 0, weeks: []
-  },
-  {
-    id: 3,
-    name: 'Учебный план 3',
-    isChanged: false,
-    subjects: [{
-      id: 7,
-      name: 'Математика',
-      semesters: [],
-      department: '',
-      sumOfHours: 0,
-      freeHours: 0,
-      numberOfDiscipline: '',
-      isChanged: false,
-      position: 1
-    },
-      {
-        id: 8,
-        name: 'Алгоритмы',
-        semesters: [],
-        department: '',
-        sumOfHours: 0,
-        freeHours: 0,
-        numberOfDiscipline: '',
-        isChanged: false,
-        position: 2
-      }],
-    countOfSem: 0,
-    coefficient: 0,
-    weeks: []
-  },
-];
-
-const SUBJECTS_MOCK: Subject[] = [
-  {
-    id: 1,
-    name: 'Графика',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  },
-  {
-    id: 2,
-    name: 'Базы Данных (курс 1)',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  },
-  {
-    id: 3,
-    name: 'ООП',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  },
-  {
-    id: 4,
-    name: 'Python',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  },
-  {
-    id: 5,
-    name: 'Физика (курс 2)',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  },
-  {
-    id: 6,
-    name: 'Java',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  },
-  {
-    id: 7,
-    name: 'Математика',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  },
-  {
-    id: 8,
-    name: 'Алгоритмы',
-    semesters: [],
-    department: '',
-    sumOfHours: 0,
-    freeHours: 0,
-    numberOfDiscipline: '',
-    isChanged: false,
-    position: 0
-  }
-];
+import {STUDY_PLANS_MOCK, SUBJECTS_MOCK} from '../../mock/plan-mock';
+import {StudyPlanDetailsComponent} from '../dialogs/study-plan-details/study-plan-details.component';
 
 @Component({
   selector: 'app-study-plan',
@@ -448,8 +237,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   public createNewStudyPlan() {
     const dialogRef = this.dialog.open(CreateStudyPlanComponent, {
-      width: '30%',
-      height: '25%',
+      width: '35%',
+      height: '45%',
       data: {message: 'Создать новый учебный план'},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     });
@@ -493,24 +282,25 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
   public changeStudyPlanName() {
-    const textMessage = 'Изменить имя учебного плана';
-    const currentStudyPlanName = this.selectedStudyPlan.name;
+    const textMessage = 'Изменить имя учебный план';
+    const currentStudyPlan = this.selectedStudyPlan;
 
+    console.log('BEFORE DIALOG OPEM: ' + currentStudyPlan);
     const dialogRef = this.dialog.open(CreateStudyPlanComponent, {
       width: '30%',
-      height: '25%',
-      data: {message: textMessage, currentName: currentStudyPlanName},
+      height: '45%',
+      data: {message: textMessage, currentStudyPlan},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     });
 
-    dialogRef.afterClosed().subscribe(newName => {
-      newName = newName as string;
-      if (newName != null) {
-        console.log(newName);
+    dialogRef.afterClosed().subscribe(newStudyPlan => {
+      newStudyPlan = newStudyPlan as StudyPlan;
+      if (newStudyPlan != null) {
+        console.log(newStudyPlan);
         for (let i = 0; i < this.studyPlans.length; i++) {
-          if (this.studyPlans[i].name === this.selectedStudyPlan.name) {
-            this.studyPlans[i].name = newName;
-            this.selectedStudyPlan.name = newName;
+          if (this.studyPlans[i].id === this.selectedStudyPlan.id) {
+            this.studyPlans[i] = newStudyPlan;
+            this.selectedStudyPlan = newStudyPlan;
           }
         }
         this.studyPlansTable.renderRows();
@@ -549,6 +339,18 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
   public showExamples() {
     this.subjectPrototypesTable.dataSource = SUBJECTS_MOCK;
+  }
+
+  public showDetails() {
+
+    const currentStudyPlan = this.selectedStudyPlan;
+    const textMessage = 'Удалить учебный план';
+    const dialogRef = this.dialog.open(StudyPlanDetailsComponent, {
+      width: '30%',
+      height: '36%',
+      data: {message: textMessage, currentStudyPlan}
+    });
+    dialogRef.afterClosed().subscribe();
   }
 
 
