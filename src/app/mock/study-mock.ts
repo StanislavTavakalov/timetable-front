@@ -17,6 +17,69 @@ export const SUBJECTS: Subject[] = [
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
     position: 2
+  },
+  {
+    id: 3, numberOfDiscipline: '1.3', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 4, numberOfDiscipline: '1.4', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 5, numberOfDiscipline: '1.5', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 4, numberOfDiscipline: '1.4', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 5, numberOfDiscipline: '1.5', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 4, numberOfDiscipline: '1.4', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 5, numberOfDiscipline: '1.5', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 4, numberOfDiscipline: '1.4', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
+  },
+  {
+    id: 5, numberOfDiscipline: '1.5', name: 'ООП',
+    semesters: SEMS1,
+    department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
+    isChanged: false,
+    position: 2
   }
 ];
 

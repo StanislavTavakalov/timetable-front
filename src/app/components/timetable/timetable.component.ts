@@ -32,6 +32,7 @@ export class TimetableComponent implements OnInit {
   subject: Subject;
   updatedPlan: StudyPlan;
   selectedId: string;
+  oldFreeHours: number;
 
 
   constructor(private route: ActivatedRoute, private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog, private overlay: Overlay) {
@@ -41,9 +42,13 @@ export class TimetableComponent implements OnInit {
     this.timetableService.getPlans().subscribe(plans => {
       this.plans = plans;
       this.selectedId = this.route.snapshot.paramMap.get('id');
-      this.selectedPlan = this.plans.find((plan) => {
-        return plan.id === parseInt(this.selectedId, 10);
-      });
+      if (this.selectedId === null) {
+        this.selectedPlan = this.plans[0];
+      } else {
+        this.selectedPlan = this.plans.find((plan) => {
+          return plan.id === parseInt(this.selectedId, 10);
+        });
+      }
       this.initializeData();
     });
 
@@ -83,6 +88,11 @@ export class TimetableComponent implements OnInit {
     // });
   }
 
+  public exitEditableMode(): void {
+    this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
+    this.editModeOff();
+  }
+
   public changeNumber(event, id): void {
     this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
@@ -104,14 +114,21 @@ export class TimetableComponent implements OnInit {
   }
 
   public changeHoursPerWeek(event, id, numberOfSem): void {
-    console.log(id);
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
+
+
+    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek - parseInt(event.currentTarget.value, 10)) < 0) {
+      window.alert('Превышены свободные часы');
+      event.currentTarget.style.background = 'red';
+      return;
+    }
     this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek;
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10);
     this.subject.semesters[numberOfSem].creditUnits = Math.round(parseInt(event.currentTarget.value, 10) / this.selectedPlan.coefficient);
     this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10);
+
 
   }
 
@@ -119,6 +136,11 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
+    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek - parseInt(event.currentTarget.value, 10) * this.selectedPlan.coefficient) < 0) {
+      window.alert('Превышены свободные часы');
+      event.currentTarget.style.background = 'red';
+      return;
+    }
     this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek;
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10) * this.selectedPlan.coefficient;
     this.subject.semesters[numberOfSem].creditUnits = parseInt(event.currentTarget.value, 10);
@@ -158,8 +180,11 @@ export class TimetableComponent implements OnInit {
     }) ;
 
     dialogRef.afterClosed().subscribe(result => {
-      this.updatedPlan = result;
-      this.reculculate();
+      if (result != null) {
+        this.updatedPlan = result;
+        this.reculculate();
+      }
+
     });
   }
 

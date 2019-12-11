@@ -1,19 +1,17 @@
 .timetable-container {
 
-  max-width: 1000px;
-  max-height: 300px;
+  max-width: 65%;
+  min-width: 65%;
+  max-height: 40%;
   top: 8%;
   position: absolute;
-  left: 20%;
+  left: 16%;
+  text-align: center;
 
 }
 
 .timetable{
-  top: 8%;
-  position: absolute;
-  left: 20%;
-  text-align: center;
-  width: 70%;
+  width: 100%;
 }
 
 
@@ -31,7 +29,8 @@
 }
 
 .freeHours {
-  top: 40%;
+  top: 8%;
+  left: 83%;
   position: absolute;
 }
 

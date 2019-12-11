@@ -83,7 +83,6 @@ export class FormForCreationComponent implements OnInit {
 
   public changeWeeks(num, event) {
     this.weeks[num] = parseInt(event.currentTarget.value, 10);
-    console.log(this.weeks);
   }
 
   onCancelClick() {
@@ -102,6 +101,5 @@ export class FormForCreationComponent implements OnInit {
         subject.semesters = subject.semesters.slice(0, this.countOfSem);
       });
     }
-    console.log(this.plan);
   }
 }

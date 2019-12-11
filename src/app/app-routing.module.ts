@@ -14,10 +14,9 @@ const routes: Routes = [
 
   { path: 'timetable/:id', component: TimetableComponent },
   { path: 'creation', component: FormForCreationComponent },
+  { path: 'timetable', component: TimetableComponent },
   { path: 'edit', component: EditableModeComponent },
   { path: '**', redirectTo: 'study-plan' }
-
-  // { path: 'heroes', component: HeroesComponent }
 ];
 
 @NgModule({
