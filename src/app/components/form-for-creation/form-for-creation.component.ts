@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormForCreationServiceService} from '../../services/form-for-creation-service.service';
 import {StudyPlan} from '../../model/study-plan.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -6,6 +6,7 @@ import {MatDialogRef} from '@angular/material';
 import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
 import {Semester} from '../../model/semester.model';
 import {Subject} from '../../model/subject.model';
+import {DOCUMENT} from '@angular/common';
 
 
 @Component({
@@ -27,17 +28,19 @@ export class FormForCreationComponent implements OnInit {
   oldCountOfSem: number;
 
 
-  constructor(private formForCreationServiceService: FormForCreationServiceService, public dialogRef: MatDialogRef<FormForCreationComponent>) {
+  constructor( private formForCreationServiceService: FormForCreationServiceService, public dialogRef: MatDialogRef<FormForCreationComponent>) {
   }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
       plans: new FormControl('', [Validators.required]),
-      coefficient: new FormControl('', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]),
+      coefficient: new FormControl('', [Validators.required]),
       course: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required])
 
     });
+    this.formGroup.controls['coefficient'].setValue(3);
+    this.coefficient=3;
     this.formForCreationServiceService.getPlans().subscribe(plans => {
       this.plans = plans;
     });
@@ -69,7 +72,10 @@ export class FormForCreationComponent implements OnInit {
       this.formGroupHours = new FormGroup({});
       for (let i = 0; i < this.countOfSem; i++) {
         this.formGroupHours.addControl('hours' + i, new FormControl('', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
-      }
+        this.formGroupHours.controls['hours' + i].setValue('15');
+        this.weeks[i] = 15;
+       }
+
     } else if (num === 2) {
       this.coefficient = parseInt(event.currentTarget.value, 10);
     } else if (num === 1)  {
@@ -82,6 +88,7 @@ export class FormForCreationComponent implements OnInit {
   }
 
   public changeWeeks(num, event) {
+
     this.weeks[num] = parseInt(event.currentTarget.value, 10);
   }
 

@@ -8,7 +8,7 @@
 
   <mat-form-field [formGroup]="formGroup">
     <mat-select id="plans" formControlName="plans" class="form-control" required (selectionChange)="valuesf(1,$event)" placeholder="Учебный план"  >
-      <mat-option *ngFor="let plan of plans" value="{{plan.id}}">"{{plan.name}}"</mat-option>
+      <mat-option *ngFor="let plan of plans" value="{{plan.id}}">{{plan.name}}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -17,12 +17,12 @@
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <input id="coefficient" formControlName="coefficient" required class="form-control" value="3" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">
+    <input id="coefficient" formControlName="coefficient" required class="form-control" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">
   </mat-form-field>
 
   <a  *ngFor="let dummy of ' '.repeat(countOfSem).split(''), let i = index" style="position:relative">
     <mat-form-field [formGroup]="formGroupHours">
-      <input  id="hours{{i}}" formControlName="hours{{i}}" required matInput value="13" placeholder="Недель в семестре {{i+1}}" (change)="changeWeeks(i,$event)">
+      <input  id="hours{{i}}" formControlName="hours{{i}}" required matInput placeholder="Недель в семестре {{i+1}}" (change)="changeWeeks(i,$event)">
     </mat-form-field>
   </a>
   <button mat-raised-button color="warn" (click)="add()">

@@ -60,11 +60,29 @@
     </tbody>
   </table>
 </div>
+
 <div class="freeHours" *ngIf="editMode">
   <ul class="plans">
-    <li *ngFor="let discipline of selectedPlan.subjects">
-      <span class="badge">{{discipline.name}}</span> {{discipline.freeHours}} {{discipline.sumOfHours}}
-    </li>
+    <div style="overflow: auto;max-height: 100%">
+      <table border="1">
+        <tr>
+          <td>Дисциплина</td>
+          <td>Cвободные часы</td>
+          <td>Все часы</td>
+        </tr>
+        <tr *ngFor="let discipline of selectedPlan.subjects">
+          <td>{{discipline.name}}</td>
+          <td>{{discipline.freeHours}}</td>
+          <td>{{discipline.sumOfHours}}</td>
+        </tr>
+      </table>
+      <!--<li *ngFor="let discipline of selectedPlan.subjects">
+      {{discipline.freeHours}} {{discipline.sumOfHours}}
+        <span class="badge">{{discipline.name}}</span>
+
+
+      </li>-->
+    </div>
   </ul>
 </div>
 
@@ -73,7 +91,7 @@
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
-    <td [class.gold]="element.id == selectedId" mat-cell *matCellDef="let element"> {{element.name}} </td>
+    <td [class.gold]="element.id == selectedId" mat-cell *matCellDef="let element" > {{element.name}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumnsStudyPlans"></tr>
