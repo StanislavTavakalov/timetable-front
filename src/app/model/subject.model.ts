@@ -3,6 +3,7 @@ import {Semester} from './semester.model';
 export class Subject {
   public id: number;
   public name: string;
+  public abbreviation: string;
   public semesters: Semester[];
   public department: string;
   public sumOfHours: number;

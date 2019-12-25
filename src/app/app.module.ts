@@ -16,6 +16,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {DialogsModule} from './components/dialogs/dialogs.module';
 import { EditStudyPlanComponent } from './components/dialogs/edit-study-plan/edit-study-plan.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { EditStudyPlanComponent } from './components/dialogs/edit-study-plan/edi
     FormForCreationComponent,
     EditableModeComponent,
     EditStudyPlanComponent,
+    ScheduleComponent,
   ],
   imports: [
     BrowserModule,

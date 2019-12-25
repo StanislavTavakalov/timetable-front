@@ -16,7 +16,7 @@ import {DOCUMENT} from '@angular/common';
 })
 export class FormForCreationComponent implements OnInit {
 
-  public values: any = [];
+  newFree: number;
   plan: StudyPlan = new StudyPlan();
   countOfSem: number;
   name: string;
@@ -39,8 +39,8 @@ export class FormForCreationComponent implements OnInit {
       name: new FormControl('', [Validators.required])
 
     });
-    this.formGroup.controls['coefficient'].setValue(3);
-    this.coefficient=3;
+    this.formGroup.controls.coefficient.setValue(3);
+    this.coefficient = 3;
     this.formForCreationServiceService.getPlans().subscribe(plans => {
       this.plans = plans;
     });
@@ -108,5 +108,13 @@ export class FormForCreationComponent implements OnInit {
         subject.semesters = subject.semesters.slice(0, this.countOfSem);
       });
     }
+    for (let i = 0; i < this.plan.subjects.length; i++) {
+      this.newFree = 0;
+      this.plan.subjects[i].semesters.forEach((semester) => {
+        this.newFree = this.newFree + semester.hoursPerWeek;
+      });
+      this.plan.subjects[i].freeHours = this.plan.subjects[i].sumOfHours - this.newFree;
+    }
+
   }
 }

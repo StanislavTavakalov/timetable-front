@@ -1,24 +1,13 @@
 .timetable-container {
-
-  max-width: 65%;
-  min-width: 65%;
-  max-height: 40%;
   top: 8%;
   position: absolute;
   left: 16%;
   text-align: center;
-
 }
-
-.timetable{
-  width: 100%;
-}
-
 
   .gold {
    background-color: gold;
 }
-
 
 .vertical {
   word-break: break-all;

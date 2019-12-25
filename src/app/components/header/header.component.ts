@@ -16,6 +16,10 @@ export class HeaderComponent implements OnInit {
     path: '/timetable',
     label: 'Расписание занятий',
     isActive: true
+  }, {
+    path: '/schedule',
+    label: 'Магистратура расписание',
+    isActive: true
   }]
 
   constructor() {

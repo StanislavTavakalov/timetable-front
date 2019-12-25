@@ -43,6 +43,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     subjects: [{
       id: 1,
       name: 'Графика',
+      abbreviation: 'Граф',
       semesters: [],
       department: '',
       sumOfHours: 0,
@@ -54,6 +55,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       {
         id: 2,
         name: 'Базы Данных (курс 1)',
+        abbreviation: 'БД',
         semesters: [],
         department: '',
         sumOfHours: 0,
@@ -65,6 +67,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       {
         id: 3,
         name: 'ООП',
+        abbreviation: 'ООП',
         semesters: [],
         department: '',
         sumOfHours: 0,
@@ -76,6 +79,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       {
         id: 4,
         name: 'Python',
+        abbreviation: 'Py',
         semesters: [],
         department: '',
         sumOfHours: 0,
@@ -99,6 +103,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     subjects: [{
       id: 4,
       name: 'Python',
+      abbreviation: 'Py',
       semesters: [],
       department: '',
       sumOfHours: 0,
@@ -110,6 +115,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       {
         id: 5,
         name: 'Физика (курс 2)',
+        abbreviation: 'Физ',
         semesters: [],
         department: '',
         sumOfHours: 0,
@@ -121,6 +127,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       {
         id: 6,
         name: 'Java',
+        abbreviation: 'Граф',
         semesters: [],
         department: '',
         sumOfHours: 0,
@@ -144,6 +151,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     subjects: [{
       id: 7,
       name: 'Математика',
+      abbreviation: 'Граф',
       semesters: [],
       department: '',
       sumOfHours: 0,
@@ -155,6 +163,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       {
         id: 8,
         name: 'Алгоритмы',
+        abbreviation: 'Граф',
         semesters: [],
         department: '',
         sumOfHours: 0,
@@ -173,6 +182,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 1,
     name: 'Графика',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,
@@ -184,6 +194,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 2,
     name: 'Базы Данных (курс 1)',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,
@@ -195,6 +206,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 3,
     name: 'ООП',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,
@@ -206,6 +218,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 4,
     name: 'Python',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,
@@ -217,6 +230,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 5,
     name: 'Физика (курс 2)',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,
@@ -228,6 +242,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 6,
     name: 'Java',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,
@@ -239,6 +254,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 7,
     name: 'Математика',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,
@@ -250,6 +266,7 @@ export const SUBJECTS_MOCK: Subject[] = [
   {
     id: 8,
     name: 'Алгоритмы',
+    abbreviation: 'Граф',
     semesters: [],
     department: '',
     sumOfHours: 0,

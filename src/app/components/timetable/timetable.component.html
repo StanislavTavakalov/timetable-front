@@ -1,4 +1,4 @@
-﻿<div class="timetable-container" style="overflow:auto; max-height: 400px">
+﻿<div class="timetable-container" style="overflow:auto; max-height: 50%;max-width:65%;">
   <table class="timetable" id="timetable" border="1" align="center">
     <tbody>
       <tr>
@@ -25,7 +25,7 @@
         <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
       </tr>
       <tr>
-        <td [attr.colspan]="num1" style="width:100px;">Часах в неделях/зачетных единиц</td>
+        <td [attr.colspan]="num1">Часах в неделях/зачетных единиц</td>
       </tr>
       <tr>
         <td *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{i+13}}</td>
@@ -71,24 +71,17 @@
           <td>Все часы</td>
         </tr>
         <tr *ngFor="let discipline of selectedPlan.subjects">
-          <td>{{discipline.name}}</td>
+          <td matTooltip="{{discipline.name}}" >{{discipline.abbreviation}}</td>
           <td>{{discipline.freeHours}}</td>
           <td>{{discipline.sumOfHours}}</td>
         </tr>
       </table>
-      <!--<li *ngFor="let discipline of selectedPlan.subjects">
-      {{discipline.freeHours}} {{discipline.sumOfHours}}
-        <span class="badge">{{discipline.name}}</span>
-
-
-      </li>-->
     </div>
   </ul>
 </div>
 
 <table mat-table [dataSource]="plans" class="mat-elevation-z8"
        style="width: 12%; margin-left: 2%; margin-top: 2%; align-items: center">
-  <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
     <td [class.gold]="element.id == selectedId" mat-cell *matCellDef="let element" > {{element.name}} </td>
@@ -104,7 +97,7 @@
 
 <div class="control-panel" >
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
-    <button mat-raised-button class="control-button" (click)="updateStudyPlan()">Редактировать планы </button>
+    <button  mat-raised-button class="control-button" (click)="updateStudyPlan()">Редактировать планы </button>
     <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
     <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="add()"> Сохранить</button>
     <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="exitEditableMode()"> Выйти из режима редактирования</button>
