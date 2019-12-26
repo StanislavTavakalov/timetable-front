@@ -1,8 +1,9 @@
-import {StudyPlan} from '../model/study-plan.model';
+﻿import {StudyPlan} from '../model/study-plan.model';
 import {SUBJECTS, SUBJECTS1} from './study-mock';
 import {Subject} from '../model/subject.model';
 import {EducationForm} from '../model/education-form.model';
 import {StudyPlanStatus} from '../model/study-plan-status.model';
+import {SEVERITY_EXAM, SEVERITY_LABS} from './severity-mock';
 
 export const PLANS: StudyPlan[] = [{
   id: 1,

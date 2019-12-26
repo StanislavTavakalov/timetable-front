@@ -10,6 +10,10 @@ import {ConfirmationComponent} from '../dialogs/confirmation/confirmation.compon
 import {SUBJECTS} from '../../mock/study-mock';
 import {STUDY_PLANS_MOCK, SUBJECTS_MOCK} from '../../mock/plan-mock';
 import {StudyPlanDetailsComponent} from '../dialogs/study-plan-details/study-plan-details.component';
+import {SeverityService} from '../../services/severity.service';
+import {Severity} from '../../model/severity.model';
+import {SEVERITY_LIST} from '../../mock/severity-mock';
+import {EditSubjectComponent} from '../dialogs/edit-subject/edit-subject.component';
 
 @Component({
   selector: 'app-study-plan',
@@ -28,7 +32,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   constructor(private subjectService: SubjectService,
               private dialog: MatDialog,
-              private overlay: Overlay) {
+              private overlay: Overlay,
+              private severityService: SeverityService) {
   }
 
   // TODO refactor below one
@@ -55,22 +60,28 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   // displayedColumnsSingleStudyPlan: string[] = ['study-plan','swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
   //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
   displayedColumnsSingleStudyPlan: string[] = ['study-plan'];
-  displayedColumnsForSubjects: string[] = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
-    'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
+  displayedColumnsForSubjects: string[] = [];
+  severityList: Severity[] = [];
+  // displayedColumnsForSubjects: string[] = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
+  //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
 
 
   ngOnInit() {
-    // Getting from backend
-    // this.subjectService.getSubjects().subscribe(success => {
-    //   this.subjects = success;
-    //   console.log(success);
-    // });
-
-    // MOCK
-    // this.subjects = STUDY_PLANS_MOCK[0].subjects;
-    // this.editModeOff();
-    // this.selectedStudyPlan = STUDY_PLANS_MOCK[0];
-    // this.sortSubjectsForStudyPlan(STUDY_PLANS_MOCK[0]);
+    // SEVERITY_LIST.forEach(res => this.displayedColumnsForSubjects.push(res.name));
+    console.log('push done');
+    this.severityService.getSeverities().subscribe(result => {
+        this.displayedColumnsForSubjects = [];
+        this.severityList = result;
+        // this.displayedColumnsForSubjects.push('name');
+        this.severityList.forEach(res => this.displayedColumnsForSubjects.push(res.name));
+        console.log('1111111111111push done--------------------------------------------');
+        console.log(result);
+        console.log('1111111111111push done--------------------------------------------');
+        // const index = this.getIndex(this.selectedStudyPlan);
+        // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+        // this.tables.toArray()[index].renderRows();
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -95,6 +106,9 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
   public getIndex(studyPlan: StudyPlan) {
+    if (studyPlan === undefined) {
+      return 0;
+    }
     console.log('after get');
 
     let i = -1;
@@ -184,8 +198,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public editModeOn() {
     const index = this.getIndex(this.selectedStudyPlan);
     this.editMode = true;
-    this.displayedColumnsForSubjects = ['swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
-      'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
+    // this.displayedColumnsForSubjects = ['swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
+    //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
     this.studyPlanBackup = JSON.parse(JSON.stringify(this.selectedStudyPlan));
     // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
     this.tables.toArray()[index].renderRows();
@@ -201,8 +215,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     //   this.tables.toArray()[index].renderRows();
     // }
     this.editMode = false;
-    this.displayedColumnsForSubjects = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
-      'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
+    // this.displayedColumnsForSubjects = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
+    //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
     this.studyPlanBackup = null;
     // this.studyPlansTable.renderRows();
     // this.table.renderRows();
@@ -355,6 +369,45 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe();
   }
 
+  public getColumsToDisplay() {
+    // 'swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
+    //   //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
+    let finalColumsToDisplay: string[] = [];
+    if (this.editMode) {
+      finalColumsToDisplay.push('swap');
+      finalColumsToDisplay.push('name');
 
+      this.displayedColumnsForSubjects.forEach(res => finalColumsToDisplay.push(res));
+      finalColumsToDisplay.push('edit-icon');
+      finalColumsToDisplay.push('delete-icon');
+    } else {
+      // finalColumsToDisplay.push('swap');
+      finalColumsToDisplay.push('name');
+      this.displayedColumnsForSubjects.forEach(res => finalColumsToDisplay.push(res));
+    }
 
+    return finalColumsToDisplay;
+  }
+
+  public getValueToDisplay(subject: Subject, name: string) {
+    for (let i = 0; i < subject.severities.length; i++) {
+      if (subject.severities[i].severity.name === name) {
+        return subject.severities[i].hours;
+      }
+    }
+    return 0;
+  }
+
+  public editSubjectFromStudyPlan(subject: Subject) {
+    const dialogRef = this.dialog.open(EditSubjectComponent, {
+      width: '30%',
+      height: '45%',
+      data: {subject},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    });
+
+    // dialogRef.afterClosed().subscribe(newSubject => {
+    //
+    // });
+  }
 }

@@ -1,0 +1,52 @@
+<div class="make-investments-dialog">
+  <h1 mat-dialog-title>{{message}}</h1>
+  <form [formGroup]="editSubjectForm">
+    <mat-form-field>
+      <input matInput placeholder="Имя учебного плана: " [formControlName]="'subjectName'" maxLength="15">
+      <mat-error *ngIf="subjectName.invalid" style="font-size: 16px">{{getErrorText('subjectName')}}</mat-error>
+    </mat-form-field>
+
+<!--    <div formArrayName="severities">-->
+<!--      <mat-form-field *ngFor="let sev of getSeverities().controls; let i = index">-->
+<!--        <input matInput placeholder="{{sev.severity.name}} " formControlName="{{sev.severity.name}}" maxLength="15" value="{{sev.hours}}">-->
+<!--&lt;!&ndash;        <mat-error *ngIf="subjectName.invalid" style="font-size: 16px">{{getErrorText('subjectName')}}</mat-error>&ndash;&gt;-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
+
+    <div formArrayName="severities">
+      <div *ngFor="let sev of severities.controls; let i = index">
+        <div formGroupName="{{i}}">
+        <input matInput formControlName="name" readonly>
+        hours:
+        <input matInput formControlName="hours">
+        </div>
+        <!--        <mat-error *ngIf="subjectName.invalid" style="font-size: 16px">{{getErrorText('subjectName')}}</mat-error>-->
+      </div>
+    </div>
+
+
+    <!--    <mat-form-field>-->
+    <!--      <mat-select placeholder="Форма обучения: " [formControlName]="'educationForm'">-->
+    <!--        <mat-option *ngFor="let educationForm of educationFormList" [value]="educationForm">-->
+    <!--          {{educationForm}}-->
+    <!--        </mat-option>-->
+    <!--      </mat-select>-->
+    <!--    </mat-form-field>-->
+
+    <!--    <mat-form-field>-->
+    <!--      <mat-select [compareWith]="compareObjects" placeholder="Специальность: " [formControlName]="'speciality'">-->
+    <!--        <mat-option *ngFor="let speciality of specialityList" [value]="speciality">-->
+    <!--          {{speciality.name}}-->
+    <!--        </mat-option>-->
+    <!--      </mat-select>-->
+    <!--    </mat-form-field>-->
+
+    <div class="controls">
+      <button mat-button color="primary" (click)="confirm()" [disabled]="editSubjectForm.invalid">
+        Confirm
+      </button>
+      <button mat-button color="warn" (click)=onCancelClick()> Close</button>
+    </div>
+  </form>
+</div>
+

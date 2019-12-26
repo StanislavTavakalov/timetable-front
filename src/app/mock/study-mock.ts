@@ -1,5 +1,7 @@
-import { Subject } from '../model/subject.model';
+﻿import { Subject } from '../model/subject.model';
 import {SEMS, SEMS1} from './semester-mock';
+import {SEVERITY_EXAM, SEVERITY_LABS} from './severity-mock';
+
 
 
 export const SUBJECTS: Subject[] = [
