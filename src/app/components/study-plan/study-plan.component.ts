@@ -334,9 +334,11 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.tables.toArray()[index].renderRows();
     this.studyPlansTable.renderRows();
   }
+
   public showPrototypes() {
     this.subjectPrototypesTable.dataSource = SUBJECTS;
   }
+
   public showExamples() {
     this.subjectPrototypesTable.dataSource = SUBJECTS_MOCK;
   }
