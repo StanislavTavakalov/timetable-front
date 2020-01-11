@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DialogsModule} from './components/dialogs/dialogs.module';
 import { EditStudyPlanComponent } from './components/dialogs/edit-study-plan/edit-study-plan.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { CreateOccupationComponent } from './components/create-occupation/create-occupation.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     EditableModeComponent,
     EditStudyPlanComponent,
     ScheduleComponent,
+    CreateOccupationComponent,
   ],
   imports: [
     BrowserModule,

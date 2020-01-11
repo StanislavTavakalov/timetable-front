@@ -6,6 +6,7 @@ import { TimetableComponent} from './components/timetable/timetable.component';
 import { EditableModeComponent} from './components/editable-mode/editable-mode.component';
 import { FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
 import {ScheduleComponent} from './components/schedule/schedule.component';
+import {CreateOccupationComponent} from './components/create-occupation/create-occupation.component';
 
 
 
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'timetable', component: TimetableComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'edit', component: EditableModeComponent },
+  { path: 'edit1', component: CreateOccupationComponent },
   { path: '**', redirectTo: 'study-plan' }
 ];
 

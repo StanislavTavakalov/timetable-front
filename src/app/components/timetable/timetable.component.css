@@ -93,6 +93,11 @@
   text-align: center;
 }
 
+
+/deep/ .mat-tooltip {
+  font-size: 17px;
+}
+
 div .control-panel-inner-block {
   position: absolute;
   top: 70%;

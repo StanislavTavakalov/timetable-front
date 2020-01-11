@@ -71,7 +71,7 @@
           <td>Все часы</td>
         </tr>
         <tr *ngFor="let discipline of selectedPlan.subjects">
-          <td matTooltip="{{discipline.name}}" >{{discipline.abbreviation}}</td>
+          <td matTooltip="{{discipline.name}}" class="tooltip">{{discipline.abbreviation}}</td>
           <td>{{discipline.freeHours}}</td>
           <td>{{discipline.sumOfHours}}</td>
         </tr>

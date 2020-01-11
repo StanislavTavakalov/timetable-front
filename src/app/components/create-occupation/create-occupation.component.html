@@ -1,0 +1,15 @@
+<div class="example-container" xmlns:position="http://www.w3.org/1999/xhtml">
+
+  <mat-form-field [formGroup]="formGroup">
+    <input id="symbol" formControlName="symbol" class="form-control" required matInput placeholder="Символ" (change)="saveValue(1,$event)">
+  </mat-form-field>
+
+  <mat-form-field [formGroup]="formGroup">
+    <input id="value" formControlName="value" required class="form-control" matInput placeholder="Значение" (change)="saveValue(2,$event)">
+  </mat-form-field>
+
+  <button mat-raised-button color="warn" (click)="add()">
+    Сохранить
+  </button>
+  <button mat-button color="warn" (click)=onCancelClick()> Выйти </button>
+</div>
