@@ -1,10 +1,8 @@
-import {Week} from './week.model';
+import {Course} from './course.model';
 import {OccupationCounter} from './occupatoionCounter.model';
 
-export class Course {
+export class Schedule {
   public id: number;
-  public name: string;
-  public weeks: Week[];
+  public courses: Course[];
   public countOccupation: OccupationCounter[];
-  public total: number;
 }

@@ -15,6 +15,8 @@
         <td colspan="5">Июнь</td>
         <td colspan="5">Июль</td>
         <td colspan="5">Август</td>
+        <td rowspan="3" *ngFor="let occupation of occupations">{{occupation.value}}</td>
+        <td rowspan="3">Всего</td>
       </tr>
       <tr>
         <td colspan="1" >1</td>
@@ -124,14 +126,23 @@
         <td colspan="1" >23</td>
         <td colspan="1" >31</td>
       </tr>
-      <tr *ngFor="let course of courses">
+      <tr *ngFor="let course of schedule.courses">
         <td>{{course.name}}</td>
         <td *ngFor="let week of course.weeks" [attr.colspan]="week.colspan">
           <select (change)="changeOccupation(course.id,week.id,$event)">
             <option  *ngFor="let occupation of occupations" value="{{occupation.symbol}}" [selected]="week.occupation.symbol==occupation.symbol" >{{occupation.symbol}}</option>
           </select>
         </td>
+        <td *ngFor="let countOccupation of course.countOccupation">{{countOccupation.count}}</td>
+        <td>{{course.total}}</td>
       </tr>
+      <tr>
+        <td style='border-right:none;border-left:none;border-bottom:none;border-top:none'></td>
+        <td *ngFor="let week of curCourse.weeks" [attr.colspan]="week.colspan" style='border-right:none;border-left:none;border-bottom:none;border-top:none'></td>
+        <td *ngFor="let countOccupation of schedule.countOccupation">{{countOccupation.count}}</td>
+
+      </tr>
+
     </tbody>
   </table>
 </div>

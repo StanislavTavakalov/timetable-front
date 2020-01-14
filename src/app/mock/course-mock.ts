@@ -1,5 +1,6 @@
 import {Course} from '../model/course.model';
-import {OCCUPATIONS} from './occupation-mock';
+import {OCCUPATION_COUNTERS, OCCUPATION_COUNTERS1, OCCUPATION_COUNTERS_1, OCCUPATIONS} from './occupation-mock';
+import {Schedule} from '../model/shedule.model';
 
 export const COURSES: Course[] = [{
   id: 100,
@@ -60,14 +61,14 @@ export const COURSES: Course[] = [{
     {id: 150, colspan: 1, occupation: OCCUPATIONS[0]},
     {id: 151, colspan: 1, occupation: OCCUPATIONS[0]},
 
-    ]
+    ], countOccupation: OCCUPATION_COUNTERS, total: 52
 },
   {
     id: 200,
     name: '2',
-    weeks: [{id: 199, colspan: 1, occupation: OCCUPATIONS[1]},
-      {id: 201,  colspan: 1, occupation: OCCUPATIONS[2]},
-      {id: 202, colspan: 1, occupation: OCCUPATIONS[3]},
+    weeks: [{id: 199, colspan: 1, occupation: OCCUPATIONS[0]},
+      {id: 201,  colspan: 1, occupation: OCCUPATIONS[0]},
+      {id: 202, colspan: 1, occupation: OCCUPATIONS[0]},
       {id: 203, colspan: 1, occupation: OCCUPATIONS[0]},
       {id: 204, colspan: 2, occupation: OCCUPATIONS[0]},
       {id: 205, colspan: 1, occupation: OCCUPATIONS[0]},
@@ -121,6 +122,10 @@ export const COURSES: Course[] = [{
       {id: 250, colspan: 1, occupation: OCCUPATIONS[0]},
       {id: 251, colspan: 1, occupation: OCCUPATIONS[0]},
 
-    ]
+    ], countOccupation: OCCUPATION_COUNTERS_1, total: 52
   }
   ];
+
+export const SCHEDULE: Schedule = {
+  id: 1, courses: COURSES, countOccupation: OCCUPATION_COUNTERS1
+};
