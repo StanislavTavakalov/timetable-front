@@ -1,12 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {StudyPlan} from '../../../model/study-plan.model';
-import {EducationForm} from '../../../model/education-form.model';
-import {Speciality} from '../../../model/speciality.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {StudyPlanStatus} from '../../../model/study-plan-status.model';
 import {Subject} from '../../../model/subject.model';
-import {Severity} from '../../../model/severity.model';
 import {SeveritySubject} from '../../../model/severity-subject.model';
 
 @Component({
@@ -31,34 +26,20 @@ export class EditSubjectComponent implements OnInit {
   }
 
   private initializeForm(subject: Subject) {
-    // this.createStudyPlanForm = this.fb.group({
-    //   studyPlanName: [studyPlan.name, [Validators.required, Validators.maxLength(15)]],
-    //   educationForm: [studyPlan.educationForm, [Validators.required]],
-    //   speciality: [studyPlan.speciality, [Validators.required]],
-    // });
-    console.log('Initttt');
-    console.log(subject);
-    console.log(subject.severities);
+    this.subject = subject;
     this.editSubjectForm = this.fb.group({
-
       subjectName: [subject.name, [Validators.required, Validators.maxLength(15)]],
-      // severities: this.fb.array(subject.severities)
-      severities: this.fb.array(subject.severities.map(sev => this.newSeverity(sev)))
+      severities: this.fb.array(subject.severities.map(sev => this.addSeverity(sev)))
     });
     this.severitySubjectList = subject.severities;
-    console.log(this.editSubjectForm.controls['severities']);
-
   }
 
   createSeverity(severity: SeveritySubject) {
-
     return this.fb.group({
       severityName: [severity.severity.name, [Validators.required, Validators.maxLength(15)]],
       hours: [severity.hours, [Validators.required, Validators.maxLength(15)]]
     });
-
   }
-
 
   getErrorText(controlName: string): string {
     const control = this.editSubjectForm.get(controlName) as FormControl;
@@ -88,14 +69,15 @@ export class EditSubjectComponent implements OnInit {
   }
 
   confirm() {
-    console.log(confirm);
-    console.log(this.severities.controls);
-    for (let i = 0; i < this.severities.controls.length; i ++){
-      console.log(this.severities.controls[i].value);
+    for (const severity of this.subject.severities) {
+      for (const sevForm of this.severities.controls) {
+        if (severity.severity.name === sevForm.value.name) {
+          severity.hours = sevForm.value.hours as number;
+        }
+      }
     }
-    // var value = this.editSubjectForm.get('severities') as FormArray;
-    // console.log(value.at(0));
-    // console.log(value.at(1));
+    this.subject.isChanged = true;
+    this.subject.name = this.subjectName.value as string;
     this.dialogRef.close();
   }
 
@@ -103,7 +85,7 @@ export class EditSubjectComponent implements OnInit {
     return this.editSubjectForm.get('severities') as FormArray;
   }
 
-  newSeverity(sev: SeveritySubject) {
+  addSeverity(sev: SeveritySubject) {
     return this.fb.group({
       name: sev.severity.name,
       hours: sev.hours

@@ -28,221 +28,72 @@
       </td>
 
     </ng-container>
-
-    <!--        <ng-container matColumnDef="edit-mode">-->
-    <!--          <th mat-header-cell *matHeaderCellDef  style="min-width: 60px">-->
-    <!--            <mat-icon *ngIf="!editMode" (click)="editModeOn()">edit</mat-icon>-->
-    <!--            <mat-icon *ngIf="editMode" (click)="editModeOff()">add</mat-icon>-->
-    <!--            <mat-icon>delete</mat-icon>-->
-    <!--          </th>-->
-    <!--        </ng-container>-->
-
-    <!-- swapper -->
-    <!--    <ng-container matColumnDef="swap" *ngIf="editMode">-->
-    <!--      <th mat-header-cell *matHeaderCellDef></th>-->
-    <!--      <td mat-cell *matCellDef="let element">-->
-    <!--        <mat-icon (click)="swapWithUpper(element)">expand_less</mat-icon>-->
-    <!--        <mat-icon (click)="swapWithLower(element)"> expand_more</mat-icon>-->
-    <!--      </td>-->
-    <!--    </ng-container>-->
-
-    <!--    &lt;!&ndash; Name Column &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="name">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Название дисциплины</th>-->
-    <!--      <td mat-cell *matCellDef="let element">-->
-    <!--        {{element.name}}-->
-    <!--      </td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="exams">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Экзаменов</th>-->
-    <!--      <td mat-cell *matCellDef="let element"> <span [contentEditable]="editMode"> 4 </span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="offset">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Зачетов</th>-->
-    <!--      <td mat-cell *matCellDef="let element"> <span [contentEditable]="editMode">6</span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="rgr">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> РГР</th>-->
-    <!--      <td mat-cell *matCellDef="let element"> <span [contentEditable]="editMode"> 5 </span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="control-tasks">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Контрольных работ</th>-->
-    <!--      <td mat-cell *matCellDef="let element"> <span [contentEditable]="editMode"> 9 </span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="auditory-lessons">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Аудиторных занятий</th>-->
-    <!--      <td mat-cell *matCellDef="let element"> <span [contentEditable]="editMode"> 9 </span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="lectures">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Лекций</th>-->
-    <!--      <td mat-cell *matCellDef="let subject"> <span [contentEditable]="editMode" (input)="changeProperty(subject)"> 10 </span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="lab-tasks">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Лабораторных работ</th>-->
-    <!--      <td mat-cell *matCellDef="let subject"> <span [contentEditable]="editMode"> 12 </span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="practical-tasks">-->
-    <!--      <th mat-header-cell *matHeaderCellDef> Практических работ</th>-->
-    <!--      <td mat-cell *matCellDef="let subject"> <span [contentEditable]="editMode" (input)="changeProperty(subject)"> 13 </span></td>-->
-    <!--    </ng-container>-->
-
-    <!--    <ng-container matColumnDef="delete-icon" *ngIf="editMode" stickyEnd>-->
-    <!--      <th mat-header-cell *matHeaderCellDef></th>-->
-    <!--      <td mat-cell *matCellDef="let element">-->
-    <!--        <mat-icon (click)="deleteSubjectFromStudyPlan(element)">cancel</mat-icon>-->
-    <!--      </td>-->
-    <!--    </ng-container>-->
-
-
-    <!--    &lt;!&ndash; Header row second group &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="study-plan">-->
-    <!--      <th mat-header-cell *matHeaderCellDef-->
-    <!--          [attr.colspan]="displayedColumnsSingleStudyPlan.length-1">-->
-    <!--        {{selectedStudyPlan.name}}-->
-
-    <!--      </th>-->
-    <!--    </ng-container>-->
-
-    <!--    &lt;!&ndash; Edit mode of study plan &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="edit-mode">-->
-    <!--      <th mat-header-cell *matHeaderCellDef [attr.colspan]="1" style="min-width: 60px">-->
-    <!--        <mat-icon *ngIf="!editMode" (click)="editModeOn()">edit</mat-icon>-->
-    <!--        <mat-icon *ngIf="editMode" (click)="editModeOff()">add</mat-icon>-->
-    <!--        <mat-icon>delete</mat-icon>-->
-    <!--      </th>-->
-    <!--    </ng-container>-->
-
-
-    <!--    <tr mat-header-row *matHeaderRowDef="['study-plan','edit-mode']"></tr>-->
-
-
     <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let studyPlanHtml">
         <div class="example-element-detail"
-             [@detailExpand]="element == expandedStudyPlan ? 'expanded' : 'collapsed'">
+             [@detailExpand]="studyPlanHtml == expandedStudyPlan ? 'expanded' : 'collapsed'">
 
-          <table mat-table #table [dataSource]="element.subjects" class="mat-elevation-z8" style="width: 100%">
-
-
+          <table mat-table #table [dataSource]="studyPlanHtml.subjects" class="mat-elevation-z8" style="width: 100%">
 
             <!-- Name Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Название дисциплины</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.name}}
+              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+                {{subject.name}}
               </td>
-
             </ng-container>
 
             <ng-container matColumnDef="swap" *ngIf="editMode">
               <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let element">
-                <mat-icon (click)="swapWithUpper(element)">expand_less</mat-icon>
-                <mat-icon (click)="swapWithLower(element)"> expand_more</mat-icon>
+              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+                <mat-icon (click)="swapWithUpper(subject)">expand_less</mat-icon>
+                <mat-icon (click)="swapWithLower(subject)"> expand_more</mat-icon>
               </td>
             </ng-container>
 
+            <ng-container matColumnDef="auditLessons">
+              <th mat-header-cell *matHeaderCellDef> Аудиторных </th>
+              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+              {{getAuditLessonsHours(subject)}}
+            </td>
+            </ng-container>
 
             <ng-container *ngFor="let severity of displayedColumnsForSubjects" [matColumnDef]=severity>-->
               <th mat-header-cell *matHeaderCellDef> {{severity}}</th>-->
-              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode"> {{getValueToDisplay(element, severity)}}  </span></td>-->
+              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span [contentEditable]="editMode"> {{getValueToDisplay(subject, severity)}}  </span></td>-->
             </ng-container>
-            <!--                    <ng-container matColumnDef="edit-mode">-->
-            <!--                      <th mat-header-cell *matHeaderCellDef  style="min-width: 60px">-->
-            <!--                        <mat-icon *ngIf="!editMode" (click)="editModeOn()">edit</mat-icon>-->
-            <!--                        <mat-icon *ngIf="editMode" (click)="editModeOff()">add</mat-icon>-->
-            <!--                        <mat-icon>delete</mat-icon>-->
-            <!--                      </th>-->
-            <!--                    </ng-container>-->
-
-<!--            <ng-container matColumnDef="exams">-->
-<!--              <th mat-header-cell *matHeaderCellDef> Экзаменов</th>-->
-<!--              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode"> 4 </span></td>-->
-<!--            </ng-container>-->
-
-<!--            <ng-container matColumnDef="offset">-->
-<!--              <th mat-header-cell *matHeaderCellDef> Зачетов</th>-->
-<!--              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode">6</span></td>-->
-<!--            </ng-container>-->
-
-<!--            <ng-container matColumnDef="rgr">-->
-<!--              <th mat-header-cell *matHeaderCellDef> РГР</th>-->
-<!--              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode"> 5 </span></td>-->
-<!--            </ng-container>-->
-
-<!--            <ng-container matColumnDef="control-tasks">-->
-<!--              <th mat-header-cell *matHeaderCellDef> Контрольных работ</th>-->
-<!--              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode"> 9 </span></td>-->
-<!--            </ng-container>-->
-
-<!--            <ng-container matColumnDef="auditory-lessons">-->
-<!--              <th mat-header-cell *matHeaderCellDef> Аудиторных занятий</th>-->
-<!--              <td mat-cell *matCellDef="let element"><span [contentEditable]="editMode" > 9 </span></td>-->
-<!--            </ng-container>-->
-
-<!--            <ng-container matColumnDef="lectures">-->
-<!--              <th mat-header-cell *matHeaderCellDef> Лекций</th>-->
-<!--              <td mat-cell *matCellDef="let subject"><span [contentEditable]="editMode"-->
-<!--                                                           (input)="changeProperty(subject)"> 10 </span></td>-->
-<!--            </ng-container>-->
-
-<!--            <ng-container matColumnDef="lab-tasks">-->
-<!--              <th mat-header-cell *matHeaderCellDef> Лабораторных работ</th>-->
-<!--              <td mat-cell *matCellDef="let subject"><span [contentEditable]="editMode"> 12 </span></td>-->
-<!--            </ng-container>-->
-
-<!--            <ng-container matColumnDef="practical-tasks">-->
-<!--              <th mat-header-cell *matHeaderCellDef> Практических работ</th>-->
-<!--              <td mat-cell *matCellDef="let subject"><span [contentEditable]="editMode"-->
-<!--                                                           (input)="changeProperty(subject)"> 13 </span></td>-->
-<!--            </ng-container>-->
 
             <ng-container matColumnDef="edit-icon" *ngIf="editMode" stickyEnd>
               <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let subject">
+              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
                 <mat-icon (click)="editSubjectFromStudyPlan(subject)">edit</mat-icon>
               </td>
             </ng-container>
 
             <ng-container matColumnDef="delete-icon" *ngIf="editMode" stickyEnd>
               <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let subject">
+              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
                 <mat-icon (click)="deleteSubjectFromStudyPlan(subject)">cancel</mat-icon>
               </td>
+
             </ng-container>
-
-
-
-
-            <tr mat-header-row *matHeaderRowDef="getColumsToDisplay()"></tr>
-            <tr mat-row *matRowDef="let element columns: getColumsToDisplay()"></tr>
-
+            <tr mat-header-row *matHeaderRowDef="getColumnsToDisplay()"></tr>
+            <tr mat-row *matRowDef="let column columns: getColumnsToDisplay()"></tr>
           </table>
         </div>
       </td>
     </ng-container>
     <!--        [ngStyle]="{'background-color': element.isChanged ? 'lime' : 'white'}"-->
     <tr mat-header-row *matHeaderRowDef="displayedColumnsSingleStudyPlan; sticky: true" ></tr>
-    <tr mat-row *matRowDef="let element columns: displayedColumnsSingleStudyPlan;"
+    <tr mat-row *matRowDef="let column columns: displayedColumnsSingleStudyPlan;"
         class="example-element-row study-plan-details"
-        [class.example-expanded-row]="expandedStudyPlan === element"
-        (click)="expandRow(element)"></tr>
+        [class.example-expanded-row]="expandedStudyPlan === column"
+        (click)="expandRow(column)"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
   </div>
 
-
-
   <!--        -------------------------------Subjects table--------------------------                   -->
-
     <table mat-table #tablePrototypes *ngIf="editMode" [dataSource]="allSubjects" class="mat-elevation-z8"
            style="width: 15%; margin-left: 3%; margin-top: 2%">
 
@@ -272,8 +123,6 @@
 
 </div>
 
-
-
 <!--        -------------------------------   CONTROL PANEL    --------------------------                   -->
 <div class="control-panel">
   <div class="control-panel-inner-block mat-elevation-z21">
@@ -285,7 +134,6 @@
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="declineChanges()"> Отменить  </button>
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="changeStudyPlanName()"> Изменить план </button>
   <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" (click)="deleteStudyPlan()"> Удалить </button>
-<!--  <div style="background-color: red"></div>-->
   <button mat-raised-button class="control-button" style="margin-left: auto" [disabled]="this.selectedStudyPlan === null" *ngIf="this.selectedStudyPlan != null" routerLink="/timetable/{{this.selectedStudyPlan.id}}"> Далее </button>
   </div>
 </div>

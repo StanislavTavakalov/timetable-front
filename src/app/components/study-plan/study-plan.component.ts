@@ -12,7 +12,6 @@ import {STUDY_PLANS_MOCK, SUBJECTS_MOCK} from '../../mock/plan-mock';
 import {StudyPlanDetailsComponent} from '../dialogs/study-plan-details/study-plan-details.component';
 import {SeverityService} from '../../services/severity.service';
 import {Severity} from '../../model/severity.model';
-import {SEVERITY_LIST} from '../../mock/severity-mock';
 import {EditSubjectComponent} from '../dialogs/edit-subject/edit-subject.component';
 
 @Component({
@@ -46,40 +45,23 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public subjects: Subject[];
   public studyPlans = STUDY_PLANS_MOCK;
   public selectedStudyPlan: StudyPlan = null;
-  public isStudyPlanSelected = false;
   public allSubjects: Subject[] = SUBJECTS_MOCK;
   public editMode = false;
-  public propertyChanged = false;
-  public studyPlannedBeforeChanges;
   public expandedStudyPlan: StudyPlan | null;
-  public newStudyPlan: StudyPlan;
   public studyPlanBackup: StudyPlan;
 
   displayedColumnsStudyPlans: string[] = ['name'];
   displayedColumnsSubjects: string[] = ['prototypes', 'add-icon'];
-  // displayedColumnsSingleStudyPlan: string[] = ['study-plan','swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
-  //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
   displayedColumnsSingleStudyPlan: string[] = ['study-plan'];
   displayedColumnsForSubjects: string[] = [];
   severityList: Severity[] = [];
-  // displayedColumnsForSubjects: string[] = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
-  //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
-
 
   ngOnInit() {
     // SEVERITY_LIST.forEach(res => this.displayedColumnsForSubjects.push(res.name));
-    console.log('push done');
     this.severityService.getSeverities().subscribe(result => {
         this.displayedColumnsForSubjects = [];
         this.severityList = result;
-        // this.displayedColumnsForSubjects.push('name');
         this.severityList.forEach(res => this.displayedColumnsForSubjects.push(res.name));
-        console.log('1111111111111push done--------------------------------------------');
-        console.log(result);
-        console.log('1111111111111push done--------------------------------------------');
-        // const index = this.getIndex(this.selectedStudyPlan);
-        // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-        // this.tables.toArray()[index].renderRows();
       }
     );
   }
@@ -99,10 +81,12 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
   public addSubjectToStudyPlan(subject: Subject) {
-    this.selectedStudyPlan.subjects.push(subject);
-    const index = this.getIndex(this.selectedStudyPlan);
-    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.tables.toArray()[index].renderRows();
+    const addedSubject = JSON.parse(JSON.stringify(subject));
+    addedSubject.id = null;
+    addedSubject.isChanged = true;
+
+    this.selectedStudyPlan.subjects.push(addedSubject);
+    this.renderCurrentStudyPlan();
   }
 
   public getIndex(studyPlan: StudyPlan) {
@@ -130,10 +114,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
         break;
       }
     }
-    const index = this.getIndex(this.selectedStudyPlan);
-    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.tables.toArray()[index].renderRows();
-    // this.sortSubjectsForStudyPlan(this.selectedStudyPlan);
+    this.renderCurrentStudyPlan();
   }
 
   public swapWithUpper(subject: Subject) {
@@ -146,23 +127,27 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
         let temp;
         if (i === 0) {
           temp = this.selectedStudyPlan.subjects[this.selectedStudyPlan.subjects.length - 1];
+
           this.selectedStudyPlan.subjects[subjectCount - 1] = this.selectedStudyPlan.subjects[i];
+          this.selectedStudyPlan.subjects[subjectCount - 1].isChanged = true;
+
           this.selectedStudyPlan.subjects[i] = temp;
+          this.selectedStudyPlan.subjects[i].isChanged = true;
+
           break;
         } else {
           temp = this.selectedStudyPlan.subjects[i - 1];
+
           this.selectedStudyPlan.subjects[i - 1] = this.selectedStudyPlan.subjects[i];
+          this.selectedStudyPlan.subjects[i - 1].isChanged = true;
+
           this.selectedStudyPlan.subjects[i] = temp;
+          this.selectedStudyPlan.subjects[i].isChanged = true;
           break;
         }
       }
     }
-    const index = this.getIndex(this.selectedStudyPlan);
-    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.tables.toArray()[index].renderRows();
-    // this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    // this.studyPlansTable.renderRows();
-    // this.table.renderRows();
+    this.renderCurrentStudyPlan();
   }
 
   public swapWithLower(subject: Subject) {
@@ -176,60 +161,44 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
         if (i === subjectCount - 1) {
           temp = this.selectedStudyPlan.subjects[0];
           this.selectedStudyPlan.subjects[0] = this.selectedStudyPlan.subjects[i];
+          this.selectedStudyPlan.subjects[0].isChanged = true;
+
           this.selectedStudyPlan.subjects[i] = temp;
+          this.selectedStudyPlan.subjects[i].isChanged = true;
           break;
         } else {
           temp = this.selectedStudyPlan.subjects[i + 1];
           this.selectedStudyPlan.subjects[i + 1] = this.selectedStudyPlan.subjects[i];
+          this.selectedStudyPlan.subjects[i + 1].isChanged = true;
+
           this.selectedStudyPlan.subjects[i] = temp;
+          this.selectedStudyPlan.subjects[i].isChanged = true;
           break;
         }
 
       }
     }
-    const index = this.getIndex(this.selectedStudyPlan);
-    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.tables.toArray()[index].renderRows();
-    // this.table.dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    // this.studyPlansTable.renderRows();
-    // this.table.renderRows();
+    this.renderCurrentStudyPlan();
   }
 
   public editModeOn() {
     const index = this.getIndex(this.selectedStudyPlan);
     this.editMode = true;
-    // this.displayedColumnsForSubjects = ['swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
-    //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
     this.studyPlanBackup = JSON.parse(JSON.stringify(this.selectedStudyPlan));
-    // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
     this.tables.toArray()[index].renderRows();
   }
 
   public editModeOff() {
-    // let index = null;
-    // if (this.selectedStudyPlan != null) {
-    //   index = this.getIndex(this.selectedStudyPlan);
-    // }
-    // if (index != null) {
-    //   this.tables.toArray()[index].dataSource = new MatTableDataSource(this.studyPlanBackup.subjects);
-    //   this.tables.toArray()[index].renderRows();
-    // }
     this.editMode = false;
-    // this.displayedColumnsForSubjects = ['name', 'exams', 'offset', 'rgr', 'control-tasks',
-    //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
     this.studyPlanBackup = null;
-    // this.studyPlansTable.renderRows();
-    // this.table.renderRows();
-    // this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-
   }
 
   public changeProperty(subject: Subject) {
-    console.log('changeddddd');
     subject.isChanged = true;
   }
 
   public expandRow(studyPlan: StudyPlan) {
+    // const isSaveChangesNeeded = this.isSaveChangesNeededOnChangeStudyPlan();
     this.expandedStudyPlan = this.expandedStudyPlan === studyPlan ? null : studyPlan;
     if (this.selectedStudyPlan === studyPlan) {
       if (this.editMode) {
@@ -243,11 +212,34 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
       this.selectedStudyPlan = studyPlan;
       this.renderTable(this.selectedStudyPlan);
     }
-    // this.editModeOff();
-    // this.declineChanges();
     console.log(this.selectedStudyPlan);
-    // this.isStudyPlanSelected = !this.isStudyPlanSelected;
   }
+
+  public isSaveChangesNeededOnChangeStudyPlan() {
+    // let loading = true;
+    // let flag;
+    // if (this.editMode) {
+    //   const textMessage = 'Сохранить изменения';
+    //   const dialogRef = this.dialog.open(ConfirmationComponent, {
+    //     width: '23%',
+    //     height: '22%',
+    //     data: {message: textMessage}
+    //   });
+    //
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     flag = result;
+    //     loading = false;
+    //   });
+    //
+    //   // while (loading) {
+    //   //   // waiting until dialog will be closed
+    //   // }
+    //   return flag;
+    // } else {
+    //   return false;
+    // }
+  }
+
 
   public createNewStudyPlan() {
     const dialogRef = this.dialog.open(CreateStudyPlanComponent, {
@@ -325,6 +317,21 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   public applyChanges() {
     this.editModeOff();
+
+    // Setting isChanged to false for all subjects and study plan
+    for (const studyPlan of this.studyPlans) {
+      if (studyPlan.id === this.selectedStudyPlan.id) {
+        studyPlan.isChanged = false;
+        for (const subject of studyPlan.subjects) {
+          subject.isChanged = false;
+        }
+        this.selectedStudyPlan = studyPlan;
+      }
+    }
+
+    this.renderCurrentStudyPlan();
+
+    // TODO: send http PUT and POST requests to backend
   }
 
   public declineChanges() {
@@ -336,9 +343,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
       }
     }
     this.editModeOff();
-    const index = this.getIndex(this.selectedStudyPlan);
-    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
-    this.tables.toArray()[index].renderRows();
+    this.renderCurrentStudyPlan();
     //  this.studyPlansTable.renderRows();
     // this.renderTable(this.selectedStudyPlan);
   }
@@ -369,24 +374,22 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  public getColumsToDisplay() {
-    // 'swap', 'name', 'exams', 'offset', 'rgr', 'control-tasks',
-    //   //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks', 'delete-icon'];
-    let finalColumsToDisplay: string[] = [];
+  public getColumnsToDisplay() {
+    const finalColumnsToDisplay: string[] = [];
     if (this.editMode) {
-      finalColumsToDisplay.push('swap');
-      finalColumsToDisplay.push('name');
-
-      this.displayedColumnsForSubjects.forEach(res => finalColumsToDisplay.push(res));
-      finalColumsToDisplay.push('edit-icon');
-      finalColumsToDisplay.push('delete-icon');
+      finalColumnsToDisplay.push('swap');
+      finalColumnsToDisplay.push('name');
+      this.displayedColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
+      finalColumnsToDisplay.push('auditLessons');
+      finalColumnsToDisplay.push('edit-icon');
+      finalColumnsToDisplay.push('delete-icon');
     } else {
-      // finalColumsToDisplay.push('swap');
-      finalColumsToDisplay.push('name');
-      this.displayedColumnsForSubjects.forEach(res => finalColumsToDisplay.push(res));
+      finalColumnsToDisplay.push('name');
+      this.displayedColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
+      finalColumnsToDisplay.push('auditLessons');
     }
 
-    return finalColumsToDisplay;
+    return finalColumnsToDisplay;
   }
 
   public getValueToDisplay(subject: Subject, name: string) {
@@ -409,5 +412,21 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     // dialogRef.afterClosed().subscribe(newSubject => {
     //
     // });
+  }
+
+  public getAuditLessonsHours(subject: Subject) {
+
+    let sumOfHours = 0;
+    for (const sev of subject.severities) {
+      console.log(sev);
+      sumOfHours += sev.hours as number;
+    }
+    return sumOfHours;
+  }
+
+  public renderCurrentStudyPlan() {
+    const index = this.getIndex(this.selectedStudyPlan);
+    this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
+    this.tables.toArray()[index].renderRows();
   }
 }

@@ -46,7 +46,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       name: 'Графика',
       abbreviation: 'Граф',
       semesters: [],
-      severities: [{id: 1, subjectId: 1, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 1, severity: SEVERITY_LABS, hours: 4}],
+      severities: [ {id: 2, subjectId: 1, severity: SEVERITY_LABS, hours: 4}],
       department: '',
       sumOfHours: 0,
       freeHours: 0,

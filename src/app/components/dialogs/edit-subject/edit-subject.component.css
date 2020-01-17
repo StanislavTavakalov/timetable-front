@@ -1,11 +1,11 @@
-.make-investments-dialog {
+.edit-subject {
   display: flex;
   flex-direction: column;
   font-size: 14pt;
   justify-content: space-between;
 }
 
-.make-investments-dialog-controls {
+.edit-subject-dialog-controls {
   margin-top: 20px;
 }
 
