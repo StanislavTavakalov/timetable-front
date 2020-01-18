@@ -128,9 +128,9 @@
       </tr>
       <tr *ngFor="let course of schedule.courses">
         <td>{{course.name}}</td>
-        <td *ngFor="let week of course.weeks" [attr.colspan]="week.colspan">
+        <td [ngStyle]="{'background-color': week.colspan===2? 'blue' : ''}" *ngFor="let week of course.weeks" [attr.colspan]="week.colspan">
           <select (change)="changeOccupation(course.id,week.id,$event)">
-            <option  *ngFor="let occupation of occupations" value="{{occupation.symbol}}" [selected]="week.occupation.symbol==occupation.symbol" >{{occupation.symbol}}</option>
+            <option   *ngFor="let occupation of occupations" value="{{occupation.symbol}}" [selected]="week.occupation.symbol==occupation.symbol" >{{occupation.symbol}}</option>
           </select>
         </td>
         <td *ngFor="let countOccupation of course.countOccupation">{{countOccupation.count}}</td>
@@ -147,7 +147,7 @@
   </table>
 </div>
 
-<div style="margin-left: 5%; margin-top:3%;font-size: 20px;">
+<div style="overflow:auto;max-height:25%;margin-left: 5%; margin-top:3%;font-size: 20px;width: 20%">
   <table border="1">
     <tbody>
       <tr *ngFor="let occupation of occupations">
@@ -159,7 +159,7 @@
 </div>
 
 
-<div class="control-panel" >
+<div class="control-panel" style="margin-top:5%">
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
     <button  mat-raised-button class="control-button" (click)="addOccupation()">Добавить нагрузку</button>
     <button  mat-raised-button class="control-button">Сохранить</button>

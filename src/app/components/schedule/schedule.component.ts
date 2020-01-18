@@ -21,7 +21,9 @@ export class ScheduleComponent implements OnInit {
   newOccupation: Occupation;
   oldOccupation: Occupation;
   curCourse: Course;
-  newOccupationCounter: OccupationCounter;
+  newOccupationCounter: OccupationCounter = new OccupationCounter();
+  new: OccupationCounter;
+
 
   constructor(private scheduleService: ScheduleService, private dialog: MatDialog, private overlay: Overlay) { }
 
@@ -50,9 +52,11 @@ export class ScheduleComponent implements OnInit {
         this.newOccupationCounter.occupation = result;
         this.occupations.push(result);
         this.schedule.courses.forEach((course) => {
-          course.countOccupation.push(this.newOccupationCounter);
+          this.new = JSON.parse(JSON.stringify(this.newOccupationCounter));
+          course.countOccupation.push(this.new);
         });
-        this.schedule.countOccupation.push(this.newOccupationCounter);
+        this.new = JSON.parse(JSON.stringify(this.newOccupationCounter));
+        this.schedule.countOccupation.push(this.new);
       }
 
     });
