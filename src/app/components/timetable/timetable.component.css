@@ -1,7 +1,6 @@
 .timetable-container {
-  top: 8%;
-  position: absolute;
-  left: 16%;
+  margin-top:1%;
+  margin-left:3%;
   text-align: center;
 }
 
@@ -18,9 +17,8 @@
 }
 
 .freeHours {
-  top: 8%;
-  left: 83%;
-  position: absolute;
+  margin-top:1%;
+  margin-left:1%;
   }
 
 /* plansComponent's private CSS styles */
@@ -29,8 +27,6 @@
   list-style-type: none;
   padding: 0;
   width: 15em;
-  left: 2%;
-  position: absolute;
 }
 
 .plans li {
@@ -99,9 +95,9 @@
 }
 
 div .control-panel-inner-block {
-  position: absolute;
-  top: 70%;
+
+  margin-top: 1%;
   width: 70%;
-  left: 15%;
+  margin-left: 17%;
   display: flex;
 }
