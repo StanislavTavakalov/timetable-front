@@ -39,6 +39,7 @@ export class TimetableComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.timetableService.getPlans().subscribe(plans => {
       this.plans = plans;
       this.selectedId = this.route.snapshot.paramMap.get('id');

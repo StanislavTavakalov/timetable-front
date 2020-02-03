@@ -9,17 +9,23 @@ import {PLANS} from '../mock/plan-mock';
 })
 export class EditableModeService {
 
+
+
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
-  private disciplinesUrl = 'api/timetable';
+
+
+  private url = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) {
   }
 
+
+
   public editPlan(plan: StudyPlan): Observable<any> {
-    return this.http.put(this.disciplinesUrl, plan, this.httpOptions);
+    return this.http.put(this.url, plan, this.httpOptions);
   }
 
   public getPlans(): Observable<StudyPlan[]> {

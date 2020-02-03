@@ -15,7 +15,7 @@ export const PLANS: StudyPlan[] = [{
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
   speciality: {id: 1, name: 'ISIT'},
-  weeks: [15, 12, 12, 12, 12, 12, 12, 12],
+  weeks: [{id: 600, count: 15}, {id: 601, count: 15}, {id: 602, count: 15}, {id: 603, count: 15}, {id: 604, count: 15}, {id: 605, count: 15}, {id: 606, count: 15}, {id: 607, count: 15}],
   subjects: SUBJECTS,
   coefficient: 3,
   isChanged: false
@@ -27,7 +27,7 @@ export const PLANS: StudyPlan[] = [{
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
   speciality: {id: 2, name: 'POIT'},
-  weeks: [153, 123, 123, 123, 123, 123, 123, 123], subjects: SUBJECTS1, coefficient: 2, isChanged: false
+  weeks: [{id: 600, count: 15}, {id: 601, count: 15}, {id: 602, count: 15}, {id: 603, count: 15}, {id: 604, count: 15}, {id: 605, count: 15}, {id: 606, count: 15}, {id: 607, count: 15}], subjects: SUBJECTS1, coefficient: 2, isChanged: false
 }];
 
 export const STUDY_PLANS_MOCK: StudyPlan[] = [

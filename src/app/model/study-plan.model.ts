@@ -2,6 +2,7 @@ import {Subject} from './subject.model';
 import {Speciality} from './speciality.model';
 import {EducationForm} from './education-form.model';
 import {StudyPlanStatus} from './study-plan-status.model';
+import {WeekCount} from './week-count.model';
 
 export class StudyPlan {
   public id: number;
@@ -9,7 +10,7 @@ export class StudyPlan {
   public subjects: Subject[];
   public coefficient: number;
   public countOfSem: number;
-  public weeks: number[];
+  public weeks: WeekCount[];
   public isChanged: boolean;
   public speciality: Speciality;
   public status: StudyPlanStatus;

@@ -13,12 +13,23 @@ export class TimetableService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
-  private disciplinesUrl = 'api/timetable';
+  private url = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) {
   }
 
+  addPlan(plan: StudyPlan): Observable<StudyPlan> {
+    return this.http.post<StudyPlan>(this.url + 'studyplan', plan, this.httpOptions);
+  }
+
+
+  /*getPlans(): Observable <StudyPlan[]> {
+    return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
+  }*/
+
+
   getPlans(): Observable<StudyPlan[]> {
+    console.log('12');
     return of(PLANS);
   }
 

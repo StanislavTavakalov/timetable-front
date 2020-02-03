@@ -7,6 +7,7 @@ import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-stud
 import {Semester} from '../../model/semester.model';
 import {Subject} from '../../model/subject.model';
 import {DOCUMENT} from '@angular/common';
+import {WeekCount} from '../../model/week-count.model';
 
 
 @Component({
@@ -18,10 +19,11 @@ export class FormForCreationComponent implements OnInit {
 
   newFree: number;
   plan: StudyPlan = new StudyPlan();
+  weekCount: WeekCount = new WeekCount();
   countOfSem: number;
   name: string;
   coefficient: number;
-  weeks: number[] = [];
+  weeks: WeekCount[] = [];
   formGroup: any;
   formGroupHours: any;
   plans: StudyPlan[];
@@ -73,7 +75,8 @@ export class FormForCreationComponent implements OnInit {
       for (let i = 0; i < this.countOfSem; i++) {
         this.formGroupHours.addControl('hours' + i, new FormControl('', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
         this.formGroupHours.controls['hours' + i].setValue('15');
-        this.weeks[i] = 15;
+        this.weekCount.count = 15;
+        this.weeks[i] = JSON.parse(JSON.stringify(this.weekCount));
        }
 
     } else if (num === 2) {
@@ -88,8 +91,8 @@ export class FormForCreationComponent implements OnInit {
   }
 
   public changeWeeks(num, event) {
-
-    this.weeks[num] = parseInt(event.currentTarget.value, 10);
+    this.weekCount.count = parseInt(event.currentTarget.value, 10);
+    this.weeks[num] = JSON.parse(JSON.stringify(this.weekCount));
   }
 
   onCancelClick() {

@@ -34,7 +34,7 @@
           <td [attr.colspan]="num1">Недель в семестре</td>
         </tr>
         <tr>
-          <td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{selectedPlan.weeks[i]}}</td>
+          <td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{selectedPlan.weeks[i].count}}</td>
           <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
         </tr>
         <tr>
