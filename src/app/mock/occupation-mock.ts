@@ -1,5 +1,6 @@
 import {Occupation} from '../model/occupation.model';
 import {OccupationCounter} from '../model/occupatoionCounter.model';
+import {OccupationCounterCourse} from '../model/occupationCounterCourse.model';
 
 export const OCCUPATIONS: Occupation[] = [{id: 300, symbol: '', value: 'теоритическое обучение'},
   {id: 301, symbol: ':', value: 'экзаменационная сессия'},
@@ -10,7 +11,7 @@ export const OCCUPATIONS: Occupation[] = [{id: 300, symbol: '', value: 'теор
   ];
 
 
-export const OCCUPATION_COUNTERS: OccupationCounter[] = [{id: 400, count: 52, occupation: OCCUPATIONS[0]},
+export const OCCUPATION_COUNTERS: OccupationCounterCourse[] = [{id: 400, count: 52, occupation: OCCUPATIONS[0]},
   {id: 401, count: 0, occupation: OCCUPATIONS[1]},
   {id: 402, count: 0, occupation: OCCUPATIONS[2]},
   {id: 403, count: 0, occupation: OCCUPATIONS[3]},
@@ -18,7 +19,7 @@ export const OCCUPATION_COUNTERS: OccupationCounter[] = [{id: 400, count: 52, oc
   {id: 405, count: 0, occupation: OCCUPATIONS[5]},
 ];
 
-export const OCCUPATION_COUNTERS_1: OccupationCounter[] = [{id: 450, count: 52, occupation: OCCUPATIONS[0]},
+export const OCCUPATION_COUNTERS_1: OccupationCounterCourse[] = [{id: 450, count: 52, occupation: OCCUPATIONS[0]},
   {id: 451, count: 0, occupation: OCCUPATIONS[1]},
   {id: 452, count: 0, occupation: OCCUPATIONS[2]},
   {id: 453, count: 0, occupation: OCCUPATIONS[3]},
