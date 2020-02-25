@@ -7,12 +7,12 @@ export class Subject {
   public abbreviation: string;
   public semesters: Semester[];
   public severities: SeveritySubject[];
+  public pereodicSeverities: PereodicSeveritySubject[];
   public department: string;
   public sumOfHours: number;
   public freeHours: number;
   public numberOfDiscipline: string;
   public isChanged = false;
   public position: number;
-
 
 }

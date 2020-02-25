@@ -6,6 +6,17 @@
       <mat-error *ngIf="subjectName.invalid" style="font-size: 16px">{{getErrorText('subjectName')}}</mat-error>
     </mat-form-field>
 
+    <div formArrayName="pereodicSeverities">
+      <div *ngFor="let sev of pereodicSeverities.controls; let i = index">
+        <div formGroupName="{{i}}">
+          <input matInput [formControlName]="'name'" readonly>
+          <mat-form-field>
+            <input matInput [formControlName]="'semesterNumbers'">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
     <div formArrayName="severities">
       <div *ngFor="let sev of severities.controls; let i = index">
         <div formGroupName="{{i}}">

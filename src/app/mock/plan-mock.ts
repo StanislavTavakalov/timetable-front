@@ -4,6 +4,7 @@ import {Subject} from '../model/subject.model';
 import {EducationForm} from '../model/education-form.model';
 import {StudyPlanStatus} from '../model/study-plan-status.model';
 import {SEVERITY_EXAM, SEVERITY_LABS} from './severity-mock';
+import {PEREODIC_SEVERITY_EXAMS, PEREODIC_SEVERITY_RGR} from './pereodic-severities-mock';
 
 export const PLANS: StudyPlan[] = [{
   id: 1,
@@ -15,7 +16,10 @@ export const PLANS: StudyPlan[] = [{
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
   speciality: {id: 1, name: 'ISIT'},
-  weeks: [{id: 600, count: 15}, {id: 601, count: 15}, {id: 602, count: 15}, {id: 603, count: 15}, {id: 604, count: 15}, {id: 605, count: 15}, {id: 606, count: 15}, {id: 607, count: 15}],
+  weeks: [{id: 600, count: 15}, {id: 601, count: 15}, {id: 602, count: 15}, {id: 603, count: 15}, {id: 604, count: 15}, {
+    id: 605,
+    count: 15
+  }, {id: 606, count: 15}, {id: 607, count: 15}],
   subjects: SUBJECTS,
   coefficient: 3,
   isChanged: false
@@ -27,7 +31,10 @@ export const PLANS: StudyPlan[] = [{
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
   speciality: {id: 2, name: 'POIT'},
-  weeks: [{id: 600, count: 15}, {id: 601, count: 15}, {id: 602, count: 15}, {id: 603, count: 15}, {id: 604, count: 15}, {id: 605, count: 15}, {id: 606, count: 15}, {id: 607, count: 15}], subjects: SUBJECTS1, coefficient: 2, isChanged: false
+  weeks: [{id: 600, count: 15}, {id: 601, count: 15}, {id: 602, count: 15}, {id: 603, count: 15}, {id: 604, count: 15}, {
+    id: 605,
+    count: 15
+  }, {id: 606, count: 15}, {id: 607, count: 15}], subjects: SUBJECTS1, coefficient: 2, isChanged: false
 }];
 
 export const STUDY_PLANS_MOCK: StudyPlan[] = [
@@ -46,7 +53,13 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       name: 'Графика',
       abbreviation: 'Граф',
       semesters: [],
-      severities: [ {id: 2, subjectId: 1, severity: SEVERITY_LABS, hours: 4}],
+      severities: [{id: 2, subjectId: 1, severity: SEVERITY_LABS, hours: 4}],
+      pereodicSeverities: [{id: 1, subjectId: 1, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+        id: 1,
+        subjectId: 1,
+        severity: PEREODIC_SEVERITY_RGR,
+        semesterNumbers: [1, 3]
+      }],
       department: '',
       sumOfHours: 0,
       freeHours: 0,
@@ -60,6 +73,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         abbreviation: 'БД',
         semesters: [],
         severities: [{id: 1, subjectId: 2, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 2, severity: SEVERITY_LABS, hours: 4}],
+        pereodicSeverities: [{id: 1, subjectId: 2, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+          id: 1,
+          subjectId: 2,
+          severity: PEREODIC_SEVERITY_RGR,
+          semesterNumbers: [1, 3]
+        }],
         department: '',
         sumOfHours: 0,
         freeHours: 0,
@@ -73,6 +92,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         abbreviation: 'ООП',
         semesters: [],
         severities: [{id: 1, subjectId: 3, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 3, severity: SEVERITY_LABS, hours: 4}],
+        pereodicSeverities: [{id: 1, subjectId: 3, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+          id: 1,
+          subjectId: 3,
+          severity: PEREODIC_SEVERITY_RGR,
+          semesterNumbers: [1, 3]
+        }],
         department: '',
         sumOfHours: 0,
         freeHours: 0,
@@ -86,6 +111,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         abbreviation: 'Py',
         semesters: [],
         severities: [{id: 1, subjectId: 4, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 4, severity: SEVERITY_LABS, hours: 4}],
+        pereodicSeverities: [{id: 1, subjectId: 4, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+          id: 1,
+          subjectId: 4,
+          severity: PEREODIC_SEVERITY_RGR,
+          semesterNumbers: [1, 3]
+        }],
         department: '',
         sumOfHours: 0,
         freeHours: 0,
@@ -111,6 +142,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       abbreviation: 'Py',
       semesters: [],
       severities: [{id: 1, subjectId: 4, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 4, severity: SEVERITY_LABS, hours: 4}],
+      pereodicSeverities: [{id: 1, subjectId: 4, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+        id: 1,
+        subjectId: 4,
+        severity: PEREODIC_SEVERITY_RGR,
+        semesterNumbers: [1, 3]
+      }],
       department: '',
       sumOfHours: 0,
       freeHours: 0,
@@ -124,6 +161,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         abbreviation: 'Физ',
         semesters: [],
         severities: [{id: 1, subjectId: 5, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 5, severity: SEVERITY_LABS, hours: 4}],
+        pereodicSeverities: [{id: 1, subjectId: 5, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+          id: 1,
+          subjectId: 5,
+          severity: PEREODIC_SEVERITY_RGR,
+          semesterNumbers: [1, 3]
+        }],
         department: '',
         sumOfHours: 0,
         freeHours: 0,
@@ -137,6 +180,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         abbreviation: 'Граф',
         semesters: [],
         severities: [{id: 1, subjectId: 6, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 6, severity: SEVERITY_LABS, hours: 4}],
+        pereodicSeverities: [{id: 1, subjectId: 6, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+          id: 1,
+          subjectId: 6,
+          severity: PEREODIC_SEVERITY_RGR,
+          semesterNumbers: [1, 3]
+        }],
         department: '',
         sumOfHours: 0,
         freeHours: 0,
@@ -162,6 +211,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       abbreviation: 'Граф',
       semesters: [],
       severities: [{id: 1, subjectId: 7, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 7, severity: SEVERITY_LABS, hours: 4}],
+      pereodicSeverities: [{id: 1, subjectId: 7, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+        id: 1,
+        subjectId: 7,
+        severity: PEREODIC_SEVERITY_RGR,
+        semesterNumbers: [1, 3]
+      }],
       department: '',
       sumOfHours: 0,
       freeHours: 0,
@@ -175,6 +230,12 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         abbreviation: 'Граф',
         semesters: [],
         severities: [{id: 1, subjectId: 8, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 8, severity: SEVERITY_LABS, hours: 4}],
+        pereodicSeverities: [{id: 1, subjectId: 8, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+          id: 1,
+          subjectId: 8,
+          severity: PEREODIC_SEVERITY_RGR,
+          semesterNumbers: [1, 3]
+        }],
         department: '',
         sumOfHours: 0,
         freeHours: 0,
@@ -195,6 +256,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 1, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 1, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 1, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 1,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,
@@ -208,6 +275,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 2, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 2, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 2, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 2,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,
@@ -221,6 +294,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 3, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 3, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 3, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 3,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,
@@ -234,6 +313,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 4, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 4, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 4, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 4,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,
@@ -247,6 +332,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 5, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 5, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 5, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 5,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,
@@ -260,6 +351,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 6, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 6, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 6, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 6,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,
@@ -273,6 +370,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 7, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 7, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 7, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 7,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,
@@ -286,6 +389,12 @@ export const SUBJECTS_MOCK: Subject[] = [
     abbreviation: 'Граф',
     semesters: [],
     severities: [{id: 1, subjectId: 8, severity: SEVERITY_EXAM, hours: 4}, {id: 2, subjectId: 8, severity: SEVERITY_LABS, hours: 4}],
+    pereodicSeverities: [{id: 1, subjectId: 8, severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [2]}, {
+      id: 1,
+      subjectId: 8,
+      severity: PEREODIC_SEVERITY_RGR,
+      semesterNumbers: [1, 3]
+    }],
     department: '',
     sumOfHours: 0,
     freeHours: 0,

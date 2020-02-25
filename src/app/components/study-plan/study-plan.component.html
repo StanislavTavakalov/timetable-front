@@ -58,7 +58,12 @@
             </td>
             </ng-container>
 
-            <ng-container *ngFor="let severity of displayedColumnsForSubjects" [matColumnDef]=severity>-->
+            <ng-container *ngFor="let pereodicSeverity of displayedPereodicSeverityColumnsForSubjects" [matColumnDef]=pereodicSeverity>-->
+              <th mat-header-cell *matHeaderCellDef> {{pereodicSeverity}}</th>-->
+              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span [contentEditable]="editMode"> {{getValueToDisplayPereodic(subject, pereodicSeverity)}}  </span></td>-->
+            </ng-container>
+
+            <ng-container *ngFor="let severity of displayedSeverityColumnsForSubjects" [matColumnDef]=severity>-->
               <th mat-header-cell *matHeaderCellDef> {{severity}}</th>-->
               <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span [contentEditable]="editMode"> {{getValueToDisplay(subject, severity)}}  </span></td>-->
             </ng-container>
@@ -99,12 +104,7 @@
 
       <!-- Name Column -->
       <ng-container matColumnDef="prototypes">
-        <th mat-header-cell *matHeaderCellDef (click)="showPrototypes()" class="pointer"> Шаблоны </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="examples">
-        <th mat-header-cell *matHeaderCellDef (click)="showExamples()" class="pointer"> Примеры </th>
+        <th mat-header-cell *matHeaderCellDef > Шаблоны </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
@@ -117,7 +117,7 @@
       </ng-container>
 
       <!-- Display columns -->
-      <tr mat-header-row *matHeaderRowDef="['prototypes', 'examples' ]"></tr>
+      <tr mat-header-row *matHeaderRowDef="['prototypes' ]"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumnsSubjects;"></tr>
     </table>
 

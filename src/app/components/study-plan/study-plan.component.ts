@@ -13,6 +13,7 @@ import {StudyPlanDetailsComponent} from '../dialogs/study-plan-details/study-pla
 import {SeverityService} from '../../services/severity.service';
 import {Severity} from '../../model/severity.model';
 import {EditSubjectComponent} from '../dialogs/edit-subject/edit-subject.component';
+import {PereodicSeverityService} from '../../services/pereodic-severity.service';
 
 @Component({
   selector: 'app-study-plan',
@@ -32,7 +33,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   constructor(private subjectService: SubjectService,
               private dialog: MatDialog,
               private overlay: Overlay,
-              private severityService: SeverityService) {
+              private severityService: SeverityService,
+              private severityPereodicService: PereodicSeverityService) {
   }
 
   // TODO refactor below one
@@ -53,15 +55,25 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   displayedColumnsStudyPlans: string[] = ['name'];
   displayedColumnsSubjects: string[] = ['prototypes', 'add-icon'];
   displayedColumnsSingleStudyPlan: string[] = ['study-plan'];
-  displayedColumnsForSubjects: string[] = [];
+  displayedSeverityColumnsForSubjects: string[] = [];
+  displayedPereodicSeverityColumnsForSubjects: string[] = [];
   severityList: Severity[] = [];
+  pereodicSeverityList: PereodicSeverity[] = [];
 
   ngOnInit() {
     // SEVERITY_LIST.forEach(res => this.displayedColumnsForSubjects.push(res.name));
+
+    this.severityPereodicService.getPereodicSeverities().subscribe(pereodicSeverities => {
+        this.displayedSeverityColumnsForSubjects = [];
+        this.pereodicSeverityList = pereodicSeverities;
+        this.pereodicSeverityList.forEach(res => this.displayedPereodicSeverityColumnsForSubjects.push(res.name));
+      }
+    );
+
     this.severityService.getSeverities().subscribe(result => {
-        this.displayedColumnsForSubjects = [];
+        this.displayedSeverityColumnsForSubjects = [];
         this.severityList = result;
-        this.severityList.forEach(res => this.displayedColumnsForSubjects.push(res.name));
+        this.severityList.forEach(res => this.displayedSeverityColumnsForSubjects.push(res.name));
       }
     );
   }
@@ -379,13 +391,15 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     if (this.editMode) {
       finalColumnsToDisplay.push('swap');
       finalColumnsToDisplay.push('name');
-      this.displayedColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
+      this.displayedPereodicSeverityColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
+      this.displayedSeverityColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
       finalColumnsToDisplay.push('auditLessons');
       finalColumnsToDisplay.push('edit-icon');
       finalColumnsToDisplay.push('delete-icon');
     } else {
       finalColumnsToDisplay.push('name');
-      this.displayedColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
+      this.displayedPereodicSeverityColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
+      this.displayedSeverityColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
       finalColumnsToDisplay.push('auditLessons');
     }
 
@@ -400,6 +414,20 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     }
     return 0;
   }
+
+  public getValueToDisplayPereodic(subject: Subject, name: string) {
+    for (let i = 0; i < subject.pereodicSeverities.length; i++) {
+      if (subject.pereodicSeverities[i].severity.name === name) {
+        let result = '';
+        for (const semNumber of subject.pereodicSeverities[i].semesterNumbers) {
+            result += semNumber;
+        }
+        return result;
+      }
+    }
+    return 0;
+  }
+
 
   public editSubjectFromStudyPlan(subject: Subject) {
     const dialogRef = this.dialog.open(EditSubjectComponent, {

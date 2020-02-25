@@ -12,9 +12,9 @@ export const SEVERITY_LABS: Severity = {
 
 // ['name', 'exams', 'offset', 'rgr', 'control-tasks',
 //   'auditory-lessons', 'lectures', 'lab-tasks', 'practical-tasks'];
-export const SEVERITY_LIST: Severity[] = [{id: 1, name: 'Экзаменов'}, {id: 2, name: 'Зачетов'}, {id: 3, name: 'РГР'}, {
-  id: 4,
+export const SEVERITY_LIST: Severity[] = [{
+  id: 1,
   name: 'Контрольных'
-}, {id: 5, name: 'Аудиторных'}, {id: 6, name: 'Лекций'}, {id: 7, name: 'Лабораторных'}, {id: 8, name: 'Практических'}];
+}, {id: 2, name: 'Аудиторных'}, {id: 3, name: 'Лекций'}, {id: 4, name: 'Лабораторных'}, {id: 5, name: 'Практических'}];
 
 

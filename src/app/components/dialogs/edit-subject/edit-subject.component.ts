@@ -29,7 +29,8 @@ export class EditSubjectComponent implements OnInit {
     this.subject = subject;
     this.editSubjectForm = this.fb.group({
       subjectName: [subject.name, [Validators.required, Validators.maxLength(15)]],
-      severities: this.fb.array(subject.severities.map(sev => this.addSeverity(sev)))
+      severities: this.fb.array(subject.severities.map(sev => this.addSeverity(sev))),
+      pereodicSeverities: this.fb.array(subject.pereodicSeverities.map(pSev => this.addPereodicSeverity(pSev)))
     });
     this.severitySubjectList = subject.severities;
   }
@@ -76,6 +77,14 @@ export class EditSubjectComponent implements OnInit {
         }
       }
     }
+
+    for (const periodicSeverity of this.subject.pereodicSeverities) {
+      for (const perSevForm of this.pereodicSeverities.controls) {
+        if (periodicSeverity.severity.name === perSevForm.value.name) {
+          periodicSeverity.semesterNumbers = perSevForm.value.semesterNumbers.split(',').map(Number);
+        }
+      }
+    }
     this.subject.isChanged = true;
     this.subject.name = this.subjectName.value as string;
     this.dialogRef.close();
@@ -85,10 +94,21 @@ export class EditSubjectComponent implements OnInit {
     return this.editSubjectForm.get('severities') as FormArray;
   }
 
+  get pereodicSeverities() {
+    return this.editSubjectForm.get('pereodicSeverities') as FormArray;
+  }
+
   addSeverity(sev: SeveritySubject) {
     return this.fb.group({
       name: sev.severity.name,
       hours: sev.hours
+    });
+  }
+
+  addPereodicSeverity(pSev: PereodicSeveritySubject) {
+    return this.fb.group({
+      name: pSev.severity.name,
+      semesterNumbers: pSev.semesterNumbers.toString()
     });
   }
 
