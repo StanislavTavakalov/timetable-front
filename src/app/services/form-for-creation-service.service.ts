@@ -14,13 +14,14 @@ export class FormForCreationServiceService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
-  private disciplinesUrl = 'api/timetable';
+  private url = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) {
   }
 
   /*addPlan(plan: StudyPlan): Observable<StudyPlan> {
-      return this.http.post<StudyPlan>(this.disciplinesUrl, plan, this.httpOptions);
+      return this.http.post<StudyPlan>(this.disciplinesUrl, plan);
+      return this.http.post<StudyPlan>(this.disciplinesUrl, {username:"test", password:"test"});
     }
     editPlan(plan; StudyPlan): Observable<any> {
       return this.http.put(this.disciplinesUrl, plan, this.httpOptions);
@@ -33,28 +34,22 @@ export class FormForCreationServiceService {
     return this.http.get<Hero>(url);
   }
 
-  */
+
 
   addPlan(plan: StudyPlan): Observable<number> {
     return of(PLANS.push(plan));
-  }
+  }*/
 
   getPlans(): Observable<StudyPlan[]> {
-    return of(PLANS);
+     return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
   }
 
   getPlanById(id: number): Observable<StudyPlan> {
-    return of(PLANS.find((plan) => {
-      return plan.id === id;
-    }));
+     return this.http.get<StudyPlan>(this.url + 'studyplan/' + id);
   }
 
-  editPlan(plan1: StudyPlan) {
-    PLANS.forEach((plan, id) => {
-      if (plan.id === plan1.id) {
-        PLANS[id] = plan;
-      }
-    });
+  editPlan(plan: StudyPlan): Observable<any> {
+      return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
   }
 
 }

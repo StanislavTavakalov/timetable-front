@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import {Course} from '../../model/course.model';
 import {ScheduleService} from '../../services/schedule.service';
 import {Occupation} from '../../model/occupation.model';
@@ -33,9 +33,13 @@ export class ScheduleComponent implements OnInit {
       this.occupations = occupation;
     });
     this.scheduleService.getShedule().subscribe(schedule => {
-      this.schedule = schedule;
-      this.curCourse = this.schedule.courses[0];
+      this.schedule = schedule[0];
+
     });
+  }
+
+  saveSchedule() {
+     this.scheduleService.saveSchedule(this.schedule).subscribe();
   }
 
   addOccupation() {
@@ -50,6 +54,7 @@ export class ScheduleComponent implements OnInit {
       if (result != null) {
         this.newOccupationCounter.count = 0;
         this.newOccupationCounter.occupation = result;
+	       this.scheduleService.addOccupation(result).subscribe();
         this.occupations.push(result);
         this.schedule.courses.forEach((course) => {
           this.new = JSON.parse(JSON.stringify(this.newOccupationCounter));
@@ -63,12 +68,13 @@ export class ScheduleComponent implements OnInit {
   }
 
   changeOccupation(idCourse, idWeek, target) {
-    this.curCourse = this.schedule.courses.find( (course) => {
-      return course.id === parseInt(idCourse, 10);
-    });
-    this.oldOccupation = this.curCourse.weeks.find(week => {
-      return week.id === parseInt(idWeek, 10);
-    }).occupation;
+
+    this.oldOccupation = JSON.parse(JSON.stringify(this.schedule.courses.find( (course) => {
+       return course.id === parseInt(idCourse, 10);
+    }).weeks.find(week => {
+       return week.id === parseInt(idWeek, 10);
+    }).occupation));
+
     this.scheduleService.getOccupationBySymbol(target.target.value).subscribe( occupation => {
      this.newOccupation = occupation;
      this.schedule.courses.find( (course) => {
@@ -76,10 +82,18 @@ export class ScheduleComponent implements OnInit {
       }).weeks.find(week => {
         return week.id === parseInt(idWeek, 10);
       }).occupation = this.newOccupation;
-     this.curCourse.countOccupation[this.occupations.indexOf(this.oldOccupation)].count -= 1;
-     this.curCourse.countOccupation[this.occupations.indexOf(this.newOccupation)].count += 1;
-     this.schedule.countOccupation[this.occupations.indexOf(this.oldOccupation)].count -= 1;
-     this.schedule.countOccupation[this.occupations.indexOf(this.newOccupation)].count += 1;
+
+     this.schedule.courses.find( (course) => {
+       return course.id === parseInt(idCourse, 10);
+    }).countOccupation[this.occupations.findIndex(x => x.id === this.oldOccupation.id)].count -= 1;
+
+     this.schedule.courses.find( (course) => {
+       return course.id === parseInt(idCourse, 10);
+    }).countOccupation[this.occupations.findIndex(x => x.id === occupation.id)].count += 1;
+
+     this.schedule.countOccupation[this.occupations.findIndex(x => x.id === this.oldOccupation.id)].count -= 1;
+
+     this.schedule.countOccupation[this.occupations.findIndex(x => x.id === occupation.id)].count += 1;
     });
   }
 

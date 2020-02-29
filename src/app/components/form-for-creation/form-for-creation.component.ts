@@ -56,9 +56,9 @@ export class FormForCreationComponent implements OnInit {
       this.plan.weeks = this.weeks;
       this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
-      this.formForCreationServiceService.editPlan(this.plan);
       this.updateSubjects();
       this.dialogRef.close(this.plan);
+	     this.formForCreationServiceService.editPlan(this.plan).subscribe();
       /*this.formForCreationServiceService.editPlan(this.plan).subscribe(() => {
         window.alert('Учебный план успешно создан');
       });*/

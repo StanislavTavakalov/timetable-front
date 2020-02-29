@@ -18,24 +18,24 @@ export class TimetableService {
   constructor(private http: HttpClient) {
   }
 
-  addPlan(plan: StudyPlan): Observable<StudyPlan> {
-    return this.http.post<StudyPlan>(this.url + 'studyplan', plan, this.httpOptions);
+  /*
+   getPlans(): Observable<any> {
+      this.http.post<StudyPlan>(this.url + 'login', {username: 'test', password: 'test'});
+      return this.http.get<Plan[]>(this.url + 'plan/');
   }
-
-
-  /*getPlans(): Observable <StudyPlan[]> {
-    return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
-  }*/
 
 
   getPlans(): Observable<StudyPlan[]> {
-    console.log('12');
-    return of(PLANS);
+    return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
+  }*/
+
+ getPlans(): Observable<StudyPlan[]> {
+	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
+   // return of(PLANS);
   }
 
-  getPlanById(id: number): Observable<StudyPlan> {
-    return of(PLANS.find((plan) => {
-      return plan.id === id;
-    }));
+  editPlan(plan: StudyPlan): Observable<any> {
+      return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
   }
+
 }

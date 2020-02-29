@@ -15,7 +15,7 @@
     <table class="timetable" id="timetable" border="1" align="center">
       <tbody>
         <tr>
-          <td [attr.colspan]="num">{{selectedPlan.name}}</td>
+          <td [attr.colspan]="num">{{selectedPlan?.name}}</td>
         <tr>
         <tr>
           <td rowspan="8">№</td>
@@ -27,47 +27,47 @@
           <td colspan="2" *ngFor="let dummy of ' '.repeat(cources).split(''), let i = index">{{i+1}}</td>
         </tr>
         <tr>
-          <td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{i+1}}</td>
+          <td  *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{i+1}}</td>
           <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
         </tr>
         <tr>
           <td [attr.colspan]="num1">Недель в семестре</td>
         </tr>
         <tr>
-          <td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{selectedPlan.weeks[i].count}}</td>
+          <td  *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{selectedPlan?.weeks[i].count}}</td>
           <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
         </tr>
         <tr>
           <td [attr.colspan]="num1">Часах в неделях/зачетных единиц</td>
         </tr>
         <tr>
-          <td *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{i+13}}</td>
+          <td *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{i+13}}</td>
           <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
         </tr>
         <tr>
-          <td *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index" >час.н. / з.ед.</td>
+          <td *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index" >час.н. / з.ед.</td>
           <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
         </tr>
         <ng-container *ngIf="!editMode" >
-          <tr *ngFor="let discipline of selectedPlan.subjects">
+          <tr *ngFor="let discipline of selectedPlan?.subjects">
                  <td>{{discipline.numberOfDiscipline}}</td>
             <td colspan="2"  >{{discipline.name}}</td>
-            <td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{discipline.semesters[i].hoursPerWeek}} / {{discipline.semesters[i].creditUnits }} </td>
+            <td  *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{discipline.semesters[i]?.hoursPerWeek}} / {{discipline.semesters[i]?.creditUnits }} </td>
             <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
             <td>{{discipline.department}}</td>
           </tr>
          </ng-container>
         <ng-container *ngIf="editMode" >
-          <tr *ngFor="let discipline of editPlan.subjects">
-            <td><input (change)="changeNumber($event,discipline.id)" class="input3" value="{{discipline.numberOfDiscipline}}">
+          <tr *ngFor="let discipline of editPlan?.subjects">
+            <td><input (change)="changeNumber($event,discipline.id)" class="input3" value="{{discipline?.numberOfDiscipline}}">
             </td>
-            <td colspan="2"><input  (change)="changeName($event,discipline.id)" class="input3" value="{{discipline.name}}"></td>
+            <td colspan="2"><input  (change)="changeName($event,discipline.id)" class="input3" value="{{discipline?.name}}"></td>
             <td  *ngFor="let dummy of ' '.repeat(editPlan.countOfSem).split(''), let i = index"><input
               (change)="changeHoursPerWeek($event,discipline.id,i)" class="input1"
               value="{{discipline.semesters[i].hoursPerWeek}}"> / <input
-              (change)="changeCreditUnit($event,discipline.id,i)" class="input2" value="{{discipline.semesters[i].creditUnits}}"></td>
+              (change)="changeCreditUnit($event,discipline.id,i)" class="input2" value="{{discipline?.semesters[i].creditUnits}}"></td>
             <td *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"></td>
-            <td><input class="input3" (change)="changeDepartment($event,discipline.id)" value="{{discipline.department}}"></td>
+            <td><input class="input3" (change)="changeDepartment($event,discipline.id)" value="{{discipline?.department}}"></td>
           </tr>
          </ng-container >
       </tbody>
@@ -82,7 +82,7 @@
             <td>Cвободные часы</td>
             <td>Все часы</td>
           </tr>
-          <tr *ngFor="let discipline of selectedPlan.subjects">
+          <tr *ngFor="let discipline of selectedPlan?.subjects">
             <td matTooltip="{{discipline.name}}" class="tooltip">{{discipline.abbreviation}}</td>
             <td>{{discipline.freeHours}}</td>
             <td>{{discipline.sumOfHours}}</td>

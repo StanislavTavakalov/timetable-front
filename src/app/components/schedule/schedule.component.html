@@ -1,4 +1,4 @@
-<div style="margin-left:3%;overflow: auto;max-width: 90%">
+﻿<div style="margin-left:3%;overflow: auto;max-width: 90%">
   <table border="1" style="text-align: center; font-size: 20px">
     <tbody>
       <tr>
@@ -15,7 +15,9 @@
         <td colspan="5">Июнь</td>
         <td colspan="5">Июль</td>
         <td colspan="5">Август</td>
+	<ng-container *ngIf="occupations?.length">
         <td rowspan="3" *ngFor="let occupation of occupations">{{occupation.value}}</td>
+	</ng-container>
         <td rowspan="3">Всего</td>
       </tr>
       <tr>
@@ -126,10 +128,10 @@
         <td colspan="1" >23</td>
         <td colspan="1" >31</td>
       </tr>
-      <tr *ngFor="let course of schedule.courses">
+      <tr *ngFor="let course of schedule?.courses">
         <td>{{course.name}}</td>
-        <td [ngStyle]="{'background-color': week.colspan===2? 'blue' : ''}" *ngFor="let week of course.weeks" [attr.colspan]="week.colspan">
-          <select (change)="changeOccupation(course.id,week.id,$event)">
+        <td [ngStyle]="{'background-color': week.colspan===2? 'blue' : ''}" *ngFor="let week of course?.weeks" [attr.colspan]="week.colspan">
+          <select *ngIf="occupations?.length" (change)="changeOccupation(course.id,week.id,$event)">
             <option   *ngFor="let occupation of occupations" value="{{occupation.symbol}}" [selected]="week.occupation.symbol==occupation.symbol" >{{occupation.symbol}}</option>
           </select>
         </td>
@@ -138,8 +140,8 @@
       </tr>
       <tr>
         <td style='border-right:none;border-left:none;border-bottom:none;border-top:none'></td>
-        <td *ngFor="let week of curCourse.weeks" [attr.colspan]="week.colspan" style='border-right:none;border-left:none;border-bottom:none;border-top:none'></td>
-        <td *ngFor="let countOccupation of schedule.countOccupation">{{countOccupation.count}}</td>
+        <td *ngFor="let week of schedule?.courses[0]?.weeks" [attr.colspan]="week.colspan" style='border-right:none;border-left:none;border-bottom:none;border-top:none'></td>
+        <td *ngFor="let countOccupation of schedule?.countOccupation">{{countOccupation.count}}</td>
 
       </tr>
 
@@ -149,7 +151,7 @@
 
 <div style="overflow:auto;max-height:25%;margin-left: 5%; margin-top:3%;font-size: 20px;width: 20%">
   <table border="1">
-    <tbody>
+    <tbody *ngIf="occupations?.length">
       <tr *ngFor="let occupation of occupations">
         <td>{{occupation.symbol}} </td>
         <td>{{occupation.value}}</td>
@@ -162,6 +164,6 @@
 <div class="control-panel" style="margin-top:5%">
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
     <button  mat-raised-button class="control-button" (click)="addOccupation()">Добавить нагрузку</button>
-    <button  mat-raised-button class="control-button">Сохранить</button>
+    <button  mat-raised-button class="control-button" (click)="saveSchedule()">Сохранить</button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+﻿import {Component, OnInit} from '@angular/core';
 import {Subject} from '../../model/subject.model';
 import {StudyPlan} from '../../model/study-plan.model';
 import {TimetableService} from '../../services/timetable.service';
@@ -42,6 +42,7 @@ export class TimetableComponent implements OnInit {
 
     this.timetableService.getPlans().subscribe(plans => {
       this.plans = plans;
+      console.log(plans);
       this.selectedId = this.route.snapshot.paramMap.get('id');
       if (this.selectedId === null) {
         this.selectedPlan = this.plans[0];
@@ -85,6 +86,7 @@ export class TimetableComponent implements OnInit {
 
   public add(): void {
     this.selectedPlan = JSON.parse(JSON.stringify(this.editPlan));
+	  this.timetableService.editPlan(this.selectedPlan).subscribe();
     // this.editableModeService.editPlan(this.editPlan).subscribe((plan) => {
     // });
   }

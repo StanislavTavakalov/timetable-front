@@ -446,7 +446,6 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
     let sumOfHours = 0;
     for (const sev of subject.severities) {
-      console.log(sev);
       sumOfHours += sev.hours as number;
     }
     return sumOfHours;
