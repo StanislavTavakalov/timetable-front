@@ -15,11 +15,12 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 export class ScheduleService {
 
 
+auth = 'Basic ' + btoa('test:test');
 
 httpOptions = {
-    headers: new HttpHeaders({  'Content-Type': 'application/json'})};
+    headers: new HttpHeaders({  'Content-Type': 'application/json', Authorization: this.auth})};
 
-  private url = 'http://localhost:8080/';
+  private url = 'http://test:test@localhost:8080/';
   occu: Occupation;
 
 
@@ -27,11 +28,19 @@ httpOptions = {
   }
 
   getShedule(): Observable<Schedule[]> {
-    return this.http.get<Schedule[]>(this.url + 'schedule/');
+	const header = {
+	headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+ return this.http.get<Schedule[]>(this.url + 'schedule/', header);
   }
 
   getOccupations(): Observable<Occupation[]> {
-     return this.http.get<Occupation[]>(this.url + 'occupation/');
+	const header = {
+	headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+ return this.http.get<Occupation[]>(this.url + 'occupation/', header);
   }
 
   addOccupation(occupation: Occupation): Observable<Occupation> {
@@ -55,6 +64,8 @@ httpOptions = {
   saveSchedule(schedule: Schedule): Observable<Schedule> {
 	return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule, this.httpOptions);
    }
+
+
 
 
 }

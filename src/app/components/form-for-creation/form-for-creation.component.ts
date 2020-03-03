@@ -20,6 +20,7 @@ export class FormForCreationComponent implements OnInit {
   newFree: number;
   plan: StudyPlan = new StudyPlan();
   weekCount: WeekCount = new WeekCount();
+  semester: Semester = new Semester();
   countOfSem: number;
   name: string;
   coefficient: number;
@@ -52,13 +53,16 @@ export class FormForCreationComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid && this.formGroupHours.valid) {
+
       this.plan.name = this.name;
       this.plan.weeks = this.weeks;
       this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
       this.updateSubjects();
-      this.dialogRef.close(this.plan);
-	     this.formForCreationServiceService.editPlan(this.plan).subscribe();
+      this.formForCreationServiceService.editPlan(this.plan).subscribe( plan => {
+	    this.dialogRef.close(this.plan); }
+	    );
+
       /*this.formForCreationServiceService.editPlan(this.plan).subscribe(() => {
         window.alert('Учебный план успешно создан');
       });*/
@@ -82,8 +86,11 @@ export class FormForCreationComponent implements OnInit {
     } else if (num === 2) {
       this.coefficient = parseInt(event.currentTarget.value, 10);
     } else if (num === 1)  {
-      this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan => this.plan = plan);
-      this.oldCountOfSem = this.plan.countOfSem;
+      this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan => {
+		  this.plan = plan;
+		  this.oldCountOfSem = this.plan.countOfSem;
+		  });
+
     } else if (num === 3) {
       this.name = event.currentTarget.value;
     }
@@ -103,7 +110,10 @@ export class FormForCreationComponent implements OnInit {
     if (this.oldCountOfSem < this.plan.countOfSem) {
       for (let i = this.oldCountOfSem; i < this.countOfSem; i++) {
         this.plan.subjects.forEach((subject) => {
-          subject.semesters.push({id: 10, number: i, hoursPerWeek: 0, creditUnits: 0});
+		  this.semester.number = i;
+		  this.semester.hoursPerWeek = 0;
+		  this.semester.hoursPerWeek = 0;
+    subject.semesters[i] = JSON.parse(JSON.stringify(this.semester));
         });
       }
     } else {

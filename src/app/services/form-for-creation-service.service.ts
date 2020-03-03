@@ -10,9 +10,10 @@ import {PLANS} from '../mock/plan-mock';
 })
 export class FormForCreationServiceService {
 
-  httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+auth = 'Basic ' + btoa('test:test');
+
+httpOptions = {
+    headers: new HttpHeaders({  'Content-Type': 'application/json', Authorization: this.auth})};
 
   private url = 'http://localhost:8080/';
 
@@ -41,11 +42,19 @@ export class FormForCreationServiceService {
   }*/
 
   getPlans(): Observable<StudyPlan[]> {
-     return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
+	const header = {
+	headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+ return this.http.get<StudyPlan[]>(this.url + 'studyplan/', header);
   }
 
   getPlanById(id: number): Observable<StudyPlan> {
-     return this.http.get<StudyPlan>(this.url + 'studyplan/' + id);
+	const header = {
+	headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+ return this.http.get<StudyPlan>(this.url + 'studyplan/' + id, header);
   }
 
   editPlan(plan: StudyPlan): Observable<any> {

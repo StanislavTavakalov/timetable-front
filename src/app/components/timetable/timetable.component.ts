@@ -1,4 +1,4 @@
-﻿import {Component, OnInit} from '@angular/core';
+﻿import {Component, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
 import {Subject} from '../../model/subject.model';
 import {StudyPlan} from '../../model/study-plan.model';
 import {TimetableService} from '../../services/timetable.service';
@@ -34,6 +34,8 @@ export class TimetableComponent implements OnInit {
   selectedId: string;
   oldFreeHours: number;
 
+  @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
+
 
   constructor(private route: ActivatedRoute, private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog, private overlay: Overlay) {
   }
@@ -42,7 +44,6 @@ export class TimetableComponent implements OnInit {
 
     this.timetableService.getPlans().subscribe(plans => {
       this.plans = plans;
-      console.log(plans);
       this.selectedId = this.route.snapshot.paramMap.get('id');
       if (this.selectedId === null) {
         this.selectedPlan = this.plans[0];
@@ -86,7 +87,7 @@ export class TimetableComponent implements OnInit {
 
   public add(): void {
     this.selectedPlan = JSON.parse(JSON.stringify(this.editPlan));
-	  this.timetableService.editPlan(this.selectedPlan).subscribe();
+	   this.timetableService.editPlan(this.selectedPlan).subscribe();
     // this.editableModeService.editPlan(this.editPlan).subscribe((plan) => {
     // });
   }
@@ -100,8 +101,6 @@ export class TimetableComponent implements OnInit {
     this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     }).numberOfDiscipline = event.currentTarget.value;
-    console.log(this.selectedPlan);
-    console.log(this.editPlan);
   }
 
   public changeName(event, id): void {
@@ -186,18 +185,19 @@ export class TimetableComponent implements OnInit {
       if (result != null) {
         this.updatedPlan = result;
         this.reculculate();
+		      this.table.renderRows();
+
       }
 
     });
   }
 
   public reculculate() {
-    this.plans.forEach((plan, id) => {
-      if (plan.id === this.updatedPlan.id) {
-        this.plans[id] = plan;
-      }
-    });
-    if (this.updatedPlan.id = this.selectedPlan.id) {
+	this.timetableService.getPlans().subscribe(plans => {
+		this.plans = plans;
+		this.table.renderRows();
+		});
+ if (this.updatedPlan.id = this.selectedPlan.id) {
       this.selectedPlan = JSON.parse(JSON.stringify(this.updatedPlan));
       this.editPlan = JSON.parse(JSON.stringify(this.updatedPlan));
       this.semsEven = this.selectedPlan.countOfSem;
