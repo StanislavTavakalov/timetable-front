@@ -59,6 +59,7 @@ export class FormForCreationComponent implements OnInit {
       this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
       this.updateSubjects();
+	     this.recalculateFreeHours();
       this.formForCreationServiceService.editPlan(this.plan).subscribe( plan => {
 	    this.dialogRef.close(this.plan); }
 	    );
@@ -86,9 +87,9 @@ export class FormForCreationComponent implements OnInit {
     } else if (num === 2) {
       this.coefficient = parseInt(event.currentTarget.value, 10);
     } else if (num === 1)  {
-      this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan => {
-		  this.plan = plan;
-		  this.oldCountOfSem = this.plan.countOfSem;
+        this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan => {
+		    this.plan = plan;
+		    this.oldCountOfSem = this.plan.countOfSem;
 		  });
 
     } else if (num === 3) {
@@ -129,5 +130,19 @@ export class FormForCreationComponent implements OnInit {
       this.plan.subjects[i].freeHours = this.plan.subjects[i].sumOfHours - this.newFree;
     }
 
+  }
+
+  public recalculateFreeHours() {
+	  this.plan.subjects.forEach((subject) => {
+		subject.freeHours = subject.sumOfHours;
+  subject.semesters.forEach((semester) => {
+			if (subject.freeHours - semester.hoursPerWeek * this.plan.weeks[subject.semesters.indexOf(semester)].count > 0) {
+				subject.freeHours = subject.freeHours - semester.hoursPerWeek * this.plan.weeks[subject.semesters.indexOf(semester)].count;
+			} else {
+				semester.hoursPerWeek = 0;
+				semester.creditUnits = 0;
+			}
+		});
+      });
   }
 }

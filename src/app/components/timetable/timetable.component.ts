@@ -121,15 +121,15 @@ export class TimetableComponent implements OnInit {
     });
 
 
-    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek - parseInt(event.currentTarget.value, 10)) < 0) {
+    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek*this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10)*this.selectedPlan.weeks[numberOfSem].count) < 0) {
       window.alert('Превышены свободные часы');
       event.currentTarget.style.background = 'red';
       return;
     }
-    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek;
+    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek*this.selectedPlan.weeks[numberOfSem].count;
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10);
     this.subject.semesters[numberOfSem].creditUnits = Math.round(parseInt(event.currentTarget.value, 10) / this.selectedPlan.coefficient);
-    this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10);
+    this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10)*this.selectedPlan.weeks[numberOfSem].count;
 
 
   }

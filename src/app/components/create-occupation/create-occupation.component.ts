@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Occupation} from '../../model/occupation.model';
+import {ScheduleService} from '../../services/schedule.service';
 
 @Component({
   selector: 'app-create-occupation',
@@ -11,8 +12,9 @@ import {Occupation} from '../../model/occupation.model';
 export class CreateOccupationComponent implements OnInit {
   formGroup: any;
   occupation: Occupation = new Occupation();
+  valueS: string;
 
-  constructor(public dialogRef: MatDialogRef<CreateOccupationComponent>) { }
+  constructor(private scheduleService: ScheduleService, public dialogRef: MatDialogRef<CreateOccupationComponent>) { }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -23,7 +25,16 @@ export class CreateOccupationComponent implements OnInit {
 
   saveValue(num, event): void {
     if (num === 1) {
-      this.occupation.symbol = event.currentTarget.value;
+	  this.valueS = event.currentTarget.value;
+	  this.scheduleService.getOccupationBySymbol(event.currentTarget.value).subscribe(occupation => {
+		  if (occupation) {
+			  this.formGroup.controls.symbol.setValue('');
+			  window.alert('Данный символ уже используется');
+		  } else {
+			  this.occupation.symbol = this.valueS;
+		  }
+	  });
+
     } else {
       this.occupation.value = event.currentTarget.value;
     }
@@ -31,12 +42,11 @@ export class CreateOccupationComponent implements OnInit {
 
   add(): void {
     if (this.formGroup.valid) {
-      this.dialogRef.close(this.occupation);
+	  this.scheduleService.addOccupation(this.occupation).subscribe(occu => {
+	  this.scheduleService.getOccupationBySymbol(this.occupation.symbol).subscribe(occ => {this.dialogRef.close(occ); });
+	  })
     } else {
       window.alert('Заполните обязательные поля');
     }
   }
-
-
-
 }

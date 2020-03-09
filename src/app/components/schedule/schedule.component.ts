@@ -7,7 +7,7 @@ import {MatDialog} from '@angular/material';
 import {CreateOccupationComponent} from '../create-occupation/create-occupation.component';
 import {Schedule} from '../../model/shedule.model';
 import {OccupationCounter} from '../../model/occupatoionCounter.model';
-
+import {OccupationCounterCourse} from '../../model/occupationCounterCourse.model';
 
 @Component({
   selector: 'app-schedule',
@@ -22,7 +22,9 @@ export class ScheduleComponent implements OnInit {
   oldOccupation: Occupation;
   curCourse: Course;
   newOccupationCounter: OccupationCounter = new OccupationCounter();
-  new: OccupationCounter;
+  newOccupationCounterCourse: OccupationCounterCourse = new OccupationCounterCourse();
+  new1: OccupationCounter;
+  new2: OccupationCounterCourse;
 
 
   constructor(private scheduleService: ScheduleService, private dialog: MatDialog, private overlay: Overlay) { }
@@ -34,7 +36,6 @@ export class ScheduleComponent implements OnInit {
     });
     this.scheduleService.getShedule().subscribe(schedule => {
       this.schedule = schedule[0];
-
     });
   }
 
@@ -52,29 +53,30 @@ export class ScheduleComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.newOccupationCounter.count = 0;
-        this.newOccupationCounter.occupation = result;
-	       this.scheduleService.addOccupation(result).subscribe();
         this.occupations.push(result);
-        this.schedule.courses.forEach((course) => {
-          this.new = JSON.parse(JSON.stringify(this.newOccupationCounter));
-          course.countOccupation.push(this.new);
+      this.newOccupationCounter.count = 0;
+      this.newOccupationCounter.occupation = result;
+      this.schedule.courses.forEach((course) => {
+          this.newOccupationCounterCourse.count = 0;
+          this.newOccupationCounterCourse.occupation = result;
+          course.countOccupation.push(this.newOccupationCounterCourse);
         });
-        this.new = JSON.parse(JSON.stringify(this.newOccupationCounter));
-        this.schedule.countOccupation.push(this.new);
+      this.schedule.countOccupation.push(this.newOccupationCounter);
+      this.scheduleService.saveSchedule(this.schedule).subscribe(sc => {
+			this.scheduleService.getShedule().subscribe(schedule => {
+			this.schedule = schedule[0];
+			});
+		});
       }
-
     });
   }
 
   changeOccupation(idCourse, idWeek, target) {
-
     this.oldOccupation = JSON.parse(JSON.stringify(this.schedule.courses.find( (course) => {
        return course.id === parseInt(idCourse, 10);
     }).weeks.find(week => {
        return week.id === parseInt(idWeek, 10);
     }).occupation));
-
     this.scheduleService.getOccupationBySymbol(target.target.value).subscribe( occupation => {
      this.newOccupation = occupation;
      this.schedule.courses.find( (course) => {
@@ -82,17 +84,13 @@ export class ScheduleComponent implements OnInit {
       }).weeks.find(week => {
         return week.id === parseInt(idWeek, 10);
       }).occupation = this.newOccupation;
-
      this.schedule.courses.find( (course) => {
        return course.id === parseInt(idCourse, 10);
     }).countOccupation[this.occupations.findIndex(x => x.id === this.oldOccupation.id)].count -= 1;
-
      this.schedule.courses.find( (course) => {
        return course.id === parseInt(idCourse, 10);
     }).countOccupation[this.occupations.findIndex(x => x.id === occupation.id)].count += 1;
-
      this.schedule.countOccupation[this.occupations.findIndex(x => x.id === this.oldOccupation.id)].count -= 1;
-
      this.schedule.countOccupation[this.occupations.findIndex(x => x.id === occupation.id)].count += 1;
     });
   }
