@@ -100,6 +100,7 @@
     <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
     <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="add()"> Сохранить</button>
     <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="exitEditableMode()"> Выйти из режима редактирования</button>
+	<button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null"  routerLink="/schedule/{{selectedPlan?.id}}">Перейти к магистрантам</button>
   </div>
 </div>
 

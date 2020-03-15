@@ -42,5 +42,13 @@ httpOptions = {
   editPlan(plan: StudyPlan): Observable<any> {
       return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
   }
-
+  
+  getPlanById(id: number): Observable<StudyPlan> {
+	const header = {
+	headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+ return this.http.get<StudyPlan>(this.url + 'studyplan/' + id, header);
+  }
+  
 }

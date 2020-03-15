@@ -3,6 +3,7 @@ import {Speciality} from './speciality.model';
 import {EducationForm} from './education-form.model';
 import {StudyPlanStatus} from './study-plan-status.model';
 import {WeekCount} from './week-count.model';
+import {Schedule} from './shedule.model';
 
 export class StudyPlan {
   public id: number;
@@ -10,6 +11,7 @@ export class StudyPlan {
   public subjects: Subject[];
   public coefficient: number;
   public countOfSem: number;
+  public schedules: Schedule[];
   public weeks: WeekCount[];
   public isChanged: boolean;
   public speciality: Speciality;

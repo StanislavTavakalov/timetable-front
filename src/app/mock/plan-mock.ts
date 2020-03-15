@@ -10,6 +10,7 @@ export const PLANS: StudyPlan[] = [{
   id: 1,
   name: 'Учебный план 1',
   countOfSem: 8,
+  schedules: null,
   registerNumber: 45716,
   registerNumberApplyDate: new Date(),
   educationForm: EducationForm.FullTime,
@@ -25,6 +26,7 @@ export const PLANS: StudyPlan[] = [{
   isChanged: false
 }, {
   id: 2, name: 'Учебный план 2', countOfSem: 6,
+  schedules: null,
   registerNumber: 45716,
   registerNumberApplyDate: new Date(),
   educationForm: EducationForm.FullTime,
@@ -41,6 +43,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
   {
     id: 1,
     name: 'Учебный план 1',
+	schedules: null,
     registerNumber: 45716,
     registerNumberApplyDate: new Date(),
     educationForm: EducationForm.FullTime,
@@ -131,6 +134,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     name: 'Учебный план 2',
     registerNumber: 45716,
     registerNumberApplyDate: new Date(),
+	schedules: null,
     educationForm: EducationForm.FullTime,
     status: StudyPlanStatus.InDevelopment,
     statusApplyDate: new Date(),
@@ -200,6 +204,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     name: 'Учебный план 3',
     registerNumber: 45716,
     registerNumberApplyDate: new Date(),
+   	schedules: null,
     educationForm: EducationForm.FullTime,
     status: StudyPlanStatus.InDevelopment,
     statusApplyDate: new Date(),

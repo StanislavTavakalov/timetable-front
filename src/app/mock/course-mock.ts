@@ -1,6 +1,63 @@
 import {Course} from '../model/course.model';
 import {OCCUPATION_COUNTERS, OCCUPATION_COUNTERS1, OCCUPATION_COUNTERS_1, OCCUPATIONS} from './occupation-mock';
 import {Schedule} from '../model/shedule.model';
+import {Week} from '../model/week.model';
+
+
+export const WEEKS: Week[] = [{id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 2, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null},
+    {id: null, colspan: 1, occupation: null}
+    ]
+	;
 
 export const COURSES: Course[] = [{
   id: 100,

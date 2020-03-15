@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'creation', component: FormForCreationComponent },
   { path: 'timetable', component: TimetableComponent },
   { path: 'schedule', component: ScheduleComponent },
+  { path: 'schedule/:id', component: ScheduleComponent },
   { path: 'edit', component: EditableModeComponent },
   { path: 'edit1', component: CreateOccupationComponent },
   { path: '**', redirectTo: 'study-plan' }

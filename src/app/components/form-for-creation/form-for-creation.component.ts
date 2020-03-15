@@ -29,6 +29,10 @@ export class FormForCreationComponent implements OnInit {
   formGroupHours: any;
   plans: StudyPlan[];
   oldCountOfSem: number;
+  notification: string;
+  index: number;
+  notifications = '';
+  indexWeek: number;
 
 
   constructor( private formForCreationServiceService: FormForCreationServiceService, public dialogRef: MatDialogRef<FormForCreationComponent>) {
@@ -55,9 +59,9 @@ export class FormForCreationComponent implements OnInit {
     if (this.formGroup.valid && this.formGroupHours.valid) {
 
       this.plan.name = this.name;
-      this.plan.weeks = this.weeks;
       this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
+      this.updateWeeks();
       this.updateSubjects();
 	     this.recalculateFreeHours();
       this.formForCreationServiceService.editPlan(this.plan).subscribe( plan => {
@@ -111,14 +115,15 @@ export class FormForCreationComponent implements OnInit {
     if (this.oldCountOfSem < this.plan.countOfSem) {
       for (let i = this.oldCountOfSem; i < this.countOfSem; i++) {
         this.plan.subjects.forEach((subject) => {
-		  this.semester.number = i;
-		  this.semester.hoursPerWeek = 0;
-		  this.semester.hoursPerWeek = 0;
-    subject.semesters[i] = JSON.parse(JSON.stringify(this.semester));
+		    this.semester.number = i;
+		    this.semester.hoursPerWeek = 0;
+		    this.semester.hoursPerWeek = 0;
+      subject.semesters[i] = JSON.parse(JSON.stringify(this.semester));
         });
       }
     } else {
-      this.plan.subjects.forEach((subject) => {
+	  this.plan.weeks = this.plan.weeks.slice(0, this.countOfSem);
+   this.plan.subjects.forEach((subject) => {
         subject.semesters = subject.semesters.slice(0, this.countOfSem);
       });
     }
@@ -134,15 +139,40 @@ export class FormForCreationComponent implements OnInit {
 
   public recalculateFreeHours() {
 	  this.plan.subjects.forEach((subject) => {
-		subject.freeHours = subject.sumOfHours;
-  subject.semesters.forEach((semester) => {
+		 this.notification = '';
+		 subject.freeHours = subject.sumOfHours;
+   subject.semesters.forEach((semester) => {
 			if (subject.freeHours - semester.hoursPerWeek * this.plan.weeks[subject.semesters.indexOf(semester)].count > 0) {
 				subject.freeHours = subject.freeHours - semester.hoursPerWeek * this.plan.weeks[subject.semesters.indexOf(semester)].count;
 			} else {
+				if (this.notification.length === 0) {
+					this.notification = subject.name + ' - ';
+				}
+				this.index = subject.semesters.indexOf(semester) + 1;
+				this.notification = this.notification + ' ' + this.index + ',';
 				semester.hoursPerWeek = 0;
 				semester.creditUnits = 0;
 			}
 		});
+		 if (this.notification.length != 0) {
+			this.notification = this.notification.substring(0, this.notification.length - 1);
+			this.notifications = this.notifications + this.notification + '\n';
+		}
       });
+	  if (this.notifications.length != 0) {
+			this.notifications = 'Из-за превышения часов были обнулены семестры для предметов:\n' + this.notifications;
+			window.alert(this.notifications);
+		}
+  }
+
+  public updateWeeks() {
+	  this.weeks.forEach((weekCount) => {
+		  this.indexWeek = this.weeks.indexOf(weekCount);
+		  if (this.indexWeek < this.plan.weeks.length) {
+			  this.plan.weeks[this.indexWeek].count = this.weeks[this.indexWeek].count;
+		  } else {
+			  this.plan.weeks.push(this.weeks[this.indexWeek]);
+		  }
+	  });
   }
 }

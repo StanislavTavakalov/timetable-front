@@ -3,6 +3,7 @@ import {Observable, of, Subject} from 'rxjs';
 import {Course} from '../model/course.model';
 import {COURSES, SCHEDULE} from '../mock/course-mock';
 import {Occupation} from '../model/occupation.model';
+import {OccupationCounter} from '../model/occupatoionCounter.model';
 import {OCCUPATIONS} from '../mock/occupation-mock';
 import {PLANS} from '../mock/plan-mock';
 import {StudyPlan} from '../model/study-plan.model';
@@ -35,6 +36,14 @@ httpOptions = {
  return this.http.get<Schedule[]>(this.url + 'schedule/', header);
   }
 
+  getSheduleById(id: number): Observable<Schedule> {
+	const header = {
+	headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+ return this.http.get<Schedule>(this.url + 'schedule/' + id, header);
+  }
+
   getOccupations(): Observable<Occupation[]> {
 	const header = {
 	headers: new HttpHeaders()
@@ -65,8 +74,20 @@ httpOptions = {
 	return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule, this.httpOptions);
    }
 
+   getCourses(): Observable<Course> {
+	  const header = {
+		headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+		 return this.http.get<Course>(this.url + 'course/', header);
+  }
 
-
-
+  getOccupationCounters(): Observable<Course> {
+	  const header = {
+		headers: new HttpHeaders()
+		.set('Authorization',  'Basic ' + btoa('test:test'))
+		};
+		 return this.http.get<Course>(this.url + 'course/', header);
+  }
 }
 
