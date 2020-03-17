@@ -1,5 +1,5 @@
 class PereodicSeveritySubject {
-  id: number;
+  id: string;
   severity: PereodicSeverity;
   subjectId: number;
   semesterNumbers: number[];

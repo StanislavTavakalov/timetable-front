@@ -1,4 +1,4 @@
 class PereodicSeverity {
-  id: number;
+  id: string;
   name: string;
 }

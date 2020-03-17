@@ -97,22 +97,22 @@ export class ScheduleComponent implements OnInit {
 
   changeOccupation(idCourse, idWeek, target) {
     this.oldOccupation = JSON.parse(JSON.stringify(this.schedule.courses.find( (course) => {
-       return course.id === parseInt(idCourse, 10);
+       return course.id === idCourse;
     }).weeks.find(week => {
-       return week.id === parseInt(idWeek, 10);
+       return week.id === idWeek;
     }).occupation));
     this.scheduleService.getOccupationBySymbol(target.target.value).subscribe( occupation => {
      this.newOccupation = occupation;
      this.schedule.courses.find( (course) => {
-        return course.id === parseInt(idCourse, 10);
+        return course.id === idCourse;
       }).weeks.find(week => {
-        return week.id === parseInt(idWeek, 10);
+        return week.id === idWeek;
       }).occupation = this.newOccupation;
      this.schedule.courses.find( (course) => {
-       return course.id === parseInt(idCourse, 10);
+       return course.id === idCourse;
     }).countOccupation[this.occupations.findIndex(x => x.id === this.oldOccupation.id)].count -= 1;
      this.schedule.courses.find( (course) => {
-       return course.id === parseInt(idCourse, 10);
+       return course.id === idCourse;
     }).countOccupation[this.occupations.findIndex(x => x.id === occupation.id)].count += 1;
      this.schedule.countOccupation[this.occupations.findIndex(x => x.id === this.oldOccupation.id)].count -= 1;
      this.schedule.countOccupation[this.occupations.findIndex(x => x.id === occupation.id)].count += 1;

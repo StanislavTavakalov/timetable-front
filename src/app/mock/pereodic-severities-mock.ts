@@ -1,16 +1,16 @@
 
 export const PEREODIC_SEVERITY_EXAMS: PereodicSeverity = {
-  id: 1,
+  id: '1',
   name: 'Экаменов'
 };
 
 export const PEREODIC_SEVERITY_RGR: PereodicSeverity = {
-  id: 2,
+  id: '2',
   name: 'РГР'
 };
 
 export const PEREODIC_SEVERITY_CREDIT: PereodicSeverity = {
-  id: 3,
+  id: '3',
   name: 'Зачетов'
 };
 

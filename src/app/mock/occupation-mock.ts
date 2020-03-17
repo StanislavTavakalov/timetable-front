@@ -1,7 +1,7 @@
 import {Occupation} from '../model/occupation.model';
 import {OccupationCounter} from '../model/occupatoionCounter.model';
 import {OccupationCounterCourse} from '../model/occupationCounterCourse.model';
-
+/*
 export const OCCUPATIONS: Occupation[] = [{id: 300, symbol: '', value: 'теоритическое обучение'},
   {id: 301, symbol: ':', value: 'экзаменационная сессия'},
   {id: 302, symbol: 'X', value: 'практика'},
@@ -35,3 +35,4 @@ export const OCCUPATION_COUNTERS1: OccupationCounter[] = [{id: 500, count: 104, 
   {id: 504, count: 0, occupation: OCCUPATIONS[4]},
   {id: 505, count: 0, occupation: OCCUPATIONS[5]},
 ];
+*/

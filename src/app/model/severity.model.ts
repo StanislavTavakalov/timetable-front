@@ -1,4 +1,4 @@
 export class Severity {
-  id: number;
+  id: string;
   name: string;
 }

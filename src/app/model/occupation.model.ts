@@ -1,5 +1,5 @@
 export class Occupation {
-  public id: number;
+  public id: string;
   public symbol: string;
   public value: string;
 }

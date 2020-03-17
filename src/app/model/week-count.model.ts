@@ -1,4 +1,4 @@
 export class WeekCount {
-  public id: number;
+  public id: string;
   public count: number;
 }

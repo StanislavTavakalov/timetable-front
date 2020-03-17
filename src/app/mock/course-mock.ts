@@ -1,5 +1,4 @@
 import {Course} from '../model/course.model';
-import {OCCUPATION_COUNTERS, OCCUPATION_COUNTERS1, OCCUPATION_COUNTERS_1, OCCUPATIONS} from './occupation-mock';
 import {Schedule} from '../model/shedule.model';
 import {Week} from '../model/week.model';
 
@@ -59,7 +58,7 @@ export const WEEKS: Week[] = [{id: null, colspan: 1, occupation: null},
     ]
 	;
 
-export const COURSES: Course[] = [{
+/*export const COURSES: Course[] = [{
   id: 100,
   name: '1',
   weeks: [{id: 99, colspan: 1, occupation: OCCUPATIONS[0]},
@@ -185,4 +184,4 @@ export const COURSES: Course[] = [{
 
 export const SCHEDULE: Schedule = {
   id: 1, courses: COURSES, countOccupation: OCCUPATION_COUNTERS1
-};
+};*/

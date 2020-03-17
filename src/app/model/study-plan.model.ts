@@ -6,7 +6,7 @@ import {WeekCount} from './week-count.model';
 import {Schedule} from './shedule.model';
 
 export class StudyPlan {
-  public id: number;
+  public id: string;
   public name: string;
   public subjects: Subject[];
   public coefficient: number;

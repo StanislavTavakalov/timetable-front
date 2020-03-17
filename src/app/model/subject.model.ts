@@ -2,7 +2,7 @@ import {Semester} from './semester.model';
 import {SeveritySubject} from './severity-subject.model';
 
 export class Subject {
-  public id: number;
+  public id: string;
   public name: string;
   public abbreviation: string;
   public semesters: Semester[];
