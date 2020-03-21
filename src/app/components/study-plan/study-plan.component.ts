@@ -14,6 +14,7 @@ import {SeverityService} from '../../services/severity.service';
 import {Severity} from '../../model/severity.model';
 import {EditSubjectComponent} from '../dialogs/edit-subject/edit-subject.component';
 import {PereodicSeverityService} from '../../services/pereodic-severity.service';
+import {TimetableService} from '../../services/timetable.service';
 
 @Component({
   selector: 'app-study-plan',
@@ -34,7 +35,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
               private dialog: MatDialog,
               private overlay: Overlay,
               private severityService: SeverityService,
-              private severityPereodicService: PereodicSeverityService) {
+              private severityPereodicService: PereodicSeverityService,
+              private timetableService: TimetableService) {
   }
 
   // TODO refactor below one
@@ -63,6 +65,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // SEVERITY_LIST.forEach(res => this.displayedColumnsForSubjects.push(res.name));
 
+    this.timetableService.getPlans();
     this.severityPereodicService.getPereodicSeverities().subscribe(pereodicSeverities => {
         this.displayedSeverityColumnsForSubjects = [];
         this.pereodicSeverityList = pereodicSeverities;
@@ -420,7 +423,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
       if (subject.pereodicSeverities[i].severity.name === name) {
         let result = '';
         for (const semNumber of subject.pereodicSeverities[i].semesterNumbers) {
-            result += semNumber;
+            result += semNumber.number;
         }
         return result;
       }

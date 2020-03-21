@@ -8,7 +8,6 @@ import {HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from './material';
 import { HeaderComponent } from './components/header/header.component';
-import { TestComponent } from './components/test/test.component';
 import {TimetableComponent} from './components/timetable/timetable.component';
 import {FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
 import {EditableModeComponent} from './components/editable-mode/editable-mode.component';
@@ -25,7 +24,6 @@ import { CreateOccupationComponent } from './components/create-occupation/create
     AppComponent,
     StudyPlanComponent,
     HeaderComponent,
-    TestComponent,
     TimetableComponent,
     FormForCreationComponent,
     EditableModeComponent,

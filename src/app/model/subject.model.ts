@@ -1,5 +1,6 @@
 import {Semester} from './semester.model';
 import {SeveritySubject} from './severity-subject.model';
+import {PereodicSeveritySubject} from './pereodic-severity-subject.model';
 
 export class Subject {
   public id: string;

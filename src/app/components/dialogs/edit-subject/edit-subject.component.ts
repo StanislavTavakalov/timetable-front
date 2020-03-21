@@ -3,6 +3,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Subject} from '../../../model/subject.model';
 import {SeveritySubject} from '../../../model/severity-subject.model';
+import {PereodicSeveritySubject} from '../../../model/pereodic-severity-subject.model';
 
 @Component({
   selector: 'app-edit-subject',
@@ -81,7 +82,17 @@ export class EditSubjectComponent implements OnInit {
     for (const periodicSeverity of this.subject.pereodicSeverities) {
       for (const perSevForm of this.pereodicSeverities.controls) {
         if (periodicSeverity.severity.name === perSevForm.value.name) {
-          periodicSeverity.semesterNumbers = perSevForm.value.semesterNumbers.split(',').map(Number);
+          for (const num of perSevForm.value.semesterNumbers.split(',').map(Number)) {
+            let flag = false;
+            for (const semNum of periodicSeverity.semesterNumbers) {
+              if (semNum.number === num) {
+                flag = true;
+              }
+            }
+            if (!flag) {
+              periodicSeverity.semesterNumbers.push({id: '1', number: num});
+            }
+          }
         }
       }
     }
@@ -108,7 +119,7 @@ export class EditSubjectComponent implements OnInit {
   addPereodicSeverity(pSev: PereodicSeveritySubject) {
     return this.fb.group({
       name: pSev.severity.name,
-      semesterNumbers: pSev.semesterNumbers.toString()
+      semesterNumbers: pSev.semesterNumbers.map(value => value.number).toString()
     });
   }
 
