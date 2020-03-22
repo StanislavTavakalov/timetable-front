@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList} from '@angular/core';
-import {SubjectService} from '../../services/subject.service';
+import {SubjectService} from '../../services/lectern/subject.service';
 import {MatDialog, MatTable, MatTableDataSource} from '@angular/material';
 import {StudyPlan} from '../../model/study-plan.model';
 import {Subject} from '../../model/subject.model';
@@ -10,11 +10,15 @@ import {ConfirmationComponent} from '../dialogs/confirmation/confirmation.compon
 import {SUBJECTS} from '../../mock/study-mock';
 import {STUDY_PLANS_MOCK, SUBJECTS_MOCK} from '../../mock/plan-mock';
 import {StudyPlanDetailsComponent} from '../dialogs/study-plan-details/study-plan-details.component';
-import {SeverityService} from '../../services/severity.service';
+import {SeverityService} from '../../services/lectern/severity.service';
 import {Severity} from '../../model/severity.model';
 import {EditSubjectComponent} from '../dialogs/edit-subject/edit-subject.component';
-import {PereodicSeverityService} from '../../services/pereodic-severity.service';
+import {PereodicSeverityService} from '../../services/lectern/pereodic-severity.service';
 import {TimetableService} from '../../services/timetable.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {StudyPlanService} from '../../services/lectern/study-plan.service';
+import {LocalStorageService} from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-study-plan',
@@ -36,7 +40,11 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
               private overlay: Overlay,
               private severityService: SeverityService,
               private severityPereodicService: PereodicSeverityService,
-              private timetableService: TimetableService) {
+              private timetableService: TimetableService,
+              private studyPlanService: StudyPlanService,
+              private localStorageService: LocalStorageService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   // TODO refactor below one
@@ -64,6 +72,17 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // SEVERITY_LIST.forEach(res => this.displayedColumnsForSubjects.push(res.name));
+
+    // const id = this.route.snapshot.paramMap.get('id');
+    // const token = this.route.snapshot.queryParamMap.get('token');
+    // console.log(id);
+    // console.log(token);
+    this.studyPlanService.getAuthToken().subscribe((result: any) => {
+      console.log(result);
+      this.localStorageService.setCurrentUserToken(result.tokenType + ' ' + result.accessToken);
+    });
+    this.studyPlanService.getAllStudyPlans().subscribe(result => console.log(result));
+
 
     this.timetableService.getPlans();
     this.severityPereodicService.getPereodicSeverities().subscribe(pereodicSeverities => {
@@ -423,7 +442,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
       if (subject.pereodicSeverities[i].severity.name === name) {
         let result = '';
         for (const semNumber of subject.pereodicSeverities[i].semesterNumbers) {
-            result += semNumber.number;
+          result += semNumber.number;
         }
         return result;
       }

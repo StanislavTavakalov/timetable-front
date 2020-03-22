@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import {Severity} from '../model/severity.model';
-import {PEREODIC_SEVERITY_LIST} from '../mock/pereodic-severities-mock';
+import {Severity} from '../../model/severity.model';
+import {PEREODIC_SEVERITY_LIST} from '../../mock/pereodic-severities-mock';
 
 
 @Injectable({
