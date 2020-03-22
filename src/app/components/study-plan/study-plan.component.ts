@@ -61,6 +61,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public editMode = false;
   public expandedStudyPlan: StudyPlan | null;
   public studyPlanBackup: StudyPlan;
+  public studyPlanFromRequest: StudyPlan;
 
   displayedColumnsStudyPlans: string[] = ['name'];
   displayedColumnsSubjects: string[] = ['prototypes', 'add-icon'];
@@ -77,11 +78,22 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     // const token = this.route.snapshot.queryParamMap.get('token');
     // console.log(id);
     // console.log(token);
+
+    // TODO: Example usage, need to clear
     this.studyPlanService.getAuthToken().subscribe((result: any) => {
       console.log(result);
       this.localStorageService.setCurrentUserToken(result.tokenType + ' ' + result.accessToken);
     });
-    this.studyPlanService.getAllStudyPlans().subscribe(result => console.log(result));
+    this.studyPlanService.getAllStudyPlans().subscribe((result: StudyPlan[]) => {
+      console.log(result);
+      this.studyPlanFromRequest = result[1];
+      this.studyPlanFromRequest.name += '1';
+      console.log(this.studyPlanFromRequest);
+      this.studyPlanService.updateStudyPlan(this.studyPlanFromRequest).subscribe(res => {
+        console.log(res);
+        console.log('done');
+      });
+    });
 
 
     this.timetableService.getPlans();
