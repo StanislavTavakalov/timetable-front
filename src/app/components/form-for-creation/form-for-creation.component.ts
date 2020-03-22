@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormForCreationServiceService} from '../../services/form-for-creation-service.service';
 import {StudyPlan} from '../../model/study-plan.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
 import {Semester} from '../../model/semester.model';
 import {Subject} from '../../model/subject.model';
@@ -35,7 +35,9 @@ export class FormForCreationComponent implements OnInit {
   indexWeek: number;
 
 
-  constructor( private formForCreationServiceService: FormForCreationServiceService, public dialogRef: MatDialogRef<FormForCreationComponent>) {
+  constructor(private formForCreationServiceService: FormForCreationServiceService,
+              public dialogRef: MatDialogRef<FormForCreationComponent>,
+              @Inject(MAT_DIALOG_DATA) private data: any) {
   }
 
   ngOnInit() {
@@ -48,7 +50,7 @@ export class FormForCreationComponent implements OnInit {
     });
     this.formGroup.controls.coefficient.setValue(3);
     this.coefficient = 3;
-    this.formForCreationServiceService.getPlans().subscribe(plans => {
+    this.formForCreationServiceService.getPlansByLecternId(this.data.lectern).subscribe(plans => {
       this.plans = plans;
     });
     this.countOfSem = 0;
@@ -57,7 +59,6 @@ export class FormForCreationComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid && this.formGroupHours.valid) {
-
       this.plan.name = this.name;
       this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
@@ -91,7 +92,7 @@ export class FormForCreationComponent implements OnInit {
     } else if (num === 2) {
       this.coefficient = parseInt(event.currentTarget.value, 10);
     } else if (num === 1)  {
-        this.formForCreationServiceService.getPlanById(parseInt(event.value, 10)).subscribe(plan => {
+        this.formForCreationServiceService.getPlanById(event.value).subscribe(plan => {
 		    this.plan = plan;
 		    this.oldCountOfSem = this.plan.countOfSem;
 		  });
@@ -168,6 +169,9 @@ export class FormForCreationComponent implements OnInit {
   public updateWeeks() {
 	  this.weeks.forEach((weekCount) => {
 		  this.indexWeek = this.weeks.indexOf(weekCount);
+		  if (this.plan.weeks === null) {
+      this.plan.weeks = [];
+      }
 		  if (this.indexWeek < this.plan.weeks.length) {
 			  this.plan.weeks[this.indexWeek].count = this.weeks[this.indexWeek].count;
 		  } else {

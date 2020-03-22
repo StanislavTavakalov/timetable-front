@@ -4,6 +4,9 @@ import {Course} from '../model/course.model';
 import {Occupation} from '../model/occupation.model';
 import {Schedule} from '../model/shedule.model';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +18,10 @@ auth = 'Basic ' + btoa('test:test');
 
 httpOptions = {
     headers: new HttpHeaders({  'Content-Type': 'application/json', Authorization: this.auth})};
+
+
+httpOptions1 = {
+    headers: new HttpHeaders({  'Content-Type': 'application/json'})};
 
   private url = 'http://test:test@localhost:8080/';
   occu: Occupation;
@@ -40,11 +47,11 @@ httpOptions = {
   }
 
   getOccupations(): Observable<Occupation[]> {
-	const header = {
-	headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
- return this.http.get<Occupation[]>(this.url + 'occupation/', header);
+    return this.http.get<Occupation[]>(this.url + 'occupation/');
+  }
+
+  public getAuthToken() {
+    return this.http.post(environment.domain + 'api/auth/signin', {username: 'test', password: 'test'});
   }
 
   addOccupation(occupation: Occupation): Observable<Occupation> {

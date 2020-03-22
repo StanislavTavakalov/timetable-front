@@ -37,23 +37,24 @@ export class TimetableComponent implements OnInit {
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
 
 
-  constructor(private route: ActivatedRoute, private timetableService: TimetableService, private editableModeService: EditableModeService, private dialog: MatDialog, private overlay: Overlay) {
+  constructor(private route: ActivatedRoute,
+              private timetableService: TimetableService,
+              private editableModeService: EditableModeService,
+              private dialog: MatDialog, private overlay: Overlay) {
   }
 
   ngOnInit() {
+	this.selectedId = this.route.snapshot.paramMap.get('id');
+	if (this.selectedId === null) {
+     } else {
+        this.timetableService.getPlansByLecternId(this.selectedId).subscribe(plans => {
+			this.plans = plans;
+			this.selectedPlan = this.plans[0];
+			this.initializeData();
+		});
+     }
 
-    this.timetableService.getPlans().subscribe(plans => {
-      this.plans = plans;
-      this.selectedId = this.route.snapshot.paramMap.get('id');
-      if (this.selectedId === null) {
-        this.selectedPlan = this.plans[0];
-      } else {
-        this.selectedPlan = this.plans.find((plan) => {
-          return plan.id === this.selectedId;
-        });
-      }
-      this.initializeData();
-    });
+
 
   }
 
@@ -177,7 +178,7 @@ export class TimetableComponent implements OnInit {
     const dialogRef = this.dialog.open(FormForCreationComponent, {
       width: '30%',
       height: '80%',
-      data: {message: 'Создать новый учебный план'},
+      data: {lectern: this.selectedId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
 
@@ -193,7 +194,7 @@ export class TimetableComponent implements OnInit {
   }
 
   public reculculate() {
-	this.timetableService.getPlans().subscribe(plans => {
+	this.timetableService.getPlansByLecternId(this.selectedId).subscribe(plans => {
 		this.plans = plans;
 		this.table.renderRows();
 		});

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {StudyPlan} from '../model/study-plan.model';
-import {Observable, of} from 'rxjs';
-import {PLANS} from '../mock/plan-mock';
+import {Observable} from 'rxjs';
+
 
 
 @Injectable({
@@ -10,12 +10,12 @@ import {PLANS} from '../mock/plan-mock';
 })
 export class FormForCreationServiceService {
 
-auth = 'Basic ' + btoa('test:test');
+auth = 'Bearer ' + btoa('test:test');
 
 httpOptions = {
-    headers: new HttpHeaders({  'Content-Type': 'application/json', Authorization: this.auth})};
+    headers: new HttpHeaders({  'Content-Type': 'application/json'})};
 
-  private url = 'http://localhost:8080/';
+  private url = 'http://localhost:8080/api/';
 
   constructor(private http: HttpClient) {
   }
@@ -42,23 +42,20 @@ httpOptions = {
   }*/
 
   getPlans(): Observable<StudyPlan[]> {
-	const header = {
-	headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
- return this.http.get<StudyPlan[]>(this.url + 'studyplan/', header);
+    return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
   }
 
-  getPlanById(id: number): Observable<StudyPlan> {
-	const header = {
-	headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
- return this.http.get<StudyPlan>(this.url + 'studyplan/' + id, header);
+  getPlanById(id: string): Observable<StudyPlan> {
+    return this.http.get<StudyPlan>(this.url + 'studyplan/' + id);
   }
 
   editPlan(plan: StudyPlan): Observable<any> {
       return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
+  }
+
+  getPlansByLecternId(id: string): Observable<StudyPlan[]> {
+	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/lectern/' + id);
+   // return of(PLANS);
   }
 
 }

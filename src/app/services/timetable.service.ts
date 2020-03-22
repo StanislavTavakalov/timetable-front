@@ -2,19 +2,17 @@ import {Injectable} from '@angular/core';
 import {StudyPlan} from '../model/study-plan.model';
 import {Observable, of} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {PLANS} from '../mock/plan-mock';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimetableService {
 
-auth = 'Basic ' + btoa('test:test');
 
 httpOptions = {
-    headers: new HttpHeaders({  'Content-Type': 'application/json', Authorization: this.auth})};
+    headers: new HttpHeaders({  'Content-Type': 'application/json'})};
 
-  private url = 'http://localhost:8080/';
+  private url = 'http://localhost:8080/api/';
 
   constructor(private http: HttpClient) {
   }
@@ -31,24 +29,21 @@ httpOptions = {
   }*/
 
  getPlans(): Observable<StudyPlan[]> {
-	 const header = {
-	headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
-	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/', header);
+	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
+   // return of(PLANS);
+  }
+
+  getPlansByLecternId(id: string): Observable<StudyPlan[]> {
+	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/lectern/'+id);
    // return of(PLANS);
   }
 
   editPlan(plan: StudyPlan): Observable<any> {
       return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
   }
-  
-  getPlanById(id: number): Observable<StudyPlan> {
-	const header = {
-	headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
- return this.http.get<StudyPlan>(this.url + 'studyplan/' + id, header);
+
+  getPlanById(id: string): Observable<StudyPlan> {
+    return this.http.get<StudyPlan>(this.url + 'studyplan/' + id);
   }
-  
+
 }

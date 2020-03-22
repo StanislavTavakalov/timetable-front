@@ -29,7 +29,7 @@ export class CreateStudyPlanComponent implements OnInit {
     this.currentStudyPlan = this.data.currentStudyPlan;
     console.log(this.currentStudyPlan);
     this.educationFormList.push(EducationForm.FullTime, EducationForm.Extramural);
-    this.specialityList.push({id: '1', name: 'ISIT'}, {id: '2', name: 'POIT'});
+    this.specialityList.push({id: '1', descr: 'test', name: 'ISIT'}, {id: '2', descr: 'test', name: 'POIT'});
     if (this.currentStudyPlan != null) {
       this.initializeForm(this.currentStudyPlan);
     } else {
@@ -54,10 +54,10 @@ export class CreateStudyPlanComponent implements OnInit {
   private getErrorMessage(control: FormControl): string {
     let errorMessage = '';
     if (control.errors) {
-      if (control.errors['required']) {
+      if (control.errors.required) {
         errorMessage = 'Заполните имя';
       }
-      if (control.errors['maxlength']) {
+      if (control.errors.maxlength) {
         errorMessage = 'Max 15 digits';
       }
     }

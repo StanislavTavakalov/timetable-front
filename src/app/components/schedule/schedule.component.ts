@@ -13,6 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TimetableService} from '../../services/timetable.service';
 import {StudyPlan} from '../../model/study-plan.model';
 import {WEEKS} from '../../mock/course-mock';
+import {LocalStorageService} from '../../services/local-storage.service';
 
 
 @Component({
@@ -44,23 +45,31 @@ export class ScheduleComponent implements OnInit {
   selectedId: string;
 
 
-  constructor(private timetableService: TimetableService, private route: ActivatedRoute, private scheduleService: ScheduleService, private dialog: MatDialog, private overlay: Overlay) { }
+  constructor(private localStorageService: LocalStorageService,
+              private timetableService: TimetableService,
+              private route: ActivatedRoute,
+              private scheduleService: ScheduleService,
+              private dialog: MatDialog,
+              private overlay: Overlay) { }
 
   ngOnInit() {
 
-    this.scheduleService.getOccupations().subscribe(occupation => {
-      this.occupations = occupation;
-    });
-	   this.selectedId = this.route.snapshot.paramMap.get('id');
-	   if (this.selectedId === null) {
-     } else {
-        this.timetableService.getPlanById(parseInt(this.selectedId, 10)).subscribe(stydyplan => {
-		this.plan = stydyplan;
-		this.schedule = stydyplan.schedules[0];
-		});
-     }
-
-
+    this.scheduleService.getAuthToken().subscribe(
+      (result: any) => {
+        this.localStorageService.setCurrentUserToken(result.tokenType + ' ' + result.accessToken);
+        this.scheduleService.getOccupations().subscribe(occupation => {
+          this.occupations = occupation;
+        });
+        this.selectedId = this.route.snapshot.paramMap.get('id');
+        if (this.selectedId === null) {
+        } else {
+          this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
+            this.plan = stydyplan;
+            this.schedule = stydyplan.schedules[0];
+          });
+        }
+      }
+    );
   }
 
   saveSchedule() {
@@ -172,7 +181,7 @@ export class ScheduleComponent implements OnInit {
 		 this.plan.schedules[0] = this.schedule;
 	  }
 	  this.timetableService.editPlan(this.plan).subscribe(plan => {
-		this.timetableService.getPlanById(parseInt(this.selectedId, 10)).subscribe(stydyplan => {
+		this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
 		this.plan = stydyplan;
 		this.schedule = stydyplan.schedules[0];
 		});

@@ -16,7 +16,7 @@ export const PLANS: StudyPlan[] = [{
   educationForm: EducationForm.FullTime,
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
-  speciality: {id: '1', name: 'ISIT'},
+  speciality: {id: '1', descr: 'test', name: 'ISIT'},
   weeks: [{id: '600', count: 15}, {id: '601', count: 15}, {id: '602', count: 15}, {id: '603', count: 15}, {id: '604', count: 15}, {
     id: '605',
     count: 15
@@ -32,7 +32,7 @@ export const PLANS: StudyPlan[] = [{
   educationForm: EducationForm.FullTime,
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
-  speciality: {id: '2', name: 'POIT'},
+  speciality: {id: '2', descr: 'test', name: 'POIT'},
   weeks: [{id: '600', count: 15}, {id: '601', count: 15}, {id: '602', count: 15}, {id: '603', count: 15}, {id: '604', count: 15}, {
     id: '605',
     count: 15
@@ -49,7 +49,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     educationForm: EducationForm.FullTime,
     status: StudyPlanStatus.InDevelopment,
     statusApplyDate: new Date(),
-    speciality: {id: '2', name: 'POIT'},
+    speciality: {id: '2', descr: 'test', name: 'POIT'},
     isChanged: false,
     subjects: [{
       id: '1',
@@ -146,7 +146,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     educationForm: EducationForm.FullTime,
     status: StudyPlanStatus.InDevelopment,
     statusApplyDate: new Date(),
-    speciality: {id: '2', name: 'POIT'},
+    speciality: {id: '2', descr: 'test', name: 'POIT'},
     isChanged: false,
     subjects: [{
       id: '4',
@@ -221,7 +221,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
     educationForm: EducationForm.FullTime,
     status: StudyPlanStatus.InDevelopment,
     statusApplyDate: new Date(),
-    speciality: {id: '2', name: 'POIT'},
+    speciality: {id: '2', descr: 'test', name: 'POIT'},
     isChanged: false,
     subjects: [{
       id: '7',
