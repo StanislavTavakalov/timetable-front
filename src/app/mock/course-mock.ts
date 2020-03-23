@@ -55,8 +55,8 @@ export const WEEKS: Week[] = [{id: null, colspan: 1, occupation: null},
     {id: null, colspan: 1, occupation: null},
     {id: null, colspan: 1, occupation: null},
     {id: null, colspan: 1, occupation: null}
-    ]
-	;
+  ]
+;
 
 /*export const COURSES: Course[] = [{
   id: 100,

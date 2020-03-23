@@ -67,6 +67,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       freeHours: 0,
       numberOfDiscipline: '',
       isChanged: false,
+      isTemplate: false,
       position: 1
     },
       {
@@ -89,6 +90,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         freeHours: 0,
         numberOfDiscipline: '',
         isChanged: false,
+        isTemplate: false,
         position: 2
       },
       {
@@ -111,6 +113,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         freeHours: 0,
         numberOfDiscipline: '',
         isChanged: false,
+        isTemplate: false,
         position: 3
       },
       {
@@ -133,6 +136,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         freeHours: 0,
         numberOfDiscipline: '',
         isChanged: false,
+        isTemplate: false,
         position: 4
       }],
     countOfSem: 0, coefficient: 0, weeks: []
@@ -164,6 +168,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       freeHours: 0,
       numberOfDiscipline: '',
       isChanged: false,
+      isTemplate: false,
       position: 1
     },
       {
@@ -186,6 +191,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         freeHours: 0,
         numberOfDiscipline: '',
         isChanged: false,
+        isTemplate: false,
         position: 2
       },
       {
@@ -208,6 +214,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         freeHours: 0,
         numberOfDiscipline: '',
         isChanged: false,
+        isTemplate: false,
         position: 3
       }],
     countOfSem: 0, coefficient: 0, weeks: []
@@ -239,6 +246,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
       freeHours: 0,
       numberOfDiscipline: '',
       isChanged: false,
+      isTemplate: false,
       position: 1
     },
       {
@@ -261,6 +269,7 @@ export const STUDY_PLANS_MOCK: StudyPlan[] = [
         freeHours: 0,
         numberOfDiscipline: '',
         isChanged: false,
+        isTemplate: false,
         position: 2
       }],
     countOfSem: 0,
@@ -286,6 +295,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   },
   {
@@ -304,6 +314,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   },
   {
@@ -322,6 +333,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   },
   {
@@ -340,6 +352,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   },
   {
@@ -358,6 +371,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   },
   {
@@ -376,6 +390,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   },
   {
@@ -394,6 +409,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   },
   {
@@ -412,6 +428,7 @@ export const SUBJECTS_MOCK: Subject[] = [
     freeHours: 0,
     numberOfDiscipline: '',
     isChanged: false,
+    isTemplate: false,
     position: 0
   }
 ];

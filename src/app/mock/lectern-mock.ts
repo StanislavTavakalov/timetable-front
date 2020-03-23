@@ -2,10 +2,10 @@ import {Lectern} from '../model/lectern.model';
 import {User} from '../model/user.model';
 
 export const LECTERNS: Lectern[] = [
-{id: '1', fullname: 'qweqweqqwe1', name: 'eqweqw1', specialities: null},
-{id: '2', fullname: 'qweqweqqwe2', name: 'eqweqw2', specialities: null},
-{id: '3', fullname: 'qweqweqqwe3', name: 'eqweqw3', specialities: null},
-{id: '4', fullname: 'qweqweqqwe4', name: 'eqweqw4', specialities: null}];
+{id: '1', fullname: 'qweqweqqwe1', name: 'eqweqw1'},
+{id: '2', fullname: 'qweqweqqwe2', name: 'eqweqw2'},
+{id: '3', fullname: 'qweqweqqwe3', name: 'eqweqw3'},
+{id: '4', fullname: 'qweqweqqwe4', name: 'eqweqw4'}];
 
 
 export const USERS: User[] = [

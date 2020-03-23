@@ -17,6 +17,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'Высшая математика', sumOfHours: 100, freeHours: 40,
     isChanged: false,
+    isTemplate: false,
     position: 1
   },
   {
@@ -30,6 +31,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -43,6 +45,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -56,6 +59,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -69,6 +73,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -82,6 +87,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -95,6 +101,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -108,6 +115,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -121,6 +129,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -134,6 +143,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   },
   {
@@ -147,6 +157,7 @@ export const SUBJECTS: Subject[] = [
     }],
     department: 'ИСИТ', sumOfHours: 100, freeHours: 52,
     isChanged: false,
+    isTemplate: false,
     position: 2
   }
 ];
@@ -164,6 +175,7 @@ export const SUBJECTS1: Subject[] = [
     }],
     department: 'ПОВТ', sumOfHours: 450, freeHours: 72,
     isChanged: false,
+    isTemplate: false,
     position: 1
   }
 ];
@@ -180,6 +192,7 @@ export const SUBJECTS_EXAMPLES: Subject[] = [
     }],
     department: 'ПОВТ', sumOfHours: 12, freeHours: 72,
     isChanged: false,
+    isTemplate: false,
     position: 1
   }
 ];
