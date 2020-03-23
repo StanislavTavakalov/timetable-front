@@ -1,4 +1,3 @@
-
 <!-- Toolbar -->
 <mat-toolbar class="toolbar" role="banner">
   <img
@@ -8,10 +7,34 @@
     src="../assets/bntu-logo2.gif"
   />
   <span style="font-size: 20px">БНТУ</span>
-  <nav mat-tab-nav-bar >
+
+<!--   This is (lectern !== null) ? lectern.name : '' a check not to get errors in console
+       because initialization of header earlier than we get an object
+ -->
+  <p style="padding-left: 5%" *ngIf="tabsType === 'LECTERN'"> Кафедра:{{(lectern !== null) ? lectern.name : '' }}</p>
+
+
+
+
+
+  <nav mat-tab-nav-bar *ngIf="tabsType === 'DEANERY' ">
     <a mat-tab-link
        *ngFor="let link of navLinks"
-       [routerLink]="link.path"
+       [routerLink]="link.path "
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{link.label}}
+    </a>
+  </nav>
+
+
+<!--  This is ((lectern !== null) ? lectern.id : '') a check not to get errors in console,
+      because initialization of header earlier than we get an object
+  -->
+  <nav mat-tab-nav-bar *ngIf="tabsType === 'LECTERN'">
+    <a mat-tab-link
+       *ngFor="let link of lecternNavLinks"
+       [routerLink]="'/lectern/' + ((lectern !== null) ? lectern.id : '') + link.path"
        routerLinkActive #rla="routerLinkActive"
        [active]="rla.isActive">
       {{link.label}}

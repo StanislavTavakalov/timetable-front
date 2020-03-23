@@ -17,7 +17,7 @@ export class StudyPlanService {
   }
 
   public getAllStudyPlans() {
-    return this.http.get(environment.domain + 'api/studyplan/studyplan-list');
+    return this.http.get(environment.domain + 'api/studyplan/');
   }
 
   public updateStudyPlan(studyPlan: StudyPlan) {

@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {StudyPlanComponent} from './components/study-plan/study-plan.component';
-import { TimetableComponent} from './components/timetable/timetable.component';
-import { EditableModeComponent} from './components/editable-mode/editable-mode.component';
-import { FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
+import {TimetableComponent} from './components/timetable/timetable.component';
+import {EditableModeComponent} from './components/editable-mode/editable-mode.component';
+import {FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
 import {ScheduleComponent} from './components/schedule/schedule.component';
 import {CreateOccupationComponent} from './components/create-occupation/create-occupation.component';
-import { DeaneryComponent } from './components/deanery/deanery.component';
-
+import {DeaneryComponent} from './components/deanery/deanery.component';
+import {SpecialitiesComponent} from './components/specialities/specialities.component';
+import {SubjectsComponent} from './components/subjects/subjects.component';
+import {TeachersComponent} from './components/teachers/teachers.component';
 
 
 const routes: Routes = [
-  {path: 'study-plan', component: StudyPlanComponent},
   {path: 'timetable/:id', component: TimetableComponent},
   {path: 'creation', component: FormForCreationComponent},
   {path: 'timetable', component: TimetableComponent},
@@ -19,14 +20,19 @@ const routes: Routes = [
   {path: 'schedule/:id', component: ScheduleComponent},
   {path: 'edit', component: EditableModeComponent},
   {path: 'edit1', component: CreateOccupationComponent},
-  {path: 'lectern/:id', component: StudyPlanComponent},
-  { path: 'deanery', component: DeaneryComponent },
-  { path: 'deanery/:id', component: DeaneryComponent },
-  {path: '**', redirectTo: 'study-plan'}
+  {path: 'deanery', component: DeaneryComponent},
+  {path: 'deanery/:id', component: DeaneryComponent},
+  {path: 'lectern/:id', component: SpecialitiesComponent},
+  {path: 'lectern/:id/study-plans', component: StudyPlanComponent},
+  {path: 'lectern/:id/subjects', component: SubjectsComponent},
+  {path: 'lectern/:id/specialities', component: SpecialitiesComponent},
+  {path: 'lectern/:id/teachers', component: TeachersComponent},
+  {path: '**', redirectTo: 'lectern/:id'}
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

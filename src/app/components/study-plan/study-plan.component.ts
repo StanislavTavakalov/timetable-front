@@ -16,9 +16,9 @@ import {EditSubjectComponent} from '../dialogs/edit-subject/edit-subject.compone
 import {PereodicSeverityService} from '../../services/lectern/pereodic-severity.service';
 import {TimetableService} from '../../services/timetable.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
 import {StudyPlanService} from '../../services/lectern/study-plan.service';
 import {LocalStorageService} from '../../services/local-storage.service';
+import {HeaderType} from '../../model/header-type';
 
 @Component({
   selector: 'app-study-plan',
@@ -78,6 +78,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     // const token = this.route.snapshot.queryParamMap.get('token');
     // console.log(id);
     // console.log(token);
+
 
     // TODO: Example usage, need to clear
     this.studyPlanService.getAuthToken().subscribe((result: any) => {

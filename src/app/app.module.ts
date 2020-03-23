@@ -19,6 +19,9 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { CreateOccupationComponent } from './components/create-occupation/create-occupation.component';
 import { DeaneryComponent } from './components/deanery/deanery.component';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
+import { SpecialitiesComponent } from './components/specialities/specialities.component';
+import { TeachersComponent } from './components/teachers/teachers.component';
+import { SubjectsComponent } from './components/subjects/subjects.component';
 
 
 @NgModule({
@@ -33,6 +36,9 @@ import {JwtInterceptor} from './interceptors/jwt.interceptor';
     ScheduleComponent,
     CreateOccupationComponent,
     DeaneryComponent,
+    SpecialitiesComponent,
+    TeachersComponent,
+    SubjectsComponent,
   ],
   imports: [
     BrowserModule,
