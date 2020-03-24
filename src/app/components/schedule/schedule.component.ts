@@ -170,12 +170,12 @@ export class ScheduleComponent implements OnInit {
       this.schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
       this.plan.schedules[0] = this.schedule;
     }
-    this.timetableService.editPlan(this.plan).subscribe(plan =>
-      this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
-        this.plan = stydyplan;
-        this.schedule = stydyplan.schedules[0];
-      });
-  });
-}
+	  this.timetableService.editPlan(this.plan).subscribe(plan => {
+		this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
+		this.plan = stydyplan;
+		this.schedule = stydyplan.schedules[0];
+		});
+	});
+  }
 
 }
