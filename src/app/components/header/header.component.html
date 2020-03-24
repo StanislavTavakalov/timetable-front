@@ -19,8 +19,8 @@
 
   <nav mat-tab-nav-bar *ngIf="tabsType === 'DEANERY' ">
     <a mat-tab-link
-       *ngFor="let link of navLinks"
-       [routerLink]="link.path "
+       *ngFor="let link of deaneryLinks"
+       [routerLink]="'/deanery/' + ((deanery !== null) ? deanery.id : '') + link.path"
        routerLinkActive #rla="routerLinkActive"
        [active]="rla.isActive">
       {{link.label}}
@@ -31,7 +31,7 @@
 <!--  This is ((lectern !== null) ? lectern.id : '') a check not to get errors in console,
       because initialization of header earlier than we get an object
   -->
-  <nav mat-tab-nav-bar *ngIf="tabsType === 'LECTERN'">
+  <nav  mat-tab-nav-bar *ngIf="tabsType === 'LECTERN'">
     <a mat-tab-link
        *ngFor="let link of lecternNavLinks"
        [routerLink]="'/lectern/' + ((lectern !== null) ? lectern.id : '') + link.path"

@@ -1,14 +1,13 @@
-﻿import {Component, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
+﻿import {Component, OnInit, ViewChild} from '@angular/core';
 import {Subject} from '../../model/subject.model';
 import {StudyPlan} from '../../model/study-plan.model';
 import {TimetableService} from '../../services/timetable.service';
 import {EditableModeService} from '../../services/editable-mode.service';
-import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
-import {MatDialog, MatRow, MatTable, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatTable} from '@angular/material';
 import {FormForCreationComponent} from '../form-for-creation/form-for-creation.component';
 import {Overlay} from '@angular/cdk/overlay';
-import {PLANS} from '../../mock/plan-mock';
 import {ActivatedRoute} from '@angular/router';
+import {Lectern} from '../../model/lectern.model';
 
 
 @Component({
@@ -18,8 +17,6 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class TimetableComponent implements OnInit {
   selectedPlan: StudyPlan;
-
-
   plans: StudyPlan[];
   num: number;
   num1: number;
@@ -31,8 +28,8 @@ export class TimetableComponent implements OnInit {
   displayedColumnsStudyPlans: string[] = ['name'];
   subject: Subject;
   updatedPlan: StudyPlan;
-  selectedId: string;
-  oldFreeHours: number;
+  lecternId: string;
+  lectern: Lectern;
 
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
 
@@ -44,31 +41,32 @@ export class TimetableComponent implements OnInit {
   }
 
   ngOnInit() {
-	this.selectedId = this.route.snapshot.paramMap.get('id');
-	if (this.selectedId === null) {
-     } else {
-        this.timetableService.getPlansByLecternId(this.selectedId).subscribe(plans => {
-			this.plans = plans;
-			this.selectedPlan = this.plans[0];
-			this.initializeData();
-		});
-     }
+    this.lecternId = this.route.snapshot.paramMap.get('id');
+    if (this.lecternId != null) {
+      this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {
+        this.plans = plans;
+        this.selectedPlan = this.plans[0];
+        this.initializeData();
+      });
+      this.timetableService.getLecternById(this.lecternId).subscribe(lectern => {
+        this.lectern = lectern;
+      });
 
-
-
+    }
   }
 
   private initializeData(): void {
-
-    this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
-    this.semsEven = this.selectedPlan.countOfSem;
-    if (this.selectedPlan.countOfSem % 2 !== 0) {
-      this.semsEven = this.selectedPlan.countOfSem + 1;
+    if (this.selectedPlan != null) {
+      this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
+      this.semsEven = this.selectedPlan.countOfSem;
+      if (this.selectedPlan.countOfSem % 2 !== 0) {
+        this.semsEven = this.selectedPlan.countOfSem + 1;
+      }
+      this.semsLost = this.semsEven - this.selectedPlan.countOfSem;
+      this.cources = this.semsEven / 2;
+      this.num = this.cources * 2 + 4;
+      this.num1 = this.cources * 2;
     }
-    this.semsLost = this.semsEven - this.selectedPlan.countOfSem;
-    this.cources = this.semsEven / 2;
-    this.num = this.cources * 2 + 4;
-    this.num1 = this.cources * 2;
   }
 
   onSelect(plan: StudyPlan): void {
@@ -88,14 +86,14 @@ export class TimetableComponent implements OnInit {
 
   public add(): void {
     this.selectedPlan = JSON.parse(JSON.stringify(this.editPlan));
-	   this.timetableService.editPlan(this.selectedPlan).subscribe();
-    // this.editableModeService.editPlan(this.editPlan).subscribe((plan) => {
-    // });
+    this.timetableService.editPlan(this.selectedPlan).subscribe();
   }
 
   public exitEditableMode(): void {
-    this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
-    this.editModeOff();
+    if (this.selectedPlan != null) {
+      this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
+      this.editModeOff();
+    }
   }
 
   public changeNumber(event, id): void {
@@ -131,8 +129,6 @@ export class TimetableComponent implements OnInit {
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10);
     this.subject.semesters[numberOfSem].creditUnits = Math.round(parseInt(event.currentTarget.value, 10) / this.selectedPlan.coefficient);
     this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10) * this.selectedPlan.weeks[numberOfSem].count;
-
-
   }
 
   public changeCreditUnit(event, id, numberOfSem): void {
@@ -178,7 +174,7 @@ export class TimetableComponent implements OnInit {
     const dialogRef = this.dialog.open(FormForCreationComponent, {
       width: '30%',
       height: '80%',
-      data: {lectern: this.selectedId},
+      data: {lectern: this.lecternId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
 
@@ -186,19 +182,18 @@ export class TimetableComponent implements OnInit {
       if (result != null) {
         this.updatedPlan = result;
         this.reculculate();
-		      this.table.renderRows();
-
+        this.table.renderRows();
+        this.timetableService.editPlan(this.updatedPlan).subscribe();
       }
-
     });
   }
 
   public reculculate() {
-	this.timetableService.getPlansByLecternId(this.selectedId).subscribe(plans => {
-		this.plans = plans;
-		this.table.renderRows();
-		});
- if (this.updatedPlan.id = this.selectedPlan.id) {
+    this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {
+      this.plans = plans;
+      this.table.renderRows();
+    });
+    if (this.updatedPlan.id = this.selectedPlan.id) {
       this.selectedPlan = JSON.parse(JSON.stringify(this.updatedPlan));
       this.editPlan = JSON.parse(JSON.stringify(this.updatedPlan));
       this.semsEven = this.selectedPlan.countOfSem;
@@ -211,5 +206,4 @@ export class TimetableComponent implements OnInit {
       this.num1 = this.cources * 2;
     }
   }
-
 }

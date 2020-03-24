@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {StudyPlan} from '../model/study-plan.model';
 import {Observable, of} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Speciality} from '../model/speciality.model';
+import {Lectern} from '../model/lectern.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +31,11 @@ httpOptions = {
   }*/
 
  getPlans(): Observable<StudyPlan[]> {
-	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
-   // return of(PLANS);
+      return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
   }
 
   getPlansByLecternId(id: string): Observable<StudyPlan[]> {
-	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/lectern/'+id);
-   // return of(PLANS);
+      return this.http.get<StudyPlan[]>(this.url + 'studyplan/lectern/' + id);
   }
 
   editPlan(plan: StudyPlan): Observable<any> {
@@ -45,5 +45,7 @@ httpOptions = {
   getPlanById(id: string): Observable<StudyPlan> {
     return this.http.get<StudyPlan>(this.url + 'studyplan/' + id);
   }
-
+  getLecternById(id: string): Observable<Lectern> {
+    return this.http.get<Lectern>(this.url + 'lectern/' + id);
+}
 }

@@ -13,14 +13,11 @@ import {TeachersComponent} from './components/teachers/teachers.component';
 
 
 const routes: Routes = [
-  {path: 'timetable/:id', component: TimetableComponent},
+  {path: 'lectern/:id/distribution_courses_semesters', component: TimetableComponent},
   {path: 'creation', component: FormForCreationComponent},
-  {path: 'timetable', component: TimetableComponent},
-  {path: 'schedule', component: ScheduleComponent},
-  {path: 'schedule/:id', component: ScheduleComponent},
+  {path: 'lectern/:id/schedule/:idStudyPlan', component: ScheduleComponent},
   {path: 'edit', component: EditableModeComponent},
   {path: 'edit1', component: CreateOccupationComponent},
-  {path: 'deanery', component: DeaneryComponent},
   {path: 'deanery/:id', component: DeaneryComponent},
   {path: 'lectern/:id', component: SpecialitiesComponent},
   {path: 'lectern/:id/study-plans', component: StudyPlanComponent},

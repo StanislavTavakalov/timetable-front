@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import {Course} from '../../model/course.model';
-import {Week} from '../../model/week.model';
 import {ScheduleService} from '../../services/schedule.service';
 import {Occupation} from '../../model/occupation.model';
 import {Overlay} from '@angular/cdk/overlay';
@@ -37,11 +36,8 @@ export class ScheduleComponent implements OnInit {
   occupations: Occupation[] = [];
   newOccupation: Occupation;
   oldOccupation: Occupation;
-  curCourse: Course;
   newOccupationCounter: OccupationCounter = new OccupationCounter();
   newOccupationCounterCourse: OccupationCounterCourse = new OccupationCounterCourse();
-  new1: OccupationCounter;
-  new2: OccupationCounterCourse;
   selectedId: string;
 
 
@@ -96,10 +92,10 @@ export class ScheduleComponent implements OnInit {
         });
         this.schedule.countOccupation.push(this.newOccupationCounter);
         this.scheduleService.saveSchedule(this.schedule).subscribe(sc => {
-			this.scheduleService.getShedule().subscribe(schedule => {
-			this.schedule = schedule[0];
-			});
-		});
+        this.scheduleService.getShedule().subscribe(schedule => {
+        this.schedule = schedule[0];
+          });
+        });
       }
     });
   }
@@ -129,63 +125,57 @@ export class ScheduleComponent implements OnInit {
   }
 
   addCourse() {
-	  this.occupationCounterList = [];
-	  this.occupationCounterCourseList = [];
-	  this.occupations.forEach((occupation) => {
-			 if (occupation.symbol === ' ') {
-				 this.occupationHoliday = occupation;
+    this.occupationCounterList = [];
+    this.occupationCounterCourseList = [];
+    this.occupations.forEach((occupation) => {
+      if (occupation.symbol === ' ') {
+        this.occupationHoliday = occupation;
+        this.occupationCounter.count = 52;
+        this.occupationCounter.occupation = occupation;
+        this.occupationCounterList.push(JSON.parse(JSON.stringify(this.occupationCounter)));
+        this.occupationCounterCourse.count = 52;
+        this.occupationCounterCourse.occupation = occupation;
+        this.occupationCounterCourseList.push(JSON.parse(JSON.stringify(this.occupationCounterCourse)));
+      } else {
+        this.occupationCounter.count = 0;
+        this.occupationCounter.occupation = occupation;
+        this.occupationCounterList.push(JSON.parse(JSON.stringify(this.occupationCounter)));
+        this.occupationCounterCourse.count = 0;
+        this.occupationCounterCourse.occupation = occupation;
+        this.occupationCounterCourseList.push(JSON.parse(JSON.stringify(this.occupationCounterCourse)));
+      }
+    });
 
-				 this.occupationCounter.count = 52;
-				 this.occupationCounter.occupation = occupation;
-				 this.occupationCounterList.push(JSON.parse(JSON.stringify(this.occupationCounter)));
-
-				 this.occupationCounterCourse.count = 52;
-				 this.occupationCounterCourse.occupation = occupation;
-				 this.occupationCounterCourseList.push(JSON.parse(JSON.stringify(this.occupationCounterCourse)));
-
-			 } else {
-				 this.occupationCounter.count = 0;
-				 this.occupationCounter.occupation = occupation;
-				 this.occupationCounterList.push(JSON.parse(JSON.stringify(this.occupationCounter)));
-
-				 this.occupationCounterCourse.count = 0;
-				 this.occupationCounterCourse.occupation = occupation;
-				 this.occupationCounterCourseList.push(JSON.parse(JSON.stringify(this.occupationCounterCourse)));
-			 }
-
-		 });
-
-		 this.course.countOccupation = JSON.parse(JSON.stringify(this.occupationCounterCourseList));
-		 this.course.weeks = JSON.parse(JSON.stringify(WEEKS));
-		 this.course.weeks.forEach((week) => {
-			 week.occupation = this.occupationHoliday;
-		 });
-		 this.course.total = 52;
-
-	  if (this.plan.schedules.length === 0) {
-		 this.course.name = '1';
-		 this.scheduleNew.courses = this.courseList;
-		 this.scheduleNew.courses.push(JSON.parse(JSON.stringify(this.course)));
-		 this.scheduleNew.countOccupation = JSON.parse(JSON.stringify(this.occupationCounterList));
-		 this.schedule = JSON.parse(JSON.stringify(this.scheduleNew));
-		 this.plan.schedules.push(this.schedule);
-	  } else {
-		 this.nameNew = parseInt(this.schedule.courses[this.schedule.courses.length - 1].name) + 1;
-		 this.course.name = this.nameNew + '';
-		 this.schedule.countOccupation.forEach((count) => {
-			 if (count.occupation.symbol === ' ') {
-				 count.count = count.count + 52;
-			 }
-		 });
-		 this.schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
-		 this.plan.schedules[0] = this.schedule;
-	  }
-	  this.timetableService.editPlan(this.plan).subscribe(plan => {
-		this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
-		this.plan = stydyplan;
-		this.schedule = stydyplan.schedules[0];
-		});
-	});
-  }
+    this.course.countOccupation = JSON.parse(JSON.stringify(this.occupationCounterCourseList));
+    this.course.weeks = JSON.parse(JSON.stringify(WEEKS));
+    this.course.weeks.forEach((week) => {
+      week.occupation = this.occupationHoliday;
+    });
+    this.course.total = 52;
+    if (this.plan.schedules.length === 0) {
+      this.course.name = '1';
+      this.scheduleNew.courses = this.courseList;
+      this.scheduleNew.courses.push(JSON.parse(JSON.stringify(this.course)));
+      this.scheduleNew.countOccupation = JSON.parse(JSON.stringify(this.occupationCounterList));
+      this.schedule = JSON.parse(JSON.stringify(this.scheduleNew));
+      this.plan.schedules.push(this.schedule);
+    } else {
+      this.nameNew = parseInt(this.schedule.courses[this.schedule.courses.length - 1].name) + 1;
+      this.course.name = this.nameNew + '';
+      this.schedule.countOccupation.forEach((count) => {
+        if (count.occupation.symbol === ' ') {
+          count.count = count.count + 52;
+        }
+      });
+      this.schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
+      this.plan.schedules[0] = this.schedule;
+    }
+    this.timetableService.editPlan(this.plan).subscribe(plan =>
+      this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
+        this.plan = stydyplan;
+        this.schedule = stydyplan.schedules[0];
+      });
+  });
+}
 
 }

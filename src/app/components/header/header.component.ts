@@ -3,6 +3,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {of, Subscription} from 'rxjs';
 import {HeaderType} from '../../model/header-type';
 import {Lectern} from '../../model/lectern.model';
+import {Deanery} from '../../model/deanery.model';
 
 @Component({
   selector: 'app-header',
@@ -12,14 +13,9 @@ import {Lectern} from '../../model/lectern.model';
 export class HeaderComponent implements OnInit, OnDestroy {
 
 
-  // TODO: NIKITA RENAME AND CONFIGURE FOR DEANERY
-  navLinks = [{
-    path: '/study-plans',
-    label: 'Учебный план',
-    isActive: true
-  }, {
-    path: '/timetable',
-    label: 'Расписание занятий',
+  deaneryLinks = [{
+    path: '/deanery',
+    label: 'Деканат',
     isActive: true
   }];
 
@@ -39,13 +35,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     path: '/teachers',
     label: 'Преподаватели',
     isActive: true
+  }, {
+    path: '/distribution_courses_semesters',
+    label: 'Распределение по курсам и семестрам',
+    isActive: true
   },
   ];
 
   tabsType: HeaderType;
   lectern: Lectern;
+  deanery: Deanery;
   headerValueSubscription: Subscription;
   lecternSubscription: Subscription;
+  deanerySubscription: Subscription;
 
   constructor(private localStorageService: LocalStorageService) {
   }
@@ -58,11 +60,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.lecternSubscription = this.localStorageService.observableLectern.subscribe(lectern =>
       this.lectern = lectern);
+
+    this.deanerySubscription = this.localStorageService.observableDeanery.subscribe(deanery =>
+      this.deanery = deanery);
   }
 
   ngOnDestroy() {
     this.headerValueSubscription.unsubscribe();
     this.lecternSubscription.unsubscribe();
+    this.deanerySubscription.unsubscribe();
   }
 
 }
