@@ -10,7 +10,6 @@ import {MaterialModule} from './material';
 import { HeaderComponent } from './components/header/header.component';
 import {TimetableComponent} from './components/timetable/timetable.component';
 import {FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
-import {EditableModeComponent} from './components/editable-mode/editable-mode.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {DialogsModule} from './components/dialogs/dialogs.module';
@@ -36,7 +35,6 @@ import { DeaneryStaffComponent } from './components/deanery-staff/deanery-staff.
     HeaderComponent,
     TimetableComponent,
     FormForCreationComponent,
-    EditableModeComponent,
     EditStudyPlanComponent,
     ScheduleComponent,
     CreateOccupationComponent,

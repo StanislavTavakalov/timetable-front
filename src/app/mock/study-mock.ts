@@ -7,7 +7,7 @@ import {PEREODIC_SEVERITY_EXAMS, PEREODIC_SEVERITY_RGR} from './pereodic-severit
 export const SUBJECTS: Subject[] = [
   {
     id: '1',
-    numberOfDiscipline: '1.1', name: 'Математика', abbreviation: 'Мат',
+    name: 'Математика', abbreviation: 'Мат',
     semesters: SEMS,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -21,7 +21,7 @@ export const SUBJECTS: Subject[] = [
     position: 1
   },
   {
-    id: '2', numberOfDiscipline: '1.2', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '2', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -35,7 +35,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '3', numberOfDiscipline: '1.3', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '3', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2',  severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -49,7 +49,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '4', numberOfDiscipline: '1.4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1',  severity: SEVERITY_EXAM, hours: 4}, {id: '2',  severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1',  severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -63,7 +63,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '5', numberOfDiscipline: '1.5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -77,7 +77,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '4', numberOfDiscipline: '1.4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -91,7 +91,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '5', numberOfDiscipline: '1.5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1',  severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -105,7 +105,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '4', numberOfDiscipline: '1.4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -119,7 +119,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '5', numberOfDiscipline: '1.5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [{id: '2', number: 2}]}, {
@@ -133,7 +133,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '4', numberOfDiscipline: '1.4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '4', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -147,7 +147,7 @@ export const SUBJECTS: Subject[] = [
     position: 2
   },
   {
-    id: '5', numberOfDiscipline: '1.5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
+    id: '5', name: 'Объектно-ориентированное программирование', abbreviation: 'ООП',
     semesters: SEMS1,
     severities: [{id: '1', severity: SEVERITY_EXAM, hours: 4}, {id: '2',  severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers: [{id: '2', number: 2}]}, {
@@ -165,7 +165,7 @@ export const SUBJECTS: Subject[] = [
 
 export const SUBJECTS1: Subject[] = [
   {
-    id: '3', numberOfDiscipline: '1.3', name: 'Языки программирования', abbreviation: 'ЯП',
+    id: '3', name: 'Языки программирования', abbreviation: 'ЯП',
     semesters: SEMS1,
     severities: [{id: '1',  severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1', severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {
@@ -182,7 +182,7 @@ export const SUBJECTS1: Subject[] = [
 
 export const SUBJECTS_EXAMPLES: Subject[] = [
   {
-    id: '3', numberOfDiscipline: '1.3', name: 'Языки программирования', abbreviation: 'ЯП',
+    id: '3', name: 'Языки программирования', abbreviation: 'ЯП',
     semesters: SEMS1,
     severities: [{id: '1',  severity: SEVERITY_EXAM, hours: 4}, {id: '2', severity: SEVERITY_LABS, hours: 4}],
     pereodicSeverities: [{id: '1',  severity: PEREODIC_SEVERITY_EXAMS, semesterNumbers:  [{id: '2', number: 2}]}, {

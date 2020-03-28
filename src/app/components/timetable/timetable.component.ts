@@ -96,12 +96,6 @@ export class TimetableComponent implements OnInit {
     }
   }
 
-  public changeNumber(event, id): void {
-    this.editPlan.subjects.find((discipline) => {
-      return discipline.id === id;
-    }).numberOfDiscipline = event.currentTarget.value;
-  }
-
   public changeName(event, id): void {
     this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
@@ -118,8 +112,6 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
-
-
     if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10) * this.selectedPlan.weeks[numberOfSem].count) < 0) {
       window.alert('Превышены свободные часы');
       event.currentTarget.style.background = 'red';

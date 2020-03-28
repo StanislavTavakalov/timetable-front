@@ -12,7 +12,6 @@ export class Subject {
   public department: string;
   public sumOfHours: number;
   public freeHours: number;
-  public numberOfDiscipline: string;
   public isTemplate: boolean;
   public isChanged = false;
   public position: number;

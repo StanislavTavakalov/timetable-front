@@ -50,7 +50,7 @@
         </tr>
         <ng-container *ngIf="!editMode" >
           <tr *ngFor="let discipline of selectedPlan?.subjects">
-                 <td>{{discipline.numberOfDiscipline}}</td>
+            <td>{{discipline.position}}</td>
             <td colspan="2"  >{{discipline.name}}</td>
             <td  *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{discipline.semesters[i]?.hoursPerWeek}} / {{discipline.semesters[i]?.creditUnits }} </td>
             <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
@@ -59,8 +59,7 @@
          </ng-container>
         <ng-container *ngIf="editMode" >
           <tr *ngFor="let discipline of editPlan?.subjects">
-            <td><input (change)="changeNumber($event,discipline.id)" class="input3" value="{{discipline?.numberOfDiscipline}}">
-            </td>
+            <td>{{discipline.position}}</td>
             <td colspan="2"><input  (change)="changeName($event,discipline.id)" class="input3" value="{{discipline?.name}}"></td>
             <td  *ngFor="let dummy of ' '.repeat(editPlan.countOfSem).split(''), let i = index"><input
               (change)="changeHoursPerWeek($event,discipline.id,i)" class="input1"
