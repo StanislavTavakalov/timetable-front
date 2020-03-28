@@ -1,0 +1,95 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th .name {
+  width: 25%;
+}
+
+td, th .abbreviation {
+  width: 10%;
+}
+
+
+td, th .description {
+  width: 55%;
+}
+
+td, th .icons {
+  width: 5%;
+}
+
+
+
+table{
+  width: 100%;
+}
+
+/*.mat-column-abbreviation {*/
+/*  word-wrap: break-word !important;*/
+/*  white-space: unset !important;*/
+/*  flex: 0 0 6% !important;*/
+/*  width: 6% !important;*/
+/*  overflow-wrap: break-word;*/
+/*  word-wrap: break-word;*/
+
+/*  word-break: break-word;*/
+
+/*  -ms-hyphens: auto;*/
+/*  -moz-hyphens: auto;*/
+/*  -webkit-hyphens: auto;*/
+/*  hyphens: auto;*/
+/*}*/
+
+/*.mat-column-name {*/
+/*  word-wrap: break-word !important;*/
+/*  white-space: unset !important;*/
+/*  flex: 0 0 20% !important;*/
+/*  width: 20% !important;*/
+/*  overflow-wrap: break-word;*/
+/*  word-wrap: break-word;*/
+
+/*  word-break: break-word;*/
+
+/*  -ms-hyphens: auto;*/
+/*  -moz-hyphens: auto;*/
+/*  -webkit-hyphens: auto;*/
+/*  hyphens: auto;*/
+/*}*/
+
+/*.mat-column-description {*/
+/*  word-wrap: break-word !important;*/
+/*  white-space: unset !important;*/
+/*  flex: 0 0 36% !important;*/
+/*  width: 36% !important;*/
+/*  overflow-wrap: break-word;*/
+/*  word-wrap: break-word;*/
+
+/*  word-break: break-word;*/
+
+/*  -ms-hyphens: auto;*/
+/*  -moz-hyphens: auto;*/
+/*  -webkit-hyphens: auto;*/
+/*  hyphens: auto;*/
+/*}*/
+
+/*.mat-column-icons {*/
+/*  word-wrap: break-word !important;*/
+/*  white-space: unset !important;*/
+/*  flex: 0 0 4% !important;*/
+/*  width: 4% !important;*/
+/*  overflow-wrap: break-word;*/
+/*  word-wrap: break-word;*/
+
+/*  word-break: break-word;*/
+
+/*  -ms-hyphens: auto;*/
+/*  -moz-hyphens: auto;*/
+/*  -webkit-hyphens: auto;*/
+/*  hyphens: auto;*/
+/*}*/

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {HeaderType} from '../../model/header-type';
 import {LocalStorageService} from '../../services/local-storage.service';
 
 @Component({

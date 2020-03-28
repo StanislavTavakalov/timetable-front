@@ -1,0 +1,48 @@
+<mat-form-field>
+  <mat-label>Фильтр</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по специальностям...">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table #specialityTable mat-table [dataSource]="dataSource" matSort>
+
+    <!-- Abbreviation Column -->
+    <ng-container matColumnDef="abbreviation">
+      <th style="width: 10%" mat-header-cell  class="abbreviation" *matHeaderCellDef  mat-sort-header> Аббревиатура </th>
+      <td style="width: 10%" mat-cell class="abbreviation" *matCellDef="let row"> {{row.abbreviation}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th style="width: 25%" mat-header-cell  *matHeaderCellDef mat-sort-header> Название </th>
+      <td style="width: 25%" mat-cell  *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th style="width: 45%" mat-header-cell class="description" *matHeaderCellDef mat-sort-header> Описание специальности</th>
+      <td style="width: 45%" mat-cell class="description" *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <!-- Icons Column -->
+    <ng-container matColumnDef="icons">
+      <th style="width: 10%" mat-header-cell class="icons" *matHeaderCellDef></th>
+      <td style="width: 10%; text-align: end" mat-cell class="icons" *matCellDef="let speciality">
+         <span class="material-icons" (click)="editSpeciality(speciality)" style="cursor: pointer">
+             edit
+         </span>
+        <span class="material-icons"  (click)="deleteSpeciality(speciality)" style="cursor: pointer">
+             delete
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>
+
+

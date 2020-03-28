@@ -1,0 +1,16 @@
+div .table-content {
+  width: 80%;
+  margin-left: 2%;
+  margin-top: 2%;
+}
+
+button {
+  margin: 3%;
+  height: 20%;
+}
+
+.spinner{
+  margin: 10% auto auto;
+  height: 100%;
+  width: 100%;
+}

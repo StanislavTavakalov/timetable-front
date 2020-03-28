@@ -29,7 +29,12 @@ export class CreateStudyPlanComponent implements OnInit {
     this.currentStudyPlan = this.data.currentStudyPlan;
     console.log(this.currentStudyPlan);
     this.educationFormList.push(EducationForm.FullTime, EducationForm.Extramural);
-    this.specialityList.push({id: '1', descr: 'test', name: 'ISIT'}, {id: '2', descr: 'test', name: 'POIT'});
+    this.specialityList.push({id: '1', description: 'test', name: 'ИСИТ', abbreviation: 'ИСИТ'}, {
+      id: '2',
+      description: 'test',
+      name: 'POIT',
+      abbreviation: 'POIT'
+    });
     if (this.currentStudyPlan != null) {
       this.initializeForm(this.currentStudyPlan);
     } else {
