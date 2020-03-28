@@ -1,15 +1,57 @@
-<table #table mat-table [dataSource]="users" class="mat-elevation-z8"
-         style="width: 12%; margin-left: 2%; margin-top: 1%; align-items: center">
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef> Кафедры </th>
-      <td mat-cell *matCellDef="let element" > {{element.username}} </td>
+<!--table>
+  <tr *ngFor="let lectern of lecterns">
+    <td>{{lectern.name}}</td>
+    <td><button mat-raised-button class="control-button"  routerLink="/lectern/{{lectern?.id}}/">Перейти</button></td>
+    <td>
+      <select>
+        <option  *ngFor="let user of users" value="{{user.id}}"  >{{user.username}}</option>
+      </select>
+    </td>
+</table-->
+
+
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+</mat-form-field>
+<div class="mat-elevation-z8" style="width: 90%">
+  <table #table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumnsStudyPlans"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnsStudyPlans;"
-        class="example-element-row"
-        (click)="onSelect(row)"></tr>
- </table>
+    <ng-container matColumnDef="fullname">
+      <th mat-header-cell *matHeaderCellDef> Fullname </th>
+      <td mat-cell *matCellDef="let element"> {{element.fullname}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="go">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"  routerLink="/lectern/{{element?.id}}/">Перейти</button> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="staff">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="viewStaff(element.id)">Сотрудники</button> </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
 
 
+<div class="control-panel" style="margin-top:5%">
+  <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
+    <button  mat-raised-button class="control-button" (click)="addLectern()">Создать кафедру</button>
+  </div>
+</div>
 

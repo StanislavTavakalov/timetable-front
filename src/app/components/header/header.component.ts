@@ -14,8 +14,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   deaneryLinks = [{
-    path: '/deanery',
-    label: 'Деканат',
+    path: '/lecterns',
+    label: 'Кафедры',
+    isActive: true
+  }, {
+    path: '/staff',
+    label: 'Сотрудники',
     isActive: true
   }];
 

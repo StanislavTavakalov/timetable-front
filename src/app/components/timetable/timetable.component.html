@@ -97,10 +97,10 @@
 <div class="control-panel" >
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
     <button  mat-raised-button class="control-button" (click)="updateStudyPlan()">Редактировать планы </button>
-    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
-    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="add()"> Сохранить</button>
-    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="exitEditableMode()"> Выйти из режима редактирования</button>
-	<button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null"  routerLink="/lectern/{{lectern?.id}}/schedule/{{selectedPlan?.id}}">Перейти к магистрантам</button>
+    <button mat-raised-button class="control-button"  *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
+    <button mat-raised-button class="control-button"  *ngIf="editMode"  (click)="add()"> Сохранить</button>
+    <button mat-raised-button class="control-button"  *ngIf="editMode"  (click)="exitEditableMode()"> Выйти из режима редактирования</button>
+	  <button mat-raised-button class="control-button" *ngIf="this.selectedPlan != null" routerLink="/lectern/{{lectern?.id}}/schedule/{{selectedPlan?.id}}">Перейти к магистрантам</button>
   </div>
 </div>
 

@@ -19,23 +19,12 @@ httpOptions = {
   constructor(private http: HttpClient) {
   }
 
-  /*
-   getPlans(): Observable<any> {
-      this.http.post<StudyPlan>(this.url + 'login', {username: 'test', password: 'test'});
-      return this.http.get<Plan[]>(this.url + 'plan/');
-  }
-
-
-  getPlans(): Observable<StudyPlan[]> {
-    return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
-  }*/
-
  getPlans(): Observable<StudyPlan[]> {
       return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
   }
 
   getPlansByLecternId(id: string): Observable<StudyPlan[]> {
-      return this.http.get<StudyPlan[]>(this.url + 'studyplan/lectern/' + id);
+      return this.http.get<StudyPlan[]>(this.url + 'studyplan/?lecternId=' + id);
   }
 
   editPlan(plan: StudyPlan): Observable<any> {

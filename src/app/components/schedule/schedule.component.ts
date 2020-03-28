@@ -56,7 +56,7 @@ export class ScheduleComponent implements OnInit {
         this.scheduleService.getOccupations().subscribe(occupation => {
           this.occupations = occupation;
         });
-        this.selectedId = this.route.snapshot.paramMap.get('id');
+        this.selectedId = this.route.snapshot.paramMap.get('idStudyPlan');
         if (this.selectedId === null) {
         } else {
           this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
@@ -152,6 +152,9 @@ export class ScheduleComponent implements OnInit {
       week.occupation = this.occupationHoliday;
     });
     this.course.total = 52;
+    if (this.plan.schedules === null) {
+      this.plan.schedules = [];
+    }
     if (this.plan.schedules.length === 0) {
       this.course.name = '1';
       this.scheduleNew.courses = this.courseList;
@@ -170,12 +173,11 @@ export class ScheduleComponent implements OnInit {
       this.schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
       this.plan.schedules[0] = this.schedule;
     }
-	  this.timetableService.editPlan(this.plan).subscribe(plan => {
-		this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
-		this.plan = stydyplan;
-		this.schedule = stydyplan.schedules[0];
-		});
-	});
+    this.timetableService.editPlan(this.plan).subscribe(plan => {
+      this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
+        this.plan = stydyplan;
+        this.schedule = stydyplan.schedules[0];
+      });
+    });
   }
-
 }

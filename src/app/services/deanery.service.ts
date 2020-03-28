@@ -5,6 +5,7 @@ import {Observable, of} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {StudyPlan} from '../model/study-plan.model';
 import {Deanery} from '../model/deanery.model';
+import {Teacher} from '../model/teacher.model';
 
 
 @Injectable({
@@ -12,13 +13,14 @@ import {Deanery} from '../model/deanery.model';
 })
 export class DeaneryService {
 
+  private url1 = 'http://test:test@localhost:8080/';
+
   constructor(private http: HttpClient) { }
 
   private url = 'http://localhost:8080/api/';
-  private url1 = 'http://localhost:8080/';
 
   getDeaneryById(id: string): Observable<Deanery> {
-    return this.http.get<Deanery>(this.url1 + 'deanery/' + id);
+    return this.http.get<Deanery>(this.url + 'deanery/' + id);
   }
 
   getUsers(): Observable<User[]> {
@@ -29,4 +31,11 @@ export class DeaneryService {
     return this.http.get<Lectern[]>(this.url + 'lectern/deanery/' + id);
   }
 
+  addLectern(lectern: Lectern, idDeanery: string): Observable<Lectern> {
+    return this.http.post<Lectern>(this.url + 'lectern/' + idDeanery, lectern);
+  }
+
+  getTeachersByLecternId(id: string): Observable<Teacher[]> {
+    return this.http.get<Teacher[]>(this.url + 'teacher/?lecternId=' + id);
+ }
 }

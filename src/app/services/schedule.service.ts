@@ -23,7 +23,8 @@ httpOptions = {
 httpOptions1 = {
     headers: new HttpHeaders({  'Content-Type': 'application/json'})};
 
-  private url = 'http://test:test@localhost:8080/';
+  private url = 'http://test:test@localhost:8080/api/';
+
   occu: Occupation;
 
 
@@ -31,19 +32,11 @@ httpOptions1 = {
   }
 
   getShedule(): Observable<Schedule[]> {
-	const header = {
-	headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
- return this.http.get<Schedule[]>(this.url + 'schedule/', header);
+  return this.http.get<Schedule[]>(this.url + 'schedule/');
   }
 
   getSheduleById(id: number): Observable<Schedule> {
-	const header = {
-	headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
- return this.http.get<Schedule>(this.url + 'schedule/' + id, header);
+    return this.http.get<Schedule>(this.url + 'schedule/' + id);
   }
 
   getOccupations(): Observable<Occupation[]> {
@@ -55,41 +48,23 @@ httpOptions1 = {
   }
 
   addOccupation(occupation: Occupation): Observable<Occupation> {
-  	return this.http.post<Occupation>(this.url + 'occupation/', occupation, this.httpOptions);
+    return this.http.post<Occupation>(this.url + 'occupation/', occupation, this.httpOptions);
   }
 
   getOccupationBySymbol(symbol): Observable<Occupation> {
     const subject = new Subject<Occupation>();
     this.getOccupations().subscribe(occupations => {
-     	this.occu = occupations.find((occupation) => {
-      	     return occupation.symbol === symbol;
-    	});
-	     subject.next(this.occu);
+      this.occu = occupations.find((occupation) => {
+        return occupation.symbol === symbol;
+      });
+      subject.next(this.occu);
     });
 
     return subject.asObservable();
 
   }
-
-
   saveSchedule(schedule: Schedule): Observable<Schedule> {
-	return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule, this.httpOptions);
-   }
-
-   getCourses(): Observable<Course> {
-	  const header = {
-		headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
-		 return this.http.get<Course>(this.url + 'course/', header);
-  }
-
-  getOccupationCounters(): Observable<Course> {
-	  const header = {
-		headers: new HttpHeaders()
-		.set('Authorization',  'Basic ' + btoa('test:test'))
-		};
-		 return this.http.get<Course>(this.url + 'course/', header);
+    return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule, this.httpOptions);
   }
 }
 

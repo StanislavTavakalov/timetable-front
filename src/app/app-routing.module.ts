@@ -10,6 +10,8 @@ import {DeaneryComponent} from './components/deanery/deanery.component';
 import {SpecialitiesComponent} from './components/specialities/specialities.component';
 import {SubjectsComponent} from './components/subjects/subjects.component';
 import {TeachersComponent} from './components/teachers/teachers.component';
+import {DeaneryStaffComponent} from './components/deanery-staff/deanery-staff.component';
+
 
 
 const routes: Routes = [
@@ -19,6 +21,8 @@ const routes: Routes = [
   {path: 'edit', component: EditableModeComponent},
   {path: 'edit1', component: CreateOccupationComponent},
   {path: 'deanery/:id', component: DeaneryComponent},
+  {path: 'deanery/:id/lecterns', component: DeaneryComponent},
+  {path: 'deanery/:id/staff', component: DeaneryStaffComponent},
   {path: 'lectern/:id', component: SpecialitiesComponent},
   {path: 'lectern/:id/study-plans', component: StudyPlanComponent},
   {path: 'lectern/:id/subjects', component: SubjectsComponent},

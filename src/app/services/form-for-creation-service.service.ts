@@ -10,8 +10,6 @@ import {Observable} from 'rxjs';
 })
 export class FormForCreationServiceService {
 
-auth = 'Bearer ' + btoa('test:test');
-
 httpOptions = {
     headers: new HttpHeaders({  'Content-Type': 'application/json'})};
 
@@ -19,27 +17,6 @@ httpOptions = {
 
   constructor(private http: HttpClient) {
   }
-
-  /*addPlan(plan: StudyPlan): Observable<StudyPlan> {
-      return this.http.post<StudyPlan>(this.disciplinesUrl, plan);
-      return this.http.post<StudyPlan>(this.disciplinesUrl, {username:"test", password:"test"});
-    }
-    editPlan(plan; StudyPlan): Observable<any> {
-      return this.http.put(this.disciplinesUrl, plan, this.httpOptions);
-  }
-    getPlans(): Observable <StudyPlan[]> {
-      return.this.http.get<StudyPlan[]>(this.disciplinesUrl);
-    }
-    getPlanById(id: number): Observable<StudyPlan> {
-    const url = `${this.disciplinesUrl}/${id}`;
-    return this.http.get<Hero>(url);
-  }
-
-
-
-  addPlan(plan: StudyPlan): Observable<number> {
-    return of(PLANS.push(plan));
-  }*/
 
   getPlans(): Observable<StudyPlan[]> {
     return this.http.get<StudyPlan[]>(this.url + 'studyplan/');
@@ -55,7 +32,6 @@ httpOptions = {
 
   getPlansByLecternId(id: string): Observable<StudyPlan[]> {
 	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/lectern/' + id);
-   // return of(PLANS);
   }
 
 }
