@@ -26,6 +26,7 @@ import {FooterComponent} from './components/footer/footer.component';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifier-options';
 import { DeaneryStaffComponent } from './components/deanery-staff/deanery-staff.component';
+import { TeacherDatatableComponent } from './components/teachers/teacher-datatable/teacher-datatable.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { DeaneryStaffComponent } from './components/deanery-staff/deanery-staff.
     SubjectsComponent,
     SpecialityDatatableComponent,
     FooterComponent,
-    DeaneryStaffComponent
+    DeaneryStaffComponent,
+    TeacherDatatableComponent
   ],
   imports: [
     BrowserModule,

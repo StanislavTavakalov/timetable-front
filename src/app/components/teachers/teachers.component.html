@@ -1,1 +1,10 @@
-<p>teachers works!</p>
+<mat-spinner *ngIf="loading;else mainContent" diameter="150" mode="indeterminate" color="primary" class="spinner">
+</mat-spinner>
+
+<ng-template #mainContent>
+  <div style="display: flex">
+    <div *ngIf="teacherTableVisible" class="table-content">
+      <app-teacher-datatable [teachers]="teachers"></app-teacher-datatable>
+    </div>
+  </div>
+</ng-template>

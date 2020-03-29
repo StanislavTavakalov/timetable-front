@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th .name {
+  width: 25%;
+}
+
+td, th .abbreviation {
+  width: 10%;
+}
+
+
+td, th .description {
+  width: 55%;
+}
+
+td, th .icons {
+  width: 5%;
+}

@@ -8,11 +8,8 @@ import {LecternService} from '../../services/lectern/lectern.service';
 import {HeaderType} from '../../model/header-type';
 import {Lectern} from '../../model/lectern.model';
 import {Speciality} from '../../model/speciality.model';
-import {SpecialityAddEditComponent} from '../dialogs/speciality/speciality-add-edit/speciality-add-edit.component';
 import {Subscription} from 'rxjs';
-import {OperationResponse} from '../../model/operation-response.model';
 import {NotifierService} from 'angular-notifier';
-import {SpecialityDatatableComponent} from './speciality-datatable/speciality-datatable.component';
 
 @Component({
   selector: 'app-specialities',
@@ -31,12 +28,8 @@ export class SpecialitiesComponent implements OnInit, OnDestroy {
 
   }
 
-  @ViewChild(SpecialityDatatableComponent, {static: false})
-  specialityDatatableComponent: SpecialityDatatableComponent;
-
   lectern: Lectern;
   specialities: Speciality[];
-  addSpecialityDialogSubscription: Subscription;
   specialityServiceSubscription: Subscription;
   lecternServiceSubscription: Subscription;
   specialityTableVisible = false;
@@ -73,31 +66,8 @@ export class SpecialitiesComponent implements OnInit, OnDestroy {
 
   }
 
-  private addNewSpeciality() {
-    const dialogRef = this.dialog.open(SpecialityAddEditComponent, {
-      width: '35%',
-      height: '40%',
-      data: {title: 'Новая специальность'},
-      scrollStrategy: this.overlay.scrollStrategies.noop()
-    });
-
-    this.addSpecialityDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {
-      if (operationResponse.isOperationCompleted && operationResponse.errorMessage === null) {
-        this.specialities.unshift(operationResponse.operationResult);
-        this.specialityDatatableComponent.refreshDataTableContent();
-        this.notifierService.notify('success', 'Новая специальность была успешно создана.');
-      } else if (operationResponse.isOperationCompleted && operationResponse.errorMessage !== null) {
-        this.notifierService.notify('error', operationResponse.errorMessage);
-      }
-    });
-  }
-
 
   ngOnDestroy(): void {
-    if (this.addSpecialityDialogSubscription) {
-      this.addSpecialityDialogSubscription.unsubscribe();
-    }
-
     if (this.specialityServiceSubscription) {
       this.specialityServiceSubscription.unsubscribe();
     }

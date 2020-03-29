@@ -33,6 +33,7 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<Speciality>;
   editSpecialityDialogSubscription: Subscription;
   deleteSpecialityDialogSubscription: Subscription;
+  addSpecialityDialogSubscription: Subscription;
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.specialities);
@@ -90,11 +91,34 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
     });
   }
 
+  private addNewSpeciality() {
+    const dialogRef = this.dialog.open(SpecialityAddEditComponent, {
+      width: '35%',
+      height: '40%',
+      data: {title: 'Новая специальность'},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    });
+
+    this.addSpecialityDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {
+      if (operationResponse.isOperationCompleted && operationResponse.errorMessage === null) {
+        this.specialities.unshift(operationResponse.operationResult);
+        this.refreshDataTableContent();
+        this.notifierService.notify('success', 'Новая специальность была успешно создана.');
+      } else if (operationResponse.isOperationCompleted && operationResponse.errorMessage !== null) {
+        this.notifierService.notify('error', operationResponse.errorMessage);
+      }
+    });
+  }
+
   public refreshDataTableContent() {
     this.dataSource.data = this.specialities;
   }
 
   ngOnDestroy(): void {
+    if (this.addSpecialityDialogSubscription) {
+      this.addSpecialityDialogSubscription.unsubscribe();
+    }
+
     if (this.editSpecialityDialogSubscription) {
       this.editSpecialityDialogSubscription.unsubscribe();
     }
@@ -102,7 +126,5 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
     if (this.deleteSpecialityDialogSubscription) {
       this.deleteSpecialityDialogSubscription.unsubscribe();
     }
-
-
   }
 }

@@ -88,9 +88,7 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
 
   private createNewSpeciality() {
     const speciality = new Speciality();
-    speciality.name = this.specialityForm.controls.name.value;
-    speciality.description = this.specialityForm.controls.description.value;
-    speciality.abbreviation = this.specialityForm.controls.abbreviation.value;
+    this.setValuesFromForm(speciality);
     this.loading = true;
     if (this.localStorageService.observableLectern.getValue() === null) {
       this.loading = false;
@@ -117,15 +115,11 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
 
   private editSpeciality() {
     const specialityToSave = this.createSpecialityCopy(this.speciality);
-    specialityToSave.name = this.specialityForm.controls.name.value;
-    specialityToSave.description = this.specialityForm.controls.description.value;
-    specialityToSave.abbreviation = this.specialityForm.controls.abbreviation.value;
+    this.setValuesFromForm(specialityToSave);
     this.loading = true;
     this.specialityServiceSubscription = this.specialistService.editSpeciality(specialityToSave).subscribe(result => {
         this.loading = false;
-        this.speciality.name = this.specialityForm.controls.name.value;
-        this.speciality.description = this.specialityForm.controls.description.value;
-        this.speciality.abbreviation = this.specialityForm.controls.abbreviation.value;
+        this.setValuesFromForm(this.speciality);
         this.dialogRef.close({isOperationCompleted: true, operationResult: result, errorMessage: null});
       }, error => {
         this.loading = false;
@@ -136,6 +130,12 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
         });
       }
     );
+  }
+
+  private setValuesFromForm(speciality: Speciality) {
+    speciality.name = this.specialityForm.controls.name.value;
+    speciality.description = this.specialityForm.controls.description.value;
+    speciality.abbreviation = this.specialityForm.controls.abbreviation.value;
   }
 
   private createSpecialityCopy(speciality: Speciality): Speciality {

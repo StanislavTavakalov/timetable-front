@@ -1,0 +1,44 @@
+<div class="teacher-edit-add-dialog">
+  <h1 mat-dialog-title>{{title}}</h1>
+  <form [formGroup]="teacherForm">
+
+    <mat-form-field>
+      <input matInput placeholder="Имя: " [formControlName]="'name'" maxLength="25">
+      <mat-error *ngIf="name.invalid">{{getErrorText('name')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Фамилия: " [formControlName]="'surname'" maxLength="25">
+      <mat-error *ngIf="name.invalid">{{getErrorText('surname')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Отчество: " [formControlName]="'patronymic'" maxLength="25">
+      <mat-error *ngIf="name.invalid">{{getErrorText('patronymic')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Должность: " [formControlName]="'position'" maxLength="25">
+      <mat-error *ngIf="name.invalid">{{getErrorText('position')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Ранг: " [formControlName]="'rank'" maxLength="25">
+      <mat-error *ngIf="name.invalid">{{getErrorText('rank')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Достижения: " [formControlName]="'academicDegree'" maxLength="255">
+      <mat-error *ngIf="name.invalid">{{getErrorText('academicDegree')}}</mat-error>
+    </mat-form-field>
+
+    <div class="controls">
+      <mat-spinner *ngIf="loading" diameter="40" color="primary">
+      </mat-spinner>
+      <button mat-button color="primary" (click)="onConfirmClick()" [disabled]="teacherForm.invalid">
+        Подтвердить
+      </button>
+      <button mat-button color="warn" (click)=onCancelClick()> Отмена </button>
+    </div>
+  </form>
+</div>

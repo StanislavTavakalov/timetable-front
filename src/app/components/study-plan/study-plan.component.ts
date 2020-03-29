@@ -5,11 +5,11 @@ import {StudyPlan} from '../../model/study-plan.model';
 import {Subject} from '../../model/subject.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Overlay} from '@angular/cdk/overlay';
-import {CreateStudyPlanComponent} from '../dialogs/create-study-plan/create-study-plan.component';
+import {CreateStudyPlanComponent} from '../dialogs/study-plans/create-study-plan/create-study-plan.component';
 import {ConfirmationComponent} from '../dialogs/confirmation/confirmation.component';
 import {SUBJECTS} from '../../mock/study-mock';
 import {STUDY_PLANS_MOCK, SUBJECTS_MOCK} from '../../mock/plan-mock';
-import {StudyPlanDetailsComponent} from '../dialogs/study-plan-details/study-plan-details.component';
+import {StudyPlanDetailsComponent} from '../dialogs/study-plans/study-plan-details/study-plan-details.component';
 import {SeverityService} from '../../services/lectern/severity.service';
 import {Severity} from '../../model/severity.model';
 import {EditSubjectComponent} from '../dialogs/edit-subject/edit-subject.component';
@@ -18,7 +18,6 @@ import {TimetableService} from '../../services/timetable.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudyPlanService} from '../../services/lectern/study-plan.service';
 import {LocalStorageService} from '../../services/local-storage.service';
-import {HeaderType} from '../../model/header-type';
 
 @Component({
   selector: 'app-study-plan',

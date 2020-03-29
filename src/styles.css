@@ -3,7 +3,7 @@
 @import "~angular-notifier/styles.css";
 @import "~angular-notifier/styles/themes/theme-material.css";
 
-  /*html, body { height: 100%; }*/
-  /*body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }*/
-html, body { height: 100%; margin: 0; padding: 0; overflow: hidden}
-body {  font-family: Roboto, "Helvetica Neue", sans-serif;background-color: #fafafa  }
+  html, body { height: 100%; }
+  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/*html, body { height: 100%; margin: 0; padding: 0; overflow: hidden}*/
+/*body {  font-family: Roboto, "Helvetica Neue", sans-serif;background-color: #fafafa  }*/

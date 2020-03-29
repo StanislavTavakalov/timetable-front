@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {StudyPlan} from '../../../model/study-plan.model';
-import {EducationForm} from '../../../model/education-form.model';
-import {StudyPlanStatus} from '../../../model/study-plan-status.model';
-import {Speciality} from '../../../model/speciality.model';
+import {StudyPlan} from '../../../../model/study-plan.model';
+import {EducationForm} from '../../../../model/education-form.model';
+import {StudyPlanStatus} from '../../../../model/study-plan-status.model';
+import {Speciality} from '../../../../model/speciality.model';
 
 @Component({
   selector: 'app-create-study-plan',
