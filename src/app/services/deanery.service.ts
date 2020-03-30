@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {StudyPlan} from '../model/study-plan.model';
 import {Deanery} from '../model/deanery.model';
 import {Teacher} from '../model/teacher.model';
+import {Employee} from '../model/employee.model';
 
 
 @Injectable({
@@ -28,14 +29,38 @@ export class DeaneryService {
   }
 
   getLecterns(id: string): Observable<Lectern[]> {
-    return this.http.get<Lectern[]>(this.url + 'lectern/deanery/' + id);
+    return this.http.get<Lectern[]>(this.url + 'lectern/?deanery_id' + id);
   }
 
   addLectern(lectern: Lectern, idDeanery: string): Observable<Lectern> {
-    return this.http.post<Lectern>(this.url + 'lectern/' + idDeanery, lectern);
+    return this.http.post<Lectern>(this.url + 'lectern/?deaneryId=' + idDeanery, lectern);
   }
 
   getTeachersByLecternId(id: string): Observable<Teacher[]> {
     return this.http.get<Teacher[]>(this.url + 'teacher/?lecternId=' + id);
  }
+
+  getEmployeesByDeneryId(id: string): Observable<Employee[]> {
+    return this.http.get<Employee[]>(this.url + 'employee/?deaneryId=' + id);
+  }
+
+  addEmployee(employee: Employee, id: string): Observable<Employee> {
+    return this.http.post<Employee>(this.url + 'employee/?deaneryId=' + id, employee);
+  }
+
+  deleteLectern(id: string): Observable<Lectern> {
+    return this.http.delete<Lectern>(this.url + 'lectern/' + id);
+  }
+
+  deleteEmployee(id: string): Observable<Employee> {
+    return this.http.delete<Employee>(this.url + 'employee/' + id);
+  }
+
+  editLectern(lectern: Lectern): Observable<Lectern> {
+    return this.http.put<Lectern>(this.url + 'lectern/' + lectern.id, lectern);
+  }
+
+  editEmployee(employee: Employee): Observable<Employee> {
+    return this.http.put<Employee>(this.url + 'employee/' + employee.id, employee);
+  }
 }

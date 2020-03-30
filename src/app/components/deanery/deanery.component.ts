@@ -10,10 +10,12 @@ import {HeaderType} from '../../model/header-type';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatPaginator, MatTable} from '@angular/material';
 import {FormForCreationComponent} from '../form-for-creation/form-for-creation.component';
-import {CreateLecternComponent} from '../create-lectern/create-lectern.component';
+import {CreateLecternComponent} from '../dialogs/create-lectern/create-lectern.component';
 import {Overlay} from '@angular/cdk/overlay';
 import {TeacherViewComponent} from '../dialogs/teacher-view/teacher-view.component';
 import {StudyPlan} from '../../model/study-plan.model';
+import {DeleteLecternComponent} from '../dialogs/delete-lectern/delete-lectern.component';
+import {Employee} from '../../model/employee.model';
 
 @Component({
   selector: 'app-deanery',
@@ -27,7 +29,7 @@ export class DeaneryComponent implements OnInit {
   deaneryId: string;
   lecterns: Lectern[] = [];
   deanery: Deanery;
-  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff'];
+  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'update', 'delete'];
   dataSource: any;
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
@@ -63,22 +65,19 @@ export class DeaneryComponent implements OnInit {
   public  addLectern() {
     const dialogRef = this.dialog.open(CreateLecternComponent, {
       width: '30%',
-      height: '80%',
-      data: {},
+      height: '50%',
+      data: {lectern: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        console.log(result);
-        this.deaneryService.addLectern(result, this.deaneryId).subscribe((lectern) => {
           this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
             this.lecterns = lecterns;
             this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
             this.dataSource.paginator = this.paginator;
             this.table.renderRows();
           });
-        });
       }
     });
   }
@@ -92,4 +91,39 @@ export class DeaneryComponent implements OnInit {
     }) ;
   }
 
+  public deleteLectern(id) {
+    const dialogRef = this.dialog.open(DeleteLecternComponent, {
+      width: '30%',
+      height: '30%',
+      data: {lectern: id},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    }) ;
+    dialogRef.afterClosed().subscribe(result => {
+      this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
+        this.lecterns = lecterns;
+        this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
+        this.dataSource.paginator = this.paginator;
+        this.table.renderRows();
+      });
+    });
+  }
+
+  public updateLectern(lecternO) {
+    const dialogRef = this.dialog.open(CreateLecternComponent, {
+      width: '30%',
+      height: '50%',
+      data: {lectern: JSON.parse(JSON.stringify(lecternO)), deaneryId: null},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    }) ;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
+          this.lecterns = lecterns;
+          this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
+          this.dataSource.paginator = this.paginator;
+          this.table.renderRows();
+        });
+      }
+    });
+  }
 }

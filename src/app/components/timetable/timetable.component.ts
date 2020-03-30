@@ -44,6 +44,12 @@ export class TimetableComponent implements OnInit {
     this.lecternId = this.route.snapshot.paramMap.get('id');
     if (this.lecternId != null) {
       this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {
+        plans.forEach((plan) => {
+          plan.subjects.forEach((subject) => {
+            subject.semesters.sort((a, b) => a.number - b.number);
+          });
+        });
+        console.log(plans);
         this.plans = plans;
         this.selectedPlan = this.plans[0];
         this.initializeData();
@@ -182,6 +188,11 @@ export class TimetableComponent implements OnInit {
 
   public reculculate() {
     this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {
+      plans.forEach((plan) => {
+        plan.subjects.forEach((subject) => {
+          subject.semesters.sort((a, b) => a.number - b.number);
+        });
+      });
       this.plans = plans;
       this.table.renderRows();
     });

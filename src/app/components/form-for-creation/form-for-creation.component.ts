@@ -85,7 +85,7 @@ export class FormForCreationComponent implements OnInit {
     } else if (num === 1)  {
         this.formForCreationServiceService.getPlanById(event.value).subscribe(plan => {
           this.plan = plan;
-          this.oldCountOfSem = this.plan.countOfSem;});
+          this.oldCountOfSem = this.plan.countOfSem; });
     } else if (num === 3) {
       this.name = event.currentTarget.value;
     }
@@ -104,7 +104,7 @@ export class FormForCreationComponent implements OnInit {
     if (this.oldCountOfSem < this.plan.countOfSem) {
       for (let i = this.oldCountOfSem; i < this.countOfSem; i++) {
         this.plan.subjects.forEach((subject) => {
-          this.semester.number = i;
+          this.semester.number = i + 1;
           this.semester.hoursPerWeek = 0;
           this.semester.hoursPerWeek = 0;
           subject.semesters[i] = JSON.parse(JSON.stringify(this.semester));
@@ -142,12 +142,12 @@ export class FormForCreationComponent implements OnInit {
           semester.hoursPerWeek = 0;
           semester.creditUnits = 0;
         }});
-      if (this.notification.length != 0) {
+      if (this.notification.length !== 0) {
         this.notification = this.notification.substring(0, this.notification.length - 1);
         this.notifications = this.notifications + this.notification + '\n';
       }
       });
-    if (this.notifications.length != 0) {
+    if (this.notifications.length !== 0) {
       this.notifications = 'Из-за превышения часов были обнулены семестры для предметов:\n' + this.notifications;
       window.alert(this.notifications);
     }

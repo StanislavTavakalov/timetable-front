@@ -27,11 +27,11 @@ httpOptions = {
   }
 
   editPlan(plan: StudyPlan): Observable<any> {
-      return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
+    return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
   }
 
   getPlansByLecternId(id: string): Observable<StudyPlan[]> {
-	 return this.http.get<StudyPlan[]>(this.url + 'studyplan/lectern/' + id);
+    return this.http.get<StudyPlan[]>(this.url + 'studyplan/?lecternId=' + id);
   }
 
 }
