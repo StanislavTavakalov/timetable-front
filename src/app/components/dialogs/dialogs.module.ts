@@ -15,6 +15,7 @@ import { TeacherDeleteComponent } from './teachers/teacher-delete/teacher-delete
 import {CreateStudyPlanComponent} from './study-plans/create-study-plan/create-study-plan.component';
 import {StudyPlanDetailsComponent} from './study-plans/study-plan-details/study-plan-details.component';
 import {CreateLecternComponent} from './create-lectern/create-lectern.component';
+import {CreateOccupationComponent} from '../create-occupation/create-occupation.component';
 
 
 @NgModule({
@@ -27,15 +28,15 @@ import {CreateLecternComponent} from './create-lectern/create-lectern.component'
   declarations: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
-    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent],
+    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent],
   exports: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
-    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent],
+    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent],
   entryComponents: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
-    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent]
+    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent]
 })
 export class DialogsModule {
 }

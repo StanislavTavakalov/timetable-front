@@ -7,9 +7,8 @@ import {StudyPlan} from '../../model/study-plan.model';
 import {Employee} from '../../model/employee.model';
 import {MatTableDataSource} from '@angular/material/table';
 import {CreateEmployeeComponent} from '../dialogs/create-employee/create-employee.component';
-import {Lectern} from '../../model/lectern.model';
-import {DeleteLecternComponent} from '../dialogs/delete-lectern/delete-lectern.component';
 import {DeleteEmployeeComponent} from '../dialogs/delete-employee/delete-employee.component';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-deanery-staff',
@@ -20,7 +19,8 @@ export class DeaneryStaffComponent implements OnInit {
 
   constructor(private deaneryService: DeaneryService,
               private route: ActivatedRoute,
-              private dialog: MatDialog, private overlay: Overlay) {
+              private dialog: MatDialog, private overlay: Overlay,
+              private notifierService: NotifierService) {
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -37,6 +37,8 @@ export class DeaneryStaffComponent implements OnInit {
         this.employees = employees;
         this.dataSource = new MatTableDataSource<Employee>(employees);
         this.dataSource.paginator = this.paginator;
+      }, error => {
+        this.notifierService.notify('error', 'Не удалось загрузить сотрудников');
       });
     }
   }
@@ -55,32 +57,31 @@ export class DeaneryStaffComponent implements OnInit {
     }) ;
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if (result != null) {
-          this.deaneryService.getEmployeesByDeneryId(this.deaneryId).subscribe(employees => {
-            this.employees = employees;
+            this.employees.push(result);
             this.dataSource = new MatTableDataSource<Employee>(this.employees);
             this.dataSource.paginator = this.paginator;
             this.table.renderRows();
-          });
+            this.notifierService.notify('success', 'Сотрудник успешно создан');
       }
     });
   }
 
-  deleteEmployee(id) {
+  deleteEmployee(employeeO) {
     const dialogRef = this.dialog.open(DeleteEmployeeComponent, {
       width: '30%',
       height: '30%',
-      data: {employee: id},
+      data: {employee: employeeO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
 
     dialogRef.afterClosed().subscribe(result => {
-      this.deaneryService.getEmployeesByDeneryId(this.deaneryId).subscribe(employees => {
-        this.employees = employees;
+        this.employees.splice(this.employees.indexOf(employeeO), 1);
         this.dataSource = new MatTableDataSource<Employee>(this.employees);
         this.dataSource.paginator = this.paginator;
         this.table.renderRows();
-      });
+        this.notifierService.notify('success', 'Сотрудник успешно удален');
     });
   }
 
@@ -93,12 +94,11 @@ export class DeaneryStaffComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.getEmployeesByDeneryId(this.deaneryId).subscribe(employees => {
-          this.employees = employees;
+          this.employees[this.employees.indexOf(employeeO)] = result;
           this.dataSource = new MatTableDataSource<Employee>(this.employees);
           this.dataSource.paginator = this.paginator;
           this.table.renderRows();
-        });
+          this.notifierService.notify('success', 'Сотрудник успешно изменен');
       }
     });
   }

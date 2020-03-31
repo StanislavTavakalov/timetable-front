@@ -8,6 +8,7 @@ import {FormForCreationComponent} from '../form-for-creation/form-for-creation.c
 import {Overlay} from '@angular/cdk/overlay';
 import {ActivatedRoute} from '@angular/router';
 import {Lectern} from '../../model/lectern.model';
+import {NotifierService} from 'angular-notifier';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class TimetableComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private timetableService: TimetableService,
               private editableModeService: EditableModeService,
-              private dialog: MatDialog, private overlay: Overlay) {
+              private dialog: MatDialog, private overlay: Overlay,
+              private notifierService: NotifierService) {
   }
 
   ngOnInit() {
@@ -49,15 +51,17 @@ export class TimetableComponent implements OnInit {
             subject.semesters.sort((a, b) => a.number - b.number);
           });
         });
-        console.log(plans);
         this.plans = plans;
         this.selectedPlan = this.plans[0];
         this.initializeData();
+      }, error2 => {
+        this.notifierService.notify('error', 'Не удалось загрузить учебные планы');
       });
       this.timetableService.getLecternById(this.lecternId).subscribe(lectern => {
         this.lectern = lectern;
+      }, error2 => {
+        this.notifierService.notify('error', 'Не удалось загрузить учебные кафедру');
       });
-
     }
   }
 
@@ -77,7 +81,6 @@ export class TimetableComponent implements OnInit {
 
   onSelect(plan: StudyPlan): void {
     this.selectedPlan = plan;
-
     this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
     this.semsEven = this.selectedPlan.countOfSem;
     if (this.selectedPlan.countOfSem % 2 !== 0) {
@@ -154,7 +157,6 @@ export class TimetableComponent implements OnInit {
 
   public editModeOn() {
     this.editMode = true;
-
   }
 
   public editModeOff() {
@@ -162,13 +164,6 @@ export class TimetableComponent implements OnInit {
   }
 
   public updateStudyPlan() {
-    // this.dialog.open(CreateStudyPlanComponent, {
-    //   // width: '700px',
-    //   // height: '700px',
-    //   // data: null,
-    //   // scrollStrategy: this.overlay.scrollStrategies.noop()
-    // });
-
     const dialogRef = this.dialog.open(FormForCreationComponent, {
       width: '30%',
       height: '80%',
@@ -182,6 +177,7 @@ export class TimetableComponent implements OnInit {
         this.reculculate();
         this.table.renderRows();
         this.timetableService.editPlan(this.updatedPlan).subscribe();
+        this.notifierService.notify('success', 'Учебный план успешно обновлен');
       }
     });
   }

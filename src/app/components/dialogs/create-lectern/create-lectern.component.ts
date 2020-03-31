@@ -45,14 +45,13 @@ export class CreateLecternComponent implements OnInit {
     if (this.formGroup.valid) {
       if (this.data.lectern != null) {
         this.deaneryService.editLectern(this.lectern).subscribe(lectern => {
-          this.dialogRef.close(this.lectern);
+          this.dialogRef.close(lectern);
         });
       } else {
         this.deaneryService.addLectern(this.lectern, this.data.deaneryId).subscribe(lectern => {
-          this.dialogRef.close(this.lectern);
+          this.dialogRef.close(lectern);
         });
       }
-      this.dialogRef.close(this.lectern);
     } else {
       window.alert('Заполните обязательные поля');
     }

@@ -49,7 +49,7 @@
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef>  </th>
-      <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="deleteLectern(element.id)">Удалить</button> </td>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="deleteLectern(element)">Удалить</button> </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

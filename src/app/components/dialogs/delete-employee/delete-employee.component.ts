@@ -22,7 +22,7 @@ export class DeleteEmployeeComponent implements OnInit {
 
   onConfirmClick() {
     this.deaneryService.deleteEmployee(this.data.employee).subscribe(lectern => {
-      this.dialogRef.close();
+      this.dialogRef.close(this.data.employee);
     });
   }
 }

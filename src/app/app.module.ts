@@ -15,7 +15,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DialogsModule} from './components/dialogs/dialogs.module';
 import { EditStudyPlanComponent } from './components/dialogs/edit-study-plan/edit-study-plan.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
-import { CreateOccupationComponent } from './components/create-occupation/create-occupation.component';
 import { DeaneryComponent } from './components/deanery/deanery.component';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {SpecialitiesComponent} from './components/specialities/specialities.component';
@@ -38,7 +37,6 @@ import { TeacherDatatableComponent } from './components/teachers/teacher-datatab
     FormForCreationComponent,
     EditStudyPlanComponent,
     ScheduleComponent,
-    CreateOccupationComponent,
     DeaneryComponent,
     SpecialitiesComponent,
     TeachersComponent,

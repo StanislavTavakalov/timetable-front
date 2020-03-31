@@ -13,6 +13,7 @@ import {TimetableService} from '../../services/timetable.service';
 import {StudyPlan} from '../../model/study-plan.model';
 import {WEEKS} from '../../mock/course-mock';
 import {LocalStorageService} from '../../services/local-storage.service';
+import {NotifierService} from 'angular-notifier';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class ScheduleComponent implements OnInit {
               private route: ActivatedRoute,
               private scheduleService: ScheduleService,
               private dialog: MatDialog,
-              private overlay: Overlay) { }
+              private overlay: Overlay,
+              private notifierService: NotifierService) { }
 
   ngOnInit() {
 
@@ -55,6 +57,8 @@ export class ScheduleComponent implements OnInit {
         this.localStorageService.setCurrentUserToken(result.tokenType + ' ' + result.accessToken);
         this.scheduleService.getOccupations().subscribe(occupation => {
           this.occupations = occupation;
+        }, error2 => {
+          this.notifierService.notify('error', 'Не удалось загрузить нагузки');
         });
         this.selectedId = this.route.snapshot.paramMap.get('idStudyPlan');
         if (this.selectedId === null) {
@@ -62,6 +66,8 @@ export class ScheduleComponent implements OnInit {
           this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
             this.plan = stydyplan;
             this.schedule = stydyplan.schedules[0];
+          }, error2 => {
+            this.notifierService.notify('error', 'Не удалось загрузить учебный план');
           });
         }
       }
@@ -91,11 +97,11 @@ export class ScheduleComponent implements OnInit {
           course.countOccupation.push(this.newOccupationCounterCourse);
         });
         this.schedule.countOccupation.push(this.newOccupationCounter);
+        console.log(this.schedule);
         this.scheduleService.saveSchedule(this.schedule).subscribe(sc => {
-        this.scheduleService.getShedule().subscribe(schedule => {
-        this.schedule = schedule[0];
-          });
+          this.schedule = sc;
         });
+        this.notifierService.notify('success', 'Нагрузка была успешна добавлена');
       }
     });
   }

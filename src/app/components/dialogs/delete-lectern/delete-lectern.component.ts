@@ -22,7 +22,7 @@ export class DeleteLecternComponent implements OnInit {
 
   onConfirmClick() {
     this.deaneryService.deleteLectern(this.data.lectern).subscribe(lectern => {
-      this.dialogRef.close();
+      this.dialogRef.close(this.data.lectern);
     });
   }
 }

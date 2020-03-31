@@ -47,11 +47,11 @@ export class CreateEmployeeComponent implements OnInit {
     if (this.formGroup.valid) {
       if (this.data.employee != null) {
         this.deaneryService.editEmployee(this.employee).subscribe( employee => {
-          this.dialogRef.close(this.employee);
+          this.dialogRef.close(employee);
         });
       } else {
         this.deaneryService.addEmployee(this.employee, this.data.deaneryId).subscribe( employee => {
-          this.dialogRef.close(this.employee);
+          this.dialogRef.close(employee);
         });
       }
     } else {

@@ -16,6 +16,7 @@ import {TeacherViewComponent} from '../dialogs/teacher-view/teacher-view.compone
 import {StudyPlan} from '../../model/study-plan.model';
 import {DeleteLecternComponent} from '../dialogs/delete-lectern/delete-lectern.component';
 import {Employee} from '../../model/employee.model';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-deanery',
@@ -34,7 +35,8 @@ export class DeaneryComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
               private localStorageService: LocalStorageService,
-              private dialog: MatDialog, private overlay: Overlay) { }
+              private dialog: MatDialog, private overlay: Overlay,
+              private notifierService: NotifierService) { }
 
   ngOnInit() {
     this.deaneryId = this.route.snapshot.paramMap.get('id');
@@ -45,6 +47,8 @@ export class DeaneryComponent implements OnInit {
       this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
         this.deanery = value;
         this.localStorageService.observableDeanery.next(this.deanery);
+      }, error2 => {
+        this.notifierService.notify('error', 'Не удалось загрузить деканат');
       });
     }
     if (this.deaneryId != null) {
@@ -52,6 +56,8 @@ export class DeaneryComponent implements OnInit {
           this.lecterns = lecterns;
           this.dataSource = new MatTableDataSource<Lectern>(lecterns);
           this.dataSource.paginator = this.paginator;
+        }, error2 => {
+          this.notifierService.notify('error', 'Не удалось загрузить кафедры');
         });
     }
   }
@@ -72,12 +78,11 @@ export class DeaneryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-          this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
-            this.lecterns = lecterns;
+            this.lecterns.push(result);
             this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
             this.dataSource.paginator = this.paginator;
             this.table.renderRows();
-          });
+            this.notifierService.notify('success', 'Кафедра успешно создана');
       }
     });
   }
@@ -91,20 +96,19 @@ export class DeaneryComponent implements OnInit {
     }) ;
   }
 
-  public deleteLectern(id) {
+  public deleteLectern(lecternO) {
     const dialogRef = this.dialog.open(DeleteLecternComponent, {
       width: '30%',
       height: '30%',
-      data: {lectern: id},
+      data: {lectern: lecternO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
-      this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
-        this.lecterns = lecterns;
+        this.lecterns.splice(this.lecterns.indexOf(lecternO, 1));
         this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
         this.dataSource.paginator = this.paginator;
         this.table.renderRows();
-      });
+        this.notifierService.notify('success', 'Кафедра успешно удалена');
     });
   }
 
@@ -117,12 +121,11 @@ export class DeaneryComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
-          this.lecterns = lecterns;
+          this.lecterns[this.lecterns.indexOf(lecternO)] = result;
           this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
           this.dataSource.paginator = this.paginator;
           this.table.renderRows();
-        });
+          this.notifierService.notify('success', 'Кафедра успешно изменена');
       }
     });
   }
