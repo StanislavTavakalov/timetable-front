@@ -13,16 +13,6 @@ import {environment} from '../../environments/environment';
 })
 export class ScheduleService {
 
-
-auth = 'Basic ' + btoa('test:test');
-
-httpOptions = {
-    headers: new HttpHeaders({  'Content-Type': 'application/json', Authorization: this.auth})};
-
-
-httpOptions1 = {
-    headers: new HttpHeaders({  'Content-Type': 'application/json'})};
-
   private url = 'http://test:test@localhost:8080/api/';
 
   occu: Occupation;
@@ -31,8 +21,8 @@ httpOptions1 = {
   constructor(private http: HttpClient) {
   }
 
-  getShedule(): Observable<Schedule[]> {
-  return this.http.get<Schedule[]>(this.url + 'schedule/');
+  getShedule(id: string): Observable<Schedule[]> {
+  return this.http.get<Schedule[]>(this.url + 'schedule/?studyplanId=' + id);
   }
 
   getSheduleById(id: number): Observable<Schedule> {
@@ -43,12 +33,16 @@ httpOptions1 = {
     return this.http.get<Occupation[]>(this.url + 'occupation/');
   }
 
+  addSchedule(schedule: Schedule, id: string): Observable<Schedule> {
+    return this.http.post<Schedule>(this.url + 'schedule/?studyplanId=' + id, schedule);
+  }
+
   public getAuthToken() {
     return this.http.post(environment.domain + 'api/auth/signin', {username: 'test', password: 'test'});
   }
 
   addOccupation(occupation: Occupation): Observable<Occupation> {
-    return this.http.post<Occupation>(this.url + 'occupation/', occupation, this.httpOptions);
+    return this.http.post<Occupation>(this.url + 'occupation/', occupation);
   }
 
   getOccupationBySymbol(symbol): Observable<Occupation> {
@@ -63,8 +57,9 @@ httpOptions1 = {
     return subject.asObservable();
 
   }
+
   saveSchedule(schedule: Schedule): Observable<Schedule> {
-    return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule, this.httpOptions);
+    return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule);
   }
 }
 

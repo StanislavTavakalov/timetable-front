@@ -24,12 +24,10 @@ import {NotifierService} from 'angular-notifier';
 export class ScheduleComponent implements OnInit {
 
   occupationHoliday: Occupation;
-  plan: StudyPlan;
   nameNew: number;
   schedule: Schedule;
   scheduleNew: Schedule = new Schedule();
   course: Course = new Course();
-  courseList: Course[] = [];
   occupationCounter: OccupationCounter = new OccupationCounter();
   occupationCounterCourse: OccupationCounterCourse = new OccupationCounterCourse();
   occupationCounterList: OccupationCounter [] = [];
@@ -39,7 +37,9 @@ export class ScheduleComponent implements OnInit {
   oldOccupation: Occupation;
   newOccupationCounter: OccupationCounter = new OccupationCounter();
   newOccupationCounterCourse: OccupationCounterCourse = new OccupationCounterCourse();
-  selectedId: string;
+  studyPlanId: string;
+  occupationsOld: Occupation [] = [];
+  flag: number;
 
 
   constructor(private localStorageService: LocalStorageService,
@@ -60,12 +60,19 @@ export class ScheduleComponent implements OnInit {
         }, error2 => {
           this.notifierService.notify('error', 'Не удалось загрузить нагузки');
         });
-        this.selectedId = this.route.snapshot.paramMap.get('idStudyPlan');
-        if (this.selectedId === null) {
+        this.studyPlanId = this.route.snapshot.paramMap.get('idStudyPlan');
+        if (this.studyPlanId === null) {
         } else {
-          this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
-            this.plan = stydyplan;
-            this.schedule = stydyplan.schedules[0];
+          this.scheduleService.getShedule(this.studyPlanId).subscribe(schedules => {
+            this.schedule = schedules[0];
+
+            if (schedules.length !== 0) {
+              this.schedule.courses.forEach((course) => {
+                course.weeks.sort((a, b) => a.position - b.position);
+              });
+              this.recalculateCounters();
+              console.log(this.schedule);
+            }
           }, error2 => {
             this.notifierService.notify('error', 'Не удалось загрузить учебный план');
           });
@@ -75,7 +82,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveSchedule() {
-     this.timetableService.editPlan(this.plan).subscribe();
+     this.scheduleService.saveSchedule(this.schedule).subscribe();
   }
 
   addOccupation() {
@@ -100,6 +107,9 @@ export class ScheduleComponent implements OnInit {
         console.log(this.schedule);
         this.scheduleService.saveSchedule(this.schedule).subscribe(sc => {
           this.schedule = sc;
+          this.schedule.courses.forEach((course) => {
+            course.weeks.sort((a, b) => a.position - b.position);
+          });
         });
         this.notifierService.notify('success', 'Нагрузка была успешна добавлена');
       }
@@ -158,16 +168,17 @@ export class ScheduleComponent implements OnInit {
       week.occupation = this.occupationHoliday;
     });
     this.course.total = 52;
-    if (this.plan.schedules === null) {
-      this.plan.schedules = [];
-    }
-    if (this.plan.schedules.length === 0) {
-      this.course.name = '1';
-      this.scheduleNew.courses = this.courseList;
-      this.scheduleNew.courses.push(JSON.parse(JSON.stringify(this.course)));
-      this.scheduleNew.countOccupation = JSON.parse(JSON.stringify(this.occupationCounterList));
-      this.schedule = JSON.parse(JSON.stringify(this.scheduleNew));
-      this.plan.schedules.push(this.schedule);
+    if (this.schedule === undefined) {
+      this.scheduleNew = new Schedule();
+      this.scheduleService.addSchedule(this.scheduleNew, this.studyPlanId).subscribe(schedule => {
+        this.course.name = '1';
+        schedule.courses = [];
+        schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
+        schedule.countOccupation = JSON.parse(JSON.stringify(this.occupationCounterList));
+        this.scheduleService.saveSchedule(schedule).subscribe( schedule => {
+          this.schedule = schedule;
+        });
+      });
     } else {
       this.nameNew = parseInt(this.schedule.courses[this.schedule.courses.length - 1].name) + 1;
       this.course.name = this.nameNew + '';
@@ -177,13 +188,34 @@ export class ScheduleComponent implements OnInit {
         }
       });
       this.schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
-      this.plan.schedules[0] = this.schedule;
+      this.scheduleService.saveSchedule(this.schedule).subscribe();
     }
-    this.timetableService.editPlan(this.plan).subscribe(plan => {
-      this.timetableService.getPlanById(this.selectedId).subscribe(stydyplan => {
-        this.plan = stydyplan;
-        this.schedule = stydyplan.schedules[0];
+  }
+
+  recalculateCounters() {
+    this.schedule.countOccupation.forEach((counter) => {
+      this.occupationsOld.push(counter.occupation);
+    });
+    this.occupations.forEach((occupation) => {
+      this.flag = 0;
+      this.occupationsOld.forEach((occu) => {
+        if (occu.id === occupation.id) {
+          this.flag = 1;
+        }
       });
+      if (this.flag === 0 ) {
+        this.occupationCounter.occupation = occupation;
+        this.occupationCounter.count = 0;
+        this.schedule.countOccupation.push(JSON.parse(JSON.stringify(this.occupationCounter)));
+        this.schedule.courses.forEach((course) => {
+          this.occupationCounterCourse.count = 0;
+          this.occupationCounterCourse.occupation = occupation;
+          course.countOccupation.push(JSON.parse(JSON.stringify(this.occupationCounterCourse)));
+        });
+      }
+    });
+    this.scheduleService.saveSchedule(this.schedule).subscribe( schedule => {
+      this.schedule = this.schedule;
     });
   }
 }
