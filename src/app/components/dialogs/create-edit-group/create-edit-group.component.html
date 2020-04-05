@@ -1,0 +1,24 @@
+<div class="example-container" xmlns:position="http://www.w3.org/1999/xhtml">
+
+  <mat-form-field [formGroup]="formGroup">
+    <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название" (change)="valuesf(1,$event)">
+  </mat-form-field>
+
+  <mat-form-field [formGroup]="formGroup">
+    <input id="description" formControlName="description" required class="form-control" matInput placeholder="Описание" (change)="valuesf(2,$event)">
+  </mat-form-field>
+
+  <mat-form-field [formGroup]="formGroup">
+    <input id="cout" formControlName="count" required class="form-control" matInput placeholder="Количество студентов" (change)="valuesf(3,$event)">
+  </mat-form-field>
+
+  <mat-form-field [formGroup]="formGroup">
+    <mat-select [ngModel] = "group?.speciality?.id" id="specialities" formControlName="specialities" class="form-control" required (selectionChange)="valuesf(4,$event)" placeholder="Специальность"  >
+      <mat-option *ngFor="let speciality of specialities"  value="{{speciality?.id}}">{{speciality?.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="warn" (click)="add()">
+    Сохранить
+  </button>
+  <button mat-button color="warn" (click)=onCancelClick()> Выйти </button>
+</div>

@@ -7,6 +7,8 @@ import {StudyPlan} from '../model/study-plan.model';
 import {Deanery} from '../model/deanery.model';
 import {Teacher} from '../model/teacher.model';
 import {Employee} from '../model/employee.model';
+import {Group} from '../model/group.model';
+import {Flow} from '../model/flow.model';
 
 
 @Injectable({
@@ -62,5 +64,37 @@ export class DeaneryService {
 
   editEmployee(employee: Employee): Observable<Employee> {
     return this.http.put<Employee>(this.url + 'employee/' + employee.id, employee);
+  }
+
+  getGroupsByFlowId(id: string): Observable<Group[]> {
+    return this.http.get<Group[]>(this.url + 'groups/?flowId=' + id);
+  }
+
+  getFlowsByLecternId(id: string): Observable<Flow[]> {
+    return this.http.get<Flow[]>(this.url + 'flow/?lecternId=' + id);
+  }
+
+  deleteFlow(id: string): Observable<Flow> {
+    return this.http.delete<Flow>(this.url + 'flow/' + id);
+  }
+
+  deleteGroup(id: string): Observable<Group> {
+    return this.http.delete<Group>(this.url + 'groups/' + id);
+  }
+
+  editGroup(group: Group): Observable<Group> {
+    return this.http.put<Group>(this.url + 'groups/' + group.id, group);
+  }
+
+  editFlow(flow: Flow): Observable<Flow> {
+    return this.http.put<Flow>(this.url + 'flow/' + flow.id, flow);
+  }
+
+  addFlow(flow: Flow, id: string): Observable<Flow> {
+    return this.http.post<Flow>(this.url + 'flow/?lecternId=' + id, flow);
+  }
+
+  addGroup(group: Group, id: string): Observable<Group> {
+    return this.http.post<Group>(this.url + 'groups/?flowId=' + id, group);
   }
 }

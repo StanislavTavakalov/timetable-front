@@ -26,6 +26,8 @@ import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifier-options';
 import { DeaneryStaffComponent } from './components/deanery-staff/deanery-staff.component';
 import { TeacherDatatableComponent } from './components/teachers/teacher-datatable/teacher-datatable.component';
+import { GroupComponent } from './components/group/group.component';
+import { FlowComponent } from './components/flow/flow.component';
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import { TeacherDatatableComponent } from './components/teachers/teacher-datatab
     SpecialityDatatableComponent,
     FooterComponent,
     DeaneryStaffComponent,
-    TeacherDatatableComponent
+    TeacherDatatableComponent,
+    GroupComponent,
+    FlowComponent
   ],
   imports: [
     BrowserModule,

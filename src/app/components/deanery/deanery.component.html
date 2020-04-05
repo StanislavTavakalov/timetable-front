@@ -18,17 +18,17 @@
   <table #table mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef> Название </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="fullname">
-      <th mat-header-cell *matHeaderCellDef> Fullname </th>
+      <th mat-header-cell *matHeaderCellDef> Полное назание </th>
       <td mat-cell *matCellDef="let element"> {{element.fullname}} </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <th mat-header-cell *matHeaderCellDef> Описание </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
 
@@ -50,6 +50,11 @@
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef>  </th>
       <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="deleteLectern(element)">Удалить</button> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="flows">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" routerLink="/deanery/{{deaneryId}}/flows/{{element.id}}">Потоки</button> </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

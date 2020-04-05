@@ -24,10 +24,10 @@ export class CreateEmployeeComponent implements OnInit {
       this.employee = new Employee();
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.employee.name, [Validators.required]),
-      surname: new FormControl(this.employee.surname, [Validators.required]),
-      patronymic: new FormControl(this.employee.patronymic, [Validators.required]),
-      rank: new FormControl(this.employee.rank, [Validators.required])
+      name: new FormControl(this.employee.name, [Validators.required, Validators.maxLength(25)]),
+      surname: new FormControl(this.employee.surname, [Validators.required, Validators.maxLength(25)]),
+      patronymic: new FormControl(this.employee.patronymic, [Validators.required, Validators.maxLength(25)]),
+      rank: new FormControl(this.employee.rank, [Validators.required, Validators.maxLength(50)])
     });
   }
 
@@ -57,5 +57,9 @@ export class CreateEmployeeComponent implements OnInit {
     } else {
       window.alert('Заполните обязательные поля');
     }
+  }
+
+  onCancelClick() {
+    this.dialogRef.close();
   }
 }

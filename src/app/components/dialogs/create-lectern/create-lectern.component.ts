@@ -24,9 +24,9 @@ export class CreateLecternComponent implements OnInit {
       this.lectern = new Lectern();
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.lectern.name, [Validators.required]),
-      fullname: new FormControl(this.lectern.fullname, [Validators.required]),
-      description: new FormControl(this.lectern.description, [Validators.required])
+      name: new FormControl(this.lectern.name, [Validators.required, Validators.maxLength(25)]),
+      fullname: new FormControl(this.lectern.fullname, [Validators.required, Validators.maxLength(50)]),
+      description: new FormControl(this.lectern.description, [Validators.required, Validators.maxLength(255)])
     });
   }
 

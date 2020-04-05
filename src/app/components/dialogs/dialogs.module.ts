@@ -16,6 +16,10 @@ import {CreateStudyPlanComponent} from './study-plans/create-study-plan/create-s
 import {StudyPlanDetailsComponent} from './study-plans/study-plan-details/study-plan-details.component';
 import {CreateLecternComponent} from './create-lectern/create-lectern.component';
 import {CreateOccupationComponent} from '../create-occupation/create-occupation.component';
+import {CreateEditFlowComponent} from './create-edit-flow/create-edit-flow.component';
+import {DeleteGroupComponent} from './delete-group/delete-group.component';
+import {CreateEditGroupComponent} from './create-edit-group/create-edit-group.component';
+import {DeleteFlowComponent} from './delete-flow/delete-flow.component';
 
 
 @NgModule({
@@ -28,15 +32,18 @@ import {CreateOccupationComponent} from '../create-occupation/create-occupation.
   declarations: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
-    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent],
+    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent,
+    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent],
   exports: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
-    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent],
+    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent,
+    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent],
   entryComponents: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
-    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent]
+    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent,
+    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent]
 })
 export class DialogsModule {
 }

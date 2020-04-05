@@ -55,13 +55,10 @@ export class DeaneryStaffComponent implements OnInit {
       data: {employee: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
-
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result != null) {
             this.employees.push(result);
-            this.dataSource = new MatTableDataSource<Employee>(this.employees);
-            this.dataSource.paginator = this.paginator;
+            this.dataSource.data = this.employees;
             this.table.renderRows();
             this.notifierService.notify('success', 'Сотрудник успешно создан');
       }
@@ -75,13 +72,13 @@ export class DeaneryStaffComponent implements OnInit {
       data: {employee: employeeO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
-
     dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
         this.employees.splice(this.employees.indexOf(employeeO), 1);
-        this.dataSource = new MatTableDataSource<Employee>(this.employees);
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.data = this.employees;
         this.table.renderRows();
         this.notifierService.notify('success', 'Сотрудник успешно удален');
+      }
     });
   }
 
@@ -95,8 +92,7 @@ export class DeaneryStaffComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
           this.employees[this.employees.indexOf(employeeO)] = result;
-          this.dataSource = new MatTableDataSource<Employee>(this.employees);
-          this.dataSource.paginator = this.paginator;
+          this.dataSource.data = this.employees;
           this.table.renderRows();
           this.notifierService.notify('success', 'Сотрудник успешно изменен');
       }

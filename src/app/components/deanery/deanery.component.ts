@@ -30,7 +30,7 @@ export class DeaneryComponent implements OnInit {
   deaneryId: string;
   lecterns: Lectern[] = [];
   deanery: Deanery;
-  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'update', 'delete'];
+  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'update', 'delete', 'flows'];
   dataSource: any;
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
@@ -41,7 +41,6 @@ export class DeaneryComponent implements OnInit {
   ngOnInit() {
     this.deaneryId = this.route.snapshot.paramMap.get('id');
     this.localStorageService.observableHeaderType.next(HeaderType.DEANERY);
-
     if (this.localStorageService.observableDeanery.getValue() === null ||
       this.localStorageService.observableDeanery.getValue().id !== this.deaneryId) {
       this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
@@ -62,7 +61,6 @@ export class DeaneryComponent implements OnInit {
     }
   }
 
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -75,11 +73,10 @@ export class DeaneryComponent implements OnInit {
       data: {lectern: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
-
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
             this.lecterns.push(result);
-            this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
+            this.dataSource.data = this.lecterns;
             this.dataSource.paginator = this.paginator;
             this.table.renderRows();
             this.notifierService.notify('success', 'Кафедра успешно создана');
@@ -104,11 +101,12 @@ export class DeaneryComponent implements OnInit {
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
         this.lecterns.splice(this.lecterns.indexOf(lecternO, 1));
-        this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.data = this.lecterns;
         this.table.renderRows();
         this.notifierService.notify('success', 'Кафедра успешно удалена');
+      }
     });
   }
 
@@ -122,8 +120,7 @@ export class DeaneryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
           this.lecterns[this.lecterns.indexOf(lecternO)] = result;
-          this.dataSource = new MatTableDataSource<Lectern>(this.lecterns);
-          this.dataSource.paginator = this.paginator;
+          this.dataSource.data = this.lecterns;
           this.table.renderRows();
           this.notifierService.notify('success', 'Кафедра успешно изменена');
       }

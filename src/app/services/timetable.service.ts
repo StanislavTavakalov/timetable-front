@@ -34,7 +34,8 @@ httpOptions = {
   getPlanById(id: string): Observable<StudyPlan> {
     return this.http.get<StudyPlan>(this.url + 'studyplan/' + id);
   }
+
   getLecternById(id: string): Observable<Lectern> {
     return this.http.get<Lectern>(this.url + 'lectern/' + id);
-}
+  }
 }
