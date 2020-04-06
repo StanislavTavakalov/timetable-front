@@ -23,7 +23,7 @@ export class FlowComponent implements OnInit {
   deaneryId: string;
   lecternId: string;
   flows: Flow[] = [];
-  displayedColumns: string[] = ['name', 'description', 'update', 'delete', 'groups'];
+  displayedColumns: string[] = ['name', 'description', 'update', 'delete'];
   dataSource: any;
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,

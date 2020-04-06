@@ -1,18 +1,6 @@
-<!--table>
-  <tr *ngFor="let lectern of lecterns">
-    <td>{{lectern.name}}</td>
-    <td><button mat-raised-button class="control-button"  routerLink="/lectern/{{lectern?.id}}/">Перейти</button></td>
-    <td>
-      <select>
-        <option  *ngFor="let user of users" value="{{user.id}}"  >{{user.username}}</option>
-      </select>
-    </td>
-</table-->
-
-
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+<mat-form-field style="width: 30%">
+  <mat-label>Фильтр</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по кафедрам">
 </mat-form-field>
 <div class="mat-elevation-z8" style="width: 90%">
   <table #table mat-table [dataSource]="dataSource">

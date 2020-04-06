@@ -31,7 +31,7 @@ export class DeaneryService {
   }
 
   getLecterns(id: string): Observable<Lectern[]> {
-    return this.http.get<Lectern[]>(this.url + 'lectern/?deanery_id' + id);
+    return this.http.get<Lectern[]>(this.url + 'lectern/?deaneryId' + id);
   }
 
   addLectern(lectern: Lectern, idDeanery: string): Observable<Lectern> {
@@ -67,7 +67,7 @@ export class DeaneryService {
   }
 
   getGroupsByFlowId(id: string): Observable<Group[]> {
-    return this.http.get<Group[]>(this.url + 'groups/?flowId=' + id);
+    return this.http.get<Group[]>(this.url + 'groups/?deaneryId=' + id);
   }
 
   getFlowsByLecternId(id: string): Observable<Flow[]> {

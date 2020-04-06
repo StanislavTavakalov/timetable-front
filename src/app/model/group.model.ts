@@ -1,4 +1,5 @@
 import {Speciality} from './speciality.model';
+import {Flow} from './flow.model';
 
 export class Group {
   public id: string;
@@ -6,4 +7,5 @@ export class Group {
   public name: string;
   public countOfStudents: number;
   public speciality: Speciality;
+  public flow: Flow;
 }

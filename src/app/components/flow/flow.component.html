@@ -1,8 +1,8 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+<mat-form-field style="width: 30%">
+  <mat-label>Фильтр</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по потокам">
 </mat-form-field>
-<div class="mat-elevation-z8" style="width: 90%">
+<div class="mat-elevation-z8" style="width: 90%; text-align: center">
   <table #table mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="name">
@@ -23,11 +23,6 @@
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef>  </th>
       <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="deleteFlow(element)">Удалить</button> </td>
-    </ng-container>
-
-    <ng-container matColumnDef="groups">
-      <th mat-header-cell *matHeaderCellDef>  </th>
-      <td mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" routerLink="/deanery/{{deaneryId}}/groups/{{element.id}}/{{lecternId}}">Группы</button> </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

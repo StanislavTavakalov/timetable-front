@@ -11,11 +11,8 @@
 <!--   This is (lectern !== null) ? lectern.name : '' a check not to get errors in console
        because initialization of header earlier than we get an object
  -->
-  <p style="padding-left: 5%" *ngIf="tabsType === 'LECTERN'"> Кафедра:{{(lectern !== null) ? lectern.name : '' }}</p>
-
-
-
-
+  <p style="padding-left: 5%" *ngIf="tabsType === 'LECTERN'"> Кафедра: {{(lectern !== null) ? lectern.name : '' }}</p>
+  <p style="padding-left: 5%" *ngIf="tabsType === 'DEANERY'"> Деканат: {{(deanery !== null) ? deanery.name : '' }}</p>
 
   <nav mat-tab-nav-bar *ngIf="tabsType === 'DEANERY' ">
     <a mat-tab-link

@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'deanery/:id', component: DeaneryComponent},
   {path: 'deanery/:id/lecterns', component: DeaneryComponent},
   {path: 'deanery/:id/staff', component: DeaneryStaffComponent},
-  {path: 'deanery/:id/groups/:idFlow/:idLectern', component: GroupComponent},
+  {path: 'deanery/:id/groups', component: GroupComponent},
   {path: 'deanery/:id/flows/:idLectern', component: FlowComponent},
   {path: 'lectern/:id', component: SpecialitiesComponent},
   {path: 'lectern/:id/study-plans', component: StudyPlanComponent},

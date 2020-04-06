@@ -21,6 +21,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     path: '/staff',
     label: 'Сотрудники',
     isActive: true
+  }, {
+    path: '/groups',
+    label: 'Группы',
+    isActive: true
   }];
 
   lecternNavLinks = [{
