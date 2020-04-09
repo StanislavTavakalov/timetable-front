@@ -14,6 +14,7 @@ export class CreateEditFlowComponent implements OnInit {
 
   flow: Flow;
   formGroup: any;
+  value: string;
 
   constructor(public dialogRef: MatDialogRef<CreateEmployeeComponent>,
               private deaneryService: DeaneryService,
@@ -33,7 +34,15 @@ export class CreateEditFlowComponent implements OnInit {
 
   public valuesf(num, event): void {
     if (num === 1) {
-      this.flow.name = event.currentTarget.value;
+      this.value = event.currentTarget.value;
+      this.deaneryService.checkUniqueFlowName(this.value).subscribe(flag => {
+        if (flag) {
+          this.flow.name = this.value;
+        } else {
+          this.formGroup.controls.name.setValue('');
+          window.alert('Поток с таким названием уже существует');
+        }
+      });
     } else {
       this.flow.description = event.currentTarget.value;
     }

@@ -20,6 +20,7 @@ import {CreateEditFlowComponent} from './create-edit-flow/create-edit-flow.compo
 import {DeleteGroupComponent} from './delete-group/delete-group.component';
 import {CreateEditGroupComponent} from './create-edit-group/create-edit-group.component';
 import {DeleteFlowComponent} from './delete-flow/delete-flow.component';
+import {DeleteCourseComponent} from './delete-course/delete-course.component';
 
 
 @NgModule({
@@ -33,17 +34,17 @@ import {DeleteFlowComponent} from './delete-flow/delete-flow.component';
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
     CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent,
-    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent],
+    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent, DeleteCourseComponent],
   exports: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
     CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent,
-    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent],
+    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent, DeleteCourseComponent],
   entryComponents: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
     CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, CreateOccupationComponent,
-    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent]
+    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent, DeleteCourseComponent]
 })
 export class DialogsModule {
 }

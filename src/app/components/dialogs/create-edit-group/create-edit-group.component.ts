@@ -23,6 +23,7 @@ export class CreateEditGroupComponent implements OnInit {
   group: Group;
   specialityO: Speciality;
   flowId: string;
+  value: string;
 
   constructor(public specialityService: SpecialityService,
               public dialogRef: MatDialogRef<CreateEmployeeComponent>,
@@ -51,7 +52,15 @@ export class CreateEditGroupComponent implements OnInit {
 
   public valuesf(num, event): void {
     if (num === 1) {
-      this.group.name = event.currentTarget.value;
+      this.value = event.currentTarget.value;
+      this.deaneryService.checkUniqueGroupName(this.value).subscribe(flag => {
+        if (flag) {
+          this.group.name = this.value;
+        } else {
+          this.formGroup.controls.name.setValue('');
+          window.alert('Группа с таким названием уже существует');
+        }
+      });
     } else if (num === 2) {
       this.group.description = event.currentTarget.value;
     } else if (num === 3) {

@@ -12,6 +12,7 @@ import {DeaneryService} from '../../../services/deanery.service';
 export class CreateLecternComponent implements OnInit {
   lectern: Lectern;
   formGroup: any;
+  value: string;
 
   constructor(public dialogRef: MatDialogRef<CreateLecternComponent>,
               private deaneryService: DeaneryService,
@@ -33,9 +34,25 @@ export class CreateLecternComponent implements OnInit {
 
   public valuesf(num, event): void {
     if (num === 1) {
-      this.lectern.name = event.currentTarget.value;
+      this.value = event.currentTarget.value;
+      this.deaneryService.checkUniqueLectern('name', this.value).subscribe( flag => {
+        if (flag) {
+          this.lectern.name = this.value;
+        } else {
+          this.formGroup.controls.name.setValue('');
+          window.alert('Кафедра с такой аббревиатурой уже существует');
+        }
+      });
     } else if (num === 2) {
-      this.lectern.fullname = event.currentTarget.value;
+      this.value = event.currentTarget.value;
+      this.deaneryService.checkUniqueLectern('fullname', this.value).subscribe( flag => {
+        if (flag) {
+          this.lectern.fullname = this.value;
+        } else {
+          this.formGroup.controls.fullname.setValue('');
+          window.alert('Кафедра с таким названием уже существует');
+        }
+      });
     } else {
       this.lectern.description = event.currentTarget.value;
     }

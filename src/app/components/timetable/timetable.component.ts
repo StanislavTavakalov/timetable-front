@@ -105,18 +105,6 @@ export class TimetableComponent implements OnInit {
     }
   }
 
-  public changeName(event, id): void {
-    this.editPlan.subjects.find((discipline) => {
-      return discipline.id === id;
-    }).name = event.currentTarget.value;
-  }
-
-  public changeDepartment(event, id): void {
-    this.editPlan.subjects.find((discipline) => {
-      return discipline.id === id;
-    }).department = event.currentTarget.value;
-  }
-
   public changeHoursPerWeek(event, id, numberOfSem): void {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;

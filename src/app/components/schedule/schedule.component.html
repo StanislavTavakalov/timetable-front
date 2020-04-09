@@ -165,6 +165,7 @@
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
     <button  mat-raised-button class="control-button" (click)="addOccupation()">Добавить нагрузку</button>
     <button  mat-raised-button class="control-button" (click)="saveSchedule()">Сохранить</button>
-	<button  mat-raised-button class="control-button" *ngIf="this.studyPlanId != null" (click)="addCourse()">Добавить курс</button>
+	  <button  mat-raised-button class="control-button" *ngIf="this.studyPlanId != null" (click)="addCourse()">Добавить курс</button>
+    <button  mat-raised-button class="control-button" *ngIf="this.schedule != null" (click)="deleteCourse()">Удалить курс</button>
   </div>
 </div>

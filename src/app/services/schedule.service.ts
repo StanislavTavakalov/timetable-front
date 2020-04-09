@@ -5,6 +5,8 @@ import {Occupation} from '../model/occupation.model';
 import {Schedule} from '../model/shedule.model';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {Employee} from '../model/employee.model';
+import {Lectern} from '../model/lectern.model';
 
 
 
@@ -60,6 +62,14 @@ export class ScheduleService {
 
   saveSchedule(schedule: Schedule): Observable<Schedule> {
     return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule);
+  }
+
+  deleteCourse(id: string): Observable<Course> {
+    return this.http.delete<Course>(this.url + 'course/' + id);
+  }
+
+  deleteSchedule(id: string): Observable<Lectern> {
+    return this.http.delete<Lectern>(this.url + 'schedule/' + id);
   }
 }
 

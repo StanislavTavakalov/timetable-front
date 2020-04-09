@@ -14,6 +14,8 @@ import {StudyPlan} from '../../model/study-plan.model';
 import {WEEKS} from '../../mock/course-mock';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {NotifierService} from 'angular-notifier';
+import {DeleteLecternComponent} from '../dialogs/delete-lectern/delete-lectern.component';
+import {DeleteCourseComponent} from '../dialogs/delete-course/delete-course.component';
 
 
 @Component({
@@ -71,7 +73,6 @@ export class ScheduleComponent implements OnInit {
                 course.weeks.sort((a, b) => a.position - b.position);
               });
               this.recalculateCounters();
-              console.log(this.schedule);
             }
           }, error2 => {
             this.notifierService.notify('error', 'Не удалось загрузить учебный план');
@@ -168,6 +169,7 @@ export class ScheduleComponent implements OnInit {
       week.occupation = this.occupationHoliday;
     });
     this.course.total = 52;
+    console.log(this.course);
     if (this.schedule === undefined) {
       this.scheduleNew = new Schedule();
       this.scheduleService.addSchedule(this.scheduleNew, this.studyPlanId).subscribe(schedule => {
@@ -175,8 +177,9 @@ export class ScheduleComponent implements OnInit {
         schedule.courses = [];
         schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
         schedule.countOccupation = JSON.parse(JSON.stringify(this.occupationCounterList));
-        this.scheduleService.saveSchedule(schedule).subscribe( schedule => {
-          this.schedule = schedule;
+        this.scheduleService.saveSchedule(schedule).subscribe( scheduleNew => {
+          this.schedule = scheduleNew;
+          this.notifierService.notify('success', 'Курс успешно добавлен');
         });
       });
     } else {
@@ -188,11 +191,15 @@ export class ScheduleComponent implements OnInit {
         }
       });
       this.schedule.courses.push(JSON.parse(JSON.stringify(this.course)));
-      this.scheduleService.saveSchedule(this.schedule).subscribe();
+      this.scheduleService.saveSchedule(this.schedule).subscribe(schedule => {
+        this.schedule = schedule;
+        this.notifierService.notify('success', 'Курс успешно добавлен');
+      });
     }
   }
 
   recalculateCounters() {
+    let change = 0;
     this.schedule.countOccupation.forEach((counter) => {
       this.occupationsOld.push(counter.occupation);
     });
@@ -204,6 +211,7 @@ export class ScheduleComponent implements OnInit {
         }
       });
       if (this.flag === 0 ) {
+        change = 1;
         this.occupationCounter.occupation = occupation;
         this.occupationCounter.count = 0;
         this.schedule.countOccupation.push(JSON.parse(JSON.stringify(this.occupationCounter)));
@@ -214,8 +222,41 @@ export class ScheduleComponent implements OnInit {
         });
       }
     });
-    this.scheduleService.saveSchedule(this.schedule).subscribe( schedule => {
-      this.schedule = this.schedule;
+    if (change === 1) {
+      this.scheduleService.saveSchedule(this.schedule).subscribe( schedule => {
+        this.schedule = schedule;
+      });
+    }
+  }
+
+  public deleteCourse() {
+    const courseO = this.schedule.courses[this.schedule.courses.length - 1];
+    const dialogRef = this.dialog.open(DeleteCourseComponent, {
+      width: '30%',
+      height: '30%',
+      data: {course: courseO.id},
+      scrollStrategy: this.overlay.scrollStrategies.noop()
+    }) ;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        if (this.schedule.courses.length > 1) {
+          this.schedule.courses.splice(this.schedule.courses.indexOf(courseO, 1));
+          courseO.countOccupation.forEach((count) => {
+            this.schedule.countOccupation.forEach((countS) =>{
+              if (count.occupation.id === countS.occupation.id) {
+                countS.count = countS.count -  count.count;
+              }
+            });
+          });
+          this.scheduleService.saveSchedule(this.schedule).subscribe();
+          this.notifierService.notify('success', 'Курс успешно удален');
+        } else {
+          this.scheduleService.deleteSchedule(this.schedule.id).subscribe(schedue => {
+            this.schedule = undefined;
+            this.notifierService.notify('success', 'Курс успешно удален');
+          });
+        }
+      }
     });
   }
 }

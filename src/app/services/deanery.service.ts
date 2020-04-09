@@ -97,4 +97,16 @@ export class DeaneryService {
   addGroup(group: Group, id: string): Observable<Group> {
     return this.http.post<Group>(this.url + 'groups/?flowId=' + id, group);
   }
+
+  checkUniqueLectern(param: string, value: string): Observable<any> {
+    return this.http.get<any>(this.url + 'lectern/checkUniqLectern/?' + param + '=' + value);
+  }
+
+  checkUniqueGroupName( value: string): Observable<any> {
+    return this.http.get<any>(this.url + 'groups/checkUniqGroupName/?name=' + value);
+  }
+
+  checkUniqueFlowName( value: string): Observable<any> {
+    return this.http.get<any>(this.url + 'flow/checkUniqFlowName/?name=' + value);
+  }
 }
