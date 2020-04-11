@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Overlay} from '@angular/cdk/overlay';
 import {LocalStorageService} from '../../services/local-storage.service';
@@ -41,7 +41,6 @@ export class SpecialitiesComponent implements OnInit, OnDestroy {
     const lecternId = this.route.snapshot.paramMap.get('id');
 
     this.localStorageService.observableHeaderType.next(HeaderType.LECTERN);
-
     // loading of Lectern if it is null or id changed
     if (this.localStorageService.observableLectern.getValue() === null ||
       this.localStorageService.observableLectern.getValue().id !== lecternId) {

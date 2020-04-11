@@ -6,7 +6,6 @@ import {Overlay} from '@angular/cdk/overlay';
 import {Subscription} from 'rxjs';
 import {OperationResponse} from '../../../model/operation-response.model';
 import {SpecialityDeleteComponent} from '../../dialogs/speciality/speciality-delete/speciality-delete.component';
-import {Subject} from '../../../model/subject.model';
 import {NotifierService} from 'angular-notifier';
 
 
@@ -26,7 +25,7 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild('specialityTable', {static: false}) specialityTable: MatTable<Subject>;
+  @ViewChild('specialityTable', {static: false}) specialityTable: MatTable<Speciality>;
 
   @Input() specialities: Speciality[];
   displayedColumns: string[] = ['abbreviation', 'name', 'description', 'icons'];

@@ -6,7 +6,6 @@ import {Subscription} from 'rxjs';
 import {OperationResponse} from '../../../model/operation-response.model';
 import {Teacher} from '../../../model/teacher.model';
 import {TeacherAddEditComponent} from '../../dialogs/teachers/teacher-add-edit/teacher-add-edit.component';
-import {Subject} from '../../../model/subject.model';
 import {TeacherDeleteComponent} from '../../dialogs/teachers/teacher-delete/teacher-delete.component';
 
 @Component({
@@ -25,7 +24,7 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild('teacherTable', {static: false}) teacherTable: MatTable<Subject>;
+  @ViewChild('teacherTable', {static: false}) teacherTable: MatTable<Teacher>;
 
   @Input() teachers: Teacher[];
   displayedColumns: string[] = ['name', 'surname', 'patronymic', 'position', 'rank', 'academicDegree', 'icons'];

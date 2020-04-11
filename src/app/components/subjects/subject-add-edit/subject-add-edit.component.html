@@ -1,0 +1,138 @@
+<mat-spinner *ngIf="loading;else mainContent" diameter="150" mode="indeterminate" color="primary" class="spinner">
+</mat-spinner>
+<ng-template #mainContent>
+
+  <div *ngIf="this.subject; else subjectNotFound" style="margin: auto; width: 60%;">
+    <form [formGroup]="subjectForm">
+      <div class="column" style="height: 100%">
+
+        <div class="row" style="width: 100%; margin-bottom: 2%" *ngIf="isEditMode">
+          <p style=" font-size: 2em; margin-bottom: 2%"> Редактирование шаблона предмета </p>
+        </div>
+
+        <div class="row" style="width: 100%; margin-bottom: 2%" *ngIf="!isEditMode">
+          <p style=" font-size: 2em; margin-bottom: 2%"> Создание шаблона предмета </p>
+        </div>
+
+        <!--    Name-->
+        <div class="row" style="width: 100%; margin-bottom: 2%">
+
+          <mat-form-field>
+            <input matInput type="text" formControlName="name" placeholder="Название предмета:">
+          </mat-form-field>
+
+          <mat-form-field style="margin-left: 2%">
+            <input matInput type="text" formControlName="abbreviation" placeholder="Аббревиатура:">
+          </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+
+        <!--    Description -->
+        <div class="row">
+          <div style="width: 60%; word-wrap: break-word;">
+            <mat-form-field style="width: 100%">
+              <textarea matInput placeholder="Описание предмета" formControlName="description"
+                        matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="column " style="width: 40%;">
+            <div class="row" style="margin: 2%; justify-content: space-between">
+              <p style=" font-size: 2em;"><b> Кафедра: </b></p>
+              <p style=" font-size: 2em;"> {{subject.department}}</p>
+            </div>
+
+            <div class="row" style="justify-content: space-between; margin: 2%">
+              <p style=" font-size: 2em;"><b> Шаблон: </b></p>
+              <p style=" font-size: 2em;"> Да </p>
+            </div>
+
+
+            <div class="row" style="justify-content: space-between; margin: 2%">
+              <p style=" font-size: 2em;"><b> Часов: </b></p>
+              <p style=" font-size: 2em;"> {{getCurrentFreeHoursValue()}}/{{getCurrentSumOfHoursValue()}} </p>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+
+        <!-- Нагрузки -->
+
+        <div class="column">
+          <div class="row">
+            <p style="font-size: 2em"><b>Нагрузки: </b></p>
+            <button mat-icon-button color="primary" (click)="this.addSeverity()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+          <div class="row" formArrayName="severities"
+               *ngFor="let severitySubj of subjectForm.get('severities')['controls']; let severityIndex = index;">
+            <div [formGroupName]="severityIndex" class="row" style="align-items: center">
+              <!--              <span>{{severityIndex + 1}}</span>-->
+              <!--              <div formGroupName="severity">-->
+              <!--                <mat-form-field appearance="legacy">-->
+              <!--                  <input matInput type="text" formControlName="name" placeholder="Название">-->
+              <!--                </mat-form-field>-->
+              <!--              </div>-->
+              <p style="font-size: 18px"> {{severitySubj.get('severity').get('name').value}} </p>
+              <mat-form-field appearance="legacy" style="margin-left: 2%">
+                <input matInput type="number" formControlName="hours" placeholder="Количество часов">
+              </mat-form-field>
+              <button mat-icon-button color="primary" style="margin-left: 2%" (click)="deleteSeverity(severityIndex, severitySubj.value)">
+                <mat-icon> clear</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <mat-divider></mat-divider>
+
+        <!-- Периодические Нагрузки -->
+        <div class="column">
+          <div class="row">
+            <p style="font-size: 2em"><b>Периодические нагрузки: </b></p>
+            <button mat-icon-button color="primary" (click)="this.addPereodicSeverity()">
+              <mat-icon> add</mat-icon>
+            </button>
+          </div>
+
+          <div class="row" formArrayName="pereodicSeverities"
+               *ngFor="let pereodicSeverity of subjectForm.get('pereodicSeverities')['controls']; let pereodicSeverityIndex = index;">
+            <div [formGroupName]="pereodicSeverityIndex" class="row" style="align-items: center">
+
+              <p style="font-size: 18px"> {{pereodicSeverity.get('pereodicSeverity').get('name').value}} </p>
+              <!--              Semester edit-->
+              <!--              <div class="row"-->
+              <!--                   *ngFor="let semesterNumber of pereodicSeverity.get('semesterNumbers')['controls']; let semesterNumberIndex = index;">-->
+              <!--                <p> {{semesterNumber.get('number').value}}</p>-->
+              <!--              </div>-->
+              <button mat-icon-button color="primary" style="margin-left: 2%"
+                      (click)="deletePereodicSeverity(pereodicSeverityIndex)">
+                <mat-icon> clear</mat-icon>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <mat-divider></mat-divider>
+
+        <div style="width: 100%; margin-top: 1%">
+          <button mat-raised-button *ngIf="isEditMode" (click)="updateSubjectTemplate()" [disabled]="this.subjectForm.invalid">
+            Сохранить
+          </button>
+          <button mat-raised-button *ngIf="!isEditMode" (click)="createSubjectTemplate()" [disabled]="this.subjectForm.invalid">
+            Создать
+          </button>
+          <button mat-raised-button (click)="onCancelClick()"> Отменить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+
+<ng-template #subjectNotFound>
+  <h2 align="center"> Шаблон предмета не найден </h2>
+</ng-template>

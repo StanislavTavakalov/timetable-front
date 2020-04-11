@@ -81,7 +81,7 @@ export class EditSubjectComponent implements OnInit {
 
     for (const periodicSeverity of this.subject.pereodicSeverities) {
       for (const perSevForm of this.pereodicSeverities.controls) {
-        if (periodicSeverity.severity.name === perSevForm.value.name) {
+        if (periodicSeverity.pereodicSeverity.name === perSevForm.value.name) {
           for (const num of perSevForm.value.semesterNumbers.split(',').map(Number)) {
             let flag = false;
             for (const semNum of periodicSeverity.semesterNumbers) {
@@ -118,7 +118,7 @@ export class EditSubjectComponent implements OnInit {
 
   addPereodicSeverity(pSev: PereodicSeveritySubject) {
     return this.fb.group({
-      name: pSev.severity.name,
+      name: pSev.pereodicSeverity.name,
       semesterNumbers: pSev.semesterNumbers.map(value => value.number).toString()
     });
   }

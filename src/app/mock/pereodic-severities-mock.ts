@@ -1,3 +1,4 @@
+import {PereodicSeverity} from '../model/pereodic-severity.model';
 
 export const PEREODIC_SEVERITY_EXAMS: PereodicSeverity = {
   id: '1',

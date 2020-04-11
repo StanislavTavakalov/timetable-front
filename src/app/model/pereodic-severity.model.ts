@@ -1,4 +1,4 @@
-class PereodicSeverity {
+export class PereodicSeverity {
   id: string;
   name: string;
 }

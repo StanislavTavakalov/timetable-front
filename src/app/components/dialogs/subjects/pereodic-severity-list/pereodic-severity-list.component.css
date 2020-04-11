@@ -1,0 +1,11 @@
+.row {
+  display: flex;
+  flex-direction: row !important;
+  margin: 10%;
+}
+
+.column{
+  display: flex;
+  flex-direction: column !important;
+  margin: 1%;
+}

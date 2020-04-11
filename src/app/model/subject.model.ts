@@ -9,10 +9,28 @@ export class Subject {
   public semesters: Semester[];
   public severities: SeveritySubject[];
   public pereodicSeverities: PereodicSeveritySubject[];
+  public description: string;
   public department: string;
   public sumOfHours: number;
   public freeHours: number;
-  public isTemplate: boolean;
+  public template: boolean;
   public isChanged = false;
   public position: number;
 }
+
+
+export const defaultSubject: Subject = {
+  id: null,
+  name: '',
+  abbreviation: '',
+  semesters: [],
+  severities: [],
+  pereodicSeverities: [],
+  description: '',
+  department: '',
+  sumOfHours: 0,
+  freeHours: 0,
+  template: true,
+  isChanged: false,
+  position: null,
+};

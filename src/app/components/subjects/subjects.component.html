@@ -1,1 +1,10 @@
-<p>subjects works!</p>
+<mat-spinner *ngIf="loading;else mainContent" diameter="150" mode="indeterminate" color="primary" class="spinner">
+</mat-spinner>
+
+<ng-template #mainContent>
+  <div style="display: flex">
+    <div *ngIf="subjectTableVisible" class="table-content">
+      <app-subject-datatable [subjects]="subjects"></app-subject-datatable>
+    </div>
+  </div>
+</ng-template>

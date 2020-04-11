@@ -62,7 +62,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
     }, error => {
       this.loading = false;
       this.teacherTableVisible = true;
-      this.notifierService.notify('error', 'Не удалось загрузить специальности.');
+      this.notifierService.notify('error', 'Не удалось загрузить преподавателей.');
     });
   }
 

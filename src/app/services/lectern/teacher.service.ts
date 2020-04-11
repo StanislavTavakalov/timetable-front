@@ -35,8 +35,8 @@ export class TeacherService {
       .pipe(catchError(this.handleError));
   }
 
-  public deleteTeacher(specialityId: string): Observable<any> {
-    return this.http.delete(environment.domain + this.teacherAPIUrl + specialityId)
+  public deleteTeacher(teacherId: string): Observable<any> {
+    return this.http.delete(environment.domain + this.teacherAPIUrl + teacherId)
       .pipe(catchError(this.handleError));
   }
 

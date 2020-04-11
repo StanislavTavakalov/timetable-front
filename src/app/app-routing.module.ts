@@ -4,12 +4,13 @@ import {StudyPlanComponent} from './components/study-plan/study-plan.component';
 import {TimetableComponent} from './components/timetable/timetable.component';
 import {FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
 import {ScheduleComponent} from './components/schedule/schedule.component';
-import {CreateOccupationComponent} from './components/create-occupation/create-occupation.component';
 import {DeaneryComponent} from './components/deanery/deanery.component';
 import {SpecialitiesComponent} from './components/specialities/specialities.component';
 import {SubjectsComponent} from './components/subjects/subjects.component';
 import {TeachersComponent} from './components/teachers/teachers.component';
 import {DeaneryStaffComponent} from './components/deanery-staff/deanery-staff.component';
+import {SubjectAddEditComponent} from './components/subjects/subject-add-edit/subject-add-edit.component';
+import {SubjectComponent} from './components/subjects/subject/subject.component';
 import {GroupComponent} from './components/group/group.component';
 import {FlowComponent} from './components/flow/flow.component';
 
@@ -26,6 +27,9 @@ const routes: Routes = [
   {path: 'deanery/:id/flows/:idLectern', component: FlowComponent},
   {path: 'lectern/:id', component: SpecialitiesComponent},
   {path: 'lectern/:id/study-plans', component: StudyPlanComponent},
+  {path: 'lectern/:id/subjects/subject-edit/:subjectId', component: SubjectAddEditComponent},
+  {path: 'lectern/:id/subjects/subject-edit', component: SubjectAddEditComponent},
+  {path: 'lectern/:id/subjects/:subjectId', component: SubjectComponent},
   {path: 'lectern/:id/subjects', component: SubjectsComponent},
   {path: 'lectern/:id/specialities', component: SpecialitiesComponent},
   {path: 'lectern/:id/teachers', component: TeachersComponent},

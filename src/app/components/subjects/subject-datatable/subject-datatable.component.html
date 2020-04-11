@@ -1,0 +1,68 @@
+<mat-form-field>
+  <mat-label>Фильтр</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по шаблонам предметов...">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table #subjectTable mat-table [dataSource]="dataSource" matSort>
+
+    <!-- Abbreviation Column -->
+    <ng-container matColumnDef="abbreviation">
+      <th style="width: 10%" mat-header-cell *matHeaderCellDef mat-sort-header> Аббревиатура</th>
+      <td style="width: 10%" mat-cell *matCellDef="let row"> {{row.abbreviation}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th style="width: 10%" mat-header-cell *matHeaderCellDef mat-sort-header> Название</th>
+      <td style="width: 10%" mat-cell *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th style="width: 25%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание</th>
+      <td style="width: 25%; overflow: hidden" mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="department">
+      <th style="width: 9%" mat-header-cell *matHeaderCellDef mat-sort-header> Принадлежит кафедре </th>
+      <td style="width: 9%; overflow: hidden" mat-cell *matCellDef="let element"> {{element.department}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="severities">
+      <th style="width: 18%" mat-header-cell *matHeaderCellDef> Нагрузки </th>
+      <td style="width: 18%" mat-cell *matCellDef="let element"> {{getSeveritiesAsString(element.severities)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pereodicSeverities">
+      <th style="width: 18%" mat-header-cell *matHeaderCellDef> Переодические нагрузки </th>
+      <td style="width: 18%" mat-cell *matCellDef="let element"> {{getPereodicSeveritiesAsString(element.pereodicSeverities)}} </td>
+    </ng-container>
+
+    <!-- Icons Column -->
+    <ng-container matColumnDef="icons">
+      <th style="width: 10%; text-align: end" mat-header-cell *matHeaderCellDef>
+         <span class="material-icons" style="cursor: pointer" matTooltip="Добавить шаблон предмета" (click)="createSubject()">
+              add_circle
+         </span>
+      </th>
+      <td style="width: 10%; text-align: end" mat-cell *matCellDef="let subject">
+         <span class="material-icons" style="cursor: pointer" matTooltip="Редактировать шаблон предмета"  routerLink="/lectern/{{lecternId}}/subjects/{{subject.id}}">
+             arrow_forward
+         </span>
+        <span class="material-icons" (click)="deleteSubject(subject)" style="cursor: pointer"
+              matTooltip="Удалить шаблон предмета">
+             delete
+        </span>
+      </td>
+    </ng-container>
+
+<!--    style="font-size: 16px"-->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>
+
+

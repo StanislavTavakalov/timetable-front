@@ -18,6 +18,7 @@ import {TimetableService} from '../../services/timetable.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudyPlanService} from '../../services/lectern/study-plan.service';
 import {LocalStorageService} from '../../services/local-storage.service';
+import {PereodicSeverity} from '../../model/pereodic-severity.model';
 
 @Component({
   selector: 'app-study-plan',
@@ -41,9 +42,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
               private severityPereodicService: PereodicSeverityService,
               private timetableService: TimetableService,
               private studyPlanService: StudyPlanService,
-              private localStorageService: LocalStorageService,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private localStorageService: LocalStorageService) {
   }
 
   // TODO refactor below one
@@ -97,14 +96,14 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
 
     this.timetableService.getPlans();
-    this.severityPereodicService.getPereodicSeverities().subscribe(pereodicSeverities => {
+    this.severityPereodicService.getPereodicSeveritiesMock().subscribe(pereodicSeverities => {
         this.displayedSeverityColumnsForSubjects = [];
         this.pereodicSeverityList = pereodicSeverities;
         this.pereodicSeverityList.forEach(res => this.displayedPereodicSeverityColumnsForSubjects.push(res.name));
       }
     );
 
-    this.severityService.getSeverities().subscribe(result => {
+    this.severityService.getSeveritiesMock().subscribe(result => {
         this.displayedSeverityColumnsForSubjects = [];
         this.severityList = result;
         this.severityList.forEach(res => this.displayedSeverityColumnsForSubjects.push(res.name));
@@ -451,7 +450,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   public getValueToDisplayPereodic(subject: Subject, name: string) {
     for (let i = 0; i < subject.pereodicSeverities.length; i++) {
-      if (subject.pereodicSeverities[i].severity.name === name) {
+      if (subject.pereodicSeverities[i].pereodicSeverity.name === name) {
         let result = '';
         for (const semNumber of subject.pereodicSeverities[i].semesterNumbers) {
           result += semNumber.number;

@@ -26,6 +26,9 @@ import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifier-options';
 import { DeaneryStaffComponent } from './components/deanery-staff/deanery-staff.component';
 import { TeacherDatatableComponent } from './components/teachers/teacher-datatable/teacher-datatable.component';
+import { SubjectAddEditComponent } from './components/subjects/subject-add-edit/subject-add-edit.component';
+import { SubjectDatatableComponent } from './components/subjects/subject-datatable/subject-datatable.component';
+import { SubjectComponent } from './components/subjects/subject/subject.component';
 import { GroupComponent } from './components/group/group.component';
 import { FlowComponent } from './components/flow/flow.component';
 
@@ -47,6 +50,9 @@ import { FlowComponent } from './components/flow/flow.component';
     FooterComponent,
     DeaneryStaffComponent,
     TeacherDatatableComponent,
+    SubjectAddEditComponent,
+    SubjectDatatableComponent,
+    SubjectComponent,
     GroupComponent,
     FlowComponent
   ],
