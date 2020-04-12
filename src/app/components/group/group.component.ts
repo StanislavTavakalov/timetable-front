@@ -60,8 +60,8 @@ export class GroupComponent implements OnInit {
 
   addGroup() {
     const dialogRef = this.dialog.open(CreateEditGroupComponent, {
-      width: '30%',
-      height: '60%',
+      width: '25%',
+      height: '65%',
       data: {group: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
@@ -77,8 +77,8 @@ export class GroupComponent implements OnInit {
 
   deleteGroup(groupO) {
     const dialogRef = this.dialog.open(DeleteGroupComponent, {
-      width: '30%',
-      height: '30%',
+      width: '25%',
+      height: '25%',
       data: {groupId: groupO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
@@ -95,8 +95,8 @@ export class GroupComponent implements OnInit {
 
   updateGroup(groupO) {
     const dialogRef = this.dialog.open(CreateEditGroupComponent, {
-      width: '30%',
-      height: '60%',
+      width: '25%',
+      height: '65%',
       data: {group: JSON.parse(JSON.stringify(groupO)), deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     });

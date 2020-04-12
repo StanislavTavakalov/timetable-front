@@ -51,6 +51,9 @@ export class TimetableComponent implements OnInit {
             subject.semesters.sort((a, b) => a.number - b.number);
           });
         });
+        plans.forEach((plan) => {
+          plan.weeks.sort((a, b) => a.position - b.position);
+        });
         this.plans = plans;
         this.selectedPlan = this.plans[0];
         this.initializeData();
@@ -118,6 +121,9 @@ export class TimetableComponent implements OnInit {
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10);
     this.subject.semesters[numberOfSem].creditUnits = Math.round(parseInt(event.currentTarget.value, 10) / this.selectedPlan.coefficient);
     this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10) * this.selectedPlan.weeks[numberOfSem].count;
+    if (event.currentTarget.style.background === 'red') {
+      event.currentTarget.style.background = 'green';
+    }
   }
 
   public changeCreditUnit(event, id, numberOfSem): void {
@@ -161,11 +167,14 @@ export class TimetableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.updatedPlan = result;
-        this.reculculate();
-        this.table.renderRows();
-        this.timetableService.editPlan(this.updatedPlan).subscribe();
-        this.notifierService.notify('success', 'Учебный план успешно обновлен');
+        console.log(result);
+        this.timetableService.editPlan(result).subscribe(plan => {
+          this.updatedPlan = plan;
+          this.plans[this.plans.indexOf(this.selectedPlan)] = plan;
+          this.reculculate();
+          this.table.renderRows();
+          this.notifierService.notify('success', 'Учебный план успешно обновлен');
+        });
       }
     });
   }
@@ -176,6 +185,9 @@ export class TimetableComponent implements OnInit {
         plan.subjects.forEach((subject) => {
           subject.semesters.sort((a, b) => a.number - b.number);
         });
+      });
+      plans.forEach((plan) => {
+        plan.weeks.sort((a, b) => a.position - b.position);
       });
       this.plans = plans;
       this.table.renderRows();

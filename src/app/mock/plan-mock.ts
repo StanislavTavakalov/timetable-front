@@ -17,10 +17,9 @@ export const PLANS: StudyPlan[] = [{
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
   speciality: {id: '1', description: 'test', name: 'ISIT', abbreviation: 'ISIT'},
-  weeks: [{id: '600', count: 15}, {id: '601', count: 15}, {id: '602', count: 15}, {id: '603', count: 15}, {id: '604', count: 15}, {
-    id: '605',
-    count: 15
-  }, {id: '606', count: 15}, {id: '607', count: 15}],
+  weeks: [{id: '600', count: 15, position : 1}, {id: '601', count: 15, position : 2}, {id: '602', count: 15, position : 3},
+    {id: '603', count: 15, position : 4}, {id: '604', count: 15, position : 5}, {id: '605', count: 15, position : 6},
+    {id: '606', count: 15, position : 7}, {id: '607', count: 15, position : 8}],
   subjects: SUBJECTS,
   coefficient: 3,
   isChanged: false
@@ -33,10 +32,10 @@ export const PLANS: StudyPlan[] = [{
   status: StudyPlanStatus.InDevelopment,
   statusApplyDate: new Date(),
   speciality: {id: '2', description: 'test', name: 'POIT', abbreviation: 'POIT'},
-  weeks: [{id: '600', count: 15}, {id: '601', count: 15}, {id: '602', count: 15}, {id: '603', count: 15}, {id: '604', count: 15}, {
-    id: '605',
-    count: 15
-  }, {id: '606', count: 15}, {id: '607', count: 15}], subjects: SUBJECTS1, coefficient: 2, isChanged: false
+  weeks: [{id: '600', count: 15, position : 1}, {id: '601', count: 15, position : 2}, {id: '602', count: 15, position : 3},
+    {id: '603', count: 15, position : 4}, {id: '604', count: 15, position : 5}, {id: '605', count: 15, position : 6},
+    {id: '606', count: 15, position : 7}, {id: '607', count: 15, position : 8}],
+  subjects: SUBJECTS1, coefficient: 2, isChanged: false
 }];
 
 export const STUDY_PLANS_MOCK: StudyPlan[] = [

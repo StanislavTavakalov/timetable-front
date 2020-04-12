@@ -49,8 +49,8 @@ export class FlowComponent implements OnInit {
 
   public  addFlow() {
     const dialogRef = this.dialog.open(CreateEditFlowComponent, {
-      width: '30%',
-      height: '50%',
+      width: '20%',
+      height: '35%',
       data: {flow: null, lecternId: this.lecternId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
@@ -67,14 +67,14 @@ export class FlowComponent implements OnInit {
 
   public deleteFlow(flowO) {
     const dialogRef = this.dialog.open(DeleteFlowComponent, {
-      width: '30%',
-      height: '30%',
+      width: '25%',
+      height: '25%',
       data: {flowId: flowO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.flows.splice(this.flows.indexOf(flowO, 1));
+        this.flows.splice(this.flows.indexOf(flowO), 1);
         this.dataSource.data = this.flows;
         this.table.renderRows();
         this.notifierService.notify('success', 'Поток успешно удален');
@@ -84,8 +84,8 @@ export class FlowComponent implements OnInit {
 
   public updateFlow(flowO) {
     const dialogRef = this.dialog.open(CreateEditFlowComponent, {
-      width: '30%',
-      height: '50%',
+      width: '20%',
+      height: '35%',
       data: {flow: JSON.parse(JSON.stringify(flowO)), lecternId: null},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;

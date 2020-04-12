@@ -59,6 +59,10 @@ export class FormForCreationComponent implements OnInit {
       this.plan.name = this.name;
       this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
+      this.plan.subjects.forEach((subject) => {
+        subject.semesters.sort((a, b) => a.number - b.number);
+      });
+      this.plan.weeks.sort((a, b) => a.position - b.position);
       this.updateWeeks();
       this.updateSubjects();
       this.recalculateFreeHours();
@@ -77,9 +81,9 @@ export class FormForCreationComponent implements OnInit {
         this.formGroupHours.addControl('hours' + i, new FormControl('', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
         this.formGroupHours.controls['hours' + i].setValue('15');
         this.weekCount.count = 15;
+        this.weekCount.position = i + 1;
         this.weeks[i] = JSON.parse(JSON.stringify(this.weekCount));
        }
-
     } else if (num === 2) {
       this.coefficient = parseInt(event.currentTarget.value, 10);
     } else if (num === 1)  {
@@ -93,6 +97,7 @@ export class FormForCreationComponent implements OnInit {
 
   public changeWeeks(num, event) {
     this.weekCount.count = parseInt(event.currentTarget.value, 10);
+    this.weekCount.position = num + 1;
     this.weeks[num] = JSON.parse(JSON.stringify(this.weekCount));
   }
 
@@ -131,13 +136,13 @@ export class FormForCreationComponent implements OnInit {
       this.notification = '';
       subject.freeHours = subject.sumOfHours;
       subject.semesters.forEach((semester) => {
-        if (subject.freeHours - semester.hoursPerWeek * this.plan.weeks[subject.semesters.indexOf(semester)].count > 0) {
+        if (subject.freeHours - semester.hoursPerWeek * this.plan.weeks[subject.semesters.indexOf(semester)].count > -1) {
           subject.freeHours = subject.freeHours - semester.hoursPerWeek * this.plan.weeks[subject.semesters.indexOf(semester)].count;
         } else {
           if (this.notification.length === 0) {
             this.notification = subject.name + ' - ';
           }
-          this.index = subject.semesters.indexOf(semester) + 1;
+          this.index = semester.number;
           this.notification = this.notification + ' ' + this.index + ',';
           semester.hoursPerWeek = 0;
           semester.creditUnits = 0;
@@ -156,11 +161,11 @@ export class FormForCreationComponent implements OnInit {
   public updateWeeks() {
     this.weeks.forEach((weekCount) => {
       this.indexWeek = this.weeks.indexOf(weekCount);
-      if (this.plan.weeks === null) {
+      if (this.plan.weeks === undefined) {
       this.plan.weeks = [];
       }
       if (this.indexWeek < this.plan.weeks.length) {
-        this.plan.weeks[this.indexWeek].count = this.weeks[this.indexWeek].count;
+        this.plan.weeks[this.indexWeek] = this.weeks[this.indexWeek];
       } else {
         this.plan.weeks.push(this.weeks[this.indexWeek]);
       }

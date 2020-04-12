@@ -50,8 +50,8 @@ export class DeaneryStaffComponent implements OnInit {
 
   addEmployee() {
     const dialogRef = this.dialog.open(CreateEmployeeComponent, {
-      width: '30%',
-      height: '60%',
+      width: '25%',
+      height: '55%',
       data: {employee: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
@@ -67,8 +67,8 @@ export class DeaneryStaffComponent implements OnInit {
 
   deleteEmployee(employeeO) {
     const dialogRef = this.dialog.open(DeleteEmployeeComponent, {
-      width: '30%',
-      height: '30%',
+      width: '25%',
+      height: '25%',
       data: {employee: employeeO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
@@ -84,8 +84,8 @@ export class DeaneryStaffComponent implements OnInit {
 
   updateEmployee(employeeO) {
     const dialogRef = this.dialog.open(CreateEmployeeComponent, {
-      width: '30%',
-      height: '60%',
+      width: '25%',
+      height: '55%',
       data: {employee: JSON.parse(JSON.stringify(employeeO)), deaneryId: null},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     });

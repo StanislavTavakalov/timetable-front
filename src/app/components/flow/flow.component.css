@@ -1,9 +1,13 @@
-/* Structure */
 table {
-  width: 90%;
+  width: 100%;
 }
 
 .mat-form-field {
   font-size: 14px;
-  width: 90%;
+  width: 100%;
+}
+
+.tableMain {
+  margin-left: 2%;
+  width: 96%;
 }

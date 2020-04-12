@@ -74,6 +74,11 @@ export class CreateEditGroupComponent implements OnInit {
       });
     } else if (num === 5) {
       this.flowId = event.value;
+      if (this.data.group != null) {
+        this.deaneryService.getFlowById(event.value).subscribe(flow => {
+          this.group.flow = flow;
+        });
+      }
     } else if (num === 6) {
       this.specialityService.getSpecialityById(event.value).subscribe(speciality => {
         this.group.speciality = speciality;

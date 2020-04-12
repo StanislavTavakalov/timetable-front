@@ -69,7 +69,7 @@ export class DeaneryComponent implements OnInit {
   public  addLectern() {
     const dialogRef = this.dialog.open(CreateLecternComponent, {
       width: '30%',
-      height: '50%',
+      height: '55%',
       data: {lectern: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
@@ -86,7 +86,7 @@ export class DeaneryComponent implements OnInit {
 
   public viewStaff(id) {
     const dialogRef = this.dialog.open(TeacherViewComponent, {
-      width: '70%',
+      width: '80%',
       height: '80%',
       data: {lectern: id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
@@ -95,14 +95,14 @@ export class DeaneryComponent implements OnInit {
 
   public deleteLectern(lecternO) {
     const dialogRef = this.dialog.open(DeleteLecternComponent, {
-      width: '30%',
-      height: '30%',
+      width: '25%',
+      height: '25%',
       data: {lectern: lecternO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.lecterns.splice(this.lecterns.indexOf(lecternO, 1));
+        this.lecterns.splice(this.lecterns.indexOf(lecternO), 1);
         this.dataSource.data = this.lecterns;
         this.table.renderRows();
         this.notifierService.notify('success', 'Кафедра успешно удалена');
@@ -113,7 +113,7 @@ export class DeaneryComponent implements OnInit {
   public updateLectern(lecternO) {
     const dialogRef = this.dialog.open(CreateLecternComponent, {
       width: '30%',
-      height: '50%',
+      height: '55%',
       data: {lectern: JSON.parse(JSON.stringify(lecternO)), deaneryId: null},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;

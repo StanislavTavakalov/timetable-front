@@ -53,6 +53,9 @@ export class DeaneryService {
   deleteLectern(id: string): Observable<Lectern> {
     return this.http.delete<Lectern>(this.url + 'lectern/' + id);
   }
+  getFlowById(id: string): Observable<Flow> {
+    return this.http.get<Flow>(this.url + 'flow/' + id);
+  }
 
   deleteEmployee(id: string): Observable<Employee> {
     return this.http.delete<Employee>(this.url + 'employee/' + id);

@@ -88,8 +88,8 @@ export class ScheduleComponent implements OnInit {
 
   addOccupation() {
     const dialogRef = this.dialog.open(CreateOccupationComponent, {
-      width: '30%',
-      height: '80%',
+      width: '25%',
+      height: '30%',
       data: {message: 'Создать новый тип нарузки'},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
@@ -232,8 +232,8 @@ export class ScheduleComponent implements OnInit {
   public deleteCourse() {
     const courseO = this.schedule.courses[this.schedule.courses.length - 1];
     const dialogRef = this.dialog.open(DeleteCourseComponent, {
-      width: '30%',
-      height: '30%',
+      width: '25%',
+      height: '25%',
       data: {course: courseO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
