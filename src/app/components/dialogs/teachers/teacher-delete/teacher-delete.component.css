@@ -1,16 +1,8 @@
-.teacher-delete-dialog {
-  display: flex;
-  flex-direction: column;
-  font-size: 15pt;
-  justify-content: center;
-}
 
 .teacher-delete-dialog-controls {
   margin-top: 1%;
   display: flex;
-  flex-direction: row;
-  margin-right: 0;
-  margin-left: auto;
+  justify-content: flex-end;
 }
 
 button {

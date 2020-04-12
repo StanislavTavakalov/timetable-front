@@ -52,10 +52,7 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
 
   editSpeciality(speciality: Speciality) {
     const dialogRef = this.dialog.open(SpecialityAddEditComponent, {
-      width: '35%',
-      height: '40%',
-      data: {title: 'Редактировать специальность', speciality},
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      data: {title: 'Редактировать специальность', speciality}
     });
 
     this.editSpecialityDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {
@@ -69,11 +66,8 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
 
   deleteSpeciality(speciality: Speciality) {
     const dialogRef = this.dialog.open(SpecialityDeleteComponent, {
-      width: '20%',
-      height: '25%',
       data: {specialityId: speciality.id},
-      disableClose: true,
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      disableClose: true
     });
 
     this.deleteSpecialityDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {
@@ -92,10 +86,7 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
 
   private addNewSpeciality() {
     const dialogRef = this.dialog.open(SpecialityAddEditComponent, {
-      width: '35%',
-      height: '40%',
-      data: {title: 'Новая специальность'},
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      data: {title: 'Новая специальность'}
     });
 
     this.addSpecialityDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {

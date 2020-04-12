@@ -85,12 +85,12 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
   private initializeForm(subject: Subject) {
     this.subjectForm = this.formBuilder.group({
       id: [subject.id],
-      name: [subject.name, Validators.required],
-      description: [subject.description, Validators.required],
-      abbreviation: [subject.abbreviation, Validators.required],
+      name: [subject.name, [Validators.required, Validators.maxLength(20)]],
+      description: [subject.description, Validators.maxLength(1000)],
+      abbreviation: [subject.abbreviation, [Validators.required, Validators.maxLength(10)]],
       department: [subject.department, Validators.required],
-      sumOfHours: [subject.sumOfHours],
-      freeHours: [subject.freeHours],
+      sumOfHours: [subject.sumOfHours, Validators.min(0)],
+      freeHours: [subject.freeHours, Validators.min(0)],
       template: [subject.template],
       severities: this.formBuilder.array([], Validators.maxLength(10)),
       pereodicSeverities: this.formBuilder.array([], Validators.maxLength(10))
@@ -107,7 +107,7 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
             id: [severitySubject.severity.id, Validators.required],
             name: [severitySubject.severity.name, Validators.required],
           }),
-          hours: [severitySubject.hours, [Validators.required, Validators.min(1), Validators.max(99), Validators.pattern('')]],
+          hours: [severitySubject.hours, [Validators.required, Validators.min(1), Validators.max(99)]],
         }));
       });
     }
@@ -160,7 +160,7 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
                 id: [sev.id, Validators.required],
                 name: [sev.name, Validators.required],
               }),
-              hours: 0,
+              hours: [0, [Validators.required, Validators.min(1), Validators.max(99)]],
             }));
           }
         }
@@ -239,6 +239,7 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
 
     this.subjectSubscription = this.subjectService.editSubject(subjectToSave).subscribe(subject => {
       this.router.navigate(['lectern/' + this.lecternId + '/subjects/' + subject.id]);
+      this.notifierService.notify('success', 'Шаблон предмета был изменен');
     }, error => {
       this.notifierService.notify('error', 'Предмет не был создан');
       this.router.navigate(['lectern/' + this.lecternId + '/subjects']);
@@ -253,7 +254,8 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
     subjectToSave.template = true;
 
     this.subjectSubscription = this.subjectService.createSubject(subjectToSave).subscribe(subject => {
-      this.router.navigate(['lectern/' + this.lecternId + '/subjects/' + subject.id]);
+      this.router.navigate(['lectern/' + this.lecternId + '/subjects']);
+      this.notifierService.notify('success', 'Шаблон предмета был добавлен');
     }, error => {
       this.notifierService.notify('error', 'Предмет не был создан');
       this.router.navigate(['lectern/' + this.lecternId + '/subjects']);

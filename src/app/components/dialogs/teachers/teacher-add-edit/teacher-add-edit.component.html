@@ -1,44 +1,56 @@
-<div class="teacher-edit-add-dialog">
-  <h1 mat-dialog-title>{{title}}</h1>
-  <form [formGroup]="teacherForm">
+ <h1 mat-dialog-title>{{title}}</h1>
+  <mat-dialog-content>
+    <form [formGroup]="teacherForm">
+      <mat-form-field>
+        <input matInput placeholder="Имя" [formControlName]="'name'" maxLength="25">
+        <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 25!
+        </mat-error>
+        <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Имя: " [formControlName]="'name'" maxLength="25">
-      <mat-error *ngIf="name.invalid">{{getErrorText('name')}}</mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Фамилия" [formControlName]="'surname'" maxLength="25">
+        <mat-error *ngIf="surname.hasError('maxlength')"> Количество символов не должно превышать 25!
+        </mat-error>
+        <mat-error *ngIf="surname.hasError('required')"> Поле должно быть заполнено</mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Фамилия: " [formControlName]="'surname'" maxLength="25">
-      <mat-error *ngIf="name.invalid">{{getErrorText('surname')}}</mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Отчество" [formControlName]="'patronymic'" maxLength="25">
+        <mat-error *ngIf="patronymic.hasError('maxlength')"> Количество символов не должно превышать 25!
+        </mat-error>
+        <mat-error *ngIf="patronymic.hasError('required')"> Поле должно быть заполнено</mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Отчество: " [formControlName]="'patronymic'" maxLength="25">
-      <mat-error *ngIf="name.invalid">{{getErrorText('patronymic')}}</mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Должность" [formControlName]="'position'" maxLength="25">
+        <mat-error *ngIf="position.hasError('maxlength')"> Количество символов не должно превышать 25!
+        </mat-error>
+        <mat-error *ngIf="position.hasError('required')"> Поле должно быть заполнено</mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Должность: " [formControlName]="'position'" maxLength="25">
-      <mat-error *ngIf="name.invalid">{{getErrorText('position')}}</mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ранг" [formControlName]="'rank'" maxLength="25">
+        <mat-error *ngIf="rank.hasError('maxlength')"> Количество символов не должно превышать 25!
+        </mat-error>
+        <mat-error *ngIf="rank.hasError('required')"> Поле должно быть заполнено</mat-error>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Ранг: " [formControlName]="'rank'" maxLength="25">
-      <mat-error *ngIf="name.invalid">{{getErrorText('rank')}}</mat-error>
-    </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Достижения" [formControlName]="'academicDegree'"
+                  matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+        <mat-error *ngIf="academicDegree.hasError('maxlength')"> Количество символов не должно превышать 1000!
+        </mat-error>
+        <mat-error *ngIf="academicDegree.hasError('required')"> Поле должно быть заполнено</mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="controls">
+    <mat-spinner *ngIf="loading" diameter="40" color="primary">
+    </mat-spinner>
+    <button mat-button color="primary" (click)="onConfirmClick()" [disabled]="teacherForm.invalid">
+      Подтвердить
+    </button>
+    <button mat-button color="warn" (click)=onCancelClick()> Отмена</button>
+  </mat-dialog-actions>
 
-    <mat-form-field>
-      <input matInput placeholder="Достижения: " [formControlName]="'academicDegree'" maxLength="255">
-      <mat-error *ngIf="name.invalid">{{getErrorText('academicDegree')}}</mat-error>
-    </mat-form-field>
-
-    <div class="controls">
-      <mat-spinner *ngIf="loading" diameter="40" color="primary">
-      </mat-spinner>
-      <button mat-button color="primary" (click)="onConfirmClick()" [disabled]="teacherForm.invalid">
-        Подтвердить
-      </button>
-      <button mat-button color="warn" (click)=onCancelClick()> Отмена </button>
-    </div>
-  </form>
-</div>

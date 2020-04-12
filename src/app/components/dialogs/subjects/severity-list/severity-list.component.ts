@@ -88,6 +88,9 @@ export class SeverityListComponent implements OnInit, OnDestroy {
   }
 
   disableButton() {
+    if (!this.severityListForCheckboxGroup) {
+      return false;
+    }
     for (const checkBox of this.severityListForCheckboxGroup) {
       if (checkBox[0]) {
         return false;

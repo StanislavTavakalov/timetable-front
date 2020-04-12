@@ -31,7 +31,7 @@ export class SubjectDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('subjectTable', {static: false}) subjectMatTable: MatTable<Subject>;
 
   @Input() subjects: Subject[];
-  displayedColumns: string[] = ['abbreviation', 'name', 'description', 'department', 'severities', 'pereodicSeverities', 'icons'];
+  displayedColumns: string[] = ['abbreviation', 'name', 'description', 'sumOfHours', 'severities', 'pereodicSeverities', 'icons'];
   dataSource: MatTableDataSource<Subject>;
   deleteSubjectDialogSubscription: Subscription;
   lecternId: string;
@@ -54,11 +54,8 @@ export class SubjectDatatableComponent implements OnInit, OnDestroy {
 
   deleteSubject(subject: Subject) {
     const dialogRef = this.dialog.open(SubjectDeleteComponent, {
-      width: '20%',
-      height: '25%',
       data: {subjectId: subject.id},
-      disableClose: true,
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      disableClose: true
     });
 
     this.deleteSubjectDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {

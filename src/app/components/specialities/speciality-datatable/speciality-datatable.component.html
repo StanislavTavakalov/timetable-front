@@ -21,7 +21,7 @@
     <!-- Description Column -->
     <ng-container matColumnDef="description">
       <th style="width: 45%" mat-header-cell class="description" *matHeaderCellDef mat-sort-header> Описание специальности</th>
-      <td style="width: 45%" mat-cell class="description" *matCellDef="let element"> {{element.description}} </td>
+      <td style="width: 45%; overflow: hidden" mat-cell class="description" *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
 
     <!-- Icons Column -->

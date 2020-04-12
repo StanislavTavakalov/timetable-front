@@ -19,10 +19,22 @@
 
           <mat-form-field>
             <input matInput type="text" formControlName="name" placeholder="Название предмета:">
+            <mat-error *ngIf="subjectForm.get('name').hasError('required')">
+              Необходимо заполнить поле
+            </mat-error>
+            <mat-error *ngIf="subjectForm.get('name').hasError('maxlength')">
+              Максимальное количество символов 20!
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field style="margin-left: 2%">
             <input matInput type="text" formControlName="abbreviation" placeholder="Аббревиатура:">
+            <mat-error *ngIf="subjectForm.get('abbreviation').hasError('required')">
+              Необходимо заполнить поле
+            </mat-error>
+            <mat-error *ngIf="subjectForm.get('abbreviation').hasError('maxlength')">
+              Максимальное количество символов 10!
+            </mat-error>
           </mat-form-field>
         </div>
         <mat-divider></mat-divider>
@@ -33,6 +45,9 @@
             <mat-form-field style="width: 100%">
               <textarea matInput placeholder="Описание предмета" formControlName="description"
                         matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+              <mat-error *ngIf="subjectForm.get('description').hasError('maxlength')">
+                Максимальное количество символов 1000!
+              </mat-error>
             </mat-form-field>
           </div>
 
@@ -50,7 +65,8 @@
 
             <div class="row" style="justify-content: space-between; margin: 2%">
               <p style=" font-size: 2em;"><b> Часов: </b></p>
-              <p style=" font-size: 2em;"> {{getCurrentFreeHoursValue()}}/{{getCurrentSumOfHoursValue()}} </p>
+<!--              <p style=" font-size: 2em;"> {{getCurrentFreeHoursValue()}}/{{getCurrentSumOfHoursValue()}} </p>-->
+              <p style=" font-size: 2em;"> {{getCurrentSumOfHoursValue()}} </p>
             </div>
           </div>
         </div>
@@ -78,6 +94,10 @@
               <p style="font-size: 18px"> {{severitySubj.get('severity').get('name').value}} </p>
               <mat-form-field appearance="legacy" style="margin-left: 2%">
                 <input matInput type="number" formControlName="hours" placeholder="Количество часов">
+                <mat-error *ngIf="severitySubj.get('hours').hasError('max')">
+                  Укажите количество часов меньше 100
+                </mat-error>
+                <mat-error *ngIf="severitySubj.get('hours').hasError('min')"> Укажите количество часов больше 1</mat-error>
               </mat-form-field>
               <button mat-icon-button color="primary" style="margin-left: 2%" (click)="deleteSeverity(severityIndex, severitySubj.value)">
                 <mat-icon> clear</mat-icon>

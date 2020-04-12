@@ -51,10 +51,7 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
 
   private editTeacher(teacher: Teacher) {
     const dialogRef = this.dialog.open(TeacherAddEditComponent, {
-      width: '35%',
-      height: '63%',
-      data: {title: 'Редактировать преподавателя', teacher},
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      data: {title: 'Редактировать преподавателя', teacher}
     });
 
     this.editTeacherDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {
@@ -68,11 +65,8 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
 
   private deleteTeacher(teacher: Teacher) {
     const dialogRef = this.dialog.open(TeacherDeleteComponent, {
-      width: '20%',
-      height: '25%',
       data: {teacherId: teacher.id},
-      disableClose: true,
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      disableClose: true
     });
 
     this.deleteTeacherDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {
@@ -91,10 +85,7 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
 
   private addNewTeacher() {
     const dialogRef = this.dialog.open(TeacherAddEditComponent, {
-      width: '35%',
-      height: '63%',
-      data: {title: 'Добавить преподавателя'},
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      data: {title: 'Добавить преподавателя'}
     });
 
     this.addTeacherDialogSubscription = dialogRef.afterClosed().subscribe((operationResponse: OperationResponse) => {

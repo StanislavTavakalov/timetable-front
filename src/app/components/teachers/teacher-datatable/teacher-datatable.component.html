@@ -9,37 +9,37 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell  *matHeaderCellDef mat-sort-header> Имя </th>
-      <td mat-cell  *matCellDef="let row"> {{row.name}} </td>
+      <td mat-cell style="width: 15%" *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
 
     <!-- Surname Column -->
     <ng-container matColumnDef="surname">
       <th mat-header-cell  *matHeaderCellDef mat-sort-header> Фамилия </th>
-      <td mat-cell  *matCellDef="let row"> {{row.surname}} </td>
+      <td mat-cell style="width: 15%" *matCellDef="let row"> {{row.surname}} </td>
     </ng-container>
 
     <!-- Patronymic Column -->
     <ng-container matColumnDef="patronymic">
       <th mat-header-cell  *matHeaderCellDef mat-sort-header> Отчество </th>
-      <td mat-cell  *matCellDef="let row"> {{row.patronymic}} </td>
+      <td mat-cell style="width: 15%" *matCellDef="let row"> {{row.patronymic}} </td>
     </ng-container>
 
     <!-- Position Column -->
     <ng-container matColumnDef="position">
       <th mat-header-cell  *matHeaderCellDef mat-sort-header> Должность </th>
-      <td mat-cell  *matCellDef="let row"> {{row.position}} </td>
+      <td mat-cell style="width: 5%" *matCellDef="let row"> {{row.position}} </td>
     </ng-container>
 
     <!-- Rank Column -->
     <ng-container matColumnDef="rank">
       <th mat-header-cell  *matHeaderCellDef mat-sort-header> Ранг </th>
-      <td mat-cell  *matCellDef="let row"> {{row.rank}} </td>
+      <td mat-cell style="width: 5%" *matCellDef="let row"> {{row.rank}} </td>
     </ng-container>
 
     <!-- Academic Degree Column -->
     <ng-container matColumnDef="academicDegree">
       <th mat-header-cell  *matHeaderCellDef mat-sort-header> Достижения </th>
-      <td mat-cell  *matCellDef="let row"> {{row.academicDegree}} </td>
+      <td mat-cell style="overflow: hidden; width: 30%" *matCellDef="let row"> {{row.academicDegree}} </td>
     </ng-container>
 
     <!-- Icons Column -->
@@ -49,7 +49,7 @@
               add_circle
          </span>
       </th>
-      <td style="text-align: end" mat-cell class="icons" *matCellDef="let teacher">
+      <td style="text-align: end; width: 10%" mat-cell class="icons" *matCellDef="let teacher">
          <span class="material-icons" (click)="editTeacher(teacher)" style="cursor: pointer" matTooltip="Редактировать преподавателя">
              edit
          </span>

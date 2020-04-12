@@ -1,28 +1,32 @@
-<div class="speciality-edit-add-dialog">
-  <h1 mat-dialog-title>{{title}}</h1>
+<h1 mat-dialog-title>{{title}}</h1>
+<mat-dialog-content>
   <form [formGroup]="specialityForm">
     <mat-form-field>
-      <input matInput placeholder="Аббревиатура: " [formControlName]="'abbreviation'" maxLength="10">
-      <mat-error *ngIf="abbreviation.invalid">{{getErrorText('abbreviation')}}</mat-error>
+      <input matInput placeholder="Аббревиатура" [formControlName]="'abbreviation'" maxLength="10">
+      <mat-error *ngIf="abbreviation.hasError('maxlength')"> Количество символов не должно превышать 10!</mat-error>
+      <mat-error *ngIf="abbreviation.hasError('required')"> Поле должно быть заполнено</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Полное название: " [formControlName]="'name'" maxLength="25">
-      <mat-error *ngIf="name.invalid">{{getErrorText('name')}}</mat-error>
+      <input matInput placeholder="Полное название" [formControlName]="'name'" maxLength="65">
+      <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 65!</mat-error>
+      <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Описание специальности: " [formControlName]="'description'" maxLength="255">
-      <mat-error *ngIf="description.invalid">{{getErrorText('description')}}</mat-error>
+      <textarea matInput placeholder="Описание специальности" [formControlName]="'description'"
+                matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+      <mat-error *ngIf="description.hasError('maxlength')"> Количество символов не должно превышать 1000!</mat-error>
+      <mat-error *ngIf="description.hasError('required')"> Поле должно быть заполнено</mat-error>
     </mat-form-field>
-
-    <div class="controls">
-      <mat-spinner *ngIf="loading" diameter="40" color="primary">
-      </mat-spinner>
-      <button mat-button color="primary" (click)="onConfirmClick()" [disabled]="specialityForm.invalid">
-        Подтвердить
-      </button>
-      <button mat-button color="warn" (click)=onCancelClick()> Отмена </button>
-    </div>
   </form>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions class="controls">
+  <mat-spinner *ngIf="loading" diameter="40" color="primary">
+  </mat-spinner>
+  <button mat-button color="primary" (click)="onConfirmClick()" [disabled]="specialityForm.invalid">
+    Подтвердить
+  </button>
+  <button mat-button color="warn" (click)=onCancelClick()> Отмена</button>
+</mat-dialog-actions>
+

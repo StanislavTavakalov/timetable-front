@@ -1,12 +1,13 @@
-<div class="teacher-delete-dialog">
-  <h2 mat-dialog-title align="center"> Удалить преподавателя </h2>
+<h2 mat-dialog-title align="center"> Удалить преподавателя </h2>
+<mat-dialog-content>
   <p align="center"> Вы уверены? </p>
-  <div class="teacher-delete-dialog-controls">
-    <mat-spinner *ngIf="loading" diameter="40" color="primary">
-    </mat-spinner>
-    <button mat-button color="primary" (click)="onConfirmClick()">
-      Да
-    </button>
-    <button mat-button color="warn" (click)=onCancelClick()> Нет</button>
-  </div>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions class="teacher-delete-dialog-controls">
+  <mat-spinner *ngIf="loading" diameter="40" color="primary">
+  </mat-spinner>
+  <button mat-button color="primary" (click)="onConfirmClick()">
+    Да
+  </button>
+  <button mat-button color="warn" (click)=onCancelClick()> Нет</button>
+</mat-dialog-actions>
+

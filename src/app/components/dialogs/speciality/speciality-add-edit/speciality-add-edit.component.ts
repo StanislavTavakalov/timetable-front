@@ -42,28 +42,10 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
 
   private initializeForm(speciality: Speciality) {
     this.specialityForm = this.fb.group({
-      name: [speciality.name, [Validators.required, Validators.maxLength(25)]],
-      description: [speciality.description, [Validators.required, Validators.maxLength(255)]],
+      name: [speciality.name, [Validators.required, Validators.maxLength(65)]],
+      description: [speciality.description, [Validators.maxLength(255)]],
       abbreviation: [speciality.abbreviation, [Validators.required, Validators.maxLength(10)]],
     });
-  }
-
-  getErrorText(controlName: string): string {
-    const control = this.specialityForm.get(controlName) as FormControl;
-    return this.getErrorMessage(control);
-  }
-
-  private getErrorMessage(control: FormControl): string {
-    let errorMessage = '';
-    if (control.errors) {
-      if (control.errors.required) {
-        errorMessage = 'Заполните поле';
-      }
-      if (control.errors.maxlength) {
-        errorMessage = 'Max 15 digits';
-      }
-    }
-    return errorMessage;
   }
 
   get name(): FormControl {

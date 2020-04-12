@@ -47,26 +47,8 @@ export class TeacherAddEditComponent implements OnInit, OnDestroy {
       patronymic: [teacher.patronymic, [Validators.required, Validators.maxLength(25)]],
       position: [teacher.position, [Validators.required, Validators.maxLength(25)]],
       rank: [teacher.rank, [Validators.required, Validators.maxLength(25)]],
-      academicDegree: [teacher.academicDegree, [Validators.required, Validators.maxLength(255)]]
+      academicDegree: [teacher.academicDegree, [Validators.required, Validators.maxLength(1000)]]
     });
-  }
-
-  getErrorText(controlName: string): string {
-    const control = this.teacherForm.get(controlName) as FormControl;
-    return this.getErrorMessage(control);
-  }
-
-  private getErrorMessage(control: FormControl): string {
-    let errorMessage = '';
-    if (control.errors) {
-      if (control.errors.required) {
-        errorMessage = 'Заполните поле';
-      }
-      if (control.errors.maxlength) {
-        errorMessage = 'Max 25 digits';
-      }
-    }
-    return errorMessage;
   }
 
   get name(): FormControl {

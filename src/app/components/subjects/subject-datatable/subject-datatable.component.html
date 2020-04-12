@@ -18,24 +18,29 @@
       <td style="width: 10%" mat-cell *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="description">
-      <th style="width: 25%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание</th>
-      <td style="width: 25%; overflow: hidden" mat-cell *matCellDef="let element"> {{element.description}} </td>
+   F <ng-container matColumnDef="description">
+      <th style="width: 35%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание</th>
+      <td style="width: 35%; overflow: hidden" mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="department">
-      <th style="width: 9%" mat-header-cell *matHeaderCellDef mat-sort-header> Принадлежит кафедре </th>
-      <td style="width: 9%; overflow: hidden" mat-cell *matCellDef="let element"> {{element.department}} </td>
+<!--    <ng-container matColumnDef="department">-->
+<!--      <th style="width: 9%" mat-header-cell *matHeaderCellDef mat-sort-header> Принадлежит кафедре </th>-->
+<!--      <td style="width: 9%; overflow: hidden" mat-cell *matCellDef="let element"> {{element.department}} </td>-->
+<!--    </ng-container>-->
+
+    <ng-container matColumnDef="sumOfHours">
+      <th style="width: 5%" mat-header-cell *matHeaderCellDef> Часов </th>
+      <td style="width: 5%" mat-cell *matCellDef="let element"> {{element.sumOfHours}} </td>
     </ng-container>
 
     <ng-container matColumnDef="severities">
-      <th style="width: 18%" mat-header-cell *matHeaderCellDef> Нагрузки </th>
-      <td style="width: 18%" mat-cell *matCellDef="let element"> {{getSeveritiesAsString(element.severities)}} </td>
+      <th style="width: 20%" mat-header-cell *matHeaderCellDef> Нагрузки </th>
+      <td style="width: 20%" mat-cell *matCellDef="let element"> {{getSeveritiesAsString(element.severities)}} </td>
     </ng-container>
 
     <ng-container matColumnDef="pereodicSeverities">
-      <th style="width: 18%" mat-header-cell *matHeaderCellDef> Переодические нагрузки </th>
-      <td style="width: 18%" mat-cell *matCellDef="let element"> {{getPereodicSeveritiesAsString(element.pereodicSeverities)}} </td>
+      <th style="width: 10%" mat-header-cell *matHeaderCellDef> Переодические нагрузки </th>
+      <td style="width: 10%" mat-cell *matCellDef="let element"> {{getPereodicSeveritiesAsString(element.pereodicSeverities)}} </td>
     </ng-container>
 
     <!-- Icons Column -->
@@ -46,7 +51,7 @@
          </span>
       </th>
       <td style="width: 10%; text-align: end" mat-cell *matCellDef="let subject">
-         <span class="material-icons" style="cursor: pointer" matTooltip="Редактировать шаблон предмета"  routerLink="/lectern/{{lecternId}}/subjects/{{subject.id}}">
+         <span class="material-icons" style="cursor: pointer" matTooltip="Перейти к шаблону предмета"  routerLink="/lectern/{{lecternId}}/subjects/{{subject.id}}">
              arrow_forward
          </span>
         <span class="material-icons" (click)="deleteSubject(subject)" style="cursor: pointer"

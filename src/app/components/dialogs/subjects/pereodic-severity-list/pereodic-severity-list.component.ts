@@ -70,6 +70,9 @@ export class PereodicSeverityListComponent implements OnInit, OnDestroy {
   }
 
   disableButton() {
+    if (!this.pereodicSeverityListForCheckboxGroup) {
+      return false;
+    }
     for (const checkBox of this.pereodicSeverityListForCheckboxGroup) {
       if (checkBox[0]) {
         return false;
