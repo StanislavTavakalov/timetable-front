@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import {User} from '../model/user.model';
 import {Lectern} from '../model/lectern.model';
-import {Observable, of} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {StudyPlan} from '../model/study-plan.model';
 import {Deanery} from '../model/deanery.model';
 import {Teacher} from '../model/teacher.model';
 import {Employee} from '../model/employee.model';
 import {Group} from '../model/group.model';
 import {Flow} from '../model/flow.model';
+import {catchError} from 'rxjs/operators';
 
 
 @Injectable({
@@ -35,7 +36,7 @@ export class DeaneryService {
   }
 
   addLectern(lectern: Lectern, idDeanery: string): Observable<Lectern> {
-    return this.http.post<Lectern>(this.url + 'lectern/?deaneryId=' + idDeanery, lectern);
+    return this.http.post<Lectern>(this.url + 'lectern/?deaneryId=' + idDeanery, lectern).pipe(catchError(this.handleError));
   }
 
   getTeachersByLecternId(id: string): Observable<Teacher[]> {
@@ -47,7 +48,7 @@ export class DeaneryService {
   }
 
   addEmployee(employee: Employee, id: string): Observable<Employee> {
-    return this.http.post<Employee>(this.url + 'employee/?deaneryId=' + id, employee);
+    return this.http.post<Employee>(this.url + 'employee/?deaneryId=' + id, employee).pipe(catchError(this.handleError));
   }
 
   deleteLectern(id: string): Observable<Lectern> {
@@ -62,11 +63,11 @@ export class DeaneryService {
   }
 
   editLectern(lectern: Lectern): Observable<Lectern> {
-    return this.http.put<Lectern>(this.url + 'lectern/' + lectern.id, lectern);
+    return this.http.put<Lectern>(this.url + 'lectern/' + lectern.id, lectern).pipe(catchError(this.handleError));
   }
 
   editEmployee(employee: Employee): Observable<Employee> {
-    return this.http.put<Employee>(this.url + 'employee/' + employee.id, employee);
+    return this.http.put<Employee>(this.url + 'employee/' + employee.id, employee).pipe(catchError(this.handleError));
   }
 
   getGroupsByFlowId(id: string): Observable<Group[]> {
@@ -86,19 +87,19 @@ export class DeaneryService {
   }
 
   editGroup(group: Group): Observable<Group> {
-    return this.http.put<Group>(this.url + 'groups/' + group.id, group);
+    return this.http.put<Group>(this.url + 'groups/' + group.id, group).pipe(catchError(this.handleError));
   }
 
   editFlow(flow: Flow): Observable<Flow> {
-    return this.http.put<Flow>(this.url + 'flow/' + flow.id, flow);
+    return this.http.put<Flow>(this.url + 'flow/' + flow.id, flow).pipe(catchError(this.handleError));
   }
 
   addFlow(flow: Flow, id: string): Observable<Flow> {
-    return this.http.post<Flow>(this.url + 'flow/?lecternId=' + id, flow);
+    return this.http.post<Flow>(this.url + 'flow/?lecternId=' + id, flow).pipe(catchError(this.handleError));
   }
 
   addGroup(group: Group, id: string): Observable<Group> {
-    return this.http.post<Group>(this.url + 'groups/?flowId=' + id, group);
+    return this.http.post<Group>(this.url + 'groups/?flowId=' + id, group).pipe(catchError(this.handleError));
   }
 
   checkUniqueLectern(param: string, value: string): Observable<any> {
@@ -111,5 +112,20 @@ export class DeaneryService {
 
   checkUniqueFlowName( value: string): Observable<any> {
     return this.http.get<any>(this.url + 'flow/checkUniqFlowName/?name=' + value);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error.message}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError(error.error.message);
   }
 }

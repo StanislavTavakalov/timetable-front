@@ -27,8 +27,8 @@ export class CreateEditFlowComponent implements OnInit {
       this.flow = this.data.flow;
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.flow.name, [Validators.required, Validators.maxLength(25)]),
-      description: new FormControl(this.flow.description, [Validators.required, Validators.maxLength(255)]),
+      name: new FormControl(this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      description: new FormControl(this.flow.description, [Validators.required,  Validators.minLength(3), Validators.maxLength(255)]),
     });
   }
 
@@ -50,21 +50,13 @@ export class CreateEditFlowComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid) {
-      if (this.data.flow != null) {
-        this.deaneryService.editFlow(this.flow).subscribe( flow => {
-          this.dialogRef.close(flow);
-        });
-      } else {
-        this.deaneryService.addFlow(this.flow, this.data.lecternId).subscribe( flow => {
-          this.dialogRef.close(flow);
-        });
-      }
+      this.dialogRef.close(this.flow);
     } else {
-      window.alert('Заполните обязательные поля');
+      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
 
   onCancelClick() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 }

@@ -6,17 +6,14 @@ import {ActivatedRoute} from '@angular/router';
 import {Deanery} from '../../model/deanery.model';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {HeaderType} from '../../model/header-type';
-
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatPaginator, MatTable} from '@angular/material';
-import {FormForCreationComponent} from '../form-for-creation/form-for-creation.component';
 import {CreateLecternComponent} from '../dialogs/create-lectern/create-lectern.component';
 import {Overlay} from '@angular/cdk/overlay';
 import {TeacherViewComponent} from '../dialogs/teacher-view/teacher-view.component';
 import {StudyPlan} from '../../model/study-plan.model';
-import {DeleteLecternComponent} from '../dialogs/delete-lectern/delete-lectern.component';
-import {Employee} from '../../model/employee.model';
 import {NotifierService} from 'angular-notifier';
+import {DeleteComponent} from '../dialogs/delete/delete.component';
 
 @Component({
   selector: 'app-deanery',
@@ -75,11 +72,15 @@ export class DeaneryComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-            this.lecterns.push(result);
-            this.dataSource.data = this.lecterns;
-            this.dataSource.paginator = this.paginator;
-            this.table.renderRows();
-            this.notifierService.notify('success', 'Кафедра успешно создана');
+        this.deaneryService.addLectern(result, this.deaneryId).subscribe(lectern => {
+          this.lecterns.push(lectern);
+          this.dataSource.data = this.lecterns;
+          this.dataSource.paginator = this.paginator;
+          this.table.renderRows();
+          this.notifierService.notify('success', 'Кафедра успешно создана');
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }
@@ -94,18 +95,22 @@ export class DeaneryComponent implements OnInit {
   }
 
   public deleteLectern(lecternO) {
-    const dialogRef = this.dialog.open(DeleteLecternComponent, {
+    const dialogRef = this.dialog.open(DeleteComponent, {
       width: '25%',
       height: '25%',
-      data: {lectern: lecternO.id},
+      data: {},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.lecterns.splice(this.lecterns.indexOf(lecternO), 1);
-        this.dataSource.data = this.lecterns;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Кафедра успешно удалена');
+        if (result) {
+          this.deaneryService.deleteLectern(lecternO.id).subscribe(lectern => {
+            this.lecterns.splice(this.lecterns.indexOf(lecternO), 1);
+            this.dataSource.data = this.lecterns;
+            this.table.renderRows();
+            this.notifierService.notify('success', 'Кафедра успешно удалена');
+          });
+        }
       }
     });
   }
@@ -119,10 +124,14 @@ export class DeaneryComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-          this.lecterns[this.lecterns.indexOf(lecternO)] = result;
+        this.deaneryService.editLectern(result).subscribe(lectern => {
+          this.lecterns[this.lecterns.indexOf(lecternO)] = lectern;
           this.dataSource.data = this.lecterns;
           this.table.renderRows();
           this.notifierService.notify('success', 'Кафедра успешно изменена');
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }

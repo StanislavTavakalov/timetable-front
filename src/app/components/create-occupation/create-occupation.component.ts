@@ -18,35 +18,42 @@ export class CreateOccupationComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      symbol: new FormControl('', [Validators.required]),
-      value: new FormControl('', [Validators.required]),
+      symbol: new FormControl('', [Validators.required, Validators.maxLength(3)]),
+      value: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
     });
   }
 
   saveValue(num, event): void {
     if (num === 1) {
-	  this.valueS = event.currentTarget.value;
-	  this.scheduleService.getOccupationBySymbol(event.currentTarget.value).subscribe(occupation => {
-		  if (occupation) {
-			  this.formGroup.controls.symbol.setValue('');
-			  window.alert('Данный символ уже используется');
-		  } else {
-			  this.occupation.symbol = this.valueS;
-		  }
-	  });
-
+      this.valueS = event.currentTarget.value;
+      this.scheduleService.checkUniqueOccupation('symbol', this.valueS).subscribe(flag => {
+        if (flag) {
+          this.occupation.symbol = this.valueS;
+        } else {
+          this.formGroup.controls.symbol.setValue('');
+          window.alert('Данный символ уже используется');
+        }
+      });
     } else {
-      this.occupation.value = event.currentTarget.value;
+      this.valueS = event.currentTarget.value;
+      this.scheduleService.checkUniqueOccupation('value', this.valueS).subscribe(flag => {
+        if (flag) {
+          this.occupation.value = this.valueS;
+        } else {
+          this.formGroup.controls.symbol.setValue('');
+          window.alert('Данный символ уже используется');
+        }
+      });
     }
   }
 
   add(): void {
     if (this.formGroup.valid) {
-	  this.scheduleService.addOccupation(this.occupation).subscribe(occu => {
-	  this.scheduleService.getOccupationBySymbol(this.occupation.symbol).subscribe(occ => {this.dialogRef.close(occ); });
-	  })
+      this.scheduleService.addOccupation(this.occupation).subscribe(occupation => {
+        this.dialogRef.close(occupation);
+      });
     } else {
-      window.alert('Заполните обязательные поля');
+      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
 }

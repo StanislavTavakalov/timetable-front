@@ -87,31 +87,35 @@ export class CreateEditGroupComponent implements OnInit {
   }
 
   public add(): void {
-    console.log(this.group);
     if (this.formGroup.valid) {
+      this.dialogRef.close({group: this.group, flowId: this.flowId});
       if (this.data.group != null) {
         this.deaneryService.editGroup(this.group).subscribe( group => {
-          this.dialogRef.close(group);
+          this.dialogRef.close({isOperationCompleted: true, operationResult: group, errorMessage: null});
+        }, error2 => {
+          this.dialogRef.close({isOperationCompleted: true, operationResult: null, errorMessage: error2});
         });
       } else {
         this.deaneryService.addGroup(this.group, this.flowId).subscribe( group => {
-          this.dialogRef.close(group);
+          this.dialogRef.close({isOperationCompleted: true, operationResult: group, errorMessage: null});
+        }, error2 => {
+          this.dialogRef.close({isOperationCompleted: true, operationResult: null, errorMessage: error2});
         });
       }
     } else {
-      window.alert('Заполните обязательные поля');
+      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
 
   onCancelClick() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
   createFormGroup() {
     this.formGroup = new FormGroup({
-      name: new FormControl(this.group.name, [Validators.required, Validators.maxLength(25)]),
-      description: new FormControl(this.group.description, [Validators.required, Validators.maxLength(255)]),
-      count: new FormControl(this.group.countOfStudents, [Validators.required, Validators.min(1), Validators.max(30), Validators.pattern('[0-9]{1,2}')]),
+      name: new FormControl(this.group.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+      description: new FormControl(this.group.description, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      count: new FormControl(this.group.countOfStudents, [Validators.required, Validators.min(3), Validators.max(40), Validators.pattern('[0-9]{1,2}')]),
       specialities: new FormControl('', [Validators.required]),
       lecterns: new FormControl('', [Validators.required]),
       flows: new FormControl('', [Validators.required])});

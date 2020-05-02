@@ -8,8 +8,6 @@ import {TeacherViewComponent} from './teacher-view/teacher-view.component';
 import {SpecialityAddEditComponent} from './speciality/speciality-add-edit/speciality-add-edit.component';
 import {SpecialityDeleteComponent} from './speciality/speciality-delete/speciality-delete.component';
 import {CreateEmployeeComponent} from './create-employee/create-employee.component';
-import {DeleteLecternComponent} from './delete-lectern/delete-lectern.component';
-import {DeleteEmployeeComponent} from './delete-employee/delete-employee.component';
 import {TeacherAddEditComponent} from './teachers/teacher-add-edit/teacher-add-edit.component';
 import {TeacherDeleteComponent} from './teachers/teacher-delete/teacher-delete.component';
 import {CreateStudyPlanComponent} from './study-plans/create-study-plan/create-study-plan.component';
@@ -18,12 +16,10 @@ import {CreateLecternComponent} from './create-lectern/create-lectern.component'
 import {SubjectDeleteComponent} from './subjects/subject-delete/subject-delete.component';
 import {CreateOccupationComponent} from '../create-occupation/create-occupation.component';
 import {CreateEditFlowComponent} from './create-edit-flow/create-edit-flow.component';
-import {DeleteGroupComponent} from './delete-group/delete-group.component';
 import {CreateEditGroupComponent} from './create-edit-group/create-edit-group.component';
-import {DeleteFlowComponent} from './delete-flow/delete-flow.component';
 import {SeverityListComponent} from './subjects/severity-list/severity-list.component';
 import {PereodicSeverityListComponent} from './subjects/pereodic-severity-list/pereodic-severity-list.component';
-import {DeleteCourseComponent} from './delete-course/delete-course.component';
+import {DeleteComponent} from './delete/delete.component';
 
 
 @NgModule({
@@ -35,21 +31,25 @@ import {DeleteCourseComponent} from './delete-course/delete-course.component';
   ],
   declarations: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
-    SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent, TeacherViewComponent,
-    CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent, DeleteEmployeeComponent, SubjectDeleteComponent,
-    CreateOccupationComponent, CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent,
-    SeverityListComponent, PereodicSeverityListComponent, DeleteCourseComponent],
+    SpecialityDeleteComponent, TeacherAddEditComponent, TeacherDeleteComponent,
+    TeacherViewComponent, CreateLecternComponent, CreateEmployeeComponent,
+    SubjectDeleteComponent, CreateOccupationComponent, CreateEditFlowComponent,
+    CreateEditGroupComponent, SeverityListComponent,
+    PereodicSeverityListComponent, DeleteComponent],
   exports: [CreateStudyPlanComponent, ConfirmationComponent,
-    StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent, TeacherViewComponent, TeacherAddEditComponent,
-    TeacherDeleteComponent, SpecialityDeleteComponent, CreateLecternComponent, CreateEmployeeComponent,
-    DeleteLecternComponent, DeleteEmployeeComponent, SubjectDeleteComponent, CreateOccupationComponent,
-    CreateEditFlowComponent, CreateEditGroupComponent, DeleteGroupComponent, DeleteFlowComponent,
-    SeverityListComponent, PereodicSeverityListComponent, DeleteCourseComponent],
+    StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
+    TeacherViewComponent, TeacherAddEditComponent, TeacherDeleteComponent,
+    SpecialityDeleteComponent, CreateLecternComponent, CreateEmployeeComponent,
+    SubjectDeleteComponent, CreateOccupationComponent, CreateEditFlowComponent,
+    CreateEditGroupComponent, SeverityListComponent,
+    PereodicSeverityListComponent, DeleteComponent],
   entryComponents: [CreateStudyPlanComponent, ConfirmationComponent,
-    StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent, TeacherViewComponent, TeacherAddEditComponent,
-    TeacherDeleteComponent, SpecialityDeleteComponent, CreateLecternComponent, CreateEmployeeComponent, DeleteLecternComponent,
-    DeleteEmployeeComponent, SubjectDeleteComponent, CreateOccupationComponent, CreateEditFlowComponent, CreateEditGroupComponent,
-    DeleteGroupComponent, DeleteFlowComponent, SeverityListComponent, PereodicSeverityListComponent, DeleteCourseComponent]
+    StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
+    TeacherViewComponent, TeacherAddEditComponent, TeacherDeleteComponent,
+    SpecialityDeleteComponent, CreateLecternComponent, CreateEmployeeComponent,
+    SubjectDeleteComponent, CreateOccupationComponent, CreateEditFlowComponent,
+    CreateEditGroupComponent, SeverityListComponent,
+    PereodicSeverityListComponent, DeleteComponent]
 })
 export class DialogsModule {
 }

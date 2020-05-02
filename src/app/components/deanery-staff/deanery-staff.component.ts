@@ -7,8 +7,8 @@ import {StudyPlan} from '../../model/study-plan.model';
 import {Employee} from '../../model/employee.model';
 import {MatTableDataSource} from '@angular/material/table';
 import {CreateEmployeeComponent} from '../dialogs/create-employee/create-employee.component';
-import {DeleteEmployeeComponent} from '../dialogs/delete-employee/delete-employee.component';
 import {NotifierService} from 'angular-notifier';
+import {DeleteComponent} from '../dialogs/delete/delete.component';
 
 @Component({
   selector: 'app-deanery-staff',
@@ -57,27 +57,35 @@ export class DeaneryStaffComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-            this.employees.push(result);
-            this.dataSource.data = this.employees;
-            this.table.renderRows();
-            this.notifierService.notify('success', 'Сотрудник успешно создан');
+        this.deaneryService.addEmployee(result, this.deaneryId).subscribe( employee => {
+          this.employees.push(employee);
+          this.dataSource.data = this.employees;
+          this.table.renderRows();
+          this.notifierService.notify('success', 'Сотрудник успешно создан');
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }
 
   deleteEmployee(employeeO) {
-    const dialogRef = this.dialog.open(DeleteEmployeeComponent, {
+    const dialogRef = this.dialog.open(DeleteComponent, {
       width: '25%',
       height: '25%',
-      data: {employee: employeeO.id},
+      data: {},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.employees.splice(this.employees.indexOf(employeeO), 1);
-        this.dataSource.data = this.employees;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Сотрудник успешно удален');
+        if (result) {
+          this.deaneryService.deleteEmployee(employeeO.id).subscribe(employee => {
+            this.employees.splice(this.employees.indexOf(employeeO), 1);
+            this.dataSource.data = this.employees;
+            this.table.renderRows();
+            this.notifierService.notify('success', 'Сотрудник успешно удален');
+          });
+        }
       }
     });
   }
@@ -91,10 +99,14 @@ export class DeaneryStaffComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-          this.employees[this.employees.indexOf(employeeO)] = result;
+        this.deaneryService.editEmployee(result).subscribe( employee => {
+          this.employees[this.employees.indexOf(employeeO)] = employee;
           this.dataSource.data = this.employees;
           this.table.renderRows();
           this.notifierService.notify('success', 'Сотрудник успешно изменен');
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }

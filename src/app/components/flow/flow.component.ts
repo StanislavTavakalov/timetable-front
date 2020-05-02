@@ -9,7 +9,7 @@ import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute} from '@angular/router';
 import {MatTableDataSource} from '@angular/material/table';
 import {CreateEditFlowComponent} from '../dialogs/create-edit-flow/create-edit-flow.component';
-import {DeleteFlowComponent} from '../dialogs/delete-flow/delete-flow.component';
+import {DeleteComponent} from '../dialogs/delete/delete.component';
 
 @Component({
   selector: 'app-flow',
@@ -54,19 +54,23 @@ export class FlowComponent implements OnInit {
       data: {flow: null, lecternId: this.lecternId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
-        this.flows.push(result);
-        this.dataSource.data = this.flows;
-        this.dataSource.paginator = this.paginator;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Поток успешно создан');
+        this.deaneryService.addFlow(result, this.lecternId).subscribe( flow => {
+          this.flows.push(flow);
+          this.dataSource.data = this.flows;
+          this.dataSource.paginator = this.paginator;
+          this.table.renderRows();
+          this.notifierService.notify('success', 'Поток успешно создан');
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }
 
   public deleteFlow(flowO) {
-    const dialogRef = this.dialog.open(DeleteFlowComponent, {
+    const dialogRef = this.dialog.open(DeleteComponent, {
       width: '25%',
       height: '25%',
       data: {flowId: flowO.id},
@@ -74,10 +78,14 @@ export class FlowComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.flows.splice(this.flows.indexOf(flowO), 1);
-        this.dataSource.data = this.flows;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Поток успешно удален');
+        if (result) {
+          this.deaneryService.deleteFlow(flowO.id).subscribe(flow => {
+            this.flows.splice(this.flows.indexOf(flowO), 1);
+            this.dataSource.data = this.flows;
+            this.table.renderRows();
+            this.notifierService.notify('success', 'Поток успешно удален');
+          });
+        }
       }
     });
   }
@@ -89,12 +97,15 @@ export class FlowComponent implements OnInit {
       data: {flow: JSON.parse(JSON.stringify(flowO)), lecternId: null},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
-        this.flows[this.flows.indexOf(flowO)] = result;
-        this.dataSource.data = this.flows;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Поток успешно изменен');
+        this.deaneryService.addFlow(result, this.lecternId).subscribe( flow => {
+          this.flows[this.flows.indexOf(flowO)] = flow;
+          this.dataSource.data = this.flows;
+          this.table.renderRows();
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }

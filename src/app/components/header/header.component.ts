@@ -12,7 +12,6 @@ import {Deanery} from '../../model/deanery.model';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-
   deaneryLinks = [{
     path: '/lecterns',
     label: 'Кафедры',
@@ -45,7 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     isActive: true
   }, {
     path: '/distribution_courses_semesters',
-    label: 'Распределение по курсам и семестрам',
+    label: 'Распределение по семестрам',
     isActive: true
   },
   ];

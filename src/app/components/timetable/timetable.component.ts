@@ -159,15 +159,14 @@ export class TimetableComponent implements OnInit {
 
   public updateStudyPlan() {
     const dialogRef = this.dialog.open(FormForCreationComponent, {
-      width: '30%',
-      height: '80%',
+      width: '25%',
+      height: '60%',
       data: {lectern: this.lecternId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        console.log(result);
         this.timetableService.editPlan(result).subscribe(plan => {
           this.updatedPlan = plan;
           this.plans[this.plans.indexOf(this.selectedPlan)] = plan;
@@ -180,18 +179,7 @@ export class TimetableComponent implements OnInit {
   }
 
   public reculculate() {
-    this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {
-      plans.forEach((plan) => {
-        plan.subjects.forEach((subject) => {
-          subject.semesters.sort((a, b) => a.number - b.number);
-        });
-      });
-      plans.forEach((plan) => {
-        plan.weeks.sort((a, b) => a.position - b.position);
-      });
-      this.plans = plans;
-      this.table.renderRows();
-    });
+    this.table.renderRows();
     if (this.updatedPlan.id = this.selectedPlan.id) {
       this.selectedPlan = JSON.parse(JSON.stringify(this.updatedPlan));
       this.editPlan = JSON.parse(JSON.stringify(this.updatedPlan));

@@ -8,7 +8,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {Overlay} from '@angular/cdk/overlay';
 import {NotifierService} from 'angular-notifier';
 import {CreateEditGroupComponent} from '../dialogs/create-edit-group/create-edit-group.component';
-import {DeleteGroupComponent} from '../dialogs/delete-group/delete-group.component';
+import {DeleteComponent} from '../dialogs/delete/delete.component';
 
 @Component({
   selector: 'app-group',
@@ -67,28 +67,35 @@ export class GroupComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.groups.push(result);
-        this.dataSource.data = this.groups;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Группа успешно создана');
+        this.deaneryService.addGroup(result.group, result.flowId).subscribe( group => {
+          this.groups.push(group);
+          this.dataSource.data = this.groups;
+          this.table.renderRows();
+          this.notifierService.notify('success', 'Группа успешно создана');
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }
 
   deleteGroup(groupO) {
-    const dialogRef = this.dialog.open(DeleteGroupComponent, {
+    const dialogRef = this.dialog.open(DeleteComponent, {
       width: '25%',
       height: '25%',
       data: {groupId: groupO.id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result != null) {
-        this.groups.splice(this.groups.indexOf(groupO), 1);
-        this.dataSource.data = this.groups;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Группа успешно удалена');
+        if (result) {
+          this.deaneryService.deleteGroup(groupO.id).subscribe(group => {
+            this.groups.splice(this.groups.indexOf(groupO), 1);
+            this.dataSource.data = this.groups;
+            this.table.renderRows();
+            this.notifierService.notify('success', 'Группа успешно удалена');
+          });
+        }
       }
     });
   }
@@ -102,12 +109,15 @@ export class GroupComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.groups[this.groups.indexOf(groupO)] = result;
-        this.dataSource.data = this.groups;
-        this.table.renderRows();
-        this.notifierService.notify('success', 'Группа успешно изменена');
+        this.deaneryService.editGroup(result.group).subscribe( group => {
+          this.groups[this.groups.indexOf(groupO)] = group;
+          this.dataSource.data = this.groups;
+          this.table.renderRows();
+          this.notifierService.notify('success', 'Группа успешно изменена');
+        }, error2 => {
+          this.notifierService.notify('error', error2);
+        });
       }
     });
   }
-
 }

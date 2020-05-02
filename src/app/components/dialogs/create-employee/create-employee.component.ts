@@ -24,10 +24,10 @@ export class CreateEmployeeComponent implements OnInit {
       this.employee = new Employee();
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.employee.name, [Validators.required, Validators.maxLength(25)]),
-      surname: new FormControl(this.employee.surname, [Validators.required, Validators.maxLength(25)]),
-      patronymic: new FormControl(this.employee.patronymic, [Validators.required, Validators.maxLength(25)]),
-      rank: new FormControl(this.employee.rank, [Validators.required, Validators.maxLength(50)])
+      name: new FormControl(this.employee.name, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
+      surname: new FormControl(this.employee.surname, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]),
+      patronymic: new FormControl(this.employee.patronymic, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
+      rank: new FormControl(this.employee.rank, [Validators.required, Validators.minLength(1), Validators.maxLength(100)])
     });
   }
 
@@ -45,21 +45,13 @@ export class CreateEmployeeComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid) {
-      if (this.data.employee != null) {
-        this.deaneryService.editEmployee(this.employee).subscribe( employee => {
-          this.dialogRef.close(employee);
-        });
-      } else {
-        this.deaneryService.addEmployee(this.employee, this.data.deaneryId).subscribe( employee => {
-          this.dialogRef.close(employee);
-        });
-      }
+      this.dialogRef.close(this.employee);
     } else {
-      window.alert('Заполните обязательные поля');
+      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
 
   onCancelClick() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 }

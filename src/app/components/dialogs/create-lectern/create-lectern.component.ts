@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeaneryService} from '../../../services/deanery.service';
 
+
 @Component({
   selector: 'app-create-lectern',
   templateUrl: './create-lectern.component.html',
@@ -25,9 +26,9 @@ export class CreateLecternComponent implements OnInit {
       this.lectern = new Lectern();
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.lectern.name, [Validators.required, Validators.maxLength(25)]),
-      fullname: new FormControl(this.lectern.fullname, [Validators.required, Validators.maxLength(50)]),
-      description: new FormControl(this.lectern.description, [Validators.required, Validators.maxLength(255)])
+      name: new FormControl(this.lectern.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+      fullname: new FormControl(this.lectern.fullname, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      description: new FormControl(this.lectern.description, [Validators.required, Validators.minLength(3), Validators.maxLength(255)])
     });
   }
 
@@ -40,7 +41,7 @@ export class CreateLecternComponent implements OnInit {
           this.lectern.name = this.value;
         } else {
           this.formGroup.controls.name.setValue('');
-          window.alert('Кафедра с такой аббревиатурой уже существует');
+          window.alert('Кафедра с таким название уже существует');
         }
       });
     } else if (num === 2) {
@@ -50,7 +51,7 @@ export class CreateLecternComponent implements OnInit {
           this.lectern.fullname = this.value;
         } else {
           this.formGroup.controls.fullname.setValue('');
-          window.alert('Кафедра с таким названием уже существует');
+          window.alert('Кафедра с таким полным названием уже существует');
         }
       });
     } else {
@@ -60,20 +61,12 @@ export class CreateLecternComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid) {
-      if (this.data.lectern != null) {
-        this.deaneryService.editLectern(this.lectern).subscribe(lectern => {
-          this.dialogRef.close(lectern);
-        });
-      } else {
-        this.deaneryService.addLectern(this.lectern, this.data.deaneryId).subscribe(lectern => {
-          this.dialogRef.close(lectern);
-        });
-      }
+      this.dialogRef.close(this.lectern);
     } else {
-      window.alert('Заполните обязательные поля');
+      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
   onCancelClick() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 }

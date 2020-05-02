@@ -23,27 +23,32 @@
 
       <ng-container matColumnDef="go">
         <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
-        <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"  routerLink="/lectern/{{element?.id}}/">Перейти</button> </td>
+        <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                            routerLink="/lectern/{{element?.id}}/">Перейти</button> </td>
       </ng-container>
 
       <ng-container matColumnDef="staff">
         <th style="width: 9%" mat-header-cell *matHeaderCellDef>  </th>
-        <td style="width: 9%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="viewStaff(element.id)">Преподаватели</button> </td>
+        <td style="width: 9%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                             (click)="viewStaff(element.id)">Преподаватели</button> </td>
       </ng-container>
 
       <ng-container matColumnDef="update">
         <th style="width: 11%" mat-header-cell *matHeaderCellDef>  </th>
-        <td style="width: 11%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="updateLectern(element)">Редактировать</button> </td>
+        <td style="width: 11%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                             (click)="updateLectern(element)">Редактировать</button> </td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
-        <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="deleteLectern(element)">Удалить</button> </td>
+        <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                            (click)="deleteLectern(element)">Удалить</button> </td>
       </ng-container>
 
       <ng-container matColumnDef="flows">
         <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
-        <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" routerLink="/deanery/{{deaneryId}}/flows/{{element.id}}">Потоки</button> </td>
+        <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                 routerLink="/deanery/{{deaneryId}}/flows/{{element.id}}">Потоки</button> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

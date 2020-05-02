@@ -8,9 +8,6 @@
   />
   <span style="font-size: 20px">БНТУ</span>
 
-<!--   This is (lectern !== null) ? lectern.name : '' a check not to get errors in console
-       because initialization of header earlier than we get an object
- -->
   <p style="padding-left: 5%" *ngIf="tabsType === 'LECTERN'"> Кафедра: {{(lectern !== null) ? lectern.name : '' }}</p>
   <p style="padding-left: 5%" *ngIf="tabsType === 'DEANERY'"> Деканат: {{(deanery !== null) ? deanery.name : '' }}</p>
 
@@ -24,10 +21,6 @@
     </a>
   </nav>
 
-
-<!--  This is ((lectern !== null) ? lectern.id : '') a check not to get errors in console,
-      because initialization of header earlier than we get an object
-  -->
   <nav  mat-tab-nav-bar *ngIf="tabsType === 'LECTERN'">
     <a mat-tab-link
        *ngFor="let link of lecternNavLinks"
@@ -37,7 +30,6 @@
       {{link.label}}
     </a>
   </nav>
-
 
 </mat-toolbar>
 

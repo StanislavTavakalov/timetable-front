@@ -34,6 +34,9 @@ export class ScheduleService {
   getOccupations(): Observable<Occupation[]> {
     return this.http.get<Occupation[]>(this.url + 'occupation/');
   }
+  getOccupationById(id: string): Observable<Occupation> {
+    return this.http.get<Occupation>(this.url + 'occupation/' + id);
+  }
 
   addSchedule(schedule: Schedule, id: string): Observable<Schedule> {
     return this.http.post<Schedule>(this.url + 'schedule/?studyplanId=' + id, schedule);
@@ -47,19 +50,6 @@ export class ScheduleService {
     return this.http.post<Occupation>(this.url + 'occupation/', occupation);
   }
 
-  getOccupationBySymbol(symbol): Observable<Occupation> {
-    const subject = new Subject<Occupation>();
-    this.getOccupations().subscribe(occupations => {
-      this.occu = occupations.find((occupation) => {
-        return occupation.symbol === symbol;
-      });
-      subject.next(this.occu);
-    });
-
-    return subject.asObservable();
-
-  }
-
   saveSchedule(schedule: Schedule): Observable<Schedule> {
     return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule);
   }
@@ -70,6 +60,9 @@ export class ScheduleService {
 
   deleteSchedule(id: string): Observable<Lectern> {
     return this.http.delete<Lectern>(this.url + 'schedule/' + id);
+  }
+  checkUniqueOccupation(param: string, value: string): Observable<any> {
+    return this.http.get<any>(this.url + 'occupation/checkUniqOccupation/?' + param + '=' + value);
   }
 }
 
