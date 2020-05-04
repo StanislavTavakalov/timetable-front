@@ -29,6 +29,7 @@ export class FormForCreationComponent implements OnInit {
   index: number;
   notifications = '';
   indexWeek: number;
+  flag: boolean;
 
 
   constructor(private formForCreationServiceService: FormForCreationServiceService,
@@ -39,8 +40,8 @@ export class FormForCreationComponent implements OnInit {
   ngOnInit() {
     this.formGroup = new FormGroup({
       plans: new FormControl('', [Validators.required]),
-      coefficient: new FormControl('', [Validators.required, Validators.min(1), Validators.max(15), Validators.pattern('[0-9]{2}')]),
-      course: new FormControl('', [Validators.required, Validators.min(1), Validators.max(12), Validators.pattern('[0-9]{1,2}')]),
+      coefficient: new FormControl('', [Validators.required, Validators.min(1), Validators.max(15), Validators.pattern('[0-9]{1,2}')]),
+      course: new FormControl('', [Validators.required, Validators.min(0), Validators.max(12), Validators.pattern('[0-9]{1,2}')]),
     });
     this.formGroup.controls.coefficient.setValue(3);
     this.coefficient = 3;
@@ -56,20 +57,41 @@ export class FormForCreationComponent implements OnInit {
       this.plan.countOfSem = this.countOfSem;
       this.plan.coefficient = this.coefficient;
       this.plan.subjects.forEach((subject) => {
-        subject.semesters.sort((a, b) => a.number - b.number);
+        if (subject.semesters === undefined) {
+          subject.semesters = [];
+        } else {
+          subject.semesters.sort((a, b) => a.number - b.number);
+        }
       });
       this.plan.weeks.sort((a, b) => a.position - b.position);
-      this.updateWeeks();
-      this.updateSubjects();
-      this.recalculateFreeHours();
-      this.dialogRef.close(this.plan);
+      this.checkPereodicSeverity();
+      if (!this.flag) {
+        window.alert('Семестры не могут быть сокращены так, как для них уже распределены переодические нагрузки');
+      } else {
+        this.updateWeeks();
+        this.updateSubjects();
+        this.recalculateFreeHours();
+        this.dialogRef.close(this.plan);
+      }
     } else {
         window.alert('Заполните обязательные поля в корректном формате');
       }
     }
 
+    public checkPereodicSeverity() {
+      this.flag = true;
+      this.plan.subjects.forEach((subject) => {
+          subject.pereodicSeverities.forEach((pereodic) => {
+            pereodic.semesterNumbers.forEach((semesterNumber) => {
+              if (semesterNumber.number > this.countOfSem) {
+                this.flag = false;
+              }
+            });
+          });
+        });
+    }
 
-  public valuesf(num, event): void {
+    public valuesf(num, event): void {
     if (num === 0) {
       this.countOfSem = parseInt(event.currentTarget.value, 10);
       this.formGroupHours = new FormGroup({});
@@ -85,7 +107,13 @@ export class FormForCreationComponent implements OnInit {
     } else if (num === 1)  {
         this.formForCreationServiceService.getPlanById(event.value).subscribe(plan => {
           this.plan = plan;
-          this.oldCountOfSem = this.plan.countOfSem; });
+          this.oldCountOfSem = this.plan.countOfSem;
+          if (this.plan.subjects !== undefined && this.plan.subjects.length !== 0) {
+            if (this.plan.subjects[0].semesters !== undefined) {
+              this.oldCountOfSem = this.plan.subjects[0].semesters.length;
+            }
+          }
+        });
     }
   }
 
@@ -105,7 +133,7 @@ export class FormForCreationComponent implements OnInit {
         this.plan.subjects.forEach((subject) => {
           this.semester.number = i + 1;
           this.semester.hoursPerWeek = 0;
-          this.semester.hoursPerWeek = 0;
+          this.semester.creditUnits = 0;
           subject.semesters[i] = JSON.parse(JSON.stringify(this.semester));
         });
       }

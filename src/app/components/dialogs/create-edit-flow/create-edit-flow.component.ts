@@ -28,7 +28,7 @@ export class CreateEditFlowComponent implements OnInit {
     }
     this.formGroup = new FormGroup({
       name: new FormControl(this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      description: new FormControl(this.flow.description, [Validators.required,  Validators.minLength(3), Validators.maxLength(255)]),
+      description: new FormControl(this.flow.description, [Validators.maxLength(255)]),
     });
   }
 

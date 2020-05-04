@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {StudyPlan} from '../model/study-plan.model';
 import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 
 
@@ -9,11 +10,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class FormForCreationServiceService {
-
-httpOptions = {
-    headers: new HttpHeaders({  'Content-Type': 'application/json'})};
-
-  private url = 'http://localhost:8080/api/';
+  private url = environment.domain + 'api/';
 
   constructor(private http: HttpClient) {
   }
@@ -25,11 +22,6 @@ httpOptions = {
   getPlanById(id: string): Observable<StudyPlan> {
     return this.http.get<StudyPlan>(this.url + 'studyplan/' + id);
   }
-
-  editPlan(plan: StudyPlan): Observable<any> {
-    return this.http.put(this.url + 'studyplan/' + plan.id, plan, this.httpOptions);
-  }
-
   getPlansByLecternId(id: string): Observable<StudyPlan[]> {
     return this.http.get<StudyPlan[]>(this.url + 'studyplan/?lecternId=' + id);
   }

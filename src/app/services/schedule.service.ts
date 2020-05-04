@@ -1,12 +1,13 @@
 ﻿import { Injectable } from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, of, Subject, throwError} from 'rxjs';
 import {Course} from '../model/course.model';
 import {Occupation} from '../model/occupation.model';
 import {Schedule} from '../model/shedule.model';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Employee} from '../model/employee.model';
 import {Lectern} from '../model/lectern.model';
+import {catchError} from 'rxjs/operators';
 
 
 
@@ -15,10 +16,7 @@ import {Lectern} from '../model/lectern.model';
 })
 export class ScheduleService {
 
-  private url = 'http://test:test@localhost:8080/api/';
-
-  occu: Occupation;
-
+  private url = environment.domain + 'api/';
 
   constructor(private http: HttpClient) {
   }
@@ -51,7 +49,7 @@ export class ScheduleService {
   }
 
   saveSchedule(schedule: Schedule): Observable<Schedule> {
-    return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule);
+    return this.http.put<Schedule>(this.url + 'schedule/' + schedule.id, schedule).pipe(catchError(this.handleError));
   }
 
   deleteCourse(id: string): Observable<Course> {
@@ -63,6 +61,21 @@ export class ScheduleService {
   }
   checkUniqueOccupation(param: string, value: string): Observable<any> {
     return this.http.get<any>(this.url + 'occupation/checkUniqOccupation/?' + param + '=' + value);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error.message}`);
+    }
+    // return an observable with a user-facing error message
+    return throwError(error.error.message);
   }
 }
 

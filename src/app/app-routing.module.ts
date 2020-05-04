@@ -18,6 +18,7 @@ import {FlowComponent} from './components/flow/flow.component';
 
 const routes: Routes = [
   {path: 'lectern/:id/distribution_courses_semesters', component: TimetableComponent},
+  {path: 'lectern/:id/distribution_courses_semesters/:sp_id', component: TimetableComponent},
   {path: 'creation', component: FormForCreationComponent},
   {path: 'lectern/:id/schedule/:idStudyPlan', component: ScheduleComponent},
   {path: 'deanery/:id', component: DeaneryComponent},

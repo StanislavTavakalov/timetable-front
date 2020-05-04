@@ -114,7 +114,7 @@ export class CreateEditGroupComponent implements OnInit {
   createFormGroup() {
     this.formGroup = new FormGroup({
       name: new FormControl(this.group.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
-      description: new FormControl(this.group.description, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      description: new FormControl(this.group.description, [Validators.maxLength(255)]),
       count: new FormControl(this.group.countOfStudents, [Validators.required, Validators.min(3), Validators.max(40), Validators.pattern('[0-9]{1,2}')]),
       specialities: new FormControl('', [Validators.required]),
       lecterns: new FormControl('', [Validators.required]),

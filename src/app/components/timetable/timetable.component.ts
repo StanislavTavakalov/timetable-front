@@ -2,7 +2,6 @@
 import {Subject} from '../../model/subject.model';
 import {StudyPlan} from '../../model/study-plan.model';
 import {TimetableService} from '../../services/timetable.service';
-import {EditableModeService} from '../../services/editable-mode.service';
 import {MatDialog, MatTable} from '@angular/material';
 import {FormForCreationComponent} from '../form-for-creation/form-for-creation.component';
 import {Overlay} from '@angular/cdk/overlay';
@@ -31,19 +30,20 @@ export class TimetableComponent implements OnInit {
   updatedPlan: StudyPlan;
   lecternId: string;
   lectern: Lectern;
+  selectedId: string;
 
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
 
 
   constructor(private route: ActivatedRoute,
               private timetableService: TimetableService,
-              private editableModeService: EditableModeService,
               private dialog: MatDialog, private overlay: Overlay,
               private notifierService: NotifierService) {
   }
 
   ngOnInit() {
     this.lecternId = this.route.snapshot.paramMap.get('id');
+    this.selectedId = this.route.snapshot.paramMap.get('sp_id');
     if (this.lecternId != null) {
       this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {
         plans.forEach((plan) => {
@@ -55,7 +55,13 @@ export class TimetableComponent implements OnInit {
           plan.weeks.sort((a, b) => a.position - b.position);
         });
         this.plans = plans;
-        this.selectedPlan = this.plans[0];
+        if (this.selectedId === null) {
+          this.selectedPlan = this.plans[0];
+        } else {
+          this.selectedPlan = this.plans.find((plan) => {
+            return plan.id === this.selectedId;
+          });
+        }
         this.initializeData();
       }, error2 => {
         this.notifierService.notify('error', 'Не удалось загрузить учебные планы');

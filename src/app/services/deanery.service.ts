@@ -10,27 +10,20 @@ import {Employee} from '../model/employee.model';
 import {Group} from '../model/group.model';
 import {Flow} from '../model/flow.model';
 import {catchError} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeaneryService {
-
-  private url1 = 'http://test:test@localhost:8080/';
-
   constructor(private http: HttpClient) { }
 
-  private url = 'http://localhost:8080/api/';
+  private url = environment.domain + 'api/';
 
   getDeaneryById(id: string): Observable<Deanery> {
     return this.http.get<Deanery>(this.url + 'deanery/' + id);
   }
-
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.url1 + 'users/');
-  }
-
   getLecterns(id: string): Observable<Lectern[]> {
     return this.http.get<Lectern[]>(this.url + 'lectern/?deaneryId' + id);
   }

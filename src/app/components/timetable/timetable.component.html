@@ -52,7 +52,7 @@
           <tr *ngFor="let discipline of selectedPlan?.subjects">
             <td>{{discipline.position}}</td>
             <td colspan="2"  >{{discipline.name}}</td>
-            <td  *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{discipline.semesters[i]?.hoursPerWeek}} / {{discipline.semesters[i]?.creditUnits }} </td>
+            <td  *ngFor="let semester of discipline.semesters">{{semester?.hoursPerWeek}} / {{semester?.creditUnits }} </td>
             <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
             <td>{{discipline.department}}</td>
           </tr>
@@ -61,10 +61,10 @@
           <tr *ngFor="let discipline of editPlan?.subjects">
             <td>{{discipline.position}}</td>
             <td colspan="2"  >{{discipline.name}}</td>
-            <td  *ngFor="let dummy of ' '.repeat(editPlan.countOfSem).split(''), let i = index"><input
+            <td  *ngFor="let semester of discipline.semesters "><input
               (change)="changeHoursPerWeek($event,discipline.id,i)" class="input1"
-              value="{{discipline.semesters[i].hoursPerWeek}}"> / <input
-              (change)="changeCreditUnit($event,discipline.id,i)" class="input2" value="{{discipline?.semesters[i].creditUnits}}"></td>
+              value="{{semester?.hoursPerWeek}}"> / <input
+              (change)="changeCreditUnit($event,discipline.id,i)" class="input2" value="{{semester?.creditUnits}}"></td>
             <td *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"></td>
             <td>{{discipline.department}}</td>
           </tr>
