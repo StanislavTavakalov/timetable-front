@@ -1,139 +1,162 @@
 <div class="main-block">
-  <!--  Study plans table -->
-
-  <!--  <table mat-table [dataSource]="studyPlans" class="mat-elevation-z8"-->
-  <!--         style="width: 12%; margin-left: 3%; margin-top: 2%; align-items: center">-->
-
-  <!--    &lt;!&ndash; Name Column &ndash;&gt;-->
-  <!--    <ng-container matColumnDef="name">-->
-  <!--      <th mat-header-cell *matHeaderCellDef> Учебные планы</th>-->
-  <!--      <td mat-cell *matCellDef="let element"> {{element.name}} </td>-->
-  <!--    </ng-container>-->
-
-  <!--    <tr mat-header-row *matHeaderRowDef="displayedColumnsStudyPlans"></tr>-->
-  <!--    <tr mat-row *matRowDef="let row; columns: displayedColumnsStudyPlans;"-->
-  <!--        class="example-element-row"-->
-  <!--        (click)="selectStudyPlan(row)"></tr>-->
-  <!--  </table>-->
-
 
   <!--  Single study plan table -->
   <div class="study-plans-table-container mat-elevation-z8">
-  <table mat-table #tableMain [dataSource]="studyPlans" class="mat-elevation-z8" multiTemplateDataRows>
-<!--    style="width:60%; margin-left: 3%; margin-top: 2%; overflow: auto"-->
-    <ng-container matColumnDef="study-plan">
-      <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
-      <td mat-cell *matCellDef="let studyPlan">
-        <span> Register number: {{studyPlan.registerNumber}} || {{studyPlan.name}} || {{studyPlan.speciality.name}} || {{studyPlan.educationForm}} || {{studyPlan.status}} </span>
-      </td>
+    <table mat-table #tableMain [dataSource]="studyPlans" class="mat-elevation-z8" multiTemplateDataRows>
+      <!--    style="width:60%; margin-left: 3%; margin-top: 2%; overflow: auto"-->
+      <ng-container matColumnDef="study-plan">
+        <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
+        <td mat-cell *matCellDef="let studyPlan">
+          <span> Регистрационный номер: {{printRegisterNumber(studyPlan.registerNumber)}} || {{studyPlan.name}}
+            || {{studyPlan.speciality.name}} || {{localizeEducationForm(studyPlan.educationForm)}}
+            || {{localizeStudyPlanStatus(studyPlan.status)}} </span>
+        </td>
 
-    </ng-container>
-    <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let studyPlanHtml">
-        <div class="example-element-detail"
-             [@detailExpand]="studyPlanHtml == expandedStudyPlan ? 'expanded' : 'collapsed'">
+      </ng-container>
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let studyPlanHtml">
+          <div class="example-element-detail"
+               [@detailExpand]="studyPlanHtml == expandedStudyPlan ? 'expanded' : 'collapsed'">
 
-          <table mat-table #table [dataSource]="studyPlanHtml.subjects" class="mat-elevation-z8" style="width: 100%">
+            <table mat-table #table [dataSource]="studyPlanHtml.subjects" class="mat-elevation-z8" style="width: 100%">
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Название дисциплины</th>
-              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-                {{subject.name}}
-              </td>
-            </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Название дисциплины</th>
+                <td mat-cell *matCellDef="let subject"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+                  {{subject.name}} ({{subject.abbreviation}})
+                </td>
+              </ng-container>
 
-            <ng-container matColumnDef="swap" *ngIf="editMode">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-                <mat-icon (click)="swapWithUpper(subject)">expand_less</mat-icon>
-                <mat-icon (click)="swapWithLower(subject)"> expand_more</mat-icon>
-              </td>
-            </ng-container>
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef style="width: 3%"> №</th>
+                <td mat-cell *matCellDef="let subject"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }" style="width: 3%">
+                  {{subject.position}}
+                </td>
+              </ng-container>
 
-            <ng-container matColumnDef="auditLessons">
-              <th mat-header-cell *matHeaderCellDef> Аудиторных </th>
-              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-              {{getAuditLessonsHours(subject)}}
-            </td>
-            </ng-container>
+              <ng-container matColumnDef="swap" *ngIf="editMode">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let subject; let i = index"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+                  <mat-icon (click)="swapWithUpper(i)">expand_less</mat-icon>
+                  <mat-icon (click)="swapWithLower(i)"> expand_more</mat-icon>
+                </td>
+              </ng-container>
 
-            <ng-container *ngFor="let pereodicSeverity of displayedPereodicSeverityColumnsForSubjects" [matColumnDef]=pereodicSeverity>-->
-              <th mat-header-cell *matHeaderCellDef> {{pereodicSeverity}}</th>-->
-              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span [contentEditable]="editMode"> {{getValueToDisplayPereodic(subject, pereodicSeverity)}}  </span></td>-->
-            </ng-container>
+              <ng-container matColumnDef="auditLessons">
+                <th mat-header-cell *matHeaderCellDef> Аудиторных</th>
+                <td mat-cell *matCellDef="let subject"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+                  {{getAuditLessonsHours(subject)}}
+                </td>
+              </ng-container>
 
-            <ng-container *ngFor="let severity of displayedSeverityColumnsForSubjects" [matColumnDef]=severity>-->
-              <th mat-header-cell *matHeaderCellDef> {{severity}}</th>-->
-              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span [contentEditable]="editMode"> {{getValueToDisplay(subject, severity)}}  </span></td>-->
-            </ng-container>
+              <ng-container *ngFor="let pereodicSeverity of displayedPereodicSeverityColumnsForSubjects"
+                            [matColumnDef]=pereodicSeverity>-->
+                <th mat-header-cell *matHeaderCellDef> {{pereodicSeverity}}</th>
+                -->
+                <td mat-cell *matCellDef="let subject"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span
+                  [contentEditable]="editMode"> {{getValueToDisplayPereodic(subject, pereodicSeverity)}}  </span></td>
+                -->
+              </ng-container>
 
-            <ng-container matColumnDef="edit-icon" *ngIf="editMode" stickyEnd>
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-                <mat-icon (click)="editSubjectFromStudyPlan(subject)">edit</mat-icon>
-              </td>
-            </ng-container>
+              <ng-container *ngFor="let severity of displayedSeverityColumnsForSubjects" [matColumnDef]=severity>-->
+                <th mat-header-cell *matHeaderCellDef> {{severity}}</th>
+                -->
+                <td mat-cell *matCellDef="let subject"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span
+                  [contentEditable]="editMode"> {{getValueToDisplay(subject, severity)}}  </span></td>
+                -->
+              </ng-container>
 
-            <ng-container matColumnDef="delete-icon" *ngIf="editMode" stickyEnd>
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let subject" [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-                <mat-icon (click)="deleteSubjectFromStudyPlan(subject)">cancel</mat-icon>
-              </td>
+              <ng-container matColumnDef="edit-icon" *ngIf="editMode" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let subject"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+                  <mat-icon (click)="editSubjectFromStudyPlan(subject)">edit</mat-icon>
+                </td>
+              </ng-container>
 
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="getColumnsToDisplay()"></tr>
-            <tr mat-row *matRowDef="let column columns: getColumnsToDisplay()"></tr>
-          </table>
-        </div>
-      </td>
-    </ng-container>
-    <!--        [ngStyle]="{'background-color': element.isChanged ? 'lime' : 'white'}"-->
-    <tr mat-header-row *matHeaderRowDef="displayedColumnsSingleStudyPlan; sticky: true" ></tr>
-    <tr mat-row *matRowDef="let column columns: displayedColumnsSingleStudyPlan;"
-        class="example-element-row study-plan-details"
-        [class.example-expanded-row]="expandedStudyPlan === column"
-        (click)="expandRow(column)"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-  </table>
+              <ng-container matColumnDef="delete-icon" *ngIf="editMode" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let subject; let i = index"
+                    [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
+                  <mat-icon (click)="deleteSubjectFromStudyPlan(subject, i)">cancel</mat-icon>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="getColumnsToDisplay()"></tr>
+              <tr mat-row *matRowDef="let column columns: getColumnsToDisplay()"></tr>
+            </table>
+          </div>
+        </td>
+      </ng-container>
+      <!--        [ngStyle]="{'background-color': element.isChanged ? 'lime' : 'white'}"-->
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsSingleStudyPlan; sticky: true"></tr>
+      <tr mat-row *matRowDef="let column columns: displayedColumnsSingleStudyPlan;"
+          class="example-element-row study-plan-details"
+          [class.example-expanded-row]="expandedStudyPlan === column"
+          (click)="expandRow(column)"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
   </div>
 
   <!--        -------------------------------Subjects table--------------------------                   -->
-    <table mat-table #tablePrototypes *ngIf="editMode" [dataSource]="allSubjects" class="mat-elevation-z8"
-           style="width: 15%; margin-left: 3%; margin-top: 2%">
+  <table mat-table #tablePrototypes *ngIf="editMode" [dataSource]="subjectTemplates" class="mat-elevation-z8"
+         style="width: 15%; margin-left: 3%; margin-top: 2%">
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="prototypes">
-        <th mat-header-cell *matHeaderCellDef > Шаблоны </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="prototypes">
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> Шаблоны</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} ({{element.abbreviation}})</td>
+    </ng-container>
 
-      <!-- Add subject to study plan -->
-      <ng-container matColumnDef="add-icon" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon (click)="addSubjectToStudyPlan(element)"> add_circle</mat-icon>
-        </td>
-      </ng-container>
+    <!-- Add subject to study plan -->
+    <ng-container matColumnDef="add-icon" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let subjectTemplate">
+        <mat-icon (click)="addSubjectToStudyPlan(subjectTemplate)"> add_circle</mat-icon>
+        <mat-icon [matTooltip]="getAdditionalSubjectTemplateInfo(subjectTemplate)"> info</mat-icon>
+      </td>
+    </ng-container>
 
-      <!-- Display columns -->
-      <tr mat-header-row *matHeaderRowDef="['prototypes' ]"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsSubjects;"></tr>
-    </table>
+    <!-- Display columns -->
+    <tr mat-header-row *matHeaderRowDef="['prototypes' ]"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsSubjects;"></tr>
+  </table>
 
 </div>
 
 <!--        -------------------------------   CONTROL PANEL    --------------------------                   -->
 <div class="control-panel">
   <div class="control-panel-inner-block mat-elevation-z21">
-  <button mat-raised-button class="control-button" (click)="createNewStudyPlan()"> Создать </button>
+    <button mat-raised-button class="control-button" (click)="createNewStudyPlan()"> Создать</button>
 
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode" (click)="showDetails()">  Детали  </button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="applyChanges()"> Сохранить </button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="declineChanges()"> Отменить  </button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"  (click)="changeStudyPlanName()"> Изменить план </button>
-  <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" (click)="deleteStudyPlan()"> Удалить </button>
-  <button mat-raised-button class="control-button" style="margin-left: auto" [disabled]="this.selectedStudyPlan === null" *ngIf="this.selectedStudyPlan != null" routerLink="/timetable/{{this.selectedStudyPlan.id}}"> Далее </button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode"
+            (click)="editModeOn()"> Редактировать
+    </button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode"
+            (click)="showDetails()"> Детали
+    </button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"
+            (click)="applyChanges()"> Сохранить
+    </button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"
+            (click)="declineChanges()"> Отменить
+    </button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"
+            (click)="changeStudyPlan()"> Изменить план
+    </button>
+    <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null"
+            (click)="deleteStudyPlan()"> Удалить
+    </button>
+    <button mat-raised-button class="control-button" style="margin-left: auto"
+            [disabled]="this.selectedStudyPlan === null" *ngIf="this.selectedStudyPlan != null"
+            routerLink="/timetable/{{this.selectedStudyPlan.id}}"> Далее
+    </button>
   </div>
 </div>

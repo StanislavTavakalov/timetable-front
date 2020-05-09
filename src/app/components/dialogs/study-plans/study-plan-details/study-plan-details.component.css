@@ -37,3 +37,14 @@ span:focus {
 button:focus{
   outline:none;
 }
+
+.row {
+  display: flex;
+  flex-direction: row !important;
+
+}
+
+.column{
+  display: flex;
+  flex-direction: column !important;
+}

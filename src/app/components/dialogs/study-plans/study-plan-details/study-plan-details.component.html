@@ -1,10 +1,14 @@
-<div class="make-investments-dialog">
+<div>
   <h1 mat-dialog-title> Детали </h1>
-  <span> Имя плана: {{this.currentStudyPlan.name}}</span>
-  <span> Специальность: {{this.currentStudyPlan.speciality.name}}</span>
-  <span> Форма обучения: {{this.currentStudyPlan.educationForm}}</span>
-  <span> Статус: {{this.currentStudyPlan.status}}  Дата назначения статуса: {{this.currentStudyPlan.statusApplyDate}}</span>
-  <span> Регистрационный номер: {{this.currentStudyPlan.registerNumber}} Дата назначения регистрационного номера: {{this.currentStudyPlan.registerNumberApplyDate}}</span>
-  <button mat-button color="warn" (click)=onCloseClick()> Close</button>
+  <div class="column">
+    <span> Имя плана: {{this.currentStudyPlan.name}}</span>
+    <span> Специальность: {{this.currentStudyPlan.speciality.name}}</span>
+    <span> Форма обучения: {{this.currentStudyPlan.educationForm}}</span>
+    <span> Статус: {{this.currentStudyPlan.status}}
+      Дата назначения статуса: {{this.currentStudyPlan.statusApplyDate | date}}</span>
+    <span> Регистрационный номер: {{this.currentStudyPlan.registerNumber}}
+      Дата назначения регистрационного номера: {{this.currentStudyPlan.registerNumberApplyDate | date}}</span>
+    <button mat-button color="warn" (click)=onCloseClick()> Close</button>
+  </div>
 </div>
 

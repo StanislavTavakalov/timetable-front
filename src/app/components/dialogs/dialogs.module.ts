@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../material';
 import {ConfirmationComponent} from './confirmation/confirmation.component';
-import {EditSubjectComponent} from './edit-subject/edit-subject.component';
+import {EditSubjectComponent} from './study-plans/edit-subject/edit-subject.component';
 import {TeacherViewComponent} from './teacher-view/teacher-view.component';
 import {SpecialityAddEditComponent} from './speciality/speciality-add-edit/speciality-add-edit.component';
 import {SpecialityDeleteComponent} from './speciality/speciality-delete/speciality-delete.component';
@@ -20,6 +20,8 @@ import {CreateEditGroupComponent} from './create-edit-group/create-edit-group.co
 import {SeverityListComponent} from './subjects/severity-list/severity-list.component';
 import {PereodicSeverityListComponent} from './subjects/pereodic-severity-list/pereodic-severity-list.component';
 import {DeleteComponent} from './delete/delete.component';
+import { DeleteStudyPlanComponent } from './study-plans/delete-study-plan/delete-study-plan.component';
+import { SelectSemesterComponent } from './study-plans/select-semester/select-semester.component';
 
 
 @NgModule({
@@ -35,21 +37,21 @@ import {DeleteComponent} from './delete/delete.component';
     TeacherViewComponent, CreateLecternComponent, CreateEmployeeComponent,
     SubjectDeleteComponent, CreateOccupationComponent, CreateEditFlowComponent,
     CreateEditGroupComponent, SeverityListComponent,
-    PereodicSeverityListComponent, DeleteComponent],
+    PereodicSeverityListComponent, DeleteComponent, DeleteStudyPlanComponent, SelectSemesterComponent],
   exports: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     TeacherViewComponent, TeacherAddEditComponent, TeacherDeleteComponent,
     SpecialityDeleteComponent, CreateLecternComponent, CreateEmployeeComponent,
     SubjectDeleteComponent, CreateOccupationComponent, CreateEditFlowComponent,
     CreateEditGroupComponent, SeverityListComponent,
-    PereodicSeverityListComponent, DeleteComponent],
+    PereodicSeverityListComponent, DeleteComponent, DeleteStudyPlanComponent, SelectSemesterComponent],
   entryComponents: [CreateStudyPlanComponent, ConfirmationComponent,
     StudyPlanDetailsComponent, EditSubjectComponent, SpecialityAddEditComponent,
     TeacherViewComponent, TeacherAddEditComponent, TeacherDeleteComponent,
     SpecialityDeleteComponent, CreateLecternComponent, CreateEmployeeComponent,
     SubjectDeleteComponent, CreateOccupationComponent, CreateEditFlowComponent,
     CreateEditGroupComponent, SeverityListComponent,
-    PereodicSeverityListComponent, DeleteComponent]
+    PereodicSeverityListComponent, DeleteComponent, DeleteStudyPlanComponent, SelectSemesterComponent]
 })
 export class DialogsModule {
 }

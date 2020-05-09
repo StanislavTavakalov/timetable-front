@@ -5,6 +5,9 @@ import {StudyPlan} from '../../../../model/study-plan.model';
 import {EducationForm} from '../../../../model/education-form.model';
 import {StudyPlanStatus} from '../../../../model/study-plan-status.model';
 import {Speciality} from '../../../../model/speciality.model';
+import {SpecialityService} from '../../../../services/lectern/speciality.service';
+import {NotifierService} from 'angular-notifier';
+import {isSemNumberExposed} from '../../../../validators/semnumber-exposing.validator';
 
 @Component({
   selector: 'app-create-study-plan',
@@ -18,26 +21,37 @@ export class CreateStudyPlanComponent implements OnInit {
   currentStudyPlan: StudyPlan = new StudyPlan();
   educationFormList: EducationForm[] = [];
   specialityList: Speciality[] = [];
+  lecternId: string;
+  maxSemNumberExposed: number;
 
   constructor(private fb: FormBuilder,
               public dialogRef: MatDialogRef<CreateStudyPlanComponent>,
+              private specialityService: SpecialityService,
+              private notifierService: NotifierService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
+
+    this.lecternId = this.data.lecternId;
     this.message = this.data.message;
     this.currentStudyPlan = this.data.currentStudyPlan;
-    console.log(this.currentStudyPlan);
+
     this.educationFormList.push(EducationForm.FullTime, EducationForm.Extramural);
-    this.specialityList.push({id: '1', description: 'test', name: 'ИСИТ', abbreviation: 'ИСИТ'}, {
-      id: '2',
-      description: 'test',
-      name: 'POIT',
-      abbreviation: 'POIT'
+
+    this.specialityService.getSpecialities(this.lecternId).subscribe(specialities => {
+      for (const speciality of specialities) {
+        this.specialityList.push(speciality);
+      }
+    }, error => {
+      this.notifierService.notify('error', 'Не удалось загрузить специальности.');
     });
+
     if (this.currentStudyPlan != null) {
+      this.maxSemNumberExposed = this.getMaxExposedSemNumber(this.currentStudyPlan);
       this.initializeForm(this.currentStudyPlan);
     } else {
+      this.maxSemNumberExposed = 0;
       this.initializeForm(new StudyPlan());
     }
     console.log(this.speciality);
@@ -45,28 +59,13 @@ export class CreateStudyPlanComponent implements OnInit {
 
   private initializeForm(studyPlan: StudyPlan) {
     this.createStudyPlanForm = this.fb.group({
-      studyPlanName: [studyPlan.name, [Validators.required, Validators.maxLength(15)]],
+      studyPlanName: [studyPlan.name, [Validators.required, Validators.maxLength(20)]],
       educationForm: [studyPlan.educationForm, [Validators.required]],
       speciality: [studyPlan.speciality, [Validators.required]],
+      countOfSem: [studyPlan.countOfSem, [isSemNumberExposed(this.maxSemNumberExposed),
+        Validators.required, Validators.min(1), Validators.max(12)]],
+      coefficient: [studyPlan.coefficient, [Validators.min(0), Validators.max(15)]],
     });
-  }
-
-  getErrorText(controlName: string): string {
-    const control = this.createStudyPlanForm.get(controlName) as FormControl;
-    return this.getErrorMessage(control);
-  }
-
-  private getErrorMessage(control: FormControl): string {
-    let errorMessage = '';
-    if (control.errors) {
-      if (control.errors.required) {
-        errorMessage = 'Заполните имя';
-      }
-      if (control.errors.maxlength) {
-        errorMessage = 'Max 15 digits';
-      }
-    }
-    return errorMessage;
   }
 
   get studyPlanName(): FormControl {
@@ -81,6 +80,14 @@ export class CreateStudyPlanComponent implements OnInit {
     return this.createStudyPlanForm.get('speciality') as FormControl;
   }
 
+  get countOfSem(): FormControl {
+    return this.createStudyPlanForm.get('countOfSem') as FormControl;
+  }
+
+  get coefficient(): FormControl {
+    return this.createStudyPlanForm.get('coefficient') as FormControl;
+  }
+
   onCancelClick() {
     this.dialogRef.close();
   }
@@ -89,30 +96,24 @@ export class CreateStudyPlanComponent implements OnInit {
     const nameOfStudyPlanF = this.createStudyPlanForm.controls.studyPlanName.value;
     const educationFormF = this.createStudyPlanForm.controls.educationForm.value;
     const specialityF = this.createStudyPlanForm.controls.speciality.value;
-    console.log(this.currentStudyPlan);
+    const countOfSemF = this.createStudyPlanForm.controls.countOfSem.value;
+    const coefficientF = this.createStudyPlanForm.controls.coefficient.value;
     if (this.currentStudyPlan === undefined || this.currentStudyPlan === null) {
-      this.dialogRef.close(
-        // {id: 555, name: nameOfStudyPlan, subjects: [], coefficient: 0, countOfSem: 0, weeks: 0, isChanged: false}
-        {
-          id: this.getRandomInt(1000),
-          name: nameOfStudyPlanF,
-          countOfSem: 0,
-          registerNumber: this.getRandomInt(10000),
-          registerNumberApplyDate: new Date(),
-          educationForm: educationFormF,
-          status: StudyPlanStatus.InDevelopment,
-          statusApplyDate: new Date(),
-          speciality: specialityF,
-          weeks: [],
-          subjects: [],
-          coefficient: [],
-          isChanged: false
-        }
-      );
+      const newStudyPlan = new StudyPlan();
+      newStudyPlan.name = nameOfStudyPlanF;
+      newStudyPlan.educationForm = educationFormF;
+      newStudyPlan.speciality = specialityF;
+      newStudyPlan.coefficient = coefficientF;
+      newStudyPlan.countOfSem = countOfSemF;
+      newStudyPlan.status = StudyPlanStatus.InDevelopment;
+      newStudyPlan.statusApplyDate = new Date();
+      this.dialogRef.close(newStudyPlan);
     } else {
       this.currentStudyPlan.name = nameOfStudyPlanF;
       this.currentStudyPlan.educationForm = educationFormF;
       this.currentStudyPlan.speciality = specialityF;
+      this.currentStudyPlan.coefficient = coefficientF;
+      this.currentStudyPlan.countOfSem = countOfSemF;
       this.dialogRef.close(this.currentStudyPlan);
     }
   }
@@ -123,5 +124,28 @@ export class CreateStudyPlanComponent implements OnInit {
 
   getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  public localizeEducationForm(educationForm: EducationForm): string {
+    switch (educationForm) {
+      case EducationForm.FullTime:
+        return 'Очная';
+      case EducationForm.Extramural:
+        return 'Заочная';
+    }
+  }
+
+  private getMaxExposedSemNumber(studyPlan: StudyPlan) {
+    let maxExposedSemNumber = 0;
+    for (const subject of studyPlan.subjects) {
+      for (const pereodicSeverity of subject.pereodicSeverities) {
+        for (const semNumber of pereodicSeverity.semesterNumbers) {
+          if (semNumber.number > maxExposedSemNumber) {
+            maxExposedSemNumber = semNumber.number;
+          }
+        }
+      }
+    }
+    return maxExposedSemNumber;
   }
 }

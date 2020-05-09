@@ -21,13 +21,13 @@ export class SubjectService {
       .pipe(catchError(this.handleError));
   }
 
-  public getSubjects(): Observable<Subject[]> {
-    return this.http.get<Subject[]>(environment.domain + this.subjectAPIUrl)
+  public getAllSubjectTemplates(): Observable<Subject[]> {
+    return this.http.get<Subject[]>(environment.domain + this.subjectAPIUrl + '?isTemplate=' + true)
       .pipe(catchError(this.handleError));
   }
 
   public getSubjectsTemplates(lecternId: string): Observable<Subject[]> {
-    return this.http.get<Subject[]>(environment.domain + this.subjectAPIUrl + '?lecternId=' + lecternId)
+    return this.http.get<Subject[]>(environment.domain + this.subjectAPIUrl + '?lecternId=' + lecternId + '&isTemplate=' + true)
       .pipe(catchError(this.handleError));
   }
 
