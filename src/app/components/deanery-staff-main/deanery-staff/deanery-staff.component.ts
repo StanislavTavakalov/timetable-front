@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DeaneryService} from '../../services/deanery.service';
-import {ActivatedRoute} from '@angular/router';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {DeaneryService} from '../../../services/deanery.service';
 import {Overlay} from '@angular/cdk/overlay';
 import {MatDialog, MatPaginator, MatTable} from '@angular/material';
-import {StudyPlan} from '../../model/study-plan.model';
-import {Employee} from '../../model/employee.model';
+import {StudyPlan} from '../../../model/study-plan.model';
+import {Employee} from '../../../model/employee.model';
 import {MatTableDataSource} from '@angular/material/table';
-import {CreateEmployeeComponent} from '../dialogs/create-employee/create-employee.component';
+import {CreateEmployeeComponent} from '../../dialogs/create-employee/create-employee.component';
 import {NotifierService} from 'angular-notifier';
-import {DeleteComponent} from '../dialogs/delete/delete.component';
+import {DeleteComponent} from '../../dialogs/delete/delete.component';
+import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-deanery-staff',
@@ -18,29 +18,22 @@ import {DeleteComponent} from '../dialogs/delete/delete.component';
 export class DeaneryStaffComponent implements OnInit {
 
   constructor(private deaneryService: DeaneryService,
-              private route: ActivatedRoute,
               private dialog: MatDialog, private overlay: Overlay,
+              private localStorageService: LocalStorageService,
               private notifierService: NotifierService) {
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
   deaneryId: string;
-  employees: Employee[] = [];
+  @Input() employees: Employee[];
   displayedColumns: string[] = ['name', 'surname', 'patronymic', 'rank', 'update', 'delete'];
   dataSource: any;
 
   ngOnInit() {
-    this.deaneryId = this.route.snapshot.paramMap.get('id');
-    if (this.deaneryId != null) {
-      this.deaneryService.getEmployeesByDeneryId(this.deaneryId).subscribe(employees => {
-        this.employees = employees;
-        this.dataSource = new MatTableDataSource<Employee>(employees);
-        this.dataSource.paginator = this.paginator;
-      }, error => {
-        this.notifierService.notify('error', 'Не удалось загрузить сотрудников');
-      });
-    }
+    this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
+    this.dataSource = new MatTableDataSource<Employee>(this.employees);
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {

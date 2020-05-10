@@ -156,7 +156,7 @@
     </button>
     <button mat-raised-button class="control-button" style="margin-left: auto"
             [disabled]="this.selectedStudyPlan === null" *ngIf="this.selectedStudyPlan != null"
-            routerLink="/timetable/{{this.selectedStudyPlan.id}}"> Далее
+            routerLink="/lectern/{{lecternId}}/distribution_courses_semesters/{{this.selectedStudyPlan.id}}"> Далее
     </button>
   </div>
 </div>

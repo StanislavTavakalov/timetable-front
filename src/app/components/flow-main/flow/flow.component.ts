@@ -1,15 +1,15 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {StudyPlan} from '../../model/study-plan.model';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {StudyPlan} from '../../../model/study-plan.model';
 import {MatDialog, MatPaginator, MatTable} from '@angular/material';
-import {Flow} from '../../model/flow.model';
-import {LocalStorageService} from '../../services/local-storage.service';
-import {DeaneryService} from '../../services/deanery.service';
+import {Flow} from '../../../model/flow.model';
+import {LocalStorageService} from '../../../services/local-storage.service';
+import {DeaneryService} from '../../../services/deanery.service';
 import {Overlay} from '@angular/cdk/overlay';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute} from '@angular/router';
 import {MatTableDataSource} from '@angular/material/table';
-import {CreateEditFlowComponent} from '../dialogs/create-edit-flow/create-edit-flow.component';
-import {DeleteComponent} from '../dialogs/delete/delete.component';
+import {CreateEditFlowComponent} from '../../dialogs/create-edit-flow/create-edit-flow.component';
+import {DeleteComponent} from '../../dialogs/delete/delete.component';
 
 @Component({
   selector: 'app-flow',
@@ -21,25 +21,19 @@ export class FlowComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
   deaneryId: string;
-  lecternId: string;
-  flows: Flow[] = [];
+  @Input() lecternId: string;
+  @Input() flows: Flow[];
   displayedColumns: string[] = ['name', 'description', 'update', 'delete'];
   dataSource: any;
-  constructor(private route: ActivatedRoute,
+  constructor(private localStorageService: LocalStorageService,
               private deaneryService: DeaneryService,
               private dialog: MatDialog, private overlay: Overlay,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.deaneryId = this.route.snapshot.paramMap.get('id');
-    this.lecternId = this.route.snapshot.paramMap.get('idLectern');
-    this.deaneryService.getFlowsByLecternId(this.lecternId).subscribe(flows => {
-      this.flows = flows;
-      this.dataSource = new MatTableDataSource<Flow>(flows);
-      this.dataSource.paginator = this.paginator;
-    }, error2 => {
-      this.notifierService.notify('error', 'Не удалось загрузить потоки');
-    });
+    this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
+    this.dataSource = new MatTableDataSource<Flow>(this.flows);
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {

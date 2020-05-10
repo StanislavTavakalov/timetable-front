@@ -1,14 +1,15 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Group} from '../../model/group.model';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Group} from '../../../model/group.model';
 import {ActivatedRoute} from '@angular/router';
-import {DeaneryService} from '../../services/deanery.service';
-import {StudyPlan} from '../../model/study-plan.model';
+import {DeaneryService} from '../../../services/deanery.service';
+import {StudyPlan} from '../../../model/study-plan.model';
 import {MatDialog, MatPaginator, MatTable} from '@angular/material';
 import {MatTableDataSource} from '@angular/material/table';
 import {Overlay} from '@angular/cdk/overlay';
 import {NotifierService} from 'angular-notifier';
-import {CreateEditGroupComponent} from '../dialogs/create-edit-group/create-edit-group.component';
-import {DeleteComponent} from '../dialogs/delete/delete.component';
+import {CreateEditGroupComponent} from '../../dialogs/create-edit-group/create-edit-group.component';
+import {DeleteComponent} from '../../dialogs/delete/delete.component';
+import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-group',
@@ -19,7 +20,7 @@ export class GroupComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
-  groups: Group[] = [];
+  @Input() groups: Group[];
   groupsFilter: Group[] = [];
   displayedColumns: string[] = ['name', 'description', 'count', 'speciality', 'flow', 'lectern' , 'update', 'delete'];
   dataSource: any;
@@ -28,19 +29,13 @@ export class GroupComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
               private dialog: MatDialog, private overlay: Overlay,
+              private localStorageService: LocalStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.deaneryId = this.route.snapshot.paramMap.get('id');
-    if (this.deaneryId !== null) {
-      this.deaneryService.getGroupsByFlowId(this.deaneryId).subscribe(groups => {
-        this.groups = groups;
-        this.dataSource = new MatTableDataSource<Group>(this.groups);
-        this.dataSource.paginator = this.paginator;
-      }, error2 => {
-        this.notifierService.notify('error', 'Не удалось загрузить группы');
-      });
-    }
+    this.deaneryId =  this.localStorageService.observableDeanery.getValue().id;
+    this.dataSource = new MatTableDataSource<Group>(this.groups);
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {

@@ -1,0 +1,10 @@
+<mat-spinner *ngIf="loading;else mainContent" diameter="150" mode="indeterminate" color="primary" class="spinner">
+</mat-spinner>
+
+<ng-template #mainContent>
+  <div style="display: flex">
+    <div class="table-content">
+      <app-group [groups]="groups"></app-group>
+    </div>
+  </div>
+</ng-template>

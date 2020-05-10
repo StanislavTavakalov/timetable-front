@@ -1,0 +1,66 @@
+  <div class="tableMain">
+    <mat-form-field>
+      <mat-label>Фильтр</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по кафедрам">
+    </mat-form-field>
+    <div class="mat-elevation-z8">
+      <table #table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+          <th style="width: 13%" mat-header-cell *matHeaderCellDef> Название </th>
+          <td style="width: 13%"  mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fullname">
+          <th style="width: 18%" mat-header-cell *matHeaderCellDef> Полное назание </th>
+          <td style="width: 18%" mat-cell *matCellDef="let element"> {{element.fullname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th style="width: 28%" mat-header-cell *matHeaderCellDef> Описание </th>
+          <td style="width: 28%" mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="go">
+          <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                              routerLink="/lectern/{{element?.id}}/">Перейти</button> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="staff">
+          <th style="width: 9%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 9%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                               (click)="viewStaff(element.id)">Преподаватели</button> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+          <th style="width: 11%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 11%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                               (click)="updateLectern(element)">Редактировать</button> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                              (click)="deleteLectern(element)">Удалить</button> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="flows">
+          <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                   routerLink="/deanery/{{deaneryId}}/flows/{{element.id}}">Потоки</button> </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+
+  <div class="control-panel" style="margin-top:3%">
+    <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
+      <button  mat-raised-button class="control-button" (click)="addLectern()">Создать кафедру</button>
+    </div>
+  </div>
+
+

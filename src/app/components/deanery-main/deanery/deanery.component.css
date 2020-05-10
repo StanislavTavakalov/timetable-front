@@ -12,3 +12,9 @@ table {
   margin-left: 2%;
   width: 96%;
 }
+
+.spinner{
+  margin: 10% auto auto;
+  height: 100%;
+  width: 100%;
+}

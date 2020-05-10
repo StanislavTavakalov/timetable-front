@@ -1,19 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DeaneryService} from '../../services/deanery.service';
-import {Lectern} from '../../model/lectern.model';
-import {User} from '../../model/user.model';
-import {ActivatedRoute} from '@angular/router';
-import {Deanery} from '../../model/deanery.model';
-import {LocalStorageService} from '../../services/local-storage.service';
-import {HeaderType} from '../../model/header-type';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {DeaneryService} from '../../../services/deanery.service';
+import {Lectern} from '../../../model/lectern.model';
+import {Deanery} from '../../../model/deanery.model';
+import {LocalStorageService} from '../../../services/local-storage.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatPaginator, MatTable} from '@angular/material';
-import {CreateLecternComponent} from '../dialogs/create-lectern/create-lectern.component';
+import {CreateLecternComponent} from '../../dialogs/create-lectern/create-lectern.component';
 import {Overlay} from '@angular/cdk/overlay';
-import {TeacherViewComponent} from '../dialogs/teacher-view/teacher-view.component';
-import {StudyPlan} from '../../model/study-plan.model';
+import {TeacherViewComponent} from '../../dialogs/teacher-view/teacher-view.component';
+import {StudyPlan} from '../../../model/study-plan.model';
 import {NotifierService} from 'angular-notifier';
-import {DeleteComponent} from '../dialogs/delete/delete.component';
+import {DeleteComponent} from '../../dialogs/delete/delete.component';
 
 @Component({
   selector: 'app-deanery',
@@ -25,37 +22,19 @@ export class DeaneryComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
   deaneryId: string;
-  lecterns: Lectern[] = [];
+  @Input() lecterns: Lectern[];
   deanery: Deanery;
   displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'update', 'delete', 'flows'];
   dataSource: any;
-  constructor(private route: ActivatedRoute,
-              private deaneryService: DeaneryService,
+  constructor(private deaneryService: DeaneryService,
               private localStorageService: LocalStorageService,
               private dialog: MatDialog, private overlay: Overlay,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.deaneryId = this.route.snapshot.paramMap.get('id');
-    this.localStorageService.observableHeaderType.next(HeaderType.DEANERY);
-    if (this.localStorageService.observableDeanery.getValue() === null ||
-      this.localStorageService.observableDeanery.getValue().id !== this.deaneryId) {
-      this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
-        this.deanery = value;
-        this.localStorageService.observableDeanery.next(this.deanery);
-      }, error2 => {
-        this.notifierService.notify('error', 'Не удалось загрузить деканат');
-      });
-    }
-    if (this.deaneryId != null) {
-        this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
-          this.lecterns = lecterns;
-          this.dataSource = new MatTableDataSource<Lectern>(lecterns);
-          this.dataSource.paginator = this.paginator;
-        }, error2 => {
-          this.notifierService.notify('error', 'Не удалось загрузить кафедры');
-        });
-    }
+    this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
+    this.dataSource = new MatTableDataSource(this.lecterns);
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {

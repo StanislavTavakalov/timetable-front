@@ -15,7 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DialogsModule} from './components/dialogs/dialogs.module';
 import { EditStudyPlanComponent } from './components/dialogs/edit-study-plan/edit-study-plan.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
-import { DeaneryComponent } from './components/deanery/deanery.component';
+import { DeaneryComponent } from './components/deanery-main/deanery/deanery.component';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {SpecialitiesComponent} from './components/specialities/specialities.component';
 import {TeachersComponent} from './components/teachers/teachers.component';
@@ -24,13 +24,17 @@ import {SpecialityDatatableComponent} from './components/specialities/speciality
 import {FooterComponent} from './components/footer/footer.component';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifier-options';
-import { DeaneryStaffComponent } from './components/deanery-staff/deanery-staff.component';
+import { DeaneryStaffComponent } from './components/deanery-staff-main/deanery-staff/deanery-staff.component';
 import { TeacherDatatableComponent } from './components/teachers/teacher-datatable/teacher-datatable.component';
 import { SubjectAddEditComponent } from './components/subjects/subject-add-edit/subject-add-edit.component';
 import { SubjectDatatableComponent } from './components/subjects/subject-datatable/subject-datatable.component';
 import { SubjectComponent } from './components/subjects/subject/subject.component';
-import { GroupComponent } from './components/group/group.component';
-import { FlowComponent } from './components/flow/flow.component';
+import { GroupComponent } from './components/group-main/group/group.component';
+import { FlowComponent } from './components/flow-main/flow/flow.component';
+import { DeaneryMainComponent } from './components/deanery-main/deanery-main.component';
+import { FlowMainComponent } from './components/flow-main/flow-main.component';
+import { GroupMainComponent } from './components/group-main/group-main.component';
+import { DeaneryStaffMainComponent } from './components/deanery-staff-main/deanery-staff-main.component';
 
 
 @NgModule({
@@ -54,7 +58,11 @@ import { FlowComponent } from './components/flow/flow.component';
     SubjectDatatableComponent,
     SubjectComponent,
     GroupComponent,
-    FlowComponent
+    FlowComponent,
+    DeaneryMainComponent,
+    FlowMainComponent,
+    GroupMainComponent,
+    DeaneryStaffMainComponent
   ],
   imports: [
     BrowserModule,
