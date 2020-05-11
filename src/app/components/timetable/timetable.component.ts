@@ -47,6 +47,9 @@ export class TimetableComponent implements OnInit {
     if (this.lecternId != null) {
       this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {
         plans.forEach((plan) => {
+          plan.subjects.sort((a, b) => a.position - b.position);
+        });
+        plans.forEach((plan) => {
           plan.subjects.forEach((subject) => {
             subject.semesters.sort((a, b) => a.number - b.number);
           });
@@ -118,6 +121,7 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
+
     if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10) * this.selectedPlan.weeks[numberOfSem].count) < 0) {
       window.alert('Превышены свободные часы');
       event.currentTarget.style.background = 'red';
@@ -141,10 +145,10 @@ export class TimetableComponent implements OnInit {
       event.currentTarget.style.background = 'red';
       return;
     }
-    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek;
+    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count;
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10) * this.selectedPlan.coefficient;
     this.subject.semesters[numberOfSem].creditUnits = parseInt(event.currentTarget.value, 10);
-    this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10) * this.selectedPlan.coefficient;
+    this.subject.freeHours = this.subject.freeHours - this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count;
   }
 
   public editModeChange(): void {
@@ -174,6 +178,11 @@ export class TimetableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         this.timetableService.editPlan(result).subscribe(plan => {
+          plan.subjects.sort((a, b) => a.position - b.position);
+          plan.subjects.forEach((subject) => {
+            subject.semesters.sort((a, b) => a.number - b.number);
+          });
+          plan.weeks.sort((a, b) => a.position - b.position);
           this.updatedPlan = plan;
           this.plans[this.plans.indexOf(this.selectedPlan)] = plan;
           this.reculculate();

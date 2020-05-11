@@ -107,10 +107,11 @@ export class FormForCreationComponent implements OnInit {
     } else if (num === 1)  {
         this.formForCreationServiceService.getPlanById(event.value).subscribe(plan => {
           this.plan = plan;
-          this.oldCountOfSem = this.plan.countOfSem;
           if (this.plan.subjects !== undefined && this.plan.subjects.length !== 0) {
             if (this.plan.subjects[0].semesters !== undefined) {
               this.oldCountOfSem = this.plan.subjects[0].semesters.length;
+            } else {
+              this.oldCountOfSem = 0;
             }
           }
         });

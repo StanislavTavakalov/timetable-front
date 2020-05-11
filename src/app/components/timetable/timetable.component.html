@@ -62,9 +62,9 @@
             <td>{{discipline.position}}</td>
             <td colspan="2"  >{{discipline.name}}</td>
             <td  *ngFor="let semester of discipline.semesters "><input
-              (change)="changeHoursPerWeek($event,discipline.id,i)" class="input1"
+              (change)="changeHoursPerWeek($event,discipline.id,semester.number-1)" class="input1"
               value="{{semester?.hoursPerWeek}}"> / <input
-              (change)="changeCreditUnit($event,discipline.id,i)" class="input2" value="{{semester?.creditUnits}}"></td>
+              (change)="changeCreditUnit($event,discipline.id,semester.number-1)" class="input2" value="{{semester?.creditUnits}}"></td>
             <td *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"></td>
             <td>{{discipline.department}}</td>
           </tr>
