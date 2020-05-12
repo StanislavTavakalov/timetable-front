@@ -77,7 +77,8 @@
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let subject"
                     [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-                  <mat-icon (click)="editSubjectFromStudyPlan(subject)">edit</mat-icon>
+                  <mat-icon (click)="editSubjectFromStudyPlan(subject)" matTooltip="Редактировать предмет">edit
+                  </mat-icon>
                 </td>
               </ng-container>
 
@@ -85,7 +86,8 @@
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let subject; let i = index"
                     [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-                  <mat-icon (click)="deleteSubjectFromStudyPlan(subject, i)">cancel</mat-icon>
+                  <mat-icon (click)="deleteSubjectFromStudyPlan(subject, i)" matTooltip="Убрать предмет">cancel
+                  </mat-icon>
                 </td>
               </ng-container>
 
@@ -106,29 +108,36 @@
   </div>
 
   <!--        -------------------------------Subjects table--------------------------                   -->
-  <table mat-table #tablePrototypes *ngIf="editMode" [dataSource]="subjectTemplates" class="mat-elevation-z8"
-         style="width: 15%; margin-left: 3%; margin-top: 2%">
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="prototypes">
-      <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> Шаблоны</th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} ({{element.abbreviation}})</td>
-    </ng-container>
 
-    <!-- Add subject to study plan -->
-    <ng-container matColumnDef="add-icon" stickyEnd>
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let subjectTemplate">
-        <mat-icon (click)="addSubjectToStudyPlan(subjectTemplate)"> add_circle</mat-icon>
-        <mat-icon [matTooltip]="getAdditionalSubjectTemplateInfo(subjectTemplate)"> info</mat-icon>
-      </td>
-    </ng-container>
+  <div style="width: 15%; margin-left: 3%; margin-top: 2%" *ngIf="editMode" class="column">
+    <mat-form-field>
+      <mat-label>Фильтр</mat-label>
+      <input matInput (keyup)="applyTemplateFilter($event)" placeholder="Поиск по шаблонам...">
+    </mat-form-field>
 
-    <!-- Display columns -->
-    <tr mat-header-row *matHeaderRowDef="['prototypes' ]"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnsSubjects;"></tr>
-  </table>
+    <table mat-table #tablePrototypes [dataSource]="templateDataSource" class="mat-elevation-z8" style="width: 100%">
 
+      <!-- Name Column -->
+      <ng-container matColumnDef="prototypes">
+        <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> Шаблоны</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} ({{element.abbreviation}})</td>
+      </ng-container>
+
+      <!-- Add subject to study plan -->
+      <ng-container matColumnDef="add-icon" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let subjectTemplate">
+          <mat-icon (click)="addSubjectToStudyPlan(subjectTemplate)" matTooltip="Добавить предмет в план"> add_circle</mat-icon>
+          <mat-icon [matTooltip]="getAdditionalSubjectTemplateInfo(subjectTemplate)"> info</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Display columns -->
+      <tr mat-header-row *matHeaderRowDef="['prototypes' ]"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsSubjects;"></tr>
+    </table>
+  </div>
 </div>
 
 <!--        -------------------------------   CONTROL PANEL    --------------------------                   -->

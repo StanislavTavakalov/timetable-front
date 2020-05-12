@@ -6,13 +6,13 @@ import {WeekCount} from './week-count.model';
 import {Schedule} from './shedule.model';
 
 export class StudyPlan {
-  public id: string;
+  public id: string = null;
   public name: string;
-  public subjects: Subject[];
+  public subjects: Subject[] = [];
   public coefficient: number;
   public countOfSem: number;
-  public schedules: Schedule[];
-  public weeks: WeekCount[];
+  public schedules: Schedule[] = [];
+  public weeks: WeekCount[] = [];
   public isChanged: boolean;
   public speciality: Speciality;
   public status: StudyPlanStatus;

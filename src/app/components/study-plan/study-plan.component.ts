@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {SubjectService} from '../../services/lectern/subject.service';
-import {MatDialog, MatTable, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTable, MatTableDataSource} from '@angular/material';
 import {StudyPlan} from '../../model/study-plan.model';
 import {Subject} from '../../model/subject.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -60,6 +60,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   @ViewChild('tableMain', {static: false}) studyPlansTable: MatTable<Subject>;
   @ViewChild('tablePrototypes', {static: false}) subjectPrototypesTable: MatTable<Subject>;
 
+  // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   public subjects: Subject[];
   public studyPlans = null;
@@ -78,6 +80,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   displayedPereodicSeverityColumnsForSubjects: string[] = [];
   severityList: Severity[] = [];
   pereodicSeverityList: PereodicSeverity[] = [];
+  templateDataSource: MatTableDataSource<Subject>;
 
   ngOnInit() {
 
@@ -126,6 +129,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
     this.subjectService.getAllSubjectTemplates().subscribe(subjects => {
         this.subjectTemplates = subjects;
+        this.templateDataSource = new MatTableDataSource(subjects);
       }, error => {
         this.notifierService.notify('error', 'Не удалось загрузить шаблоны предметов');
       }
@@ -556,5 +560,14 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
       additionalInfo += ']';
     }
     return additionalInfo;
+  }
+
+  applyTemplateFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.templateDataSource.filter = filterValue.trim().toLowerCase();
+
+    // if (this.templateDataSource.paginator) {
+    //   this.templateDataSource.paginator.firstPage();
+    // }
   }
 }

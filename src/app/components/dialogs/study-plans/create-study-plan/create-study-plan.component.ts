@@ -119,6 +119,9 @@ export class CreateStudyPlanComponent implements OnInit {
   }
 
   compareObjects(o1: any, o2: any): boolean {
+    if (!o2) {
+      return false;
+    }
     return o1.name === o2.name && o1.id === o2.id;
   }
 
