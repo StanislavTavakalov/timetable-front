@@ -39,6 +39,11 @@ export class SpecialitiesComponent implements OnInit, OnDestroy {
     this.loading = true;
     // setting lectern id when we get to this Lectern section
     const lecternId = this.route.snapshot.paramMap.get('id');
+    const token = this.route.snapshot.queryParamMap.get('token');
+
+    if (token) {
+      this.localStorageService.setCurrentUserToken('Bearer ' + token);
+    }
 
     this.localStorageService.observableHeaderType.next(HeaderType.LECTERN);
     // loading of Lectern if it is null or id changed
