@@ -8,52 +8,61 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell  *matHeaderCellDef mat-sort-header> Имя </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Имя</th>
       <td mat-cell style="width: 15%" *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
 
     <!-- Surname Column -->
     <ng-container matColumnDef="surname">
-      <th mat-header-cell  *matHeaderCellDef mat-sort-header> Фамилия </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Фамилия</th>
       <td mat-cell style="width: 15%" *matCellDef="let row"> {{row.surname}} </td>
     </ng-container>
 
     <!-- Patronymic Column -->
     <ng-container matColumnDef="patronymic">
-      <th mat-header-cell  *matHeaderCellDef mat-sort-header> Отчество </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Отчество</th>
       <td mat-cell style="width: 15%" *matCellDef="let row"> {{row.patronymic}} </td>
     </ng-container>
 
     <!-- Position Column -->
     <ng-container matColumnDef="position">
-      <th mat-header-cell  *matHeaderCellDef mat-sort-header> Должность </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Должность</th>
       <td mat-cell style="width: 5%" *matCellDef="let row"> {{row.position}} </td>
     </ng-container>
 
     <!-- Rank Column -->
     <ng-container matColumnDef="rank">
-      <th mat-header-cell  *matHeaderCellDef mat-sort-header> Ранг </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Ранг</th>
       <td mat-cell style="width: 5%" *matCellDef="let row"> {{row.rank}} </td>
     </ng-container>
 
     <!-- Academic Degree Column -->
     <ng-container matColumnDef="academicDegree">
-      <th mat-header-cell  *matHeaderCellDef mat-sort-header> Достижения </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Достижения</th>
       <td mat-cell style="overflow: hidden; width: 30%" *matCellDef="let row"> {{row.academicDegree}} </td>
     </ng-container>
 
     <!-- Icons Column -->
     <ng-container matColumnDef="icons">
-      <th style="text-align: end" mat-header-cell class="icons" *matHeaderCellDef >
-        <span class="material-icons" (click)="addNewTeacher()" style="cursor: pointer" matTooltip="Добавить преподавателя">
+      <th style="text-align: end" mat-header-cell class="icons" *matHeaderCellDef>
+        <span class="material-icons" (click)="linkTeachers()" style="cursor: pointer"
+              matTooltip="Связать учителей">
+          link
+        </span>
+        <span class="material-icons" (click)="addNewTeacher()" style="cursor: pointer"
+              matTooltip="Добавить преподавателя">
               add_circle
          </span>
+
+
       </th>
       <td style="text-align: end; width: 10%" mat-cell class="icons" *matCellDef="let teacher">
-         <span class="material-icons" (click)="editTeacher(teacher)" style="cursor: pointer" matTooltip="Редактировать преподавателя">
+         <span class="material-icons" (click)="editTeacher(teacher)" style="cursor: pointer"
+               matTooltip="Редактировать преподавателя">
              edit
          </span>
-        <span class="material-icons" (click)="deleteTeacher(teacher)" style="cursor: pointer" matTooltip="Удалить преподавателя">
+        <span class="material-icons" (click)="deleteTeacher(teacher)" style="cursor: pointer"
+              matTooltip="Удалить преподавателя">
              delete
         </span>
       </td>

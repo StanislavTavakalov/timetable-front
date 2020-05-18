@@ -7,6 +7,7 @@ import {OperationResponse} from '../../../model/operation-response.model';
 import {Teacher} from '../../../model/teacher.model';
 import {TeacherAddEditComponent} from '../../dialogs/teachers/teacher-add-edit/teacher-add-edit.component';
 import {TeacherDeleteComponent} from '../../dialogs/teachers/teacher-delete/teacher-delete.component';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-teacher-datatable',
@@ -17,6 +18,8 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog,
               private overlay: Overlay,
+              private router: Router,
+              private route: ActivatedRoute,
               private notifierService: NotifierService) {
 
   }
@@ -99,6 +102,11 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
     });
   }
 
+  private linkTeachers() {
+    const lecternId = this.route.snapshot.paramMap.get('id');
+    window.location.href = 'http://localhost:8080/lectern/' + lecternId + '/addusertoteacher';
+  }
+
   public refreshDataTableContent() {
     this.dataSource.data = this.teachers;
   }
@@ -112,5 +120,6 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
       this.deleteTeacherDialogSubscription.unsubscribe();
     }
   }
+
 
 }

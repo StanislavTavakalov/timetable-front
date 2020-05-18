@@ -78,4 +78,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.deanerySubscription.unsubscribe();
   }
 
+  private navigateToAccount() {
+    window.location.href = 'http://localhost:8080/mypage';
+  }
+
 }

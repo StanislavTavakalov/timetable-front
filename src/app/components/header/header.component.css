@@ -28,7 +28,8 @@ p {
 .toolbar {
   height: 60px;
   display: flex;
-  align-items: center;
+  /*align-items: center;*/
+  justify-content: space-between;
   background-color: #1dae17;
   color: white;
   font-weight: 600;

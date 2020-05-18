@@ -1,8 +1,10 @@
 footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   background: #1dae17;
+  min-height: 35px;
+  justify-content: flex-end;
+  align-items: center;
+  display: flex;
 }
 
 p {
@@ -10,4 +12,5 @@ p {
   font-size: 100%;
   text-align: end;
   padding-right: 4%;
+  margin: 0;
 }
