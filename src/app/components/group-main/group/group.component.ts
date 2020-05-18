@@ -3,7 +3,7 @@ import {Group} from '../../../model/group.model';
 import {ActivatedRoute} from '@angular/router';
 import {DeaneryService} from '../../../services/deanery.service';
 import {StudyPlan} from '../../../model/study-plan.model';
-import {MatDialog, MatPaginator, MatTable} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTable} from '@angular/material';
 import {MatTableDataSource} from '@angular/material/table';
 import {Overlay} from '@angular/cdk/overlay';
 import {NotifierService} from 'angular-notifier';
@@ -20,9 +20,10 @@ export class GroupComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @Input() groups: Group[];
   groupsFilter: Group[] = [];
-  displayedColumns: string[] = ['name', 'description', 'count', 'speciality', 'flow', 'lectern' , 'update', 'delete'];
+  displayedColumns: string[] = ['name', 'description', 'count', 'speciality', 'update', 'delete'];
   dataSource: any;
   deaneryId: string;
 
@@ -33,9 +34,11 @@ export class GroupComponent implements OnInit {
               private notifierService: NotifierService) { }
 
   ngOnInit() {
+    console.log(this.groups);
     this.deaneryId =  this.localStorageService.observableDeanery.getValue().id;
     this.dataSource = new MatTableDataSource<Group>(this.groups);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -45,8 +48,7 @@ export class GroupComponent implements OnInit {
       if (group.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1 ||
           group.description.toLowerCase().indexOf(filterValue.toLowerCase()) > -1 ||
           group.countOfStudents.toString().toLowerCase().indexOf(filterValue.toLowerCase()) > -1 ||
-          group.flow.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1 ||
-          group.flow.lectern.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1) {
+          group.speciality.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1) {
         this.groupsFilter.push(group);
       }
     });
@@ -55,14 +57,14 @@ export class GroupComponent implements OnInit {
 
   addGroup() {
     const dialogRef = this.dialog.open(CreateEditGroupComponent, {
-      width: '25%',
+      width: '40%',
       height: '65%',
       data: {group: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.addGroup(result.group, result.flowId).subscribe( group => {
+        this.deaneryService.addGroup(result).subscribe( group => {
           this.groups.push(group);
           this.dataSource.data = this.groups;
           this.table.renderRows();
@@ -97,7 +99,7 @@ export class GroupComponent implements OnInit {
 
   updateGroup(groupO) {
     const dialogRef = this.dialog.open(CreateEditGroupComponent, {
-      width: '25%',
+      width: '40%',
       height: '65%',
       data: {group: JSON.parse(JSON.stringify(groupO)), deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()

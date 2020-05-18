@@ -63,12 +63,16 @@ export class DeaneryService {
     return this.http.put<Employee>(this.url + 'employee/' + employee.id, employee).pipe(catchError(this.handleError));
   }
 
-  getGroupsByFlowId(id: string): Observable<Group[]> {
+  getFreeGroupsByDeaneryId(id: string): Observable<Group[]> {
+    return this.http.get<Group[]>(this.url + 'groups/freeGroups/?deaneryId=' + id);
+  }
+
+  getGroupsByDeaneryId(id: string): Observable<Group[]> {
     return this.http.get<Group[]>(this.url + 'groups/?deaneryId=' + id);
   }
 
-  getFlowsByLecternId(id: string): Observable<Flow[]> {
-    return this.http.get<Flow[]>(this.url + 'flow/?lecternId=' + id);
+  getFlowsByDeaneryId(id: string): Observable<Flow[]> {
+    return this.http.get<Flow[]>(this.url + 'flow/?deaneryId=' + id);
   }
 
   deleteFlow(id: string): Observable<Flow> {
@@ -87,12 +91,12 @@ export class DeaneryService {
     return this.http.put<Flow>(this.url + 'flow/' + flow.id, flow).pipe(catchError(this.handleError));
   }
 
-  addFlow(flow: Flow, id: string): Observable<Flow> {
-    return this.http.post<Flow>(this.url + 'flow/?lecternId=' + id, flow).pipe(catchError(this.handleError));
+  addFlow(flow: Flow): Observable<Flow> {
+    return this.http.post<Flow>(this.url + 'flow/', flow).pipe(catchError(this.handleError));
   }
 
-  addGroup(group: Group, id: string): Observable<Group> {
-    return this.http.post<Group>(this.url + 'groups/?flowId=' + id, group).pipe(catchError(this.handleError));
+  addGroup(group: Group): Observable<Group> {
+    return this.http.post<Group>(this.url + 'groups/', group).pipe(catchError(this.handleError));
   }
 
   checkUniqueLectern(param: string, value: string): Observable<any> {

@@ -2,12 +2,22 @@
 
   <mat-form-field [formGroup]="formGroup">
     <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название" (change)="valuesf(1,$event)">
+    <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 100!</mat-error>
+	<mat-error *ngIf="name.hasError('minlength')"> Количество символов должно превышать 2!</mat-error>
+    <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <input id="description" formControlName="description" required class="form-control" matInput placeholder="Описание" (change)="valuesf(2,$event)">
+    <mat-select id="groupsF" formControlName="groupsF" required class="form-control" (selectionChange)="valuesf(3,$event)"  multiple>
+      <mat-option *ngFor="let group of groups" [value]="group?.id">{{group?.name}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="description.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 
+  <mat-form-field [formGroup]="formGroup">
+    <input id="description" formControlName="description" class="form-control" matInput placeholder="Описание" (change)="valuesf(2,$event)">
+    <mat-error *ngIf="groupsF.hasError('maxlength')"> Количество символов не должно превышать 255!</mat-error>
+  </mat-form-field>
   <button mat-raised-button color="warn" (click)="add()">
     Сохранить
   </button>

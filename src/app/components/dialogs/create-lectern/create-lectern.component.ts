@@ -32,6 +32,17 @@ export class CreateLecternComponent implements OnInit {
     });
   }
 
+  get name(): FormControl {
+    return this.formGroup.get('name') as FormControl;
+  }
+
+  get fullname(): FormControl {
+    return this.formGroup.get('fullname') as FormControl;
+  }
+
+  get description(): FormControl {
+    return this.formGroup.get('description') as FormControl;
+  }
 
   public valuesf(num, event): void {
     if (num === 1) {
@@ -62,8 +73,6 @@ export class CreateLecternComponent implements OnInit {
   public add(): void {
     if (this.formGroup.valid) {
       this.dialogRef.close(this.lectern);
-    } else {
-      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
   onCancelClick() {

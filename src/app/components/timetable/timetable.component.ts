@@ -102,12 +102,15 @@ export class TimetableComponent implements OnInit {
     this.cources = this.semsEven / 2;
     this.num = this.cources * 2 + 4;
     this.num1 = this.cources * 2;
+    this.editModeOff();
   }
 
 
   public add(): void {
     this.selectedPlan = JSON.parse(JSON.stringify(this.editPlan));
     this.timetableService.editPlan(this.selectedPlan).subscribe();
+    this.notifierService.notify('success', 'Учебный план успешно измнен');
+    this.editModeOff();
   }
 
   public exitEditableMode(): void {
@@ -121,13 +124,15 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
-
-    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10) * this.selectedPlan.weeks[numberOfSem].count) < 0) {
+    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek *
+        this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10) *
+        this.selectedPlan.weeks[numberOfSem].count) < 0) {
       window.alert('Превышены свободные часы');
       event.currentTarget.style.background = 'red';
       return;
     }
-    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count;
+    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek *
+      this.selectedPlan.weeks[numberOfSem].count;
     this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10);
     this.subject.semesters[numberOfSem].creditUnits = Math.round(parseInt(event.currentTarget.value, 10) / this.selectedPlan.coefficient);
     this.subject.freeHours = this.subject.freeHours - parseInt(event.currentTarget.value, 10) * this.selectedPlan.weeks[numberOfSem].count;
@@ -140,15 +145,23 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
-    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek - parseInt(event.currentTarget.value, 10) * this.selectedPlan.coefficient) < 0) {
+    if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek *
+         this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10) *
+         this.selectedPlan.coefficient * this.selectedPlan.weeks[numberOfSem].count) < 0) {
       window.alert('Превышены свободные часы');
       event.currentTarget.style.background = 'red';
       return;
     }
-    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count;
-    this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10) * this.selectedPlan.coefficient;
+    this.subject.freeHours = this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek *
+      this.selectedPlan.weeks[numberOfSem].count;
+    this.subject.semesters[numberOfSem].hoursPerWeek = parseInt(event.currentTarget.value, 10) *
+      this.selectedPlan.coefficient;
     this.subject.semesters[numberOfSem].creditUnits = parseInt(event.currentTarget.value, 10);
-    this.subject.freeHours = this.subject.freeHours - this.subject.semesters[numberOfSem].hoursPerWeek * this.selectedPlan.weeks[numberOfSem].count;
+    this.subject.freeHours = this.subject.freeHours - this.subject.semesters[numberOfSem].hoursPerWeek *
+      this.selectedPlan.weeks[numberOfSem].count;
+    if (event.currentTarget.style.background === 'red') {
+      event.currentTarget.style.background = 'green';
+    }
   }
 
   public editModeChange(): void {
@@ -168,10 +181,11 @@ export class TimetableComponent implements OnInit {
   }
 
   public updateStudyPlan() {
+    this.updatedPlan = this.selectedPlan;
     const dialogRef = this.dialog.open(FormForCreationComponent, {
       width: '25%',
       height: '60%',
-      data: {lectern: this.lecternId},
+      data: {studyplan: JSON.parse(JSON.stringify(this.updatedPlan))},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
 
@@ -183,8 +197,8 @@ export class TimetableComponent implements OnInit {
             subject.semesters.sort((a, b) => a.number - b.number);
           });
           plan.weeks.sort((a, b) => a.position - b.position);
+          this.plans[this.plans.indexOf(this.updatedPlan)] = plan;
           this.updatedPlan = plan;
-          this.plans[this.plans.indexOf(this.selectedPlan)] = plan;
           this.reculculate();
           this.table.renderRows();
           this.notifierService.notify('success', 'Учебный план успешно обновлен');

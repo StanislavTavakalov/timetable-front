@@ -4,16 +4,23 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по потокам">
   </mat-form-field>
   <div class="mat-elevation-z8">
-    <table #table mat-table [dataSource]="dataSource">
+    <table #table mat-table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="name">
-        <th style="width: 40%" mat-header-cell *matHeaderCellDef> Название </th>
-        <td style="width: 40%; text-align: left;" mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <th style="width: 30%" mat-header-cell *matHeaderCellDef mat-sort-header> Название </th>
+        <td style="width: 30%; text-align: left;" mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th style="width: 40%" mat-header-cell *matHeaderCellDef> Описание </th>
-        <td style="width: 40%; text-align: left;"mat-cell *matCellDef="let element"> {{element.description}} </td>
+        <th style="width: 30%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание </th>
+        <td style="width: 30%; text-align: left;"mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="groups">
+        <th style="width: 20%" mat-header-cell *matHeaderCellDef mat-sort-header> Группы </th>
+        <ng-container style="width: 20%; text-align: left;"mat-cell *matCellDef="let element">
+          <tr *ngFor="let group of element.groups"> {{group.name}}</tr>
+        </ng-container>
       </ng-container>
 
       <ng-container matColumnDef="update">

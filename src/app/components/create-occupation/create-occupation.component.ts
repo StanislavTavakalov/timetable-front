@@ -18,9 +18,16 @@ export class CreateOccupationComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      symbol: new FormControl('', [Validators.required, Validators.maxLength(3)]),
+      symbol: new FormControl('', [Validators.required, Validators.maxLength(8)]),
       value: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
     });
+  }
+  get symbol(): FormControl {
+    return this.formGroup.get('symbol') as FormControl;
+  }
+
+  get value(): FormControl {
+    return this.formGroup.get('value') as FormControl;
   }
 
   saveValue(num, event): void {
@@ -52,8 +59,6 @@ export class CreateOccupationComponent implements OnInit {
       this.scheduleService.addOccupation(this.occupation).subscribe(occupation => {
         this.dialogRef.close(occupation);
       });
-    } else {
-      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
 }

@@ -4,7 +4,7 @@ import {Lectern} from '../../../model/lectern.model';
 import {Deanery} from '../../../model/deanery.model';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatDialog, MatPaginator, MatTable} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTable} from '@angular/material';
 import {CreateLecternComponent} from '../../dialogs/create-lectern/create-lectern.component';
 import {Overlay} from '@angular/cdk/overlay';
 import {TeacherViewComponent} from '../../dialogs/teacher-view/teacher-view.component';
@@ -21,10 +21,11 @@ export class DeaneryComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   deaneryId: string;
   @Input() lecterns: Lectern[];
   deanery: Deanery;
-  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'update', 'delete', 'flows'];
+  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'update', 'delete'];
   dataSource: any;
   constructor(private deaneryService: DeaneryService,
               private localStorageService: LocalStorageService,
@@ -35,6 +36,7 @@ export class DeaneryComponent implements OnInit {
     this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
     this.dataSource = new MatTableDataSource(this.lecterns);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -44,9 +46,9 @@ export class DeaneryComponent implements OnInit {
 
   public  addLectern() {
     const dialogRef = this.dialog.open(CreateLecternComponent, {
-      width: '30%',
+      width: '40%',
       height: '55%',
-      data: {lectern: null, deaneryId: this.deaneryId},
+      data: {lectern: null},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
@@ -96,9 +98,9 @@ export class DeaneryComponent implements OnInit {
 
   public updateLectern(lecternO) {
     const dialogRef = this.dialog.open(CreateLecternComponent, {
-      width: '30%',
+      width: '40%',
       height: '55%',
-      data: {lectern: JSON.parse(JSON.stringify(lecternO)), deaneryId: null},
+      data: {lectern: JSON.parse(JSON.stringify(lecternO))},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {

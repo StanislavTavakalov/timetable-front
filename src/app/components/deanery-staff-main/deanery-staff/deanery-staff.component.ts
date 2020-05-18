@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DeaneryService} from '../../../services/deanery.service';
 import {Overlay} from '@angular/cdk/overlay';
-import {MatDialog, MatPaginator, MatTable} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTable} from '@angular/material';
 import {StudyPlan} from '../../../model/study-plan.model';
 import {Employee} from '../../../model/employee.model';
 import {MatTableDataSource} from '@angular/material/table';
@@ -25,6 +25,7 @@ export class DeaneryStaffComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   deaneryId: string;
   @Input() employees: Employee[];
   displayedColumns: string[] = ['name', 'surname', 'patronymic', 'rank', 'update', 'delete'];
@@ -34,6 +35,7 @@ export class DeaneryStaffComponent implements OnInit {
     this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
     this.dataSource = new MatTableDataSource<Employee>(this.employees);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -43,9 +45,9 @@ export class DeaneryStaffComponent implements OnInit {
 
   addEmployee() {
     const dialogRef = this.dialog.open(CreateEmployeeComponent, {
-      width: '25%',
+      width: '40%',
       height: '55%',
-      data: {employee: null, deaneryId: this.deaneryId},
+      data: {employee: null},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
@@ -85,9 +87,9 @@ export class DeaneryStaffComponent implements OnInit {
 
   updateEmployee(employeeO) {
     const dialogRef = this.dialog.open(CreateEmployeeComponent, {
-      width: '25%',
+      width: '40%',
       height: '55%',
-      data: {employee: JSON.parse(JSON.stringify(employeeO)), deaneryId: null},
+      data: {employee: JSON.parse(JSON.stringify(employeeO))},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     });
     dialogRef.afterClosed().subscribe(result => {

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {StudyPlan} from '../../../model/study-plan.model';
-import {MatDialog, MatPaginator, MatTable} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTable} from '@angular/material';
 import {Flow} from '../../../model/flow.model';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {DeaneryService} from '../../../services/deanery.service';
@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MatTableDataSource} from '@angular/material/table';
 import {CreateEditFlowComponent} from '../../dialogs/create-edit-flow/create-edit-flow.component';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
+import {Group} from '../../../model/group.model';
 
 @Component({
   selector: 'app-flow',
@@ -20,10 +21,10 @@ export class FlowComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('table', {static: false}) table: MatTable<StudyPlan>;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   deaneryId: string;
-  @Input() lecternId: string;
   @Input() flows: Flow[];
-  displayedColumns: string[] = ['name', 'description', 'update', 'delete'];
+  displayedColumns: string[] = ['name', 'description', 'groups', 'update', 'delete'];
   dataSource: any;
   constructor(private localStorageService: LocalStorageService,
               private deaneryService: DeaneryService,
@@ -34,6 +35,7 @@ export class FlowComponent implements OnInit {
     this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
     this.dataSource = new MatTableDataSource<Flow>(this.flows);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -43,19 +45,21 @@ export class FlowComponent implements OnInit {
 
   public  addFlow() {
     const dialogRef = this.dialog.open(CreateEditFlowComponent, {
-      width: '20%',
-      height: '35%',
-      data: {flow: null, lecternId: this.lecternId},
+      width: '40%',
+      height: '50%',
+      data: {flow: null, deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
-        this.deaneryService.addFlow(result, this.lecternId).subscribe( flow => {
-          this.flows.push(flow);
-          this.dataSource.data = this.flows;
-          this.dataSource.paginator = this.paginator;
-          this.table.renderRows();
-          this.notifierService.notify('success', 'Поток успешно создан');
+        this.deaneryService.addFlow(result).subscribe( flow => {
+          this.deaneryService.editFlow(flow).subscribe( flowR => {
+            this.flows.push(flowR);
+            this.dataSource.data = this.flows;
+            this.dataSource.paginator = this.paginator;
+            this.table.renderRows();
+            this.notifierService.notify('success', 'Поток успешно создан');
+          });
         }, error2 => {
           this.notifierService.notify('error', error2);
         });
@@ -67,7 +71,7 @@ export class FlowComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteComponent, {
       width: '25%',
       height: '25%',
-      data: {flowId: flowO.id},
+      data: {},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result => {
@@ -86,14 +90,14 @@ export class FlowComponent implements OnInit {
 
   public updateFlow(flowO) {
     const dialogRef = this.dialog.open(CreateEditFlowComponent, {
-      width: '20%',
-      height: '35%',
-      data: {flow: JSON.parse(JSON.stringify(flowO)), lecternId: null},
+      width: '40%',
+      height: '50%',
+      data: {flow: JSON.parse(JSON.stringify(flowO)), deaneryId: this.deaneryId},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;
     dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
-        this.deaneryService.addFlow(result, this.lecternId).subscribe( flow => {
+        this.deaneryService.editFlow(result).subscribe( flow => {
           this.flows[this.flows.indexOf(flowO)] = flow;
           this.dataSource.data = this.flows;
           this.table.renderRows();

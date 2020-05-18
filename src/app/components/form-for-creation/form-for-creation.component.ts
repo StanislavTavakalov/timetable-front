@@ -15,7 +15,7 @@ import {WeekCount} from '../../model/week-count.model';
 export class FormForCreationComponent implements OnInit {
 
   newFree: number;
-  plan: StudyPlan = new StudyPlan();
+  plan: StudyPlan;
   weekCount: WeekCount = new WeekCount();
   semester: Semester = new Semester();
   countOfSem: number;
@@ -23,7 +23,6 @@ export class FormForCreationComponent implements OnInit {
   weeks: WeekCount[] = [];
   formGroup: any;
   formGroupHours: any;
-  plans: StudyPlan[];
   oldCountOfSem: number;
   notification: string;
   index: number;
@@ -39,15 +38,19 @@ export class FormForCreationComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      plans: new FormControl('', [Validators.required]),
       coefficient: new FormControl('', [Validators.required, Validators.min(1), Validators.max(15), Validators.pattern('[0-9]{1,2}')]),
       course: new FormControl('', [Validators.required, Validators.min(0), Validators.max(12), Validators.pattern('[0-9]{1,2}')]),
     });
+    this.plan = this.data.studyplan;
+    if (this.plan.subjects !== undefined && this.plan.subjects.length !== 0) {
+      if (this.plan.subjects[0].semesters !== undefined) {
+        this.oldCountOfSem = this.plan.subjects[0].semesters.length;
+      } else {
+        this.oldCountOfSem = 0;
+      }
+    }
     this.formGroup.controls.coefficient.setValue(3);
     this.coefficient = 3;
-    this.formForCreationServiceService.getPlansByLecternId(this.data.lectern).subscribe(plans => {
-      this.plans = plans;
-    });
     this.countOfSem = 0;
   }
 
@@ -69,8 +72,10 @@ export class FormForCreationComponent implements OnInit {
         window.alert('Семестры не могут быть сокращены так, как для них уже распределены переодические нагрузки');
       } else {
         this.updateWeeks();
-        this.updateSubjects();
-        this.recalculateFreeHours();
+        if (this.plan.subjects !== undefined && this.plan.subjects.length !== 0) {
+          this.updateSubjects();
+          this.recalculateFreeHours();
+        }
         this.dialogRef.close(this.plan);
       }
     } else {
@@ -96,7 +101,8 @@ export class FormForCreationComponent implements OnInit {
       this.countOfSem = parseInt(event.currentTarget.value, 10);
       this.formGroupHours = new FormGroup({});
       for (let i = 0; i < this.countOfSem; i++) {
-        this.formGroupHours.addControl('hours' + i, new FormControl('', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
+        this.formGroupHours.addControl('hours' + i, new FormControl('',
+            [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern('[0-9]{1,2}')]));
         this.formGroupHours.controls['hours' + i].setValue('15');
         this.weekCount.count = 15;
         this.weekCount.position = i + 1;
@@ -104,17 +110,6 @@ export class FormForCreationComponent implements OnInit {
        }
     } else if (num === 2) {
       this.coefficient = parseInt(event.currentTarget.value, 10);
-    } else if (num === 1)  {
-        this.formForCreationServiceService.getPlanById(event.value).subscribe(plan => {
-          this.plan = plan;
-          if (this.plan.subjects !== undefined && this.plan.subjects.length !== 0) {
-            if (this.plan.subjects[0].semesters !== undefined) {
-              this.oldCountOfSem = this.plan.subjects[0].semesters.length;
-            } else {
-              this.oldCountOfSem = 0;
-            }
-          }
-        });
     }
   }
 
@@ -144,14 +139,6 @@ export class FormForCreationComponent implements OnInit {
         subject.semesters = subject.semesters.slice(0, this.countOfSem);
       });
     }
-    for (let i = 0; i < this.plan.subjects.length; i++) {
-      this.newFree = 0;
-      this.plan.subjects[i].semesters.forEach((semester) => {
-        this.newFree = this.newFree + semester.hoursPerWeek;
-      });
-      this.plan.subjects[i].freeHours = this.plan.subjects[i].sumOfHours - this.newFree;
-    }
-
   }
 
   public recalculateFreeHours() {

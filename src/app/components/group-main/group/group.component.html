@@ -4,36 +4,26 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по группам">
   </mat-form-field>
   <div class="mat-elevation-z8">
-    <table #table mat-table [dataSource]="dataSource">
+    <table #table mat-table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="name">
-        <th style="width: 14%" mat-header-cell *matHeaderCellDef> Номер </th>
-        <td style="width: 14%" mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <th style="width: 18%" mat-header-cell *matHeaderCellDef mat-sort-header> Номер </th>
+        <td style="width: 18%" mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th style="width: 18%" mat-header-cell *matHeaderCellDef> Описание </th>
-        <td style="width: 18%" mat-cell *matCellDef="let element"> {{element.description}} </td>
+        <th style="width: 23%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание </th>
+        <td style="width: 23%" mat-cell *matCellDef="let element"> {{element.description}} </td>
       </ng-container>
 
       <ng-container matColumnDef="count">
-        <th style="width: 8%" mat-header-cell *matHeaderCellDef>Количество</th>
-        <td style="width: 8%" mat-cell *matCellDef="let element"> {{element.countOfStudents}} </td>
+        <th style="width: 10%" mat-header-cell *matHeaderCellDef mat-sort-header>Количество студентов</th>
+        <td style="width: 10%" mat-cell *matCellDef="let element"> {{element.countOfStudents}} </td>
      </ng-container>
 
       <ng-container matColumnDef="speciality">
-        <th style="width: 14%" mat-header-cell *matHeaderCellDef> Специальность </th>
-        <td style="width: 14%" mat-cell *matCellDef="let element"> {{element.speciality.name}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="flow">
-        <th style="width: 14%" mat-header-cell *matHeaderCellDef> Поток </th>
-        <td style="width: 14%" mat-cell *matCellDef="let element"> {{element.flow.name}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="lectern">
-        <th style="width: 14%" mat-header-cell *matHeaderCellDef> Кафедра </th>
-        <td style="width: 14%" mat-cell *matCellDef="let element"> {{element.flow.lectern.name}} </td>
+        <th style="width: 17%" mat-header-cell *matHeaderCellDef> Специальность </th>
+        <td style="width: 17%" mat-cell *matCellDef="let element"> {{element.speciality.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="update">

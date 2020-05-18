@@ -4,6 +4,8 @@ import {CreateEmployeeComponent} from '../create-employee/create-employee.compon
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DeaneryService} from '../../../services/deanery.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Group} from '../../../model/group.model';
+import {newLineWithIndentation} from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-create-edit-flow',
@@ -15,6 +17,8 @@ export class CreateEditFlowComponent implements OnInit {
   flow: Flow;
   formGroup: any;
   value: string;
+  groups: Group[];
+  newGroups: Group[] = [];
 
   constructor(public dialogRef: MatDialogRef<CreateEmployeeComponent>,
               private deaneryService: DeaneryService,
@@ -29,7 +33,26 @@ export class CreateEditFlowComponent implements OnInit {
     this.formGroup = new FormGroup({
       name: new FormControl(this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
       description: new FormControl(this.flow.description, [Validators.maxLength(255)]),
+      groupsF: new FormControl('', [Validators.required]),
     });
+    this.deaneryService.getFreeGroupsByDeaneryId(this.data.deaneryId).subscribe(groups => {
+      this.groups = groups;
+      if (this.data.flow !== null) {
+        this.groups = this.groups.concat(this.flow.groups);
+      }
+    });
+  }
+
+  get name(): FormControl {
+    return this.formGroup.get('name') as FormControl;
+  }
+
+  get description(): FormControl {
+    return this.formGroup.get('description') as FormControl;
+  }
+
+  get groupsF(): FormControl {
+    return this.formGroup.get('groupsF') as FormControl;
   }
 
   public valuesf(num, event): void {
@@ -43,16 +66,24 @@ export class CreateEditFlowComponent implements OnInit {
           window.alert('Поток с таким названием уже существует');
         }
       });
-    } else {
+    } else if (num === 2) {
       this.flow.description = event.currentTarget.value;
+    } else if (num === 3) {
+      this.newGroups = [];
+      event.value.forEach((groupInput) => {
+        this.newGroups.push(
+          this.groups.find((group) => {
+            return group.id === groupInput;
+          })
+        );
+      });
+      this.flow.groups = this.newGroups;
     }
   }
 
   public add(): void {
     if (this.formGroup.valid) {
       this.dialogRef.close(this.flow);
-    } else {
-      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
 

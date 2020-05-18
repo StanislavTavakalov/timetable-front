@@ -6,6 +6,9 @@ import {NotifierService} from 'angular-notifier';
 import {Overlay} from '@angular/cdk/overlay';
 import {Flow} from '../../model/flow.model';
 import {MatTableDataSource} from '@angular/material/table';
+import {HeaderType} from '../../model/header-type';
+import {LocalStorageService} from '../../services/local-storage.service';
+import {Deanery} from '../../model/deanery.model';
 
 @Component({
   selector: 'app-flow-main',
@@ -14,17 +17,28 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class FlowMainComponent implements OnInit {
   deaneryId: string;
-  lecternId: string;
   flows: Flow[] = [];
   loading = true;
+  deanery: Deanery;
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
+              private localStorageService: LocalStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
     this.deaneryId = this.route.snapshot.paramMap.get('id');
-    this.lecternId = this.route.snapshot.paramMap.get('idLectern');
-    this.deaneryService.getFlowsByLecternId(this.lecternId).subscribe(flows => {
+    this.localStorageService.observableHeaderType.next(HeaderType.DEANERY);
+    if (this.localStorageService.observableDeanery.getValue() === null ||
+      this.localStorageService.observableDeanery.getValue().id !== this.deaneryId) {
+      this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
+        this.deanery = value;
+        this.localStorageService.observableDeanery.next(this.deanery);
+        console.log(this.deanery);
+      }, error2 => {
+        this.notifierService.notify('error', 'Не удалось загрузить деканат');
+      });
+    }
+    this.deaneryService.getFlowsByDeaneryId(this.deaneryId).subscribe(flows => {
       this.loading = false;
       this.flows = flows;
     }, error2 => {

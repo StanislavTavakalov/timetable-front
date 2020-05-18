@@ -1,13 +1,7 @@
 ﻿<div class="example-container" xmlns:position="http://www.w3.org/1999/xhtml">
 
   <mat-form-field [formGroup]="formGroup">
-	<input id="course" formControlName="course" required class="form-control" matInput placeholder="Количество семестров" (change)="valuesf(0,$event)">
-  </mat-form-field>
-
-  <mat-form-field [formGroup]="formGroup">
-    <mat-select id="plans" formControlName="plans" class="form-control" required (selectionChange)="valuesf(1,$event)" placeholder="Учебный план"  >
-      <mat-option *ngFor="let plan of plans" value="{{plan.id}}">{{plan.name}}</mat-option>
-    </mat-select>
+	  <input id="course" formControlName="course" required class="form-control" matInput placeholder="Количество семестров" (change)="valuesf(0,$event)">
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">

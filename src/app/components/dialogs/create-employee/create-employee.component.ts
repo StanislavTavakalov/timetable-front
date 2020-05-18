@@ -24,11 +24,27 @@ export class CreateEmployeeComponent implements OnInit {
       this.employee = new Employee();
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.employee.name, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
-      surname: new FormControl(this.employee.surname, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]),
-      patronymic: new FormControl(this.employee.patronymic, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
-      rank: new FormControl(this.employee.rank, [Validators.required, Validators.minLength(1), Validators.maxLength(100)])
+      name: new FormControl(this.employee.name, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+      surname: new FormControl(this.employee.surname, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+      patronymic: new FormControl(this.employee.patronymic, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+      rank: new FormControl(this.employee.rank, [Validators.required, Validators.minLength(3), Validators.maxLength(100)])
     });
+  }
+
+  get name(): FormControl {
+    return this.formGroup.get('name') as FormControl;
+  }
+
+  get surname(): FormControl {
+    return this.formGroup.get('surname') as FormControl;
+  }
+
+  get patronymic(): FormControl {
+    return this.formGroup.get('patronymic') as FormControl;
+  }
+
+  get rank(): FormControl {
+    return this.formGroup.get('rank') as FormControl;
   }
 
   public valuesf(num, event): void {
@@ -46,8 +62,6 @@ export class CreateEmployeeComponent implements OnInit {
   public add(): void {
     if (this.formGroup.valid) {
       this.dialogRef.close(this.employee);
-    } else {
-      window.alert('Заполните обязательные поля в корректном формате');
     }
   }
 

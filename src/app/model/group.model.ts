@@ -7,5 +7,4 @@ export class Group {
   public name: string;
   public countOfStudents: number;
   public speciality: Speciality;
-  public flow: Flow;
 }

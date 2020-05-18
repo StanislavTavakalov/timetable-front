@@ -32,7 +32,8 @@ export class DeaneryMainComponent implements OnInit {
       this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
         this.deanery = value;
         this.localStorageService.observableDeanery.next(this.deanery);
-      }, error2 => {
+        console.log(this.deanery);
+        }, error2 => {
         this.notifierService.notify('error', 'Не удалось загрузить деканат');
       });
     }

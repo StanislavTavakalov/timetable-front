@@ -86,8 +86,8 @@ export class ScheduleComponent implements OnInit {
 
   addOccupation() {
     const dialogRef = this.dialog.open(CreateOccupationComponent, {
-      width: '25%',
-      height: '30%',
+      width: '40%',
+      height: '35%',
       data: {},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;

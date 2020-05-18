@@ -17,12 +17,10 @@ import {Lectern} from '../../../model/lectern.model';
 export class CreateEditGroupComponent implements OnInit {
 
   specialities: Speciality[] = [];
-  flows: Flow[] = [];
   lecterns: Lectern[] = [];
   formGroup: any;
   group: Group;
   specialityO: Speciality;
-  flowId: string;
   value: string;
 
   constructor(public specialityService: SpecialityService,
@@ -38,9 +36,6 @@ export class CreateEditGroupComponent implements OnInit {
       this.group = new Group();
     } else {
       this.lecterns.push(this.data.group.flow.lectern);
-      this.deaneryService.getFlowsByLecternId(this.data.group.flow.lectern.id).subscribe(flows => {
-        this.flows = flows;
-      });
       this.specialityService.getSpecialities(this.data.group.flow.lectern.id).subscribe(specialities => {
         this.specialities = specialities;
       });
@@ -66,19 +61,9 @@ export class CreateEditGroupComponent implements OnInit {
     } else if (num === 3) {
       this.group.countOfStudents = parseInt(event.currentTarget.value, 10);
     } else if (num === 4) {
-      this.deaneryService.getFlowsByLecternId(event.value).subscribe(flows => {
-        this.flows = flows;
-      });
       this.specialityService.getSpecialities(event.value).subscribe(specialities => {
         this.specialities = specialities;
       });
-    } else if (num === 5) {
-      this.flowId = event.value;
-      if (this.data.group != null) {
-        this.deaneryService.getFlowById(event.value).subscribe(flow => {
-          this.group.flow = flow;
-        });
-      }
     } else if (num === 6) {
       this.specialityService.getSpecialityById(event.value).subscribe(speciality => {
         this.group.speciality = speciality;
@@ -88,22 +73,7 @@ export class CreateEditGroupComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid) {
-      this.dialogRef.close({group: this.group, flowId: this.flowId});
-      if (this.data.group != null) {
-        this.deaneryService.editGroup(this.group).subscribe( group => {
-          this.dialogRef.close({isOperationCompleted: true, operationResult: group, errorMessage: null});
-        }, error2 => {
-          this.dialogRef.close({isOperationCompleted: true, operationResult: null, errorMessage: error2});
-        });
-      } else {
-        this.deaneryService.addGroup(this.group, this.flowId).subscribe( group => {
-          this.dialogRef.close({isOperationCompleted: true, operationResult: group, errorMessage: null});
-        }, error2 => {
-          this.dialogRef.close({isOperationCompleted: true, operationResult: null, errorMessage: error2});
-        });
-      }
-    } else {
-      window.alert('Заполните обязательные поля в корректном формате');
+      this.dialogRef.close( this.group);
     }
   }
 
@@ -116,8 +86,27 @@ export class CreateEditGroupComponent implements OnInit {
       name: new FormControl(this.group.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
       description: new FormControl(this.group.description, [Validators.maxLength(255)]),
       count: new FormControl(this.group.countOfStudents, [Validators.required, Validators.min(3), Validators.max(40), Validators.pattern('[0-9]{1,2}')]),
-      specialities: new FormControl('', [Validators.required]),
-      lecterns: new FormControl('', [Validators.required]),
-      flows: new FormControl('', [Validators.required])});
+      specialitiesF: new FormControl('', [Validators.required]),
+      lecternsF: new FormControl('', [Validators.required])});
+  }
+
+  get name(): FormControl {
+    return this.formGroup.get('name') as FormControl;
+  }
+
+  get description(): FormControl {
+    return this.formGroup.get('description') as FormControl;
+  }
+
+  get count(): FormControl {
+    return this.formGroup.get('count') as FormControl;
+  }
+
+  get specialitiesF(): FormControl {
+    return this.formGroup.get('specialitiesF') as FormControl;
+  }
+
+  get lecternsF(): FormControl {
+    return this.formGroup.get('lecternsF') as FormControl;
   }
 }
