@@ -40,7 +40,7 @@
         {{link.label}}
       </a>
 
-      <a mat-tab-link [href]="'http://localhost:8080/lectern/' + lectern.id +  ' /pretimemtable'">
+      <a mat-tab-link [href]="'http://localhost:8080/lectern/' + ((lectern !== null) ? lectern.id : '') +  ' /pretimemtable'">
         Расписание занятий
       </a>
     </nav>
