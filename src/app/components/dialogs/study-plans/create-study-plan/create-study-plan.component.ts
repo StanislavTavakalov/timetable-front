@@ -65,6 +65,7 @@ export class CreateStudyPlanComponent implements OnInit {
       countOfSem: [studyPlan.countOfSem, [isSemNumberExposed(this.maxSemNumberExposed),
         Validators.required, Validators.min(1), Validators.max(12)]],
       coefficient: [studyPlan.coefficient, [Validators.min(0), Validators.max(15)]],
+      year: [studyPlan.year, [Validators.required, Validators.min(1900), Validators.max(2100)]]
     });
   }
 
@@ -88,6 +89,10 @@ export class CreateStudyPlanComponent implements OnInit {
     return this.createStudyPlanForm.get('coefficient') as FormControl;
   }
 
+  get year(): FormControl {
+    return this.createStudyPlanForm.get('year') as FormControl;
+  }
+
   onCancelClick() {
     this.dialogRef.close();
   }
@@ -98,6 +103,7 @@ export class CreateStudyPlanComponent implements OnInit {
     const specialityF = this.createStudyPlanForm.controls.speciality.value;
     const countOfSemF = this.createStudyPlanForm.controls.countOfSem.value;
     const coefficientF = this.createStudyPlanForm.controls.coefficient.value;
+    const yearF = this.createStudyPlanForm.controls.year.value;
     if (this.currentStudyPlan === undefined || this.currentStudyPlan === null) {
       const newStudyPlan = new StudyPlan();
       newStudyPlan.name = nameOfStudyPlanF;
@@ -107,6 +113,7 @@ export class CreateStudyPlanComponent implements OnInit {
       newStudyPlan.countOfSem = countOfSemF;
       newStudyPlan.status = StudyPlanStatus.InDevelopment;
       newStudyPlan.statusApplyDate = new Date();
+      newStudyPlan.year = yearF;
       this.dialogRef.close(newStudyPlan);
     } else {
       this.currentStudyPlan.name = nameOfStudyPlanF;
@@ -114,6 +121,7 @@ export class CreateStudyPlanComponent implements OnInit {
       this.currentStudyPlan.speciality = specialityF;
       this.currentStudyPlan.coefficient = coefficientF;
       this.currentStudyPlan.countOfSem = countOfSemF;
+      this.currentStudyPlan.year = yearF;
       this.dialogRef.close(this.currentStudyPlan);
     }
   }

@@ -160,3 +160,9 @@ th.pointer {
   display: flex;
   flex-direction: column !important;
 }
+
+.spinner{
+  margin: 10% auto auto;
+  height: 100%;
+  width: 100%;
+}

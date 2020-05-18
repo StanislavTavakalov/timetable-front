@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {SubjectService} from '../../services/lectern/subject.service';
-import {MatDialog, MatPaginator, MatSort, MatTable, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatSort, MatTable, MatTableDataSource} from '@angular/material';
 import {StudyPlan} from '../../model/study-plan.model';
 import {Subject} from '../../model/subject.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -72,6 +72,11 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public studyPlanBackup: StudyPlan;
   private lecternId: string;
   private loading;
+  private lecternLoading = false;
+  private subjectLoading;
+  private studyPlansLoading;
+  private severityLoading;
+  private pereodicSeverityLoading;
   private lecternServiceSubscription: Subscription;
 
   displayedColumnsSubjects: string[] = ['prototypes', 'add-icon'];
@@ -89,6 +94,11 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     });
 
     this.loading = true;
+    this.subjectLoading = true;
+    this.studyPlansLoading = true;
+    this.severityLoading = true;
+    this.pereodicSeverityLoading = true;
+
     // setting lectern id when we get to this Lectern section
     this.lecternId = this.route.snapshot.paramMap.get('id');
 
@@ -96,27 +106,24 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     // loading of Lectern if it is null or id changed
     if (this.localStorageService.observableLectern.getValue() === null ||
       this.localStorageService.observableLectern.getValue().id !== this.lecternId) {
+      this.lecternLoading = true;
       this.lecternServiceSubscription = this.lecternService.getLecternById(this.lecternId).subscribe(lectern => {
         this.localStorageService.observableLectern.next(lectern);
+        this.lecternLoading = false;
       }, error => {
         this.notifierService.notify('error', 'Не удалось загрузить кафедру.');
+        this.lecternLoading = false;
       });
     }
 
-    this.studyPlanService.getStudyPlans(this.lecternId).subscribe(studyPlans => {
-        this.studyPlans = studyPlans;
-        for (const studyPlan of this.studyPlans) {
-          this.sortSubjects(studyPlan);
-        }
-      }, error => {
-        this.notifierService.notify('error', 'Не удалось загрузить учебные планы');
-      }
-    );
-
     this.severityPereodicService.getPereodicSeverities().subscribe(pereodicSeverities => {
-        this.displayedSeverityColumnsForSubjects = [];
+        this.displayedPereodicSeverityColumnsForSubjects = [];
         this.pereodicSeverityList = pereodicSeverities;
         this.pereodicSeverityList.forEach(res => this.displayedPereodicSeverityColumnsForSubjects.push(res.name));
+        this.pereodicSeverityLoading = false;
+      }, error => {
+        this.notifierService.notify('error', 'Периодические нагрузки не были загружены! ');
+        this.pereodicSeverityLoading = false;
       }
     );
 
@@ -124,14 +131,33 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
         this.displayedSeverityColumnsForSubjects = [];
         this.severityList = result;
         this.severityList.forEach(res => this.displayedSeverityColumnsForSubjects.push(res.name));
+        this.severityLoading = false;
+      }, error => {
+        this.notifierService.notify('error', 'Нагрузки не были загружены! ');
+        this.severityLoading = false;
       }
     );
+
+    this.studyPlanService.getStudyPlans(this.lecternId).subscribe(studyPlans => {
+        this.studyPlans = studyPlans;
+        for (const studyPlan of this.studyPlans) {
+          this.sortSubjects(studyPlan);
+        }
+        this.studyPlansLoading = false;
+      }, error => {
+        this.notifierService.notify('error', 'Не удалось загрузить учебные планы');
+        this.studyPlansLoading = false;
+      }
+    );
+
 
     this.subjectService.getAllSubjectTemplates().subscribe(subjects => {
         this.subjectTemplates = subjects;
         this.templateDataSource = new MatTableDataSource(subjects);
+        this.subjectLoading = false;
       }, error => {
         this.notifierService.notify('error', 'Не удалось загрузить шаблоны предметов');
+        this.subjectLoading = false;
       }
     );
   }
@@ -538,7 +564,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
   private printRegisterNumber(registerNumber: number) {
-    return registerNumber === 0 ? 'не указан' : registerNumber;
+    return registerNumber === null ? 'не указан' : registerNumber;
   }
 
   private getAdditionalSubjectTemplateInfo(subject: Subject) {

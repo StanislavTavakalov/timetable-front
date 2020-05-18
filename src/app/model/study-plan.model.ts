@@ -20,4 +20,5 @@ export class StudyPlan {
   public registerNumber: number;
   public registerNumberApplyDate: Date;
   public educationForm: EducationForm;
+  public year: number;
 }
