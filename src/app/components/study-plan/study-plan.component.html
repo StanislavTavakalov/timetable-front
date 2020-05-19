@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="subjectLoading && studyPlansLoading && severityLoading && pereodicSeverityLoading; else mainContent"
+<mat-spinner *ngIf="subjectLoading || studyPlansLoading || severityLoading || pereodicSeverityLoading; else mainContent"
              diameter="150" mode="indeterminate" color="primary" class="spinner">
 </mat-spinner>
 
