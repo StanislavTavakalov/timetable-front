@@ -16,6 +16,7 @@ export class GroupMainComponent implements OnInit {
   loading = true;
   deaneryId: string;
   groups: Group[] = [];
+  loadingDeanery = true;
   deanery: Deanery;
 
   constructor(private route: ActivatedRoute,
@@ -31,10 +32,12 @@ export class GroupMainComponent implements OnInit {
       this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
         this.deanery = value;
         this.localStorageService.observableDeanery.next(this.deanery);
-        console.log(this.deanery);
+        this.loadingDeanery = false;
       }, error2 => {
         this.notifierService.notify('error', 'Не удалось загрузить деканат');
       });
+    } else {
+      this.loadingDeanery = false;
     }
     if (this.deaneryId !== null) {
       this.deaneryService.getGroupsByDeaneryId(this.deaneryId).subscribe(groups => {

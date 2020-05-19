@@ -17,6 +17,7 @@ export class DeaneryMainComponent implements OnInit {
   lecterns: Lectern[] = [];
   deanery: Deanery;
   loading = true;
+  loadingDeanery = true;
 
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
@@ -32,10 +33,12 @@ export class DeaneryMainComponent implements OnInit {
       this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
         this.deanery = value;
         this.localStorageService.observableDeanery.next(this.deanery);
-        console.log(this.deanery);
+        this.loadingDeanery = false;
         }, error2 => {
         this.notifierService.notify('error', 'Не удалось загрузить деканат');
       });
+    } else {
+      this.loadingDeanery = false;
     }
     if (this.deaneryId != null) {
       this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {

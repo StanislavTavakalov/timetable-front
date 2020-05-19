@@ -87,6 +87,10 @@ export class DeaneryService {
     return this.http.put<Group>(this.url + 'groups/' + group.id, group).pipe(catchError(this.handleError));
   }
 
+  editGroupSetNullFlow(group: Group): Observable<Group> {
+    return this.http.put<Group>(this.url + 'groups/setNullFlow/' + group.id, group).pipe(catchError(this.handleError));
+  }
+
   editFlow(flow: Flow): Observable<Flow> {
     return this.http.put<Flow>(this.url + 'flow/' + flow.id, flow).pipe(catchError(this.handleError));
   }
@@ -110,6 +114,7 @@ export class DeaneryService {
   checkUniqueFlowName( value: string): Observable<any> {
     return this.http.get<any>(this.url + 'flow/checkUniqFlowName/?name=' + value);
   }
+
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

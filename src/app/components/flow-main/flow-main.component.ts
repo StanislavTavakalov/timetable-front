@@ -19,6 +19,7 @@ export class FlowMainComponent implements OnInit {
   deaneryId: string;
   flows: Flow[] = [];
   loading = true;
+  loadingDeanery = true;
   deanery: Deanery;
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
@@ -33,14 +34,17 @@ export class FlowMainComponent implements OnInit {
       this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
         this.deanery = value;
         this.localStorageService.observableDeanery.next(this.deanery);
-        console.log(this.deanery);
+        this.loadingDeanery = false;
       }, error2 => {
         this.notifierService.notify('error', 'Не удалось загрузить деканат');
       });
+    } else {
+      this.loadingDeanery = false;
     }
     this.deaneryService.getFlowsByDeaneryId(this.deaneryId).subscribe(flows => {
-      this.loading = false;
       this.flows = flows;
+      console.log(this.flows);
+      this.loading = false;
     }, error2 => {
       this.loading = false;
       this.notifierService.notify('error', 'Не удалось загрузить потоки');

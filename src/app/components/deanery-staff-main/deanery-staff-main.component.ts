@@ -17,6 +17,7 @@ export class DeaneryStaffMainComponent implements OnInit {
   deaneryId: string;
   employees: Employee[] = [];
   loading = true;
+  loadingDeanery = true;
   deanery: Deanery;
   constructor(private deaneryService: DeaneryService,
               private route: ActivatedRoute,
@@ -31,10 +32,12 @@ export class DeaneryStaffMainComponent implements OnInit {
       this.deaneryService.getDeaneryById(this.deaneryId).subscribe(value => {
         this.deanery = value;
         this.localStorageService.observableDeanery.next(this.deanery);
-        console.log(this.deanery);
+        this.loadingDeanery = false;
       }, error2 => {
         this.notifierService.notify('error', 'Не удалось загрузить деканат');
       });
+    } else {
+      this.loadingDeanery = false;
     }
     if (this.deaneryId != null) {
       this.deaneryService.getEmployeesByDeneryId(this.deaneryId).subscribe(employees => {

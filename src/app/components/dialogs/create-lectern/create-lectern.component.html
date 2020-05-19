@@ -3,14 +3,14 @@
   <mat-form-field [formGroup]="formGroup">
     <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название кафедры" (change)="valuesf(1,$event)">
     <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 50!</mat-error>
-	<mat-error *ngIf="name.hasError('minlength')"> Количество символов должно превышать 2!</mat-error>
+	<mat-error *ngIf="name.hasError('minlength')"> Количество символов должно превышать 1!</mat-error>
     <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
     <input id="fullname" formControlName="fullname" required class="form-control" matInput placeholder="Полное название" (change)="valuesf(2,$event)">
     <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 255!</mat-error>
-	<mat-error *ngIf="name.hasError('minlength')"> Количество символов должно превышать 2!</mat-error>
+	<mat-error *ngIf="name.hasError('minlength')"> Количество символов должно превышать 1!</mat-error>
     <mat-error *ngIf="fullname.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 

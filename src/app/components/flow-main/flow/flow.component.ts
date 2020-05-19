@@ -26,12 +26,14 @@ export class FlowComponent implements OnInit {
   @Input() flows: Flow[];
   displayedColumns: string[] = ['name', 'description', 'groups', 'update', 'delete'];
   dataSource: any;
+  flag: boolean;
   constructor(private localStorageService: LocalStorageService,
               private deaneryService: DeaneryService,
               private dialog: MatDialog, private overlay: Overlay,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
+    console.log(this.flows);
     this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
     this.dataSource = new MatTableDataSource<Flow>(this.flows);
     this.dataSource.paginator = this.paginator;
@@ -67,7 +69,7 @@ export class FlowComponent implements OnInit {
     });
   }
 
-  public deleteFlow(flowO) {
+  public deleteFlow(flowO: Flow) {
     const dialogRef = this.dialog.open(DeleteComponent, {
       width: '25%',
       height: '25%',
@@ -78,10 +80,10 @@ export class FlowComponent implements OnInit {
       if (result != null) {
         if (result) {
           this.deaneryService.deleteFlow(flowO.id).subscribe(flow => {
-            this.flows.splice(this.flows.indexOf(flowO), 1);
-            this.dataSource.data = this.flows;
-            this.table.renderRows();
-            this.notifierService.notify('success', 'Поток успешно удален');
+          this.flows.splice(this.flows.indexOf(flowO), 1);
+          this.dataSource.data = this.flows;
+          this.table.renderRows();
+          this.notifierService.notify('success', 'Поток успешно удален');
           });
         }
       }
@@ -98,12 +100,29 @@ export class FlowComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
         this.deaneryService.editFlow(result).subscribe( flow => {
+          this.updateGroups(flowO, result);
           this.flows[this.flows.indexOf(flowO)] = flow;
           this.dataSource.data = this.flows;
           this.table.renderRows();
+          this.notifierService.notify('success', 'Поток успешно изменен');
         }, error2 => {
           this.notifierService.notify('error', error2);
         });
+      }
+    });
+  }
+
+  updateGroups(flowOld: Flow, flowNew: Flow) {
+    flowOld.groups.forEach((groupOld) => {
+      this.flag  = false;
+      flowNew.groups.forEach((groupNew) => {
+        if (groupNew.id === groupOld.id) {
+          this.flag = true;
+        }
+      });
+      if (!this.flag) {
+        console.log(groupOld);
+        this.deaneryService.editGroupSetNullFlow(groupOld).subscribe();
       }
     });
   }
