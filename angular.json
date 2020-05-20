@@ -6,8 +6,8 @@
     "Schedule-frontend": {
       "projectType": "application",
       "schematics": {},
-      "root": "",
-      "sourceRoot": "src/modules",
+      "root": "/modules/",
+      "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
