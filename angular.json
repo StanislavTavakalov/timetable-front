@@ -12,7 +12,6 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "deployUrl": "http://45.147.162.43/modules/",
           "options": {
             "outputPath": "dist/Schedule-frontend",
             "index": "src/index.html",
