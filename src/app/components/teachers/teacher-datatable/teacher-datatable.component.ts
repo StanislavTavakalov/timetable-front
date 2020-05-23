@@ -8,6 +8,7 @@ import {Teacher} from '../../../model/teacher.model';
 import {TeacherAddEditComponent} from '../../dialogs/teachers/teacher-add-edit/teacher-add-edit.component';
 import {TeacherDeleteComponent} from '../../dialogs/teachers/teacher-delete/teacher-delete.component';
 import {ActivatedRoute, Router} from '@angular/router';
+import {StaffType} from '../../../model/staff-type.model';
 
 @Component({
   selector: 'app-teacher-datatable',
@@ -30,7 +31,8 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('teacherTable', {static: false}) teacherTable: MatTable<Teacher>;
 
   @Input() teachers: Teacher[];
-  displayedColumns: string[] = ['name', 'surname', 'patronymic', 'position', 'rank', 'academicDegree', 'icons'];
+  displayedColumns: string[] = ['name', 'surname', 'patronymic', 'position', 'academicRank',
+    'academicDegree', 'staffType', 'icons'];
   dataSource: MatTableDataSource<Teacher>;
   editTeacherDialogSubscription: Subscription;
   deleteTeacherDialogSubscription: Subscription;
@@ -109,6 +111,38 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
 
   public refreshDataTableContent() {
     this.dataSource.data = this.teachers;
+  }
+
+  private printAcademicDegree(academicDegree, abbreviation) {
+
+    if (academicDegree && academicDegree !== '') {
+      if (abbreviation) {
+        return academicDegree + ' (' + abbreviation + ') ';
+      } else {
+        return academicDegree;
+      }
+    } else {
+      return 'Не указано';
+    }
+  }
+
+  private printValue(value) {
+    return value === null || value === '' ? 'Не указано' : value;
+  }
+
+  private printStaffType(staffType: StaffType, rate: number): string {
+    switch (staffType) {
+      case StaffType.ExternalCombiner:
+        return 'Внешний совместитель' + ' (Ставка: ' + rate + ')';
+      case StaffType.FullTime:
+        return 'Штатный';
+      case StaffType.PartTime:
+        return 'Почасовик' + ' (Часов: ' + rate + ')';
+      case StaffType.InternalCombiner:
+        return 'Внутренний совместитель' + ' (Ставка: ' + rate + ')';
+      case staffType:
+        return 'Не указано';
+    }
   }
 
   ngOnDestroy(): void {

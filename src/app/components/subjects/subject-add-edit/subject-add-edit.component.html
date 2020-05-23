@@ -23,7 +23,7 @@
               Необходимо заполнить поле
             </mat-error>
             <mat-error *ngIf="subjectForm.get('name').hasError('maxlength')">
-              Максимальное количество символов 20!
+              Максимальное количество символов 1000!
             </mat-error>
           </mat-form-field>
 
@@ -33,7 +33,7 @@
               Необходимо заполнить поле
             </mat-error>
             <mat-error *ngIf="subjectForm.get('abbreviation').hasError('maxlength')">
-              Максимальное количество символов 10!
+              Максимальное количество символов 255!
             </mat-error>
           </mat-form-field>
         </div>
@@ -46,7 +46,7 @@
               <textarea matInput placeholder="Описание предмета" formControlName="description"
                         matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
               <mat-error *ngIf="subjectForm.get('description').hasError('maxlength')">
-                Максимальное количество символов 1000!
+                Максимальное количество символов 10000!
               </mat-error>
             </mat-form-field>
           </div>

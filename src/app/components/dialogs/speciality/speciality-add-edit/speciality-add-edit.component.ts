@@ -42,9 +42,9 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
 
   private initializeForm(speciality: Speciality) {
     this.specialityForm = this.fb.group({
-      name: [speciality.name, [Validators.required, Validators.maxLength(65)]],
-      description: [speciality.description, [Validators.maxLength(255)]],
-      abbreviation: [speciality.abbreviation, [Validators.required, Validators.maxLength(10)]],
+      name: [speciality.name, [Validators.required, Validators.maxLength(1000)]],
+      description: [speciality.description, [Validators.maxLength(10000)]],
+      abbreviation: [speciality.abbreviation, [Validators.required, Validators.maxLength(255)]],
     });
   }
 

@@ -59,7 +59,7 @@ export class CreateStudyPlanComponent implements OnInit {
 
   private initializeForm(studyPlan: StudyPlan) {
     this.createStudyPlanForm = this.fb.group({
-      studyPlanName: [studyPlan.name, [Validators.required, Validators.maxLength(20)]],
+      studyPlanName: [studyPlan.name, [Validators.required, Validators.maxLength(1000)]],
       educationForm: [studyPlan.educationForm, [Validators.required]],
       speciality: [studyPlan.speciality, [Validators.required]],
       countOfSem: [studyPlan.countOfSem, [isSemNumberExposed(this.maxSemNumberExposed),

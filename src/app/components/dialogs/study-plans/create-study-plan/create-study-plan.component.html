@@ -3,7 +3,7 @@
   <form [formGroup]="createStudyPlanForm">
     <mat-form-field>
       <input matInput placeholder="Имя учебного плана: " [formControlName]="'studyPlanName'" required>
-      <mat-error *ngIf="studyPlanName.hasError('maxlength')"> Количество символов не должно превышать 20!</mat-error>
+      <mat-error *ngIf="studyPlanName.hasError('maxlength')"> Количество символов не должно превышать 1000!</mat-error>
       <mat-error *ngIf="studyPlanName.hasError('required')"> Необходимо заполнить поле</mat-error>
     </mat-form-field>
 

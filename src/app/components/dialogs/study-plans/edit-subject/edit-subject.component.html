@@ -5,14 +5,14 @@
     <mat-form-field>
       <input matInput placeholder="Название предмета: " [formControlName]="'name'" required>
       <mat-error *ngIf="editSubjectForm.get('name').hasError('required')"> Необходимо заполнить поле</mat-error>
-      <mat-error *ngIf="editSubjectForm.get('name').hasError('maxLength')"> Максимальная длина названия: 20 символов
+      <mat-error *ngIf="editSubjectForm.get('name').hasError('maxLength')"> Максимальная длина названия: 1000 символов
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <input matInput placeholder="Аббревиатура: " [formControlName]="'abbreviation'" required>
       <mat-error *ngIf="editSubjectForm.get('abbreviation').hasError('required')"> Необходимо заполнить поле</mat-error>
-      <mat-error *ngIf="editSubjectForm.get('abbreviation').hasError('maxLength')"> Максимальная длина аббериатуры : 10
+      <mat-error *ngIf="editSubjectForm.get('abbreviation').hasError('maxLength')"> Максимальная длина аббериатуры : 255
         символов
       </mat-error>
     </mat-form-field>
@@ -21,7 +21,7 @@
       <textarea matInput placeholder="Описание" [formControlName]="'description'"
                 matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
       <mat-error *ngIf="editSubjectForm.get('description').hasError('required')"> Необходимо заполнить поле</mat-error>
-      <mat-error *ngIf="editSubjectForm.get('description').hasError('maxLength')"> Максимальная длина описания : 1000
+      <mat-error *ngIf="editSubjectForm.get('description').hasError('maxLength')"> Максимальная длина описания : 10000
         символов
       </mat-error>
     </mat-form-field>

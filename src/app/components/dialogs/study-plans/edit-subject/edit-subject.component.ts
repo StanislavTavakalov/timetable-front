@@ -39,9 +39,9 @@ export class EditSubjectComponent implements OnInit {
   private initializeForm(subject: Subject) {
     this.editSubjectForm = this.fb.group({
       id: [subject.id],
-      name: [subject.name, [Validators.required, Validators.maxLength(20)]],
-      description: [subject.description, Validators.maxLength(1000)],
-      abbreviation: [subject.abbreviation, [Validators.required, Validators.maxLength(10)]],
+      name: [subject.name, [Validators.required, Validators.maxLength(1000)]],
+      description: [subject.description, Validators.maxLength(10000)],
+      abbreviation: [subject.abbreviation, [Validators.required, Validators.maxLength(255)]],
       department: [subject.department],
       sumOfHours: [subject.sumOfHours, Validators.min(0)],
       freeHours: [subject.freeHours, Validators.min(0)],

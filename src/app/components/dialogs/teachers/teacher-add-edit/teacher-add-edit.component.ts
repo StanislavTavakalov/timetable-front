@@ -1,10 +1,11 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {LocalStorageService} from '../../../../services/local-storage.service';
 import {Subscription} from 'rxjs';
 import {TeacherService} from '../../../../services/lectern/teacher.service';
 import {Teacher} from '../../../../model/teacher.model';
+import {StaffType} from '../../../../model/staff-type.model';
 
 @Component({
   selector: 'app-teacher-add-edit',
@@ -17,6 +18,7 @@ export class TeacherAddEditComponent implements OnInit, OnDestroy {
               private fb: FormBuilder,
               private dialogRef: MatDialogRef<TeacherAddEditComponent>,
               private localStorageService: LocalStorageService,
+              private changeDetectorRef: ChangeDetectorRef,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -25,6 +27,8 @@ export class TeacherAddEditComponent implements OnInit, OnDestroy {
   teacherForm: FormGroup;
   loading = false;
   teacherServiceSubscription: Subscription;
+  staffTypeList = [StaffType.FullTime, StaffType.PartTime, StaffType.ExternalCombiner, StaffType.InternalCombiner];
+  rateList = [0.1, 0.2, 0.5, 0.75, 0.8, 0.85, 1];
   editMode: boolean;
 
   ngOnInit() {
@@ -42,12 +46,16 @@ export class TeacherAddEditComponent implements OnInit, OnDestroy {
 
   private initializeForm(teacher: Teacher) {
     this.teacherForm = this.fb.group({
-      name: [teacher.name, [Validators.required, Validators.maxLength(25)]],
-      surname: [teacher.surname, [Validators.required, Validators.maxLength(25)]],
-      patronymic: [teacher.patronymic, [Validators.required, Validators.maxLength(25)]],
-      position: [teacher.position, [Validators.required, Validators.maxLength(25)]],
-      rank: [teacher.rank, [Validators.required, Validators.maxLength(25)]],
-      academicDegree: [teacher.academicDegree, [Validators.required, Validators.maxLength(1000)]]
+      name: [teacher.name, [Validators.required, Validators.maxLength(1000)]],
+      surname: [teacher.surname, [Validators.required, Validators.maxLength(1000)]],
+      patronymic: [teacher.patronymic, [Validators.required, Validators.maxLength(1000)]],
+      position: [teacher.position, [Validators.required, Validators.maxLength(1000)]],
+      academicRank: [teacher.academicRank, [Validators.maxLength(1000)]],
+      academicDegree: [teacher.academicDegree, [Validators.maxLength(1000)]],
+      academicDegreeAbbreviation: [teacher.academicDegreeAbbreviation, [Validators.maxLength(1000)]],
+      rate: [teacher.rate, [Validators.min(0.1), Validators.max(9999)]],
+      staffType: [teacher.staffType, [Validators.required]],
+      additionalInfo: [teacher.additionalInfo, [Validators.maxLength(10000)]]
     });
   }
 
@@ -67,12 +75,37 @@ export class TeacherAddEditComponent implements OnInit, OnDestroy {
     return this.teacherForm.get('position') as FormControl;
   }
 
-  get rank(): FormControl {
-    return this.teacherForm.get('rank') as FormControl;
+  get academicRank(): FormControl {
+    return this.teacherForm.get('academicRank') as FormControl;
   }
 
   get academicDegree(): FormControl {
     return this.teacherForm.get('academicDegree') as FormControl;
+  }
+
+  get academicDegreeAbbreviation(): FormControl {
+    return this.teacherForm.get('academicDegreeAbbreviation') as FormControl;
+  }
+
+  get staffType(): FormControl {
+    return this.teacherForm.get('staffType') as FormControl;
+  }
+
+  get rate(): FormControl {
+    return this.teacherForm.get('rate') as FormControl;
+  }
+
+  get additionalInfo(): FormControl {
+    return this.teacherForm.get('additionalInfo') as FormControl;
+  }
+
+  private isCountOfHoursShouldBeDisplayed(): boolean {
+    return this.teacherForm.controls.staffType.value === StaffType.PartTime;
+  }
+
+  private isStaffRateShouldBeDisplayed(): boolean {
+    return this.teacherForm.controls.staffType.value === StaffType.ExternalCombiner ||
+      this.teacherForm.controls.staffType.value === StaffType.InternalCombiner;
   }
 
   onCancelClick() {
@@ -134,8 +167,12 @@ export class TeacherAddEditComponent implements OnInit, OnDestroy {
     teacher.surname = this.teacherForm.controls.surname.value;
     teacher.patronymic = this.teacherForm.controls.patronymic.value;
     teacher.position = this.teacherForm.controls.position.value;
-    teacher.rank = this.teacherForm.controls.rank.value;
+    teacher.academicRank = this.teacherForm.controls.academicRank.value;
     teacher.academicDegree = this.teacherForm.controls.academicDegree.value;
+    teacher.academicDegreeAbbreviation = this.teacherForm.controls.academicDegreeAbbreviation.value;
+    teacher.staffType = this.teacherForm.controls.staffType.value;
+    teacher.rate = this.teacherForm.controls.rate.value;
+    teacher.additionalInfo = this.teacherForm.controls.additionalInfo.value;
   }
 
   private createTeacherCopy(teacher: Teacher): Teacher {
@@ -144,10 +181,26 @@ export class TeacherAddEditComponent implements OnInit, OnDestroy {
     return teacherCopy;
   }
 
+  private localizeStaffType(staffType: StaffType): string {
+    switch (staffType) {
+      case StaffType.ExternalCombiner:
+        return 'Внешний совместитель';
+      case StaffType.FullTime:
+        return 'Штатный';
+      case StaffType.PartTime:
+        return 'Почасовик';
+      case StaffType.InternalCombiner:
+        return 'Внутренний совместитель';
+      case staffType:
+        return 'Не указано';
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.teacherServiceSubscription) {
       this.teacherServiceSubscription.unsubscribe();
     }
   }
+
 
 }
