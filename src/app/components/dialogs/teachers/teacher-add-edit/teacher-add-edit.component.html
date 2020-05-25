@@ -48,7 +48,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="Форма обучения: " [formControlName]="'staffType'" required>
+      <mat-select placeholder="В штатном составе: " [formControlName]="'staffType'" required>
         <mat-option *ngFor="let staffType of staffTypeList" [value]="staffType">
           {{localizeStaffType(staffType)}}
         </mat-option>

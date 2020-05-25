@@ -50,7 +50,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     path: '/distribution_courses_semesters',
     label: 'Распределение по семестрам',
     isActive: true
-  },
+  }, {
+      // TODO: change url
+      path: '/distribution_courses_semesters',
+      label: 'Группы и потоки',
+      isActive: true
+    },
   ];
 
   tabsType: HeaderType;
