@@ -13,6 +13,7 @@ import {DeaneryMainComponent} from './components/deanery-main/deanery-main.compo
 import {DeaneryStaffMainComponent} from './components/deanery-staff-main/deanery-staff-main.component';
 import {GroupMainComponent} from './components/group-main/group-main.component';
 import {FlowMainComponent} from './components/flow-main/flow-main.component';
+import {GroupsAndFlowsComponent} from './components/groups-and-flows/groups-and-flows.component';
 
 
 
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: 'lectern/:id/subjects/subject-edit', component: SubjectAddEditComponent},
   {path: 'lectern/:id/subjects/:subjectId', component: SubjectComponent},
   {path: 'lectern/:id/subjects', component: SubjectsComponent},
+  {path: 'lectern/:id/groups_and_flows', component: GroupsAndFlowsComponent},
   {path: 'lectern/:id/specialities', component: SpecialitiesComponent},
   {path: 'lectern/:id/teachers', component: TeachersComponent},
   {path: '**', redirectTo: 'lectern/:id'}

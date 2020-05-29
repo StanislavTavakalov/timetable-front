@@ -340,7 +340,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
           this.table.renderRows();
           this.notifierService.notify('success', 'Новый учебный план успешно добавлен');
         }, error => {
-          this.notifierService.notify('error', 'Ошибка при изменении плана');
+          this.notifierService.notify('error', 'Ошибка на сервере при добавлении плана');
         });
       }
     });

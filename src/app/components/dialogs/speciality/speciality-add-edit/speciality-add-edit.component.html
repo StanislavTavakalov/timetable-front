@@ -8,7 +8,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Полное название" [formControlName]="'name'" maxLength="65" required>
+      <input matInput placeholder="Полное название" [formControlName]="'name'"  required>
       <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 1000!</mat-error>
       <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
     </mat-form-field>

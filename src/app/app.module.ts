@@ -35,6 +35,7 @@ import { DeaneryMainComponent } from './components/deanery-main/deanery-main.com
 import { FlowMainComponent } from './components/flow-main/flow-main.component';
 import { GroupMainComponent } from './components/group-main/group-main.component';
 import { DeaneryStaffMainComponent } from './components/deanery-staff-main/deanery-staff-main.component';
+import { GroupsAndFlowsComponent } from './components/groups-and-flows/groups-and-flows.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { DeaneryStaffMainComponent } from './components/deanery-staff-main/deane
     DeaneryMainComponent,
     FlowMainComponent,
     GroupMainComponent,
-    DeaneryStaffMainComponent
+    DeaneryStaffMainComponent,
+    GroupsAndFlowsComponent
   ],
   imports: [
     BrowserModule,

@@ -51,8 +51,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     label: 'Распределение по семестрам',
     isActive: true
   }, {
-      // TODO: change url
-      path: '/distribution_courses_semesters',
+
+      path: '/groups_and_flows',
       label: 'Группы и потоки',
       isActive: true
     },

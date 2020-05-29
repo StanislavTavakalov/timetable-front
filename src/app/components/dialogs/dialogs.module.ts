@@ -55,3 +55,4 @@ import { SelectSemesterComponent } from './study-plans/select-semester/select-se
 })
 export class DialogsModule {
 }
+
