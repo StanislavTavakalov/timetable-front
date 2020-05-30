@@ -25,7 +25,10 @@ export class DeaneryMainComponent implements OnInit {
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.loading = true;
+    const token = this.route.snapshot.queryParamMap.get('token');
+    if (token) {
+      this.localStorageService.setCurrentUserToken('Bearer ' + token);
+    }
     this.deaneryId = this.route.snapshot.paramMap.get('id');
     this.localStorageService.observableHeaderType.next(HeaderType.DEANERY);
     if (this.localStorageService.observableDeanery.getValue() === null ||

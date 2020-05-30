@@ -2,25 +2,23 @@
 
   <mat-form-field [formGroup]="formGroup">
     <input id="name" formControlName="name" class="form-control" required matInput placeholder="Название" (change)="valuesf(1,$event)">
-    <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 50!</mat-error>
-	<mat-error *ngIf="name.hasError('minlength')"> Количество символов должно превышать 3!</mat-error>
+    <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 1000!</mat-error>
     <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <input id="description" formControlName="description" class="form-control" matInput placeholder="Описание" (change)="valuesf(2,$event)">
+    <input id="description" formControlName="description" class="form-control" matInput placeholder="Описание">
     <mat-error *ngIf="description.hasError('maxlength')"> Количество символов не должно превышать 255!</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <input id="count" formControlName="count" required class="form-control" matInput placeholder="Количество студентов" (change)="valuesf(3,$event)">
-    <mat-error *ngIf="count.hasError('maxlength')"> Количество студентов не должно превышать 40</mat-error>
-  	<mat-error *ngIf="count.hasError('minlength')"> Количество студентов должно превышать 3</mat-error>
+    <input id="count" formControlName="count" required class="form-control" matInput placeholder="Количество студентов" >
+    <mat-error *ngIf="count.hasError('maxlength')"> Количество студентов не должно превышать 99</mat-error>
     <mat-error *ngIf="count.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <mat-select [ngModel] = "group?.flow?.lectern?.id" id="lecternsF" formControlName="lecternsF" class="form-control" required (selectionChange)="valuesf(4,$event)" placeholder="Кафедра"  >
+    <mat-select [ngModel] = "lecternO?.id" id="lecternsF" formControlName="lecternsF" class="form-control" required (selectionChange)="valuesf(4,$event)" placeholder="Кафедра"  >
       <mat-option *ngFor="let lectern of lecterns"  value="{{lectern?.id}}">{{lectern?.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="lecternsF.hasError('required')"> Поле должно быть заполнено</mat-error>
@@ -28,7 +26,7 @@
 
 
   <mat-form-field [formGroup]="formGroup">
-    <mat-select [ngModel] = "group?.speciality?.id" id="specialitiesF" formControlName="specialitiesF" class="form-control" required (selectionChange)="valuesf(6,$event)" placeholder="Специальность"  >
+    <mat-select [ngModel] = "group?.speciality?.id" id="specialitiesF" formControlName="specialitiesF" class="form-control" required (selectionChange)="valuesf(6,$event)" placeholder="Специальность" >
       <mat-option *ngFor="let speciality of specialities"  value="{{speciality?.id}}">{{speciality?.name}}</mat-option>
     </mat-select>
      <mat-error *ngIf="specialitiesF.hasError('required')"> Поле должно быть заполнено</mat-error>

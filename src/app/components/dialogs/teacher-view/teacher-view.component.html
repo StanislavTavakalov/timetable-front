@@ -4,36 +4,50 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по преподавателям">
   </mat-form-field>
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" matSort>
 
+      <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th style="width: 16%" mat-header-cell *matHeaderCellDef> Name </th>
-        <td style="width: 16%" mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <th style="width: 15%" mat-header-cell *matHeaderCellDef mat-sort-header> Имя</th>
+        <td style="width: 15%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.name}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="patronymic">
-        <th style="width: 16%" mat-header-cell *matHeaderCellDef> Patronymic </th>
-        <td style="width: 16%" mat-cell *matCellDef="let element"> {{element.patronymic}} </td>
-      </ng-container>
-
+      <!-- Surname Column -->
       <ng-container matColumnDef="surname">
-        <th style="width: 17%" mat-header-cell *matHeaderCellDef> Surname </th>
-        <td style="width: 17%" mat-cell *matCellDef="let element"> {{element.patronymic}} </td>
+        <th style="width: 15%" mat-header-cell *matHeaderCellDef mat-sort-header> Фамилия</th>
+        <td style="width: 15%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.surname}} </td>
       </ng-container>
 
+      <!-- Patronymic Column -->
+      <ng-container matColumnDef="patronymic">
+        <th style="width: 15%" mat-header-cell *matHeaderCellDef mat-sort-header> Отчество</th>
+        <td style="width: 15%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.patronymic}} </td>
+      </ng-container>
+
+      <!-- Position Column -->
       <ng-container matColumnDef="position">
-        <th style="width: 17%" mat-header-cell *matHeaderCellDef> Position </th>
-        <td style="width: 17%" mat-cell *matCellDef="let element"> {{element.patronymic}} </td>
+        <th style="width: 12.5%" mat-header-cell *matHeaderCellDef mat-sort-header> Должность</th>
+        <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.position}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="rank">
-        <th style="width: 17%" mat-header-cell *matHeaderCellDef> Rank </th>
-        <td style="width: 17%" mat-cell *matCellDef="let element"> {{element.patronymic}} </td>
+      <!-- Academic Rank Column -->
+      <ng-container matColumnDef="academicRank">
+        <th style="width: 12.5%" mat-header-cell *matHeaderCellDef mat-sort-header> Научное звание</th>
+        <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row"> {{printValue(row.academicRank)}} </td>
       </ng-container>
 
+      <!-- Academic Degree Column -->
       <ng-container matColumnDef="academicDegree">
-        <th style="width: 17%" mat-header-cell *matHeaderCellDef> AcademicDegree </th>
-        <td style="width: 17%" mat-cell *matCellDef="let element"> {{element.patronymic}} </td>
+        <th style="width: 12.5%;" mat-header-cell *matHeaderCellDef mat-sort-header> Научная степень</th>
+        <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row">
+          {{printAcademicDegree(row.academicDegree, row.academicDegreeAbbreviation)}}
+        </td>
+      </ng-container>
+
+      <!-- Staff Type Column -->
+      <ng-container matColumnDef="staffType">
+        <th style="width: 12.5%;" mat-header-cell *matHeaderCellDef mat-sort-header> В штатном расписании</th>
+        <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row"> {{printStaffType(row.staffType,row.rate)}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

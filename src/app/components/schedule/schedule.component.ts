@@ -81,7 +81,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveSchedule() {
-     this.scheduleService.saveSchedule(this.schedule).subscribe();
+     this.scheduleService.saveSchedule(this.schedule).subscribe( schedule => {
+       this.notifierService.notify('success', 'Расписание успешно сохранено');
+     }
+     );
   }
 
   addOccupation() {

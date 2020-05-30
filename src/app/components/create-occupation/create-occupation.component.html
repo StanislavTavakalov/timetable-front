@@ -2,15 +2,14 @@
 
   <mat-form-field [formGroup]="formGroup">
     <input id="symbol" formControlName="symbol" class="form-control" required matInput placeholder="Символ" (change)="saveValue(1,$event)">
-	<mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 8!</mat-error>
-    <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
+	<mat-error *ngIf="symbol.hasError('maxlength')"> Количество символов не должно превышать 5!</mat-error>
+    <mat-error *ngIf="symbol.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
     <input id="value" formControlName="value" required class="form-control" matInput placeholder="Значение" (change)="saveValue(2,$event)">
-	<mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 255!</mat-error>
-	<mat-error *ngIf="name.hasError('minlength')"> Количество символов должно превышать 2!</mat-error>
-    <mat-error *ngIf="fullname.hasError('required')"> Поле должно быть заполнено</mat-error>
+	  <mat-error *ngIf="value.hasError('maxlength')"> Количество символов не должно превышать 1000!</mat-error>
+    <mat-error *ngIf="value.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 
   <button mat-raised-button color="warn" (click)="add()">

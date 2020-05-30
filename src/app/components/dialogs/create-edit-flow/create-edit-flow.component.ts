@@ -17,7 +17,7 @@ export class CreateEditFlowComponent implements OnInit {
   flow: Flow;
   formGroup: any;
   value: string;
-  groups: Group[];
+  groupsList: Group[];
   newGroups: Group[] = [];
 
   constructor(public dialogRef: MatDialogRef<CreateEmployeeComponent>,
@@ -31,14 +31,14 @@ export class CreateEditFlowComponent implements OnInit {
       this.flow = this.data.flow;
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      description: new FormControl(this.flow.description, [Validators.maxLength(255)]),
-      groupsF: new FormControl('', [Validators.required]),
+      name: new FormControl(this.flow.name, [Validators.required, Validators.maxLength(1000)]),
+      description: new FormControl(this.flow.description, [Validators.maxLength(10000)]),
+      groups: new FormControl('', [Validators.required]),
     });
     this.deaneryService.getFreeGroupsByDeaneryId(this.data.deaneryId).subscribe(groups => {
-      this.groups = groups;
+      this.groupsList = groups;
       if (this.data.flow !== null) {
-        this.groups = this.groups.concat(this.flow.groups);
+        this.groupsList = this.groupsList.concat(this.flow.groups);
       }
     });
   }
@@ -51,28 +51,24 @@ export class CreateEditFlowComponent implements OnInit {
     return this.formGroup.get('description') as FormControl;
   }
 
-  get groupsF(): FormControl {
-    return this.formGroup.get('groupsF') as FormControl;
+  get groups(): FormControl {
+    return this.formGroup.get('groups') as FormControl;
   }
 
   public valuesf(num, event): void {
     if (num === 1) {
       this.value = event.currentTarget.value;
       this.deaneryService.checkUniqueFlowName(this.value).subscribe(flag => {
-        if (flag) {
-          this.flow.name = this.value;
-        } else {
+        if (!flag) {
           this.formGroup.controls.name.setValue('');
           window.alert('Поток с таким названием уже существует');
         }
       });
-    } else if (num === 2) {
-      this.flow.description = event.currentTarget.value;
     } else if (num === 3) {
       this.newGroups = [];
       event.value.forEach((groupInput) => {
         this.newGroups.push(
-          this.groups.find((group) => {
+          this.groupsList.find((group) => {
             return group.id === groupInput;
           })
         );
@@ -83,8 +79,14 @@ export class CreateEditFlowComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid) {
+      this.setValuesFromForm();
       this.dialogRef.close(this.flow);
     }
+  }
+
+  setValuesFromForm() {
+    this.flow.name = this.formGroup.controls.name.value;
+    this.flow.description = this.formGroup.controls.description.value;
   }
 
   onCancelClick() {

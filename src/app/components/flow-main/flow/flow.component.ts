@@ -54,7 +54,7 @@ export class FlowComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
-        this.deaneryService.addFlow(result).subscribe( flow => {
+        this.deaneryService.addFlow(result, this.deaneryId).subscribe( flow => {
           this.deaneryService.editFlow(flow).subscribe( flowR => {
             this.flows.push(flowR);
             this.dataSource.data = this.flows;

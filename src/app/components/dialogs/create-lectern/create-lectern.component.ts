@@ -26,9 +26,9 @@ export class CreateLecternComponent implements OnInit {
       this.lectern = new Lectern();
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.lectern.name, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-      fullname: new FormControl(this.lectern.fullname, [Validators.required, Validators.minLength(2), Validators.maxLength(255)]),
-      description: new FormControl(this.lectern.description, [Validators.maxLength(255)])
+      name: new FormControl(this.lectern.name, [Validators.required, Validators.maxLength(255)]),
+      fullname: new FormControl(this.lectern.fullname, [Validators.required, Validators.maxLength(1000)]),
+      description: new FormControl(this.lectern.description, [Validators.maxLength(10000)])
     });
   }
 
@@ -48,9 +48,7 @@ export class CreateLecternComponent implements OnInit {
     if (num === 1) {
       this.value = event.currentTarget.value;
       this.deaneryService.checkUniqueLectern('name', this.value).subscribe( flag => {
-        if (flag) {
-          this.lectern.name = this.value;
-        } else {
+        if (!flag) {
           this.formGroup.controls.name.setValue('');
           window.alert('Кафедра с таким название уже существует');
         }
@@ -58,24 +56,27 @@ export class CreateLecternComponent implements OnInit {
     } else if (num === 2) {
       this.value = event.currentTarget.value;
       this.deaneryService.checkUniqueLectern('fullname', this.value).subscribe( flag => {
-        if (flag) {
-          this.lectern.fullname = this.value;
-        } else {
+        if (!flag) {
           this.formGroup.controls.fullname.setValue('');
           window.alert('Кафедра с таким полным названием уже существует');
         }
       });
-    } else {
-      this.lectern.description = event.currentTarget.value;
     }
   }
 
   public add(): void {
     if (this.formGroup.valid) {
+      this.setValuesFromForm();
       this.dialogRef.close(this.lectern);
     }
   }
   onCancelClick() {
     this.dialogRef.close(null);
+  }
+
+  setValuesFromForm() {
+    this.lectern.name = this.formGroup.controls.name.value;
+    this.lectern.fullname = this.formGroup.controls.fullname.value;
+    this.lectern.description = this.formGroup.controls.description.value;
   }
 }

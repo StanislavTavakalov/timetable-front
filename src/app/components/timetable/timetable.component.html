@@ -99,7 +99,7 @@
     <button mat-raised-button class="control-button"  *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
     <button mat-raised-button class="control-button"  *ngIf="editMode"  (click)="add()"> Сохранить</button>
     <button mat-raised-button class="control-button"  *ngIf="editMode"  (click)="exitEditableMode()"> Отменить</button>
-	  <button mat-raised-button class="control-button" *ngIf="this.selectedPlan != null" routerLink="/lectern/{{lectern?.id}}/schedule/{{selectedPlan?.id}}">Перейти к магистрантам</button>
+	  <button mat-raised-button class="control-button" *ngIf="this.selectedPlan != null" routerLink="/lectern/{{lectern?.id}}/schedule/{{selectedPlan?.id}}">График образовательного процесса</button>
   </div>
 </div>
 

@@ -6,18 +6,18 @@
     <div class="mat-elevation-z8">
       <table #table mat-table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="name">
-          <th style="width: 17%" mat-header-cell  *matHeaderCellDef mat-sort-header> Название </th>
-          <td style="width: 17%"  mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <th style="width: 15%" mat-header-cell  *matHeaderCellDef mat-sort-header> Название </th>
+          <td style="width: 15%"  mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fullname">
-          <th style="width: 21%" mat-header-cell  *matHeaderCellDef mat-sort-header> Полное назание </th>
-          <td style="width: 21%" mat-cell *matCellDef="let element"> {{element.fullname}} </td>
+          <th style="width: 18%" mat-header-cell  *matHeaderCellDef mat-sort-header> Полное назание </th>
+          <td style="width: 18%" mat-cell *matCellDef="let element"> {{element.fullname}} </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <th style="width: 28%" mat-header-cell  *matHeaderCellDef mat-sort-header> Описание </th>
-          <td style="width: 28%" mat-cell *matCellDef="let element"> {{element.description}} </td>
+          <th style="width: 24%" mat-header-cell  *matHeaderCellDef mat-sort-header> Описание </th>
+          <td style="width: 24%" mat-cell *matCellDef="let element"> {{element.description}} </td>
         </ng-container>
 
         <ng-container matColumnDef="go">
@@ -30,6 +30,11 @@
           <th style="width: 9%" mat-header-cell *matHeaderCellDef>  </th>
           <td style="width: 9%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
                                                                (click)="viewStaff(element.id)">Преподаватели</button> </td>
+        </ng-container>
+		
+		<ng-container matColumnDef="pretimetble">
+          <th style="width: 9%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 9%" mat-cell *matCellDef="let element"><a href="http://localhost:8080/lectern/{{element.id}}/pretimetable"><button  mat-raised-button class="control-button">Рассписание</button></a></td>
         </ng-container>
 
         <ng-container matColumnDef="update">

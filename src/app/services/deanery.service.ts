@@ -28,6 +28,10 @@ export class DeaneryService {
     return this.http.get<Lectern[]>(this.url + 'lectern/?deaneryId' + id);
   }
 
+  getLecternByGroupId(id: string): Observable<Lectern> {
+    return this.http.get<Lectern>(this.url + 'lectern/getLecternByGroupId/?groupsId=' + id);
+  }
+
   addLectern(lectern: Lectern, idDeanery: string): Observable<Lectern> {
     return this.http.post<Lectern>(this.url + 'lectern/?deaneryId=' + idDeanery, lectern).pipe(catchError(this.handleError));
   }
@@ -95,8 +99,8 @@ export class DeaneryService {
     return this.http.put<Flow>(this.url + 'flow/' + flow.id, flow).pipe(catchError(this.handleError));
   }
 
-  addFlow(flow: Flow): Observable<Flow> {
-    return this.http.post<Flow>(this.url + 'flow/', flow).pipe(catchError(this.handleError));
+  addFlow(flow: Flow, id: string): Observable<Flow> {
+    return this.http.post<Flow>(this.url + 'flow/?deaneryId=' + id, flow).pipe(catchError(this.handleError));
   }
 
   addGroup(group: Group): Observable<Group> {

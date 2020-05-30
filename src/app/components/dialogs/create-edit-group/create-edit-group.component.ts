@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+﻿import {Component, Inject, OnInit} from '@angular/core';
 import {SpecialityService} from '../../../services/lectern/speciality.service';
 import {CreateEmployeeComponent} from '../create-employee/create-employee.component';
 import {DeaneryService} from '../../../services/deanery.service';
@@ -6,7 +6,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Speciality} from '../../../model/speciality.model';
 import {Group} from '../../../model/group.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Flow} from '../../../model/flow.model';
 import {Lectern} from '../../../model/lectern.model';
 
 @Component({
@@ -20,8 +19,8 @@ export class CreateEditGroupComponent implements OnInit {
   lecterns: Lectern[] = [];
   formGroup: any;
   group: Group;
-  specialityO: Speciality;
   value: string;
+  lecternO: Lectern;
 
   constructor(public specialityService: SpecialityService,
               public dialogRef: MatDialogRef<CreateEmployeeComponent>,
@@ -35,31 +34,32 @@ export class CreateEditGroupComponent implements OnInit {
       });
       this.group = new Group();
     } else {
-      this.lecterns.push(this.data.group.flow.lectern);
-      this.specialityService.getSpecialities(this.data.group.flow.lectern.id).subscribe(specialities => {
-        this.specialities = specialities;
+      this.deaneryService.getLecternByGroupId(this.data.group.id).subscribe((lectern) => {
+        this.lecternO = lectern;
+        this.lecterns.push(lectern);
+        this.specialityService.getSpecialities(lectern.id).subscribe(specialities => {
+          this.specialities = specialities;
+        });
       });
       this.group = this.data.group;
-      this.specialityO = this.group.speciality;
     }
-    this.createFormGroup();
+    this.formGroup = new FormGroup({
+      name: new FormControl(this.group.name, [Validators.required, Validators.maxLength(1000)]),
+      description: new FormControl(this.group.description, [Validators.maxLength(10000)]),
+      count: new FormControl(this.group.countOfStudents, [Validators.required, Validators.max(99), Validators.pattern('[0-9]{1,2}')]),
+      specialitiesF: new FormControl('', [Validators.required]),
+      lecternsF: new FormControl('', [Validators.required])});
   }
 
   public valuesf(num, event): void {
     if (num === 1) {
       this.value = event.currentTarget.value;
       this.deaneryService.checkUniqueGroupName(this.value).subscribe(flag => {
-        if (flag) {
-          this.group.name = this.value;
-        } else {
+        if (!flag) {
           this.formGroup.controls.name.setValue('');
           window.alert('Группа с таким названием уже существует');
         }
       });
-    } else if (num === 2) {
-      this.group.description = event.currentTarget.value;
-    } else if (num === 3) {
-      this.group.countOfStudents = parseInt(event.currentTarget.value, 10);
     } else if (num === 4) {
       this.specialityService.getSpecialities(event.value).subscribe(specialities => {
         this.specialities = specialities;
@@ -73,21 +73,19 @@ export class CreateEditGroupComponent implements OnInit {
 
   public add(): void {
     if (this.formGroup.valid) {
+      this.setValuesFromForm();
       this.dialogRef.close( this.group);
     }
   }
 
-  onCancelClick() {
-    this.dialogRef.close(null);
+  setValuesFromForm() {
+    this.group.name = this.formGroup.controls.name.value;
+    this.group.description = this.formGroup.controls.description.value;
+    this.group.countOfStudents = parseInt(this.formGroup.controls.count.value, 10);
   }
 
-  createFormGroup() {
-    this.formGroup = new FormGroup({
-      name: new FormControl(this.group.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
-      description: new FormControl(this.group.description, [Validators.maxLength(255)]),
-      count: new FormControl(this.group.countOfStudents, [Validators.required, Validators.min(3), Validators.max(40), Validators.pattern('[0-9]{1,2}')]),
-      specialitiesF: new FormControl('', [Validators.required]),
-      lecternsF: new FormControl('', [Validators.required])});
+  onCancelClick() {
+    this.dialogRef.close(null);
   }
 
   get name(): FormControl {

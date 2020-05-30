@@ -25,7 +25,7 @@ export class DeaneryComponent implements OnInit {
   deaneryId: string;
   @Input() lecterns: Lectern[];
   deanery: Deanery;
-  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'update', 'delete'];
+  displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'pretimetble', 'update', 'delete'];
   dataSource: any;
   constructor(private deaneryService: DeaneryService,
               private localStorageService: LocalStorageService,

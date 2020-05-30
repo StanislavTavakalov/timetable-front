@@ -18,8 +18,8 @@ export class CreateOccupationComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      symbol: new FormControl('', [Validators.required, Validators.maxLength(8)]),
-      value: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+      symbol: new FormControl('', [Validators.required, Validators.maxLength(5)]),
+      value: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
     });
   }
   get symbol(): FormControl {
@@ -35,8 +35,6 @@ export class CreateOccupationComponent implements OnInit {
       this.valueS = event.currentTarget.value;
       this.scheduleService.checkUniqueOccupation('symbol', this.valueS).subscribe(flag => {
         if (flag) {
-          this.occupation.symbol = this.valueS;
-        } else {
           this.formGroup.controls.symbol.setValue('');
           window.alert('Данный символ уже используется');
         }
@@ -45,13 +43,16 @@ export class CreateOccupationComponent implements OnInit {
       this.valueS = event.currentTarget.value;
       this.scheduleService.checkUniqueOccupation('value', this.valueS).subscribe(flag => {
         if (flag) {
-          this.occupation.value = this.valueS;
-        } else {
           this.formGroup.controls.symbol.setValue('');
-          window.alert('Данный символ уже используется');
+          window.alert('Данное название нагрузки уже используется');
         }
       });
     }
+  }
+
+  setValuesFromForm() {
+    this.occupation.symbol = this.formGroup.controls.symbol.value;
+    this.occupation.value = this.formGroup.controls.value.value;
   }
 
   add(): void {
@@ -60,5 +61,9 @@ export class CreateOccupationComponent implements OnInit {
         this.dialogRef.close(occupation);
       });
     }
+  }
+
+  onCancelClick() {
+    this.dialogRef.close(null);
   }
 }

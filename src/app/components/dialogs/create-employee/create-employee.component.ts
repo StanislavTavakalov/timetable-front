@@ -24,10 +24,10 @@ export class CreateEmployeeComponent implements OnInit {
       this.employee = new Employee();
     }
     this.formGroup = new FormGroup({
-      name: new FormControl(this.employee.name, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-      surname: new FormControl(this.employee.surname, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-      patronymic: new FormControl(this.employee.patronymic, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
-      rank: new FormControl(this.employee.rank, [Validators.required, Validators.minLength(3), Validators.maxLength(100)])
+      name: new FormControl(this.employee.name, [Validators.required, Validators.maxLength(1000)]),
+      surname: new FormControl(this.employee.surname, [Validators.required, Validators.maxLength(1000)]),
+      patronymic: new FormControl(this.employee.patronymic, [Validators.required, Validators.maxLength(1000)]),
+      rank: new FormControl(this.employee.rank, [Validators.required, Validators.maxLength(1000)])
     });
   }
 
@@ -47,25 +47,21 @@ export class CreateEmployeeComponent implements OnInit {
     return this.formGroup.get('rank') as FormControl;
   }
 
-  public valuesf(num, event): void {
-    if (num === 1) {
-      this.employee.name = event.currentTarget.value;
-    } else if (num === 2) {
-      this.employee.surname = event.currentTarget.value;
-    } else if (num === 3) {
-      this.employee.patronymic = event.currentTarget.value;
-    } else {
-      this.employee.rank = event.currentTarget.value;
-    }
-  }
-
   public add(): void {
     if (this.formGroup.valid) {
+      this.setValuesFromForm();
       this.dialogRef.close(this.employee);
     }
   }
 
   onCancelClick() {
     this.dialogRef.close(null);
+  }
+
+  setValuesFromForm() {
+    this.employee.name = this.formGroup.controls.name.value;
+    this.employee.surname = this.formGroup.controls.surname.value;
+    this.employee.patronymic = this.formGroup.controls.patronymic.value;
+    this.employee.rank = this.formGroup.controls.rank.value;
   }
 }
