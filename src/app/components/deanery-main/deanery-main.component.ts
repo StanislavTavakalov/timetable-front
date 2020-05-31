@@ -3,9 +3,10 @@ import {Deanery} from '../../model/deanery.model';
 import {Lectern} from '../../model/lectern.model';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute} from '@angular/router';
-import {DeaneryService} from '../../services/deanery.service';
+import {DeaneryService} from '../../services/deanery/deanery.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {HeaderType} from '../../model/header-type';
+import {LecternService} from '../../services/lectern/lectern.service';
 
 @Component({
   selector: 'app-deanery-main',
@@ -21,6 +22,7 @@ export class DeaneryMainComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
+              private lecternService: LecternService,
               private localStorageService: LocalStorageService,
               private notifierService: NotifierService) { }
 
@@ -44,7 +46,7 @@ export class DeaneryMainComponent implements OnInit {
       this.loadingDeanery = false;
     }
     if (this.deaneryId != null) {
-      this.deaneryService.getLecterns(this.deaneryId).subscribe(lecterns => {
+      this.lecternService.getLecterns(this.deaneryId).subscribe(lecterns => {
         this.lecterns = lecterns;
         this.loading = false;
       }, error2 => {
@@ -53,5 +55,4 @@ export class DeaneryMainComponent implements OnInit {
       });
     }
   }
-
 }

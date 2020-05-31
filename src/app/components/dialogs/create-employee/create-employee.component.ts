@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Employee} from '../../../model/employee.model';
-import {DeaneryService} from '../../../services/deanery.service';
+import {DeaneryService} from '../../../services/deanery/deanery.service';
 
 @Component({
   selector: 'app-create-employee',

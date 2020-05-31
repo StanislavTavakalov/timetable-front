@@ -3,9 +3,8 @@ import {Observable, of, Subject, throwError} from 'rxjs';
 import {Course} from '../model/course.model';
 import {Occupation} from '../model/occupation.model';
 import {Schedule} from '../model/shedule.model';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {Employee} from '../model/employee.model';
 import {Lectern} from '../model/lectern.model';
 import {catchError} from 'rxjs/operators';
 
@@ -25,10 +24,6 @@ export class ScheduleService {
   return this.http.get<Schedule[]>(this.url + 'schedule/?studyplanId=' + id);
   }
 
-  getSheduleById(id: number): Observable<Schedule> {
-    return this.http.get<Schedule>(this.url + 'schedule/' + id);
-  }
-
   getOccupations(): Observable<Occupation[]> {
     return this.http.get<Occupation[]>(this.url + 'occupation/');
   }
@@ -38,10 +33,6 @@ export class ScheduleService {
 
   addSchedule(schedule: Schedule, id: string): Observable<Schedule> {
     return this.http.post<Schedule>(this.url + 'schedule/?studyplanId=' + id, schedule);
-  }
-
-  public getAuthToken() {
-    return this.http.post(environment.domain + 'api/auth/signin', {username: 'test', password: 'test'});
   }
 
   addOccupation(occupation: Occupation): Observable<Occupation> {
@@ -59,6 +50,7 @@ export class ScheduleService {
   deleteSchedule(id: string): Observable<Lectern> {
     return this.http.delete<Lectern>(this.url + 'schedule/' + id);
   }
+
   checkUniqueOccupation(param: string, value: string): Observable<any> {
     return this.http.get<any>(this.url + 'occupation/checkUniqOccupation/?' + param + '=' + value);
   }

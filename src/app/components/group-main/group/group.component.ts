@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Group} from '../../../model/group.model';
 import {ActivatedRoute} from '@angular/router';
-import {DeaneryService} from '../../../services/deanery.service';
+import {DeaneryService} from '../../../services/deanery/deanery.service';
 import {StudyPlan} from '../../../model/study-plan.model';
 import {MatDialog, MatPaginator, MatSort, MatTable} from '@angular/material';
 import {MatTableDataSource} from '@angular/material/table';
@@ -10,6 +10,7 @@ import {NotifierService} from 'angular-notifier';
 import {CreateEditGroupComponent} from '../../dialogs/create-edit-group/create-edit-group.component';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
 import {LocalStorageService} from '../../../services/local-storage.service';
+import {GroupService} from '../../../services/deanery/group.service';
 
 @Component({
   selector: 'app-group',
@@ -29,6 +30,7 @@ export class GroupComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
+              private groupService: GroupService,
               private dialog: MatDialog, private overlay: Overlay,
               private localStorageService: LocalStorageService,
               private notifierService: NotifierService) { }
@@ -64,7 +66,7 @@ export class GroupComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.addGroup(result).subscribe( group => {
+        this.groupService.addGroup(result).subscribe( group => {
           this.groups.push(group);
           this.dataSource.data = this.groups;
           this.table.renderRows();
@@ -86,7 +88,7 @@ export class GroupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         if (result) {
-          this.deaneryService.deleteGroup(groupO.id).subscribe(group => {
+          this.groupService.deleteGroup(groupO.id).subscribe(group => {
             this.groups.splice(this.groups.indexOf(groupO), 1);
             this.dataSource.data = this.groups;
             this.table.renderRows();
@@ -106,7 +108,7 @@ export class GroupComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.editGroup(result.group).subscribe( group => {
+        this.groupService.editGroup(result.group).subscribe( group => {
           this.groups[this.groups.indexOf(groupO)] = group;
           this.dataSource.data = this.groups;
           this.table.renderRows();

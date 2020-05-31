@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {Employee} from '../../model/employee.model';
 import {ActivatedRoute} from '@angular/router';
-import {DeaneryService} from '../../services/deanery.service';
+import {DeaneryService} from '../../services/deanery/deanery.service';
 import {NotifierService} from 'angular-notifier';
 import {Deanery} from '../../model/deanery.model';
 import {HeaderType} from '../../model/header-type';
 import {LocalStorageService} from '../../services/local-storage.service';
+import {EmployeeService} from '../../services/deanery/employee.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class DeaneryStaffMainComponent implements OnInit {
   loadingDeanery = true;
   deanery: Deanery;
   constructor(private deaneryService: DeaneryService,
+              private employeeService: EmployeeService,
               private route: ActivatedRoute,
               private localStorageService: LocalStorageService,
               private notifierService: NotifierService) { }
@@ -40,7 +42,7 @@ export class DeaneryStaffMainComponent implements OnInit {
       this.loadingDeanery = false;
     }
     if (this.deaneryId != null) {
-      this.deaneryService.getEmployeesByDeneryId(this.deaneryId).subscribe(employees => {
+      this.employeeService.getEmployeesByDeneryId(this.deaneryId).subscribe(employees => {
         this.employees = employees;
         this.loading = false;
       }, error => {

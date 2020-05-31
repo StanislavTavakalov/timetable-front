@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {Group} from '../../model/group.model';
 import {ActivatedRoute} from '@angular/router';
-import {DeaneryService} from '../../services/deanery.service';
+import {DeaneryService} from '../../services/deanery/deanery.service';
 import {NotifierService} from 'angular-notifier';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {HeaderType} from '../../model/header-type';
 import {Deanery} from '../../model/deanery.model';
+import {GroupService} from '../../services/deanery/group.service';
 
 @Component({
   selector: 'app-group-main',
@@ -21,6 +22,7 @@ export class GroupMainComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
+              private groupService: GroupService,
               private localStorageService: LocalStorageService,
               private notifierService: NotifierService) { }
 
@@ -40,7 +42,7 @@ export class GroupMainComponent implements OnInit {
       this.loadingDeanery = false;
     }
     if (this.deaneryId !== null) {
-      this.deaneryService.getGroupsByDeaneryId(this.deaneryId).subscribe(groups => {
+      this.groupService.getGroupsByDeaneryId(this.deaneryId).subscribe(groups => {
         this.loading = false;
         this.groups = groups;
       }, error2 => {

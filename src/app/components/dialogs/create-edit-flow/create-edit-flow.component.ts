@@ -2,10 +2,10 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Flow} from '../../../model/flow.model';
 import {CreateEmployeeComponent} from '../create-employee/create-employee.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {DeaneryService} from '../../../services/deanery.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Group} from '../../../model/group.model';
-import {newLineWithIndentation} from 'tslint/lib/utils';
+import {FlowService} from '../../../services/deanery/flow.service';
+import {GroupService} from '../../../services/deanery/group.service';
 
 @Component({
   selector: 'app-create-edit-flow',
@@ -21,7 +21,8 @@ export class CreateEditFlowComponent implements OnInit {
   newGroups: Group[] = [];
 
   constructor(public dialogRef: MatDialogRef<CreateEmployeeComponent>,
-              private deaneryService: DeaneryService,
+              private flowService: FlowService,
+              private groupsService: GroupService,
               @Inject(MAT_DIALOG_DATA) private data: any) { }
 
   ngOnInit() {
@@ -35,7 +36,7 @@ export class CreateEditFlowComponent implements OnInit {
       description: new FormControl(this.flow.description, [Validators.maxLength(10000)]),
       groups: new FormControl('', [Validators.required]),
     });
-    this.deaneryService.getFreeGroupsByDeaneryId(this.data.deaneryId).subscribe(groups => {
+    this.groupsService.getFreeGroupsByDeaneryId(this.data.deaneryId).subscribe(groups => {
       this.groupsList = groups;
       if (this.data.flow !== null) {
         this.groupsList = this.groupsList.concat(this.flow.groups);
@@ -58,7 +59,7 @@ export class CreateEditFlowComponent implements OnInit {
   public valuesf(num, event): void {
     if (num === 1) {
       this.value = event.currentTarget.value;
-      this.deaneryService.checkUniqueFlowName(this.value).subscribe(flag => {
+      this.flowService.checkUniqueFlowName(this.value).subscribe(flag => {
         if (!flag) {
           this.formGroup.controls.name.setValue('');
           window.alert('Поток с таким названием уже существует');

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {DeaneryService} from '../../../services/deanery.service';
+import {DeaneryService} from '../../../services/deanery/deanery.service';
 import {Overlay} from '@angular/cdk/overlay';
 import {MatDialog, MatPaginator, MatSort, MatTable} from '@angular/material';
 import {StudyPlan} from '../../../model/study-plan.model';
@@ -9,6 +9,7 @@ import {CreateEmployeeComponent} from '../../dialogs/create-employee/create-empl
 import {NotifierService} from 'angular-notifier';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
 import {LocalStorageService} from '../../../services/local-storage.service';
+import {EmployeeService} from '../../../services/deanery/employee.service';
 
 @Component({
   selector: 'app-deanery-staff',
@@ -18,6 +19,7 @@ import {LocalStorageService} from '../../../services/local-storage.service';
 export class DeaneryStaffComponent implements OnInit {
 
   constructor(private deaneryService: DeaneryService,
+              private employeeService: EmployeeService,
               private dialog: MatDialog, private overlay: Overlay,
               private localStorageService: LocalStorageService,
               private notifierService: NotifierService) {
@@ -52,7 +54,7 @@ export class DeaneryStaffComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.addEmployee(result, this.deaneryId).subscribe( employee => {
+        this.employeeService.addEmployee(result, this.deaneryId).subscribe( employee => {
           this.employees.push(employee);
           this.dataSource.data = this.employees;
           this.table.renderRows();
@@ -74,7 +76,7 @@ export class DeaneryStaffComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         if (result) {
-          this.deaneryService.deleteEmployee(employeeO.id).subscribe(employee => {
+          this.employeeService.deleteEmployee(employeeO.id).subscribe(employee => {
             this.employees.splice(this.employees.indexOf(employeeO), 1);
             this.dataSource.data = this.employees;
             this.table.renderRows();
@@ -94,7 +96,7 @@ export class DeaneryStaffComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.editEmployee(result).subscribe( employee => {
+        this.employeeService.editEmployee(result).subscribe( employee => {
           this.employees[this.employees.indexOf(employeeO)] = employee;
           this.dataSource.data = this.employees;
           this.table.renderRows();

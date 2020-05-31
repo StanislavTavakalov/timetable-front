@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {DeaneryService} from '../../services/deanery.service';
-import {MatDialog} from '@angular/material';
+import {DeaneryService} from '../../services/deanery/deanery.service';
 import {NotifierService} from 'angular-notifier';
-import {Overlay} from '@angular/cdk/overlay';
 import {Flow} from '../../model/flow.model';
-import {MatTableDataSource} from '@angular/material/table';
 import {HeaderType} from '../../model/header-type';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {Deanery} from '../../model/deanery.model';
+import {FlowService} from '../../services/deanery/flow.service';
 
 @Component({
   selector: 'app-flow-main',
@@ -23,6 +21,7 @@ export class FlowMainComponent implements OnInit {
   deanery: Deanery;
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
+              private flowService: FlowService,
               private localStorageService: LocalStorageService,
               private notifierService: NotifierService) { }
 
@@ -41,7 +40,7 @@ export class FlowMainComponent implements OnInit {
     } else {
       this.loadingDeanery = false;
     }
-    this.deaneryService.getFlowsByDeaneryId(this.deaneryId).subscribe(flows => {
+    this.flowService.getFlowsByDeaneryId(this.deaneryId).subscribe(flows => {
       this.flows = flows;
       console.log(this.flows);
       this.loading = false;

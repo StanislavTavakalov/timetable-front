@@ -3,14 +3,13 @@ import {StudyPlan} from '../../../model/study-plan.model';
 import {MatDialog, MatPaginator, MatSort, MatTable} from '@angular/material';
 import {Flow} from '../../../model/flow.model';
 import {LocalStorageService} from '../../../services/local-storage.service';
-import {DeaneryService} from '../../../services/deanery.service';
+import {DeaneryService} from '../../../services/deanery/deanery.service';
 import {Overlay} from '@angular/cdk/overlay';
 import {NotifierService} from 'angular-notifier';
-import {ActivatedRoute} from '@angular/router';
 import {MatTableDataSource} from '@angular/material/table';
 import {CreateEditFlowComponent} from '../../dialogs/create-edit-flow/create-edit-flow.component';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
-import {Group} from '../../../model/group.model';
+import {FlowService} from '../../../services/deanery/flow.service';
 
 @Component({
   selector: 'app-flow',
@@ -29,6 +28,7 @@ export class FlowComponent implements OnInit {
   flag: boolean;
   constructor(private localStorageService: LocalStorageService,
               private deaneryService: DeaneryService,
+              private flowService: FlowService,
               private dialog: MatDialog, private overlay: Overlay,
               private notifierService: NotifierService) { }
 
@@ -54,8 +54,8 @@ export class FlowComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
-        this.deaneryService.addFlow(result, this.deaneryId).subscribe( flow => {
-          this.deaneryService.editFlow(flow).subscribe( flowR => {
+        this.flowService.addFlow(result, this.deaneryId).subscribe( flow => {
+          this.flowService.editFlow(flow).subscribe( flowR => {
             this.flows.push(flowR);
             this.dataSource.data = this.flows;
             this.dataSource.paginator = this.paginator;
@@ -79,7 +79,7 @@ export class FlowComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         if (result) {
-          this.deaneryService.deleteFlow(flowO.id).subscribe(flow => {
+          this.flowService.deleteFlow(flowO.id).subscribe(flow => {
           this.flows.splice(this.flows.indexOf(flowO), 1);
           this.dataSource.data = this.flows;
           this.table.renderRows();
@@ -99,7 +99,7 @@ export class FlowComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result  => {
       if (result != null) {
-        this.deaneryService.editFlow(result).subscribe( flow => {
+        this.flowService.editFlow(result).subscribe( flow => {
           this.updateGroups(flowO, result);
           this.flows[this.flows.indexOf(flowO)] = flow;
           this.dataSource.data = this.flows;
@@ -122,7 +122,7 @@ export class FlowComponent implements OnInit {
       });
       if (!this.flag) {
         console.log(groupOld);
-        this.deaneryService.editGroupSetNullFlow(groupOld).subscribe();
+        this.flowService.editGroupSetNullFlow(groupOld).subscribe();
       }
     });
   }

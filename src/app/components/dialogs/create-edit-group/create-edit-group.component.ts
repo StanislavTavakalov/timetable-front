@@ -1,12 +1,13 @@
 ﻿import {Component, Inject, OnInit} from '@angular/core';
 import {SpecialityService} from '../../../services/lectern/speciality.service';
 import {CreateEmployeeComponent} from '../create-employee/create-employee.component';
-import {DeaneryService} from '../../../services/deanery.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Speciality} from '../../../model/speciality.model';
 import {Group} from '../../../model/group.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Lectern} from '../../../model/lectern.model';
+import {GroupService} from '../../../services/deanery/group.service';
+import {LecternService} from '../../../services/lectern/lectern.service';
 
 @Component({
   selector: 'app-create-edit-group',
@@ -24,17 +25,18 @@ export class CreateEditGroupComponent implements OnInit {
 
   constructor(public specialityService: SpecialityService,
               public dialogRef: MatDialogRef<CreateEmployeeComponent>,
-              private deaneryService: DeaneryService,
+              private groupService: GroupService,
+              private lecternService: LecternService,
               @Inject(MAT_DIALOG_DATA) private data: any) { }
 
   ngOnInit() {
     if (this.data.group === null) {
-      this.deaneryService.getLecterns(this.data.deaneryId).subscribe(lecterns => {
+      this.lecternService.getLecterns(this.data.deaneryId).subscribe(lecterns => {
         this.lecterns = lecterns;
       });
       this.group = new Group();
     } else {
-      this.deaneryService.getLecternByGroupId(this.data.group.id).subscribe((lectern) => {
+      this.lecternService.getLecternByGroupId(this.data.group.id).subscribe((lectern) => {
         this.lecternO = lectern;
         this.lecterns.push(lectern);
         this.specialityService.getSpecialities(lectern.id).subscribe(specialities => {
@@ -54,7 +56,7 @@ export class CreateEditGroupComponent implements OnInit {
   public valuesf(num, event): void {
     if (num === 1) {
       this.value = event.currentTarget.value;
-      this.deaneryService.checkUniqueGroupName(this.value).subscribe(flag => {
+      this.groupService.checkUniqueGroupName(this.value).subscribe(flag => {
         if (!flag) {
           this.formGroup.controls.name.setValue('');
           window.alert('Группа с таким названием уже существует');

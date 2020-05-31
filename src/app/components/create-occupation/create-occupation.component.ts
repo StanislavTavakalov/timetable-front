@@ -34,7 +34,7 @@ export class CreateOccupationComponent implements OnInit {
     if (num === 1) {
       this.valueS = event.currentTarget.value;
       this.scheduleService.checkUniqueOccupation('symbol', this.valueS).subscribe(flag => {
-        if (flag) {
+        if (!flag) {
           this.formGroup.controls.symbol.setValue('');
           window.alert('Данный символ уже используется');
         }
@@ -42,7 +42,7 @@ export class CreateOccupationComponent implements OnInit {
     } else {
       this.valueS = event.currentTarget.value;
       this.scheduleService.checkUniqueOccupation('value', this.valueS).subscribe(flag => {
-        if (flag) {
+        if (!flag) {
           this.formGroup.controls.symbol.setValue('');
           window.alert('Данное название нагрузки уже используется');
         }
@@ -57,6 +57,7 @@ export class CreateOccupationComponent implements OnInit {
 
   add(): void {
     if (this.formGroup.valid) {
+      this.setValuesFromForm();
       this.scheduleService.addOccupation(this.occupation).subscribe(occupation => {
         this.dialogRef.close(occupation);
       });

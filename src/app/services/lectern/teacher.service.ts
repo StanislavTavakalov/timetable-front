@@ -13,6 +13,8 @@ export class TeacherService {
   constructor(private http: HttpClient) {
   }
 
+  private url = environment.domain + 'api/';
+
   teacherAPIUrl = 'api/teacher/';
 
   public getTeacher(teacherId: string): Observable<Teacher> {
@@ -23,6 +25,10 @@ export class TeacherService {
   public getTeachers(lecternId: string): Observable<Teacher[]> {
     return this.http.get<Teacher[]>(environment.domain + this.teacherAPIUrl, {params: {lecternId}})
       .pipe(catchError(this.handleError));
+  }
+
+  getTeachersByLecternId(id: string): Observable<Teacher[]> {
+    return this.http.get<Teacher[]>(this.url + 'teacher/?lecternId=' + id);
   }
 
   public createTeacher(teacher: Teacher, lecternId: string): Observable<Teacher> {

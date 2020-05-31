@@ -10,11 +10,12 @@ import {OccupationCounter} from '../../model/occupatoionCounter.model';
 import {OccupationCounterCourse} from '../../model/occupationCounterCourse.model';
 import {ActivatedRoute} from '@angular/router';
 import {TimetableService} from '../../services/timetable.service';
-import {StudyPlan} from '../../model/study-plan.model';
 import {WEEKS} from '../../mock/course-mock';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {DeleteComponent} from '../dialogs/delete/delete.component';
+import {HeaderType} from '../../model/header-type';
+import {LecternService} from '../../services/lectern/lectern.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class ScheduleComponent implements OnInit {
   studyPlanId: string;
   occupationsOld: Occupation [] = [];
   flag: number;
+  lecternId: string;
 
 
   constructor(private localStorageService: LocalStorageService,
@@ -49,35 +51,40 @@ export class ScheduleComponent implements OnInit {
               private scheduleService: ScheduleService,
               private dialog: MatDialog,
               private overlay: Overlay,
+              private lecternService: LecternService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-
-    this.scheduleService.getAuthToken().subscribe(
-      (result: any) => {
-        this.localStorageService.setCurrentUserToken(result.tokenType + ' ' + result.accessToken);
-        this.scheduleService.getOccupations().subscribe(occupation => {
-          this.occupations = occupation;
-        }, error2 => {
-          this.notifierService.notify('error', 'Не удалось загрузить нагузки');
-        });
-        this.studyPlanId = this.route.snapshot.paramMap.get('idStudyPlan');
-        if (this.studyPlanId === null) {
-        } else {
-          this.scheduleService.getShedule(this.studyPlanId).subscribe(schedules => {
-            this.schedule = schedules[0];
-            if (schedules.length !== 0) {
-              this.schedule.courses.forEach((course) => {
-                course.weeks.sort((a, b) => a.position - b.position);
-              });
-              this.recalculateCounters();
-            }
-          }, error2 => {
-            this.notifierService.notify('error', 'Не удалось загрузить учебный план');
-          });
+    this.scheduleService.getOccupations().subscribe(occupation => {
+      this.occupations = occupation;
+      }, error2 => {
+      this.notifierService.notify('error', 'Не удалось загрузить нагузки');
+    });
+    this.lecternId = this.route.snapshot.paramMap.get('id');
+    this.localStorageService.observableHeaderType.next(HeaderType.LECTERN);
+    // loading of Lectern if it is null or id changed
+    if (this.localStorageService.observableLectern.getValue() === null ||
+      this.localStorageService.observableLectern.getValue().id !== this.lecternId) {
+      this.lecternService.getLecternById(this.lecternId).subscribe(value => {
+        this.localStorageService.observableLectern.next(value);
+        }, error => {
+        this.notifierService.notify('error', 'Не удалось загрузить кафедру.');
+      });
+    }
+    this.studyPlanId = this.route.snapshot.paramMap.get('idStudyPlan');
+    if (this.studyPlanId !== null) {
+      this.scheduleService.getShedule(this.studyPlanId).subscribe(schedules => {
+        this.schedule = schedules[0];
+        if (schedules.length !== 0) {
+          this.schedule.courses.forEach((course) => {
+            course.weeks.sort((a, b) => a.position - b.position);
+            });
+          this.recalculateCounters();
         }
-      }
-    );
+        }, error2 => {
+        this.notifierService.notify('error', 'Не удалось загрузить учебный план');
+      });
+    }
   }
 
   saveSchedule() {

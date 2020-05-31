@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {DeaneryService} from '../../../services/deanery.service';
+import {DeaneryService} from '../../../services/deanery/deanery.service';
 import {Lectern} from '../../../model/lectern.model';
 import {Deanery} from '../../../model/deanery.model';
 import {LocalStorageService} from '../../../services/local-storage.service';
@@ -11,6 +11,7 @@ import {TeacherViewComponent} from '../../dialogs/teacher-view/teacher-view.comp
 import {StudyPlan} from '../../../model/study-plan.model';
 import {NotifierService} from 'angular-notifier';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
+import {LecternService} from '../../../services/lectern/lectern.service';
 
 @Component({
   selector: 'app-deanery',
@@ -28,6 +29,7 @@ export class DeaneryComponent implements OnInit {
   displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'pretimetble', 'update', 'delete'];
   dataSource: any;
   constructor(private deaneryService: DeaneryService,
+              private lecternService: LecternService,
               private localStorageService: LocalStorageService,
               private dialog: MatDialog, private overlay: Overlay,
               private notifierService: NotifierService) { }
@@ -53,7 +55,7 @@ export class DeaneryComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.addLectern(result, this.deaneryId).subscribe(lectern => {
+        this.lecternService.addLectern(result, this.deaneryId).subscribe(lectern => {
           this.lecterns.push(lectern);
           this.dataSource.data = this.lecterns;
           this.dataSource.paginator = this.paginator;
@@ -85,7 +87,7 @@ export class DeaneryComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         if (result) {
-          this.deaneryService.deleteLectern(lecternO.id).subscribe(lectern => {
+          this.lecternService.deleteLectern(lecternO.id).subscribe(lectern => {
             this.lecterns.splice(this.lecterns.indexOf(lecternO), 1);
             this.dataSource.data = this.lecterns;
             this.table.renderRows();
@@ -105,7 +107,7 @@ export class DeaneryComponent implements OnInit {
     }) ;
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.deaneryService.editLectern(result).subscribe(lectern => {
+        this.lecternService.editLectern(result).subscribe(lectern => {
           this.lecterns[this.lecterns.indexOf(lecternO)] = lectern;
           this.dataSource.data = this.lecterns;
           this.table.renderRows();

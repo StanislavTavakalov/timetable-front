@@ -8,6 +8,9 @@ import {Overlay} from '@angular/cdk/overlay';
 import {ActivatedRoute} from '@angular/router';
 import {Lectern} from '../../model/lectern.model';
 import {NotifierService} from 'angular-notifier';
+import {HeaderType} from '../../model/header-type';
+import {LocalStorageService} from '../../services/local-storage.service';
+import {LecternService} from '../../services/lectern/lectern.service';
 
 
 @Component({
@@ -38,11 +41,25 @@ export class TimetableComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private timetableService: TimetableService,
               private dialog: MatDialog, private overlay: Overlay,
+              private localStorageService: LocalStorageService,
+              private lecternService: LecternService,
               private notifierService: NotifierService) {
   }
 
   ngOnInit() {
     this.lecternId = this.route.snapshot.paramMap.get('id');
+    this.localStorageService.observableHeaderType.next(HeaderType.LECTERN);
+    // loading of Lectern if it is null or id changed
+    if (this.localStorageService.observableLectern.getValue() === null ||
+      this.localStorageService.observableLectern.getValue().id !== this.lecternId) {
+      this.lecternService.getLecternById(this.lecternId).subscribe(value => {
+        this.lectern = value;
+        this.localStorageService.observableLectern.next(this.lectern);
+        console.log(this.lectern);
+      }, error => {
+        this.notifierService.notify('error', 'Не удалось загрузить кафедру.');
+      });
+    }
     this.selectedId = this.route.snapshot.paramMap.get('sp_id');
     if (this.lecternId != null) {
       this.timetableService.getPlansByLecternId(this.lecternId).subscribe(plans => {

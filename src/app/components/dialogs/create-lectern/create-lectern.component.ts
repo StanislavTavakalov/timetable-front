@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Lectern} from '../../../model/lectern.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {DeaneryService} from '../../../services/deanery.service';
+import {LecternService} from '../../../services/lectern/lectern.service';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class CreateLecternComponent implements OnInit {
   value: string;
 
   constructor(public dialogRef: MatDialogRef<CreateLecternComponent>,
-              private deaneryService: DeaneryService,
+              private lecternService: LecternService,
               @Inject(MAT_DIALOG_DATA) private data: any) { }
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class CreateLecternComponent implements OnInit {
   public valuesf(num, event): void {
     if (num === 1) {
       this.value = event.currentTarget.value;
-      this.deaneryService.checkUniqueLectern('name', this.value).subscribe( flag => {
+      this.lecternService.checkUniqueLectern('name', this.value).subscribe( flag => {
         if (!flag) {
           this.formGroup.controls.name.setValue('');
           window.alert('Кафедра с таким название уже существует');
@@ -55,7 +55,7 @@ export class CreateLecternComponent implements OnInit {
       });
     } else if (num === 2) {
       this.value = event.currentTarget.value;
-      this.deaneryService.checkUniqueLectern('fullname', this.value).subscribe( flag => {
+      this.lecternService.checkUniqueLectern('fullname', this.value).subscribe( flag => {
         if (!flag) {
           this.formGroup.controls.fullname.setValue('');
           window.alert('Кафедра с таким полным названием уже существует');

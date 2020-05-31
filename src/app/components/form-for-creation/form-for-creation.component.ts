@@ -1,5 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormForCreationServiceService} from '../../services/form-for-creation-service.service';
 import {StudyPlan} from '../../model/study-plan.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -14,7 +13,6 @@ import {WeekCount} from '../../model/week-count.model';
 })
 export class FormForCreationComponent implements OnInit {
 
-  newFree: number;
   plan: StudyPlan;
   weekCount: WeekCount = new WeekCount();
   semester: Semester = new Semester();
@@ -31,8 +29,7 @@ export class FormForCreationComponent implements OnInit {
   flag: boolean;
 
 
-  constructor(private formForCreationServiceService: FormForCreationServiceService,
-              public dialogRef: MatDialogRef<FormForCreationComponent>,
+  constructor(public dialogRef: MatDialogRef<FormForCreationComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any) {
   }
 
