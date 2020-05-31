@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs';
 import {OperationResponse} from '../../../model/operation-response.model';
 import {SpecialityDeleteComponent} from '../../dialogs/speciality/speciality-delete/speciality-delete.component';
 import {NotifierService} from 'angular-notifier';
+import {PrinterUtilityService} from '../../../services/util/printer-utility.service';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog,
               private overlay: Overlay,
-              private notifierService: NotifierService) {
+              private notifierService: NotifierService,
+              private printerUtilityService: PrinterUtilityService) {
 
   }
 

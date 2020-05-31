@@ -21,9 +21,8 @@ import {NotifierService} from 'angular-notifier';
 import {DeleteStudyPlanComponent} from '../dialogs/study-plans/delete-study-plan/delete-study-plan.component';
 import {SeveritySubject} from '../../model/severity-subject.model';
 import {PereodicSeveritySubject} from '../../model/pereodic-severity-subject.model';
-import {EducationForm} from '../../model/education-form.model';
-import {StudyPlanStatus} from '../../model/study-plan-status.model';
 import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
+import {PrinterUtilityService} from '../../services/util/printer-utility.service';
 
 @Component({
   selector: 'app-study-plan',
@@ -51,7 +50,8 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
               private lecternService: LecternService,
               private lecternUtilityService: LecternUtilityService,
               private notifierService: NotifierService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private printerUtilityService: PrinterUtilityService) {
   }
 
   // TODO refactor below one
@@ -439,31 +439,6 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     return finalColumnsToDisplay;
   }
 
-  public getValueToDisplay(subject: Subject, name: string) {
-    for (let i = 0; i < subject.severities.length; i++) {
-      if (subject.severities[i].severity.name === name) {
-        return subject.severities[i].hours;
-      }
-    }
-    return '-';
-  }
-
-  public getValueToDisplayPereodic(subject: Subject, name: string) {
-    for (let i = 0; i < subject.pereodicSeverities.length; i++) {
-      if (subject.pereodicSeverities[i].pereodicSeverity.name === name) {
-        let result = '';
-        for (const semNumber of subject.pereodicSeverities[i].semesterNumbers) {
-          result += semNumber.number + '; ';
-        }
-        if (result === '') {
-          return 0;
-        }
-        return result;
-      }
-    }
-    return '-';
-  }
-
 
   public editSubjectFromStudyPlan(subject: Subject) {
     const dialogRef = this.dialog.open(EditSubjectComponent, {
@@ -488,73 +463,10 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   }
 
-  public getAuditLessonsHours(subject: Subject) {
-    let sumOfHours = 0;
-    for (const sev of subject.severities) {
-      sumOfHours += sev.hours as number;
-    }
-    return sumOfHours;
-  }
-
   public renderCurrentStudyPlan() {
     const index = this.getIndex(this.selectedStudyPlan);
     this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
     this.tables.toArray()[index].renderRows();
-  }
-
-  private localizeEducationForm(educationForm: EducationForm) {
-    switch (educationForm) {
-      case EducationForm.FullTime:
-        return 'Очная форма';
-      case EducationForm.Extramural:
-        return 'Заочная форма';
-      case educationForm:
-        return 'Не указано';
-    }
-  }
-
-  private localizeStudyPlanStatus(studyPlanStatus: StudyPlanStatus) {
-    switch (studyPlanStatus) {
-      case StudyPlanStatus.ToRegister:
-        return 'На регистрацию';
-      case StudyPlanStatus.ToRefactor:
-        return 'На переработку';
-      case StudyPlanStatus.Submitted:
-        return 'Подтвержен';
-      case StudyPlanStatus.Registered:
-        return 'Зарегистрирован';
-      case StudyPlanStatus.Refactored:
-        return 'Переработан';
-      case StudyPlanStatus.InDevelopment:
-        return 'В разработке';
-      case studyPlanStatus:
-        return 'Не указан';
-    }
-  }
-
-  private printRegisterNumber(registerNumber: number) {
-    return registerNumber === null ? 'не указан' : registerNumber;
-  }
-
-  private getAdditionalSubjectTemplateInfo(subject: Subject) {
-    let additionalInfo = ' ';
-    if (subject.severities.length > 0) {
-      additionalInfo += '[';
-      for (const severity of subject.severities) {
-        additionalInfo += severity.severity.name + ': ' + severity.hours + '; ';
-      }
-      additionalInfo += '] ';
-    }
-
-    if (subject.pereodicSeverities.length > 0) {
-      additionalInfo += '[';
-      for (const severity of subject.pereodicSeverities) {
-        additionalInfo += severity.pereodicSeverity.name + '; ';
-
-      }
-      additionalInfo += ']';
-    }
-    return additionalInfo;
   }
 
   applyTemplateFilter(event: Event) {

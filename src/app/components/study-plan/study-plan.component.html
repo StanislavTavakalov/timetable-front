@@ -3,7 +3,7 @@
 </mat-spinner>
 
 <ng-template #mainContent>
-  <div >
+  <div>
 
     <!--  Single study plan table -->
     <div class="study-plans-table-container mat-elevation-z8">
@@ -12,9 +12,10 @@
         <ng-container matColumnDef="study-plan">
           <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
           <td mat-cell *matCellDef="let studyPlan">
-          <span> Регистрационный номер: {{printRegisterNumber(studyPlan.registerNumber)}} || {{studyPlan.name}}
-            || {{studyPlan.speciality.name}} || {{localizeEducationForm(studyPlan.educationForm)}}
-            || {{localizeStudyPlanStatus(studyPlan.status)}} || {{studyPlan.year}} </span>
+          <span> Регистрационный номер: {{printerUtilityService.printRegisterNumber(studyPlan.registerNumber)}}
+            || {{studyPlan.name}}
+            || {{studyPlan.speciality.name}} || {{printerUtilityService.printEducationForm(studyPlan.educationForm)}}
+            || {{printerUtilityService.printStudyPlanStatus(studyPlan.status)}} || {{studyPlan.year}} </span>
           </td>
 
         </ng-container>
@@ -56,7 +57,7 @@
                   <th mat-header-cell *matHeaderCellDef> Аудиторных</th>
                   <td mat-cell *matCellDef="let subject"
                       [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }">
-                    {{getAuditLessonsHours(subject)}}
+                    {{printerUtilityService.printAuditLessonsHours(subject)}}
                   </td>
                 </ng-container>
 
@@ -65,7 +66,7 @@
                   <th mat-header-cell *matHeaderCellDef> {{pereodicSeverity}}</th>
                   <td mat-cell *matCellDef="let subject"
                       [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span
-                    [contentEditable]="editMode"> {{getValueToDisplayPereodic(subject, pereodicSeverity)}}  </span></td>
+                    [contentEditable]="editMode"> {{printerUtilityService.printPereodicValue(subject, pereodicSeverity)}}  </span></td>
                 </ng-container>
 
                 <ng-container *ngFor="let severity of displayedSeverityColumnsForSubjects" [matColumnDef]=severity>-->
@@ -73,7 +74,7 @@
 
                   <td mat-cell *matCellDef="let subject"
                       [ngStyle]="{'background-color': subject.isChanged ? 'lime' : 'white' }"><span
-                    [contentEditable]="editMode"> {{getValueToDisplay(subject, severity)}}  </span></td>
+                    [contentEditable]="editMode"> {{printerUtilityService.printSeverityValue(subject, severity)}}  </span></td>
 
                 </ng-container>
 
@@ -134,7 +135,7 @@
           <td mat-cell *matCellDef="let subjectTemplate">
             <mat-icon (click)="addSubjectToStudyPlan(subjectTemplate)" matTooltip="Добавить предмет в план"> add_circle
             </mat-icon>
-            <mat-icon [matTooltip]="getAdditionalSubjectTemplateInfo(subjectTemplate)"> info</mat-icon>
+            <mat-icon [matTooltip]="printerUtilityService.printAdditionalSubjectTemplateInfo(subjectTemplate)"> info</mat-icon>
           </td>
         </ng-container>
 

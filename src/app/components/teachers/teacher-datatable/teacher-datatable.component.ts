@@ -8,7 +8,7 @@ import {Teacher} from '../../../model/teacher.model';
 import {TeacherAddEditComponent} from '../../dialogs/teachers/teacher-add-edit/teacher-add-edit.component';
 import {TeacherDeleteComponent} from '../../dialogs/teachers/teacher-delete/teacher-delete.component';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StaffType} from '../../../model/staff-type.model';
+import {PrinterUtilityService} from '../../../services/util/printer-utility.service';
 
 @Component({
   selector: 'app-teacher-datatable',
@@ -21,7 +21,8 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
               private overlay: Overlay,
               private router: Router,
               private route: ActivatedRoute,
-              private notifierService: NotifierService) {
+              private notifierService: NotifierService,
+              private printerUtilityService: PrinterUtilityService) {
 
   }
 
@@ -113,37 +114,7 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
     this.dataSource.data = this.teachers;
   }
 
-  private printAcademicDegree(academicDegree, abbreviation) {
 
-    if (academicDegree && academicDegree !== '') {
-      if (abbreviation) {
-        return academicDegree + ' (' + abbreviation + ') ';
-      } else {
-        return academicDegree;
-      }
-    } else {
-      return 'Не указано';
-    }
-  }
-
-  private printValue(value) {
-    return value === null || value === '' ? 'Не указано' : value;
-  }
-
-  private printStaffType(staffType: StaffType, rate: number): string {
-    switch (staffType) {
-      case StaffType.ExternalCombiner:
-        return 'Внешний совместитель' + ' (Ставка: ' + rate + ')';
-      case StaffType.FullTime:
-        return 'Штатный';
-      case StaffType.PartTime:
-        return 'Почасовик' + ' (Часов: ' + rate + ')';
-      case StaffType.InternalCombiner:
-        return 'Внутренний совместитель' + ' (Ставка: ' + rate + ')';
-      case staffType:
-        return 'Не указано';
-    }
-  }
 
   ngOnDestroy(): void {
     if (this.editTeacherDialogSubscription) {

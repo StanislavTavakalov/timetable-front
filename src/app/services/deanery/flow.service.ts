@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
@@ -11,7 +11,8 @@ import {catchError} from 'rxjs/operators';
 })
 export class FlowService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   private url = environment.domain + 'api/';
 
@@ -21,6 +22,10 @@ export class FlowService {
 
   getFlowsByDeaneryId(id: string): Observable<Flow[]> {
     return this.http.get<Flow[]>(this.url + 'flow/?deaneryId=' + id);
+  }
+
+  getFlowsByLecternId(lecternId: string) {
+    return this.http.get<Flow[]>(this.url + `flow/`, {params: {lecternId}});
   }
 
   deleteFlow(id: string): Observable<Flow> {
@@ -39,7 +44,7 @@ export class FlowService {
     return this.http.post<Flow>(this.url + 'flow/?deaneryId=' + id, flow).pipe(catchError(this.handleError));
   }
 
-  checkUniqueFlowName( value: string): Observable<any> {
+  checkUniqueFlowName(value: string): Observable<any> {
     return this.http.get<any>(this.url + 'flow/checkUniqFlowName/?name=' + value);
   }
 

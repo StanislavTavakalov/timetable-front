@@ -20,7 +20,7 @@
 
     <ng-container matColumnDef="description">
       <th style="width: 35%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание</th>
-      <td style="width: 35%; overflow: hidden" mat-cell *matCellDef="let element"> {{element.description}} </td>
+      <td style="width: 35%; overflow: hidden" mat-cell *matCellDef="let element"> {{printerUtilityService.printValue(element.description)}} </td>
     </ng-container>
 
     <!--    <ng-container matColumnDef="department">-->

@@ -17,12 +17,12 @@ td, th .abbreviation {
 }
 
 
-td, th .department {
-  width: 35%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+/*td, th .department {*/
+/*  width: 35%;*/
+/*  overflow: hidden;*/
+/*  text-overflow: ellipsis;*/
+/*  white-space: nowrap;*/
+/*}*/
 
 td, th .icons {
   width: 5%;

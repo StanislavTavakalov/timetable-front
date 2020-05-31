@@ -9,6 +9,7 @@ import {SubjectDeleteComponent} from '../../dialogs/subjects/subject-delete/subj
 import {SeveritySubject} from '../../../model/severity-subject.model';
 import {PereodicSeveritySubject} from '../../../model/pereodic-severity-subject.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PrinterUtilityService} from '../../../services/util/printer-utility.service';
 
 @Component({
   selector: 'app-subject-datatable',
@@ -21,7 +22,8 @@ export class SubjectDatatableComponent implements OnInit, OnDestroy {
               private overlay: Overlay,
               private notifierService: NotifierService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private printerUtilityService: PrinterUtilityService) {
 
   }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Group} from '../../model/group.model';
@@ -10,7 +10,8 @@ import {catchError} from 'rxjs/operators';
 })
 export class GroupService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   private url = environment.domain + 'api/';
 
@@ -22,19 +23,23 @@ export class GroupService {
     return this.http.get<Group[]>(this.url + 'groups/?deaneryId=' + id);
   }
 
+  getGroupsByLecternId(lecternId: string): Observable<Group[]> {
+    return this.http.get<Group[]>(this.url + 'groups/', {params: {lecternId}});
+  }
+
   editGroup(group: Group): Observable<Group> {
     return this.http.put<Group>(this.url + 'groups/' + group.id, group).pipe(catchError(this.handleError));
   }
 
-
   addGroup(group: Group): Observable<Group> {
     return this.http.post<Group>(this.url + 'groups/', group).pipe(catchError(this.handleError));
   }
+
   deleteGroup(id: string): Observable<Group> {
     return this.http.delete<Group>(this.url + 'groups/' + id);
   }
 
-  checkUniqueGroupName( value: string): Observable<any> {
+  checkUniqueGroupName(value: string): Observable<any> {
     return this.http.get<any>(this.url + 'groups/checkUniqGroupName/?name=' + value);
   }
 

@@ -33,28 +33,30 @@
     <!-- Academic Rank Column -->
     <ng-container matColumnDef="academicRank">
       <th style="width: 12.5%" mat-header-cell *matHeaderCellDef mat-sort-header> Научное звание</th>
-      <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row"> {{printValue(row.academicRank)}} </td>
+      <td style="width: 12.5%; overflow: hidden;" mat-cell
+          *matCellDef="let row"> {{printerUtilityService.printValue(row.academicRank)}} </td>
     </ng-container>
 
     <!-- Academic Degree Column -->
     <ng-container matColumnDef="academicDegree">
       <th style="width: 12.5%;" mat-header-cell *matHeaderCellDef mat-sort-header> Научная степень</th>
       <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row">
-        {{printAcademicDegree(row.academicDegree, row.academicDegreeAbbreviation)}}
+        {{printerUtilityService.printAcademicDegree(row.academicDegree, row.academicDegreeAbbreviation)}}
       </td>
     </ng-container>
 
     <!-- Staff Type Column -->
     <ng-container matColumnDef="staffType">
       <th style="width: 12.5%;" mat-header-cell *matHeaderCellDef mat-sort-header> В штатном расписании</th>
-      <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row"> {{printStaffType(row.staffType,row.rate)}} </td>
+      <td style="width: 12.5%; overflow: hidden;" mat-cell
+          *matCellDef="let row"> {{printerUtilityService.printStaffType(row.staffType, row.rate)}} </td>
     </ng-container>
 
-<!--    &lt;!&ndash; Additional Info Column &ndash;&gt;-->
-<!--    <ng-container matColumnDef="additionalInfo">-->
-<!--      <th style="width: 30%" mat-header-cell *matHeaderCellDef mat-sort-header> Дополнительная информация</th>-->
-<!--      <td style="width: 30%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.additionalInfo}} </td>-->
-<!--    </ng-container>-->
+    <!--    &lt;!&ndash; Additional Info Column &ndash;&gt;-->
+    <!--    <ng-container matColumnDef="additionalInfo">-->
+    <!--      <th style="width: 30%" mat-header-cell *matHeaderCellDef mat-sort-header> Дополнительная информация</th>-->
+    <!--      <td style="width: 30%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.additionalInfo}} </td>-->
+    <!--    </ng-container>-->
 
 
     <!-- Icons Column -->
