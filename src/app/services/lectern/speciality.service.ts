@@ -23,12 +23,12 @@ export class SpecialityService {
   }
 
   public getSpecialities(lecternId: string): Observable<Speciality[]> {
-    return this.http.get<Speciality[]>(environment.domain + this.specialityAPIUrl + '?lecternId=' + lecternId)
+    return this.http.get<Speciality[]>(environment.domain + this.specialityAPIUrl, {params: {lecternId}})
       .pipe(catchError(this.handleError));
   }
 
   public createSpeciality(speciality: Speciality, lecternId: string): Observable<Speciality> {
-    return this.http.post<Speciality>(environment.domain + this.specialityAPIUrl + '?lecternId=' + lecternId, speciality)
+    return this.http.post<Speciality>(environment.domain + this.specialityAPIUrl, speciality, {params: {lecternId}})
       .pipe(catchError(this.handleError));
   }
 

@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable, of, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Severity} from '../../model/severity.model';
-import {SEVERITY_LIST} from '../../mock/severity-mock';
 import {environment} from '../../../environments/environment';
 import {catchError} from 'rxjs/operators';
 
@@ -16,15 +15,6 @@ export class SeverityService {
   }
 
   severityAPIUrl = 'api/severity/';
-
-  // TODO: MOCK REMOVE THOSE METHODS
-  public getSeveritiesMock(): Observable<Severity[]> {
-    return of(SEVERITY_LIST);
-  }
-
-  public getSeveritiesNotObs(): Severity[] {
-    return SEVERITY_LIST;
-  }
 
   public getSeverity(severityId: string): Observable<Severity> {
     return this.http.get<Severity>(environment.domain + this.severityAPIUrl + severityId)

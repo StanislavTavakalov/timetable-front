@@ -22,7 +22,7 @@ export class StudyPlanService {
   }
 
   public getStudyPlans(lecternId: string): Observable<StudyPlan[]> {
-    return this.http.get<StudyPlan[]>(environment.domain + this.studyPlanAPIUrl + '?lecternId=' + lecternId)
+    return this.http.get<StudyPlan[]>(environment.domain + this.studyPlanAPIUrl, {params: {lecternId}})
       .pipe(catchError(this.handleError));
   }
 

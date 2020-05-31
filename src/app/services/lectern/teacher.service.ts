@@ -21,12 +21,12 @@ export class TeacherService {
   }
 
   public getTeachers(lecternId: string): Observable<Teacher[]> {
-    return this.http.get<Teacher[]>(environment.domain + this.teacherAPIUrl + '?lecternId=' + lecternId)
+    return this.http.get<Teacher[]>(environment.domain + this.teacherAPIUrl, {params: {lecternId}})
       .pipe(catchError(this.handleError));
   }
 
   public createTeacher(teacher: Teacher, lecternId: string): Observable<Teacher> {
-    return this.http.post<Teacher>(environment.domain + this.teacherAPIUrl + '?lecternId=' + lecternId, teacher)
+    return this.http.post<Teacher>(environment.domain + this.teacherAPIUrl, teacher, {params: {lecternId}})
       .pipe(catchError(this.handleError));
   }
 

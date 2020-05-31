@@ -6,10 +6,9 @@ import {NotifierService} from 'angular-notifier';
 import {TeacherService} from '../../services/lectern/teacher.service';
 import {LecternService} from '../../services/lectern/lectern.service';
 import {ActivatedRoute} from '@angular/router';
-import {Lectern} from '../../model/lectern.model';
 import {Teacher} from '../../model/teacher.model';
 import {Subscription} from 'rxjs';
-import {HeaderType} from '../../model/header-type';
+import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
 
 
 @Component({
@@ -25,42 +24,28 @@ export class TeachersComponent implements OnInit, OnDestroy {
               private localStorageService: LocalStorageService,
               private teacherService: TeacherService,
               private lecternService: LecternService,
+              private lecternUtilityService: LecternUtilityService,
               private route: ActivatedRoute) {
 
   }
 
-  lectern: Lectern;
   teachers: Teacher[];
   teacherServiceSubscription: Subscription;
   lecternServiceSubscription: Subscription;
   teacherTableVisible = false;
-  loading = false;
+  isTeacherLoading = false;
 
   ngOnInit() {
-
-    this.loading = true;
-    // setting lectern id when we get to this Lectern section
+    this.isTeacherLoading = true;
     const lecternId = this.route.snapshot.paramMap.get('id');
-
-    this.localStorageService.observableHeaderType.next(HeaderType.LECTERN);
-    // loading of Lectern if it is null or id changed
-    if (this.localStorageService.observableLectern.getValue() === null ||
-      this.localStorageService.observableLectern.getValue().id !== lecternId) {
-      this.lecternServiceSubscription = this.lecternService.getLecternById(lecternId).subscribe(value => {
-        this.lectern = value;
-        this.localStorageService.observableLectern.next(this.lectern);
-        console.log(this.lectern);
-      }, error => {
-        this.notifierService.notify('error', 'Не удалось загрузить кафедру.');
-      });
-    }
+    this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(lecternId);
 
     this.teacherServiceSubscription = this.teacherService.getTeachers(lecternId).subscribe(teachers => {
-      this.loading = false;
+      this.isTeacherLoading = false;
       this.teachers = teachers;
       this.teacherTableVisible = true;
     }, error => {
-      this.loading = false;
+      this.isTeacherLoading = false;
       this.teacherTableVisible = true;
       this.notifierService.notify('error', 'Не удалось загрузить преподавателей.');
     });

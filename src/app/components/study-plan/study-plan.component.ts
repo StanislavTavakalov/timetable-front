@@ -16,8 +16,6 @@ import {StudyPlanService} from '../../services/lectern/study-plan.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {PereodicSeverity} from '../../model/pereodic-severity.model';
 import {AuthService} from '../../services/util/auth.service';
-import {HeaderType} from '../../model/header-type';
-import {Subscription} from 'rxjs';
 import {LecternService} from '../../services/lectern/lectern.service';
 import {NotifierService} from 'angular-notifier';
 import {DeleteStudyPlanComponent} from '../dialogs/study-plans/delete-study-plan/delete-study-plan.component';
@@ -25,6 +23,7 @@ import {SeveritySubject} from '../../model/severity-subject.model';
 import {PereodicSeveritySubject} from '../../model/pereodic-severity-subject.model';
 import {EducationForm} from '../../model/education-form.model';
 import {StudyPlanStatus} from '../../model/study-plan-status.model';
+import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
 
 @Component({
   selector: 'app-study-plan',
@@ -50,6 +49,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
               private studyPlanService: StudyPlanService,
               private localStorageService: LocalStorageService,
               private lecternService: LecternService,
+              private lecternUtilityService: LecternUtilityService,
               private notifierService: NotifierService,
               private route: ActivatedRoute) {
   }
@@ -71,13 +71,10 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   public expandedStudyPlan: StudyPlan | null;
   public studyPlanBackup: StudyPlan;
   private lecternId: string;
-  private loading;
-  private lecternLoading = false;
   private subjectLoading;
   private studyPlansLoading;
   private severityLoading;
   private pereodicSeverityLoading;
-  private lecternServiceSubscription: Subscription;
 
   displayedColumnsSubjects: string[] = ['prototypes', 'add-icon'];
   displayedColumnsSingleStudyPlan: string[] = ['study-plan'];
@@ -88,33 +85,13 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   templateDataSource: MatTableDataSource<Subject>;
 
   ngOnInit() {
-
-    this.authService.getAuthToken().subscribe((result: any) => {
-      this.localStorageService.setCurrentUserToken(result.tokenType + ' ' + result.accessToken);
-    });
-
-    this.loading = true;
     this.subjectLoading = true;
     this.studyPlansLoading = true;
     this.severityLoading = true;
     this.pereodicSeverityLoading = true;
 
-    // setting lectern id when we get to this Lectern section
     this.lecternId = this.route.snapshot.paramMap.get('id');
-
-    this.localStorageService.observableHeaderType.next(HeaderType.LECTERN);
-    // loading of Lectern if it is null or id changed
-    if (this.localStorageService.observableLectern.getValue() === null ||
-      this.localStorageService.observableLectern.getValue().id !== this.lecternId) {
-      this.lecternLoading = true;
-      this.lecternServiceSubscription = this.lecternService.getLecternById(this.lecternId).subscribe(lectern => {
-        this.localStorageService.observableLectern.next(lectern);
-        this.lecternLoading = false;
-      }, error => {
-        this.notifierService.notify('error', 'Не удалось загрузить кафедру.');
-        this.lecternLoading = false;
-      });
-    }
+    this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(this.lecternId);
 
     this.severityPereodicService.getPereodicSeverities().subscribe(pereodicSeverities => {
         this.displayedPereodicSeverityColumnsForSubjects = [];
@@ -377,14 +354,6 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(newStudyPlan => {
       newStudyPlan = newStudyPlan as StudyPlan;
       if (newStudyPlan != null) {
-        // this.studyPlanService.editStudyPlan(newStudyPlan).subscribe(studyPlan => {
-        //   for (let i = 0; i < this.studyPlans.length; i++) {
-        //     if (this.studyPlans[i].id === this.selectedStudyPlan.id) {
-        //       this.studyPlans[i] = studyPlan;
-        //       this.selectedStudyPlan = studyPlan;
-        //     }
-        //   }
-
         for (let i = 0; i < this.studyPlans.length; i++) {
           if (this.studyPlans[i].id === this.selectedStudyPlan.id) {
             this.studyPlans[i] = newStudyPlan;

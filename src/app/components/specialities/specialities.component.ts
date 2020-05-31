@@ -5,11 +5,10 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {ActivatedRoute} from '@angular/router';
 import {SpecialityService} from '../../services/lectern/speciality.service';
 import {LecternService} from '../../services/lectern/lectern.service';
-import {HeaderType} from '../../model/header-type';
-import {Lectern} from '../../model/lectern.model';
 import {Speciality} from '../../model/speciality.model';
 import {Subscription} from 'rxjs';
 import {NotifierService} from 'angular-notifier';
+import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
 
 @Component({
   selector: 'app-specialities',
@@ -24,52 +23,35 @@ export class SpecialitiesComponent implements OnInit, OnDestroy {
               private localStorageService: LocalStorageService,
               private specialityService: SpecialityService,
               private lecternService: LecternService,
+              private lecternUtilityService: LecternUtilityService,
               private route: ActivatedRoute) {
 
   }
 
-  lectern: Lectern;
   specialities: Speciality[];
   specialityServiceSubscription: Subscription;
   lecternServiceSubscription: Subscription;
   specialityTableVisible = false;
-  loading = false;
-  ngOnInit() {
+  isSpecialitiesLoading = false;
 
-    this.loading = true;
-    // setting lectern id when we get to this Lectern section
+  ngOnInit() {
+    this.isSpecialitiesLoading = true;
     const lecternId = this.route.snapshot.paramMap.get('id');
     const token = this.route.snapshot.queryParamMap.get('token');
 
-    if (token) {
-      this.localStorageService.setCurrentUserToken('Bearer ' + token);
-    }
-
-    this.localStorageService.observableHeaderType.next(HeaderType.LECTERN);
-    // loading of Lectern if it is null or id changed
-    if (this.localStorageService.observableLectern.getValue() === null ||
-      this.localStorageService.observableLectern.getValue().id !== lecternId) {
-      this.lecternServiceSubscription = this.lecternService.getLecternById(lecternId).subscribe(value => {
-        this.lectern = value;
-        this.localStorageService.observableLectern.next(this.lectern);
-        console.log(this.lectern);
-      }, error => {
-        this.notifierService.notify('error', 'Не удалось загрузить кафедру.');
-      });
-    }
+    this.lecternUtilityService.checkToken(token, lecternId);
+    this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(lecternId);
 
     this.specialityServiceSubscription = this.specialityService.getSpecialities(lecternId).subscribe(specialities => {
-      this.loading = false;
+      this.isSpecialitiesLoading = false;
       this.specialities = specialities;
       this.specialityTableVisible = true;
     }, error => {
-      this.loading = false;
+      this.isSpecialitiesLoading = false;
       this.specialityTableVisible = true;
       this.notifierService.notify('error', 'Не удалось загрузить специальности.');
     });
-
   }
-
 
   ngOnDestroy(): void {
     if (this.specialityServiceSubscription) {

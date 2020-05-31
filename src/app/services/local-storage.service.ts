@@ -28,4 +28,8 @@ export class LocalStorageService {
   public getCurrentUserToken() {
     return JSON.parse(localStorage.getItem(this.USER_TOKEN_KEY));
   }
+
+  public changeHeaderType(headerType: HeaderType) {
+    this.observableHeaderType.next(headerType);
+  }
 }

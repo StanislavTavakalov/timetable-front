@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {LocalStorageService} from '../../services/local-storage.service';
-import {of, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {HeaderType} from '../../model/header-type';
 import {Lectern} from '../../model/lectern.model';
 import {Deanery} from '../../model/deanery.model';
@@ -52,10 +52,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     isActive: true
   }, {
 
-      path: '/groups_and_flows',
-      label: 'Группы и потоки',
-      isActive: true
-    },
+    path: '/groups_and_flows',
+    label: 'Группы и потоки',
+    isActive: true
+  },
   ];
 
   tabsType: HeaderType;
@@ -71,7 +71,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.headerValueSubscription = this.localStorageService.observableHeaderType.subscribe(value => {
       this.tabsType = value;
-      console.log('VALUE CHANGED: ' + this.tabsType);
     });
 
     this.lecternSubscription = this.localStorageService.observableLectern.subscribe(lectern =>

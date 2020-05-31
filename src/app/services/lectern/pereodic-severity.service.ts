@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable, of, throwError} from 'rxjs';
-import {PEREODIC_SEVERITY_LIST} from '../../mock/pereodic-severities-mock';
+import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError} from 'rxjs/operators';
 import {PereodicSeverity} from '../../model/pereodic-severity.model';
@@ -16,16 +15,6 @@ export class PereodicSeverityService {
 
   constructor(private http: HttpClient) {
 
-  }
-
-  // TODO: reimplement mock
-  public getPereodicSeveritiesMock(): Observable<PereodicSeverity[]> {
-    return of(PEREODIC_SEVERITY_LIST);
-  }
-
-  // TODO: reimplement mock
-  public getPereodicSeveritiesNotObs(): PereodicSeverity[] {
-    return PEREODIC_SEVERITY_LIST;
   }
 
   public getPereodicSeverity(pereodicSeverityId: string): Observable<PereodicSeverity> {

@@ -36,6 +36,8 @@ import { FlowMainComponent } from './components/flow-main/flow-main.component';
 import { GroupMainComponent } from './components/group-main/group-main.component';
 import { DeaneryStaffMainComponent } from './components/deanery-staff-main/deanery-staff-main.component';
 import { GroupsAndFlowsComponent } from './components/groups-and-flows/groups-and-flows.component';
+import { GroupsDatatableComponent } from './components/groups-and-flows/groups-datatable/groups-datatable.component';
+import { FlowsDatatableComponent } from './components/groups-and-flows/flows-datatable/flows-datatable.component';
 
 
 @NgModule({
@@ -64,7 +66,9 @@ import { GroupsAndFlowsComponent } from './components/groups-and-flows/groups-an
     FlowMainComponent,
     GroupMainComponent,
     DeaneryStaffMainComponent,
-    GroupsAndFlowsComponent
+    GroupsAndFlowsComponent,
+    GroupsDatatableComponent,
+    FlowsDatatableComponent
   ],
   imports: [
     BrowserModule,
