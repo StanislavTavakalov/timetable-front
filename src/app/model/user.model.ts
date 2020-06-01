@@ -1,10 +1,8 @@
-import {Deanery} from './deanery.model';
-import {Lectern} from './lectern.model';
+import {UserRoles} from './user-roles.model';
+
 
 export class User {
   public id: string;
   public username: string;
-  public password: string;
-  public deanery: Deanery;
-  public lectern: Lectern;
+  public userRoles: UserRoles;
 }
