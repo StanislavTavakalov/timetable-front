@@ -8,6 +8,8 @@ import {OperationResponse} from '../../../model/operation-response.model';
 import {SpecialityDeleteComponent} from '../../dialogs/speciality/speciality-delete/speciality-delete.component';
 import {NotifierService} from 'angular-notifier';
 import {PrinterUtilityService} from '../../../services/util/printer-utility.service';
+import {LocalStorageService} from '../../../services/local-storage.service';
+import {Role} from '../../../model/role.model';
 
 
 @Component({
@@ -20,6 +22,7 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog,
               private overlay: Overlay,
               private notifierService: NotifierService,
+              private localStorageService: LocalStorageService,
               private printerUtilityService: PrinterUtilityService) {
 
   }
@@ -118,5 +121,10 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
     if (this.deleteSpecialityDialogSubscription) {
       this.deleteSpecialityDialogSubscription.unsubscribe();
     }
+  }
+
+  isDeleteEditAddSpecialityEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_ENGINEER) || userRoles.includes(Role.ROLE_LECTERN);
   }
 }

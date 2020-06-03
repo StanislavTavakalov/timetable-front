@@ -55,17 +55,16 @@
         <div class="column" style="width: 30%; max-width: 100%" *ngFor="let pereodicSeveritySubject of subject.pereodicSeverities">
           <mat-card style=" justify-content: space-between">
             {{pereodicSeveritySubject.pereodicSeverity.name }}
-<!--            {{getSemesters(pereodicSeveritySubject) + ' семестры'}}-->
           </mat-card>
         </div>
       </div>
       <mat-divider></mat-divider>
 
       <div style="width: 100%; margin-top: 1%">
-        <button mat-raised-button (click)="onEditClick()">
+        <button mat-raised-button *ngIf="isDeleteEditSubjectEnabled()" (click)="onEditClick()">
           Редактировать
         </button>
-        <button mat-raised-button (click)="deleteSubject()">  Удалить </button>
+        <button mat-raised-button *ngIf="isDeleteEditSubjectEnabled()" (click)="deleteSubject()">  Удалить </button>
       </div>
     </div>
   </div>

@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs';
 import {NotifierService} from 'angular-notifier';
 import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
 
+
 @Component({
   selector: 'app-specialities',
   templateUrl: './specialities.component.html',
@@ -40,7 +41,7 @@ export class SpecialitiesComponent implements OnInit, OnDestroy {
     const token = this.route.snapshot.queryParamMap.get('token');
 
     this.lecternUtilityService.checkToken(token, lecternId);
-    this.lecternUtilityService.loadCurrentUserIfNeeded();
+    this.lecternUtilityService.loadCurrentUser();
     this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(lecternId);
 
     this.specialityServiceSubscription = this.specialityService.getSpecialities(lecternId).subscribe(specialities => {

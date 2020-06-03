@@ -41,11 +41,13 @@ export class LecternUtilityService {
     }
   }
 
-  public loadCurrentUserIfNeeded() {
-    if (this.localStorageService.getCurrentUser()) {
-      return;
-    }
-    this.authService.getCurrentUser().subscribe(user => this.localStorageService.setCurrentUser(user), error => {
+  public loadCurrentUser() {
+    this.authService.getCurrentUser().subscribe(user => {
+      if (this.localStorageService.observableCurrentUser.getValue() !== null && this.localStorageService.getCurrentUser().id === user.id) {
+        return;
+      }
+      this.localStorageService.setCurrentUser(user);
+    }, error => {
       this.notifierService.notify('error', 'Ошибка при загрузке текущего пользователя');
     });
   }

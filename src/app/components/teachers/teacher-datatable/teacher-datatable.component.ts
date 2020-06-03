@@ -9,6 +9,8 @@ import {TeacherAddEditComponent} from '../../dialogs/teachers/teacher-add-edit/t
 import {TeacherDeleteComponent} from '../../dialogs/teachers/teacher-delete/teacher-delete.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrinterUtilityService} from '../../../services/util/printer-utility.service';
+import {Role} from '../../../model/role.model';
+import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-teacher-datatable',
@@ -22,6 +24,7 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
               private router: Router,
               private route: ActivatedRoute,
               private notifierService: NotifierService,
+              private localStorageService: LocalStorageService,
               private printerUtilityService: PrinterUtilityService) {
 
   }
@@ -114,7 +117,15 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
     this.dataSource.data = this.teachers;
   }
 
+  isDeleteEditAddTeacherEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_ENGINEER) || userRoles.includes(Role.ROLE_LECTERN);
+  }
 
+  isLinkTeacherEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN);
+  }
 
   ngOnDestroy(): void {
     if (this.editTeacherDialogSubscription) {

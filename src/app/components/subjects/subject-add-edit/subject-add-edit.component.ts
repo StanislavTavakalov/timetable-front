@@ -279,7 +279,6 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
     return severities.map(severity => severity.hours).reduce((a, b) => a + b, 0) - (this.reservedHours);
   }
 
-
   ngOnDestroy(): void {
     if (this.subjectSubscription) {
       this.subjectSubscription.unsubscribe();

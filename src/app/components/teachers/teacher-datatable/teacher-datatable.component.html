@@ -62,22 +62,22 @@
     <!-- Icons Column -->
     <ng-container matColumnDef="icons">
       <th style="text-align: end" mat-header-cell class="icons" *matHeaderCellDef>
-        <span class="material-icons" (click)="linkTeachers()" style="cursor: pointer"
+        <span class="material-icons" *ngIf="isLinkTeacherEnabled()" (click)="linkTeachers()" style="cursor: pointer"
               matTooltip="Связать учителей">
           link
         </span>
-        <span class="material-icons" (click)="addNewTeacher()" style="cursor: pointer"
+        <span class="material-icons" *ngIf="isDeleteEditAddTeacherEnabled()" (click)="addNewTeacher()" style="cursor: pointer"
               matTooltip="Добавить преподавателя">
               add_circle
          </span>
       </th>
 
       <td style="text-align: end; width: 10%" mat-cell class="icons" *matCellDef="let teacher">
-         <span class="material-icons" (click)="editTeacher(teacher)" style="cursor: pointer"
+         <span class="material-icons" *ngIf="isDeleteEditAddTeacherEnabled()" (click)="editTeacher(teacher)" style="cursor: pointer"
                matTooltip="Редактировать преподавателя">
              edit
          </span>
-        <span class="material-icons" (click)="deleteTeacher(teacher)" style="cursor: pointer"
+        <span class="material-icons" *ngIf="isDeleteEditAddTeacherEnabled()" (click)="deleteTeacher(teacher)" style="cursor: pointer"
               matTooltip="Удалить преподавателя">
              delete
         </span>

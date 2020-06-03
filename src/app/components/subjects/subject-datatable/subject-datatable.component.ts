@@ -10,6 +10,8 @@ import {SeveritySubject} from '../../../model/severity-subject.model';
 import {PereodicSeveritySubject} from '../../../model/pereodic-severity-subject.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrinterUtilityService} from '../../../services/util/printer-utility.service';
+import {Role} from '../../../model/role.model';
+import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-subject-datatable',
@@ -23,6 +25,7 @@ export class SubjectDatatableComponent implements OnInit, OnDestroy {
               private notifierService: NotifierService,
               private route: ActivatedRoute,
               private router: Router,
+              private localStorageService: LocalStorageService,
               private printerUtilityService: PrinterUtilityService) {
 
   }
@@ -87,17 +90,6 @@ export class SubjectDatatableComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  // Output with semester number
-  // private getPereodicSeveritiesAsString(severities: PereodicSeveritySubject[]): string {
-  //   const sev = severities.map(severity => severity.pereodicSeverity.name + ': ' +
-  //     severity.semesterNumbers.map(semNum => semNum.number + ''));
-  //   let result = '';
-  //   for (const str of sev) {
-  //     result += str + '; ';
-  //   }
-  //   return result;
-  // }
-
   private getPereodicSeveritiesAsString(severities: PereodicSeveritySubject[]): string {
     const sev = severities.map(severity => severity.pereodicSeverity.name + '; ');
     let result = '';
@@ -109,6 +101,11 @@ export class SubjectDatatableComponent implements OnInit, OnDestroy {
 
   public refreshDataTableContent() {
     this.dataSource.data = this.subjects;
+  }
+
+  isDeleteAddSubjectEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_METHODIST) || userRoles.includes(Role.ROLE_LECTERN);
   }
 
   ngOnDestroy(): void {

@@ -37,6 +37,7 @@ export class SubjectsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isSubjectsLoading = true;
     const lecternId = this.route.snapshot.paramMap.get('id');
+    this.lecternUtilityService.loadCurrentUser();
     this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(lecternId);
 
     this.subjectServiceSubscription = this.subjectService.getSubjectsTemplates(lecternId).subscribe(subjects => {

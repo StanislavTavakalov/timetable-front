@@ -27,15 +27,15 @@
     <!-- Icons Column -->
     <ng-container matColumnDef="icons">
       <th style="width: 10%; text-align: end" mat-header-cell class="icons" *matHeaderCellDef>
-         <span class="material-icons" (click)="addNewSpeciality()" style="cursor: pointer" matTooltip="Добавить специальность">
+         <span class="material-icons" *ngIf="isDeleteEditAddSpecialityEnabled()" (click)="addNewSpeciality()" style="cursor: pointer" matTooltip="Добавить специальность">
               add_circle
          </span>
       </th>
       <td style="width: 10%; text-align: end" mat-cell class="icons" *matCellDef="let speciality">
-         <span class="material-icons" (click)="editSpeciality(speciality)" style="cursor: pointer" matTooltip="Редактировать специальность">
+         <span class="material-icons" *ngIf="isDeleteEditAddSpecialityEnabled()" (click)="editSpeciality(speciality)" style="cursor: pointer" matTooltip="Редактировать специальность">
              edit
          </span>
-        <span class="material-icons"  (click)="deleteSpeciality(speciality)" style="cursor: pointer" matTooltip="Удалить специальность">
+        <span class="material-icons" *ngIf="isDeleteEditAddSpecialityEnabled()" (click)="deleteSpeciality(speciality)" style="cursor: pointer" matTooltip="Удалить специальность">
              delete
         </span>
       </td>

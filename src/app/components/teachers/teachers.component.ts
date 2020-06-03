@@ -38,6 +38,7 @@ export class TeachersComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isTeacherLoading = true;
     const lecternId = this.route.snapshot.paramMap.get('id');
+    this.lecternUtilityService.loadCurrentUser();
     this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(lecternId);
 
     this.teacherServiceSubscription = this.teacherService.getTeachers(lecternId).subscribe(teachers => {

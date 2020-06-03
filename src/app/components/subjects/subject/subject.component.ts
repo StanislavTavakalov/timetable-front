@@ -9,6 +9,8 @@ import {OperationResponse} from '../../../model/operation-response.model';
 import {MatDialog} from '@angular/material';
 import {Overlay} from '@angular/cdk/overlay';
 import {NotifierService} from 'angular-notifier';
+import {LocalStorageService} from '../../../services/local-storage.service';
+import {Role} from '../../../model/role.model';
 
 @Component({
   selector: 'app-subject',
@@ -22,6 +24,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               private overlay: Overlay,
               private notifierService: NotifierService,
+              private localStorageService: LocalStorageService,
               private router: Router) {
   }
 
@@ -82,6 +85,10 @@ export class SubjectComponent implements OnInit, OnDestroy {
     this.router.navigate(['lectern/' + this.lecternId + '/subjects/subject-edit/' + this.subject.id]);
   }
 
+  isDeleteEditSubjectEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_METHODIST) || userRoles.includes(Role.ROLE_LECTERN);
+  }
 
   ngOnDestroy(): void {
     if (this.subjectServiceSubscription) {

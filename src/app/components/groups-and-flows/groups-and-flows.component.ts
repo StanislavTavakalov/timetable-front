@@ -41,6 +41,7 @@ export class GroupsAndFlowsComponent implements OnInit, OnDestroy {
     this.isFlowsLoading = true;
 
     const lecternId = this.route.snapshot.paramMap.get('id');
+    this.lecternUtilityService.loadCurrentUser();
     this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(lecternId);
 
     this.groupServiceSubscription = this.groupService.getGroupsByLecternId(lecternId).subscribe(groups => {

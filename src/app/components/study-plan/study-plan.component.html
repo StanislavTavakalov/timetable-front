@@ -149,24 +149,24 @@
   <!--        -------------------------------   CONTROL PANEL    --------------------------                   -->
   <div class="control-panel">
     <div class="control-panel-inner-block mat-elevation-z21">
-      <button mat-raised-button class="control-button" (click)="createNewStudyPlan()"> Создать</button>
+      <button mat-raised-button class="control-button" (click)="createNewStudyPlan()" *ngIf="isDeleteEditAddStudyPlanEnabled()"> Создать</button>
 
-      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode"
+      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode && isDeleteEditAddStudyPlanEnabled()"
               (click)="editModeOn()"> Редактировать
       </button>
       <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="!editMode"
               (click)="showDetails()"> Детали
       </button>
-      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"
+      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"
               (click)="applyChanges()"> Сохранить
       </button>
-      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"
+      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"
               (click)="declineChanges()"> Отменить
       </button>
-      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode"
+      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"
               (click)="changeStudyPlan()"> Изменить план
       </button>
-      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null"
+      <button mat-raised-button class="control-button" [disabled]="this.selectedStudyPlan === null" *ngIf="isDeleteEditAddStudyPlanEnabled()"
               (click)="deleteStudyPlan()"> Удалить
       </button>
       <button mat-raised-button class="control-button" style="margin-left: auto"

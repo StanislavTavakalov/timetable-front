@@ -23,6 +23,7 @@ import {SeveritySubject} from '../../model/severity-subject.model';
 import {PereodicSeveritySubject} from '../../model/pereodic-severity-subject.model';
 import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
 import {PrinterUtilityService} from '../../services/util/printer-utility.service';
+import {Role} from '../../model/role.model';
 
 @Component({
   selector: 'app-study-plan',
@@ -91,6 +92,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.pereodicSeverityLoading = true;
 
     this.lecternId = this.route.snapshot.paramMap.get('id');
+    this.lecternUtilityService.loadCurrentUser();
     this.lecternUtilityService.loadLecternToLocalStorageIfNeeded(this.lecternId);
 
     this.severityPereodicService.getPereodicSeverities().subscribe(pereodicSeverities => {
@@ -476,5 +478,10 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     // if (this.templateDataSource.paginator) {
     //   this.templateDataSource.paginator.firstPage();
     // }
+  }
+
+  isDeleteEditAddStudyPlanEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_METHODIST) || userRoles.includes(Role.ROLE_LECTERN);
   }
 }

@@ -47,7 +47,7 @@
     <!-- Icons Column -->
     <ng-container matColumnDef="icons">
       <th style="width: 10%; text-align: end" mat-header-cell *matHeaderCellDef>
-         <span class="material-icons" style="cursor: pointer" matTooltip="Добавить шаблон предмета"
+         <span class="material-icons" *ngIf="isDeleteAddSubjectEnabled()" style="cursor: pointer" matTooltip="Добавить шаблон предмета"
                (click)="createSubject()">
               add_circle
          </span>
@@ -57,7 +57,7 @@
                routerLink="/lectern/{{lecternId}}/subjects/{{subject.id}}">
              arrow_forward
          </span>
-        <span class="material-icons" (click)="deleteSubject(subject)" style="cursor: pointer"
+        <span class="material-icons" *ngIf="isDeleteAddSubjectEnabled()" (click)="deleteSubject(subject)" style="cursor: pointer"
               matTooltip="Удалить шаблон предмета">
              delete
         </span>
