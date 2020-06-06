@@ -56,12 +56,10 @@ export class CreateOccupationComponent implements OnInit {
   }
 
   add(): void {
-    if (this.formGroup.valid) {
       this.setValuesFromForm();
       this.scheduleService.addOccupation(this.occupation).subscribe(occupation => {
         this.dialogRef.close(occupation);
       });
-    }
   }
 
   onCancelClick() {

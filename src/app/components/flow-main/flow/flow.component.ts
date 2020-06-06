@@ -10,6 +10,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {CreateEditFlowComponent} from '../../dialogs/create-edit-flow/create-edit-flow.component';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
 import {FlowService} from '../../../services/deanery/flow.service';
+import {Role} from '../../../model/role.model';
 
 @Component({
   selector: 'app-flow',
@@ -125,5 +126,10 @@ export class FlowComponent implements OnInit {
         this.flowService.editGroupSetNullFlow(groupOld).subscribe();
       }
     });
+  }
+
+  isDeleteEditAddSFlowEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_DEANERY_DEPUTY_HEAD) || userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_DEANERY_METHODIST) || userRoles.includes(Role.ROLE_DEANERY);
   }
 }

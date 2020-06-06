@@ -13,7 +13,7 @@
       <input  id="hours{{i}}" formControlName="hours{{i}}" required matInput placeholder="Недель в семестре {{i+1}}" (change)="changeWeeks(i,$event)">
     </mat-form-field>
   </a>
-  <button mat-raised-button color="warn" (click)="add()">
+  <button mat-raised-button color="warn" (click)="add()" [disabled]="formGroup.invalid || formGroupHours.invalid">
     Сохранить
   </button>
   <button mat-button color="warn" (click)=onCancelClick()> Выйти </button>

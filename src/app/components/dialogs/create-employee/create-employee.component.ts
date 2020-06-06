@@ -48,10 +48,8 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   public add(): void {
-    if (this.formGroup.valid) {
       this.setValuesFromForm();
       this.dialogRef.close(this.employee);
-    }
   }
 
   onCancelClick() {

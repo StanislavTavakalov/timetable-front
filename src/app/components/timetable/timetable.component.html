@@ -1,4 +1,4 @@
-﻿<div style="display:flex;overflow:auto; max-height: 50%;max-width:100%;">
+﻿<div style="display:flex; height: 50%;width:100%;">
   <table #table mat-table [dataSource]="plans" class="mat-elevation-z8"
          style="width: 12%; margin-left: 2%; margin-top: 1%; align-items: center">
     <ng-container matColumnDef="name">
@@ -11,7 +11,7 @@
         class="example-element-row"
         (click)="onSelect(row)"></tr>
   </table>
-  <div class="timetable-container" style="overflow:auto;max-width:65%;margin-left: 3%; margin-top: 1%; ">
+  <div class="timetable-container" style="margin-left: 3%; margin-top: 1%; ">
     <table class="timetable" id="timetable" border="1" align="center">
       <tbody>
         <tr>
@@ -74,7 +74,7 @@
   </div>
   <div class="freeHours" *ngIf="editMode">
     <ul class="plans">
-      <div style="overflow: auto;max-height: 100%">
+      <div>
         <table border="1">
           <tr>
             <td>Дисциплина</td>
@@ -90,15 +90,14 @@
       </div>
     </ul>
   </div>
-
 </div>
 
 <div class="control-panel" >
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
-    <button  mat-raised-button class="control-button" (click)="updateStudyPlan()">Редактировать учебный план</button>
-    <button mat-raised-button class="control-button"  *ngIf="!editMode" (click)="editModeOn()"  > Редактировать</button>
-    <button mat-raised-button class="control-button"  *ngIf="editMode"  (click)="add()"> Сохранить</button>
-    <button mat-raised-button class="control-button"  *ngIf="editMode"  (click)="exitEditableMode()"> Отменить</button>
+    <button mat-raised-button class="control-button" *ngIf="isDeleteEditAddStudyPlanEnabled()"  (click)="updateStudyPlan()">Редактировать учебный план</button>
+    <button mat-raised-button class="control-button" *ngIf="!editMode && isDeleteEditAddStudyPlanEnabled()" (click)="editModeOn()"  > Редактировать</button>
+    <button mat-raised-button class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="add()"> Сохранить</button>
+    <button mat-raised-button class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="exitEditableMode()"> Отменить</button>
 	  <button mat-raised-button class="control-button" *ngIf="this.selectedPlan != null" routerLink="/lectern/{{lectern?.id}}/schedule/{{selectedPlan?.id}}">График образовательного процесса</button>
   </div>
 </div>

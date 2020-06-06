@@ -28,12 +28,12 @@
 
       <ng-container matColumnDef="update">
         <th style="width: 11%" mat-header-cell *matHeaderCellDef>  </th>
-        <td style="width: 11%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="updateEmployee(element)">Редактировать</button> </td>
+        <td style="width: 11%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" *ngIf="isDeleteEditAddEmployeeEnabled()" (click)="updateEmployee(element)">Редактировать</button> </td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <th style="width: 9%" mat-header-cell *matHeaderCellDef>  </th>
-        <td style="width: 9%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" (click)="deleteEmployee(element)">Удалить</button> </td>
+        <td style="width: 9%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" *ngIf="isDeleteEditAddEmployeeEnabled()" (click)="deleteEmployee(element)">Удалить</button> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -44,7 +44,7 @@
 </div>
 <div class="control-panel" style="margin-top:5%">
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
-    <button  mat-raised-button class="control-button" (click)="addEmployee()">Создать сотрудника</button>
-    <a href="http://localhost:8080/deanery/{{deaneryId}}/addusertoemployee"><button  mat-raised-button class="control-button">Связать сотрудников с пользователем</button></a>
+    <button  mat-raised-button class="control-button" *ngIf="isDeleteEditAddEmployeeEnabled()" (click)="addEmployee()">Создать сотрудника</button>
+    <a *ngIf="isDeleteEditAddEmployeeEnabled()" href="http://localhost:8080/deanery/{{deaneryId}}/addusertoemployee"><button  mat-raised-button class="control-button">Связать сотрудников с пользователем</button></a>
   </div>
 </div>

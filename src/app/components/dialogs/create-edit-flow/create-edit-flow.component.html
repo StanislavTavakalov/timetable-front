@@ -17,7 +17,7 @@
     <input id="description" formControlName="description" class="form-control" matInput placeholder="Описание">
     <mat-error *ngIf="description.hasError('maxlength')"> Количество символов не должно превышать 10000!</mat-error>
   </mat-form-field>
-  <button mat-raised-button color="warn" (click)="add()">
+  <button mat-raised-button color="warn" (click)="add()" [disabled]="formGroup.invalid">
     Сохранить
   </button>
   <button mat-button color="warn" (click)=onCancelClick()> Выйти </button>

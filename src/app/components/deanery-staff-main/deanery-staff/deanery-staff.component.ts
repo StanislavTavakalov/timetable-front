@@ -10,6 +10,7 @@ import {NotifierService} from 'angular-notifier';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {EmployeeService} from '../../../services/deanery/employee.service';
+import {Role} from '../../../model/role.model';
 
 @Component({
   selector: 'app-deanery-staff',
@@ -106,5 +107,10 @@ export class DeaneryStaffComponent implements OnInit {
         });
       }
     });
+  }
+
+  isDeleteEditAddEmployeeEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_DEANERY_DEPUTY_HEAD) || userRoles.includes(Role.ROLE_ADMIN)  || userRoles.includes(Role.ROLE_DEANERY);
   }
 }

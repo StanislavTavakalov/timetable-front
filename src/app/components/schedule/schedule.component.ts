@@ -16,6 +16,7 @@ import {NotifierService} from 'angular-notifier';
 import {DeleteComponent} from '../dialogs/delete/delete.component';
 import {HeaderType} from '../../model/header-type';
 import {LecternService} from '../../services/lectern/lectern.service';
+import {Role} from '../../model/role.model';
 
 
 @Component({
@@ -269,5 +270,10 @@ export class ScheduleComponent implements OnInit {
         }
       }
     });
+  }
+
+  isDeleteEditAddStudyPlanEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_METHODIST) || userRoles.includes(Role.ROLE_LECTERN);
   }
 }

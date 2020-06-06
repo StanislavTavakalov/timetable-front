@@ -7,6 +7,8 @@ import {DeaneryService} from '../../services/deanery/deanery.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {HeaderType} from '../../model/header-type';
 import {LecternService} from '../../services/lectern/lectern.service';
+import {AuthService} from '../../services/util/auth.service';
+import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
 
 @Component({
   selector: 'app-deanery-main',
@@ -22,8 +24,10 @@ export class DeaneryMainComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private deaneryService: DeaneryService,
+              private authService: AuthService,
               private lecternService: LecternService,
               private localStorageService: LocalStorageService,
+              private lecternUtilityService: LecternUtilityService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
@@ -31,6 +35,7 @@ export class DeaneryMainComponent implements OnInit {
     if (token) {
       this.localStorageService.setCurrentUserToken('Bearer ' + token);
     }
+    this.lecternUtilityService.loadCurrentUser();
     this.deaneryId = this.route.snapshot.paramMap.get('id');
     this.localStorageService.observableHeaderType.next(HeaderType.DEANERY);
     if (this.localStorageService.observableDeanery.getValue() === null ||

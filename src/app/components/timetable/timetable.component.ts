@@ -11,6 +11,7 @@ import {NotifierService} from 'angular-notifier';
 import {HeaderType} from '../../model/header-type';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {LecternService} from '../../services/lectern/lectern.service';
+import {Role} from '../../model/role.model';
 
 
 @Component({
@@ -238,5 +239,10 @@ export class TimetableComponent implements OnInit {
       this.num = this.cources * 2 + 4;
       this.num1 = this.cources * 2;
     }
+  }
+
+  isDeleteEditAddStudyPlanEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_METHODIST) || userRoles.includes(Role.ROLE_LECTERN);
   }
 }

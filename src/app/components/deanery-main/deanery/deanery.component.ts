@@ -12,6 +12,7 @@ import {StudyPlan} from '../../../model/study-plan.model';
 import {NotifierService} from 'angular-notifier';
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
 import {LecternService} from '../../../services/lectern/lectern.service';
+import {Role} from '../../../model/role.model';
 
 @Component({
   selector: 'app-deanery',
@@ -26,6 +27,7 @@ export class DeaneryComponent implements OnInit {
   deaneryId: string;
   @Input() lecterns: Lectern[];
   deanery: Deanery;
+  currentRoles: Role[] = [];
   displayedColumns: string[] = ['name', 'fullname', 'description', 'go', 'staff', 'pretimetble', 'update', 'delete'];
   dataSource: any;
   constructor(private deaneryService: DeaneryService,
@@ -117,5 +119,10 @@ export class DeaneryComponent implements OnInit {
         });
       }
     });
+  }
+
+  isDeleteEditAddLecternEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_DEANERY_DEPUTY_HEAD) || userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_DEANERY_METHODIST) || userRoles.includes(Role.ROLE_DEANERY);
   }
 }

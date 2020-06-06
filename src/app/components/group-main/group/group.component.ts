@@ -11,6 +11,7 @@ import {CreateEditGroupComponent} from '../../dialogs/create-edit-group/create-e
 import {DeleteComponent} from '../../dialogs/delete/delete.component';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {GroupService} from '../../../services/deanery/group.service';
+import {Role} from '../../../model/role.model';
 
 @Component({
   selector: 'app-group',
@@ -108,7 +109,7 @@ export class GroupComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        this.groupService.editGroup(result.group).subscribe( group => {
+        this.groupService.editGroup(result).subscribe( group => {
           this.groups[this.groups.indexOf(groupO)] = group;
           this.dataSource.data = this.groups;
           this.table.renderRows();
@@ -118,5 +119,10 @@ export class GroupComponent implements OnInit {
         });
       }
     });
+  }
+
+  isDeleteEditAddGroupEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_DEANERY_DEPUTY_HEAD) || userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_DEANERY_METHODIST) || userRoles.includes(Role.ROLE_DEANERY);
   }
 }

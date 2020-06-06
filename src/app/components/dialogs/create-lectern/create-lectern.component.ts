@@ -65,10 +65,8 @@ export class CreateLecternComponent implements OnInit {
   }
 
   public add(): void {
-    if (this.formGroup.valid) {
       this.setValuesFromForm();
       this.dialogRef.close(this.lectern);
-    }
   }
   onCancelClick() {
     this.dialogRef.close(null);
