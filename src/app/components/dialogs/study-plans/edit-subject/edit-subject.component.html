@@ -63,9 +63,9 @@
         <mat-form-field appearance="legacy" style="margin-left: 2%">
           <input matInput type="number" formControlName="hours" placeholder="Количество часов">
           <mat-error *ngIf="severitySubj.get('hours').hasError('max')">
-            Укажите количество часов меньше 100
+            Укажите количество часов от 1 до 999
           </mat-error>
-          <mat-error *ngIf="severitySubj.get('hours').hasError('min')"> Укажите количество часов больше 1</mat-error>
+          <mat-error *ngIf="severitySubj.get('hours').hasError('min')"> Укажите количество часов от 1 до 999 </mat-error>
         </mat-form-field>
       </div>
     </div>

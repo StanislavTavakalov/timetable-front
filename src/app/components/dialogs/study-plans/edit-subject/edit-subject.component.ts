@@ -93,7 +93,7 @@ export class EditSubjectComponent implements OnInit {
             id: [severitySubject.severity.id, Validators.required],
             name: [severitySubject.severity.name, Validators.required],
           }),
-          hours: [severitySubject.hours, [Validators.required, Validators.min(1), Validators.max(99)]],
+          hours: [severitySubject.hours, [Validators.required, Validators.min(1), Validators.max(999)]],
         }));
       });
     }
