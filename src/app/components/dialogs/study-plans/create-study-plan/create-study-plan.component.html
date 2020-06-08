@@ -18,7 +18,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput type="number" placeholder="Коэффицент: " [formControlName]="'coefficient'">
+      <input matInput type="number" placeholder="Коэффициент отношения часов в неделю к зачетным единицам: " [formControlName]="'coefficient'">
       <mat-error *ngIf="coefficient.hasError('min')"> Коэффицент не может быть меньше 0!</mat-error>
       <mat-error *ngIf="coefficient.hasError('max')"> Коэффицент не может быть больше 15!</mat-error>
     </mat-form-field>
