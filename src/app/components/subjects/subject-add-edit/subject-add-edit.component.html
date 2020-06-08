@@ -7,11 +7,11 @@
       <div class="column" style="height: 100%">
 
         <div class="row" style="width: 100%; margin-bottom: 2%" *ngIf="isEditMode">
-          <p style=" font-size: 2em; margin-bottom: 2%"> Редактирование шаблона предмета </p>
+          <h1> Редактирование шаблона предмета </h1>
         </div>
 
         <div class="row" style="width: 100%; margin-bottom: 2%" *ngIf="!isEditMode">
-          <p style=" font-size: 2em; margin-bottom: 2%"> Создание шаблона предмета </p>
+          <h1>Создание шаблона предмета </h1>
         </div>
 
         <!--    Name-->
@@ -44,7 +44,7 @@
           <div style="width: 60%; word-wrap: break-word;">
             <mat-form-field style="width: 100%">
               <textarea matInput placeholder="Описание предмета" formControlName="description"
-                        matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+                        matTextareaAutosize matAutosizeMinRows=10 matAutosizeMaxRows=10></textarea>
               <mat-error *ngIf="subjectForm.get('description').hasError('maxlength')">
                 Максимальное количество символов 10000!
               </mat-error>
@@ -65,7 +65,7 @@
 
             <div class="row" style="justify-content: space-between; margin: 2%">
               <p style=" font-size: 2em;"><b> Часов: </b></p>
-<!--              <p style=" font-size: 2em;"> {{getCurrentFreeHoursValue()}}/{{getCurrentSumOfHoursValue()}} </p>-->
+              <!--              <p style=" font-size: 2em;"> {{getCurrentFreeHoursValue()}}/{{getCurrentSumOfHoursValue()}} </p>-->
               <p style=" font-size: 2em;"> {{getCurrentSumOfHoursValue()}} </p>
             </div>
           </div>
@@ -81,27 +81,37 @@
               <mat-icon>add</mat-icon>
             </button>
           </div>
+          <div class="row" style="margin: 0 !important;">
+            <div class="column" style="max-width: 200px; margin-right: 2% !important;" formArrayName="severities"
+                 *ngFor="let severitySubj of subjectForm.get('severities')['controls']; let severityIndex = index;">
 
-          <div class="row" formArrayName="severities"
-               *ngFor="let severitySubj of subjectForm.get('severities')['controls']; let severityIndex = index;">
-            <div [formGroupName]="severityIndex" class="row" style="align-items: center">
-              <!--              <span>{{severityIndex + 1}}</span>-->
-              <!--              <div formGroupName="severity">-->
-              <!--                <mat-form-field appearance="legacy">-->
-              <!--                  <input matInput type="text" formControlName="name" placeholder="Название">-->
-              <!--                </mat-form-field>-->
-              <!--              </div>-->
-              <p style="font-size: 18px"> {{severitySubj.get('severity').get('name').value}} </p>
-              <mat-form-field appearance="legacy" style="margin-left: 2%">
-                <input matInput type="number" formControlName="hours" placeholder="Количество часов">
-                <mat-error *ngIf="severitySubj.get('hours').hasError('max')">
-                  Укажите количество часов меньше 100
-                </mat-error>
-                <mat-error *ngIf="severitySubj.get('hours').hasError('min')"> Укажите количество часов больше 1</mat-error>
-              </mat-form-field>
-              <button mat-icon-button color="primary" style="margin-left: 2%" (click)="deleteSeverity(severityIndex, severitySubj.value)">
-                <mat-icon> clear</mat-icon>
-              </button>
+              <div [formGroupName]="severityIndex" class="row" >
+                <mat-card class="column">
+                  <mat-card-title class="row" style="justify-content: space-between">
+                    <p style="font-size: 18px"> {{severitySubj.get('severity').get('name').value}} </p>
+                    <button mat-icon-button color="primary" class="butt"
+                            (click)="deleteSeverity(severityIndex, severitySubj.value)">
+                      <mat-icon style="margin-left: 2%; vertical-align:  top !important;"> clear</mat-icon>
+                    </button>
+                  </mat-card-title>
+                  <!--              <span>{{severityIndex + 1}}</span>-->
+                  <!--              <div formGroupName="severity">-->
+                  <!--                <mat-form-field appearance="legacy">-->
+                  <!--                  <input matInput type="text" formControlName="name" placeholder="Название">-->
+                  <!--                </mat-form-field>-->
+                  <!--              </div>-->
+
+                  <mat-form-field appearance="legacy" style="margin-left: 2%">
+                    <input matInput type="number" formControlName="hours" placeholder="Количество часов">
+                    <mat-error *ngIf="severitySubj.get('hours').hasError('max')">
+                      Укажите количество часов от 1 до 999
+                    </mat-error>
+                    <mat-error *ngIf="severitySubj.get('hours').hasError('min')"> Укажите количество часов от 1 до 999
+                    </mat-error>
+                  </mat-form-field>
+
+                </mat-card>
+              </div>
             </div>
           </div>
         </div>
@@ -111,38 +121,40 @@
 
         <!-- Периодические Нагрузки -->
         <div class="column">
+
           <div class="row">
             <p style="font-size: 2em"><b>Периодические нагрузки: </b></p>
             <button mat-icon-button color="primary" (click)="this.addPereodicSeverity()">
               <mat-icon> add</mat-icon>
             </button>
           </div>
+          <div class="row" style="margin: 0 !important;">
+            <div class="column" style="margin-right: 1% !important;" formArrayName="pereodicSeverities"
+                 *ngFor="let pereodicSeverity of subjectForm.get('pereodicSeverities')['controls']; let pereodicSeverityIndex = index;">
+              <mat-card>
+                <mat-card-title class="row" style="justify-content: space-between">
+                  <div [formGroupName]="pereodicSeverityIndex" class="row" style="align-items: center">
 
-          <div class="row" formArrayName="pereodicSeverities"
-               *ngFor="let pereodicSeverity of subjectForm.get('pereodicSeverities')['controls']; let pereodicSeverityIndex = index;">
-            <div [formGroupName]="pereodicSeverityIndex" class="row" style="align-items: center">
-
-              <p style="font-size: 18px"> {{pereodicSeverity.get('pereodicSeverity').get('name').value}} </p>
-              <!--              Semester edit-->
-              <!--              <div class="row"-->
-              <!--                   *ngFor="let semesterNumber of pereodicSeverity.get('semesterNumbers')['controls']; let semesterNumberIndex = index;">-->
-              <!--                <p> {{semesterNumber.get('number').value}}</p>-->
-              <!--              </div>-->
-              <button mat-icon-button color="primary" style="margin-left: 2%"
-                      (click)="deletePereodicSeverity(pereodicSeverityIndex)">
-                <mat-icon> clear</mat-icon>
-              </button>
+                    <p style="font-size: 18px"> {{pereodicSeverity.get('pereodicSeverity').get('name').value}} </p>
+                    <button mat-icon-button color="primary" style="margin-left: 2%"
+                            (click)="deletePereodicSeverity(pereodicSeverityIndex)">
+                      <mat-icon> clear</mat-icon>
+                    </button>
+                  </div>
+                </mat-card-title>
+              </mat-card>
             </div>
           </div>
-
         </div>
         <mat-divider></mat-divider>
 
         <div style="width: 100%; margin-top: 1%">
-          <button mat-raised-button *ngIf="isEditMode" (click)="updateSubjectTemplate()" [disabled]="this.subjectForm.invalid">
+          <button mat-raised-button style="margin-right: 1%" *ngIf="isEditMode" (click)="updateSubjectTemplate()"
+                  [disabled]="this.subjectForm.invalid">
             Сохранить
           </button>
-          <button mat-raised-button *ngIf="!isEditMode" (click)="createSubjectTemplate()" [disabled]="this.subjectForm.invalid">
+          <button mat-raised-button style="margin-right: 1%"  *ngIf="!isEditMode" (click)="createSubjectTemplate()"
+                  [disabled]="this.subjectForm.invalid">
             Создать
           </button>
           <button mat-raised-button (click)="onCancelClick()"> Отменить</button>

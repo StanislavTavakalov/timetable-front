@@ -107,7 +107,7 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
             id: [severitySubject.severity.id, Validators.required],
             name: [severitySubject.severity.name, Validators.required],
           }),
-          hours: [severitySubject.hours, [Validators.required, Validators.min(1), Validators.max(99)]],
+          hours: [severitySubject.hours, [Validators.required, Validators.min(1), Validators.max(999)]],
         }));
       });
     }
@@ -160,7 +160,7 @@ export class SubjectAddEditComponent implements OnInit, OnDestroy {
                 id: [sev.id, Validators.required],
                 name: [sev.name, Validators.required],
               }),
-              hours: [0, [Validators.required, Validators.min(1), Validators.max(99)]],
+              hours: [0, [Validators.required, Validators.min(1), Validators.max(999)]],
             }));
           }
         }

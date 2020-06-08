@@ -33,3 +33,19 @@ span:focus {
 button:focus{
   outline:none;
 }
+
+.row {
+  display: flex;
+  flex-direction: row !important;
+  margin: 1%;
+}
+
+.column{
+  display: flex;
+  flex-direction: column !important;
+  margin: 1%;
+}
+
+mat-form-field {
+  min-width: 600px;
+}

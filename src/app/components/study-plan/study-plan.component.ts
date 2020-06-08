@@ -24,6 +24,8 @@ import {PereodicSeveritySubject} from '../../model/pereodic-severity-subject.mod
 import {LecternUtilityService} from '../../services/lectern/lectern-utility.service';
 import {PrinterUtilityService} from '../../services/util/printer-utility.service';
 import {Role} from '../../model/role.model';
+import {SubmitStudyPlanComponent} from '../dialogs/study-plans/submit-study-plan/submit-study-plan.component';
+import {StudyPlanStatus} from '../../model/study-plan-status.model';
 
 @Component({
   selector: 'app-study-plan',
@@ -64,13 +66,13 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  public subjects: Subject[];
-  public studyPlans = null;
-  public selectedStudyPlan: StudyPlan = null;
-  public subjectTemplates: Subject[] = null;
-  public editMode = false;
-  public expandedStudyPlan: StudyPlan | null;
-  public studyPlanBackup: StudyPlan;
+  private subjects: Subject[];
+  private studyPlans = null;
+  private selectedStudyPlan: StudyPlan = null;
+  private subjectTemplates: Subject[] = null;
+  private editMode = false;
+  private expandedStudyPlan: StudyPlan | null;
+  private studyPlanBackup: StudyPlan;
   private lecternId: string;
   private subjectLoading;
   private studyPlansLoading;
@@ -154,7 +156,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public addSubjectToStudyPlan(subject: Subject) {
+  addSubjectToStudyPlan(subject: Subject) {
     const addedSubject = this.deepSubjectCopy(subject);
     // const addedSubject = JSON.parse(JSON.stringify(subject));
     addedSubject.id = null;
@@ -166,7 +168,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.renderCurrentStudyPlan();
   }
 
-  public getIndex(studyPlan: StudyPlan) {
+  getIndex(studyPlan: StudyPlan) {
     if (studyPlan === undefined) {
       return 0;
     }
@@ -203,7 +205,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     return subjectCopy;
   }
 
-  public deleteSubjectFromStudyPlan(subject: Subject, index: number) {
+  deleteSubjectFromStudyPlan(subject: Subject, index: number) {
     this.selectedStudyPlan.subjects.splice(index, 1);
     for (let i = index; i < this.selectedStudyPlan.subjects.length; i++) {
       this.selectedStudyPlan.subjects[i].position = i + 1;
@@ -211,7 +213,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.renderCurrentStudyPlan();
   }
 
-  public swapWithUpper(i: number) {
+  swapWithUpper(i: number) {
     const subjectCount = this.selectedStudyPlan.subjects.length;
     if (subjectCount === 1) {
       return;
@@ -243,7 +245,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.renderCurrentStudyPlan();
   }
 
-  public swapWithLower(i: number) {
+  swapWithLower(i: number) {
     const subjectCount = this.selectedStudyPlan.subjects.length;
     if (subjectCount === 1) {
       return;
@@ -275,19 +277,19 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.renderCurrentStudyPlan();
   }
 
-  public editModeOn() {
+  editModeOn() {
     const index = this.getIndex(this.selectedStudyPlan);
     this.editMode = true;
     this.studyPlanBackup = JSON.parse(JSON.stringify(this.selectedStudyPlan));
     this.tables.toArray()[index].renderRows();
   }
 
-  public editModeOff() {
+  editModeOff() {
     this.editMode = false;
     this.studyPlanBackup = null;
   }
 
-  public expandRow(studyPlan: StudyPlan) {
+  expandRow(studyPlan: StudyPlan) {
     // const isSaveChangesNeeded = this.isSaveChangesNeededOnChangeStudyPlan();
     this.expandedStudyPlan = this.expandedStudyPlan === studyPlan ? null : studyPlan;
     if (this.selectedStudyPlan === studyPlan) {
@@ -306,7 +308,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
 
-  public createNewStudyPlan() {
+  createNewStudyPlan() {
     const dialogRef = this.dialog.open(CreateStudyPlanComponent, {
       data: {message: 'Создать новый учебный план', lecternId: this.lecternId}
     });
@@ -325,7 +327,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public deleteStudyPlan() {
+  deleteStudyPlan() {
     const textMessage = 'Удалить учебный план';
     const dialogRef = this.dialog.open(DeleteStudyPlanComponent, {
       data: {message: textMessage, studyPlanId: this.selectedStudyPlan.id}
@@ -345,7 +347,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public changeStudyPlan() {
+  changeStudyPlan() {
     const textMessage = 'Редактировать план';
     const currentStudyPlan = this.selectedStudyPlan;
 
@@ -367,7 +369,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public applyChanges() {
+  applyChanges() {
     this.editModeOff();
 
     // Setting isChanged to false for all subjects and study plan
@@ -390,7 +392,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
 
   }
 
-  public declineChanges() {
+  declineChanges() {
     for (let i = 0; i < this.studyPlans.length; i++) {
       if (this.studyPlans[i].id === this.selectedStudyPlan.id) {
         this.studyPlans[i] = JSON.parse(JSON.stringify(this.studyPlanBackup));
@@ -410,16 +412,15 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     this.studyPlansTable.renderRows();
   }
 
-  public showDetails() {
+  showDetails() {
     const currentStudyPlan = this.selectedStudyPlan;
-    const textMessage = 'Удалить учебный план';
     const dialogRef = this.dialog.open(StudyPlanDetailsComponent, {
-      data: {message: textMessage, currentStudyPlan}
+      data: {currentStudyPlan}
     });
     dialogRef.afterClosed().subscribe();
   }
 
-  public getColumnsToDisplay() {
+  getColumnsToDisplay() {
     const finalColumnsToDisplay: string[] = [];
     if (this.editMode) {
       finalColumnsToDisplay.push('swap');
@@ -442,7 +443,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
   }
 
 
-  public editSubjectFromStudyPlan(subject: Subject) {
+  editSubjectFromStudyPlan(subject: Subject) {
     const dialogRef = this.dialog.open(EditSubjectComponent, {
       data: {subject, countOfSem: this.selectedStudyPlan.countOfSem},
     });
@@ -461,11 +462,21 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
         subject.template = false;
       }
     });
-
-
   }
 
-  public renderCurrentStudyPlan() {
+  submitStudyPlan() {
+    const dialogRef = this.dialog.open(SubmitStudyPlanComponent, {
+      data: {studyPlan: this.selectedStudyPlan}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.studyPlansTable.renderRows();
+      }
+    });
+  }
+
+  renderCurrentStudyPlan() {
     const index = this.getIndex(this.selectedStudyPlan);
     this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
     this.tables.toArray()[index].renderRows();
@@ -484,4 +495,22 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
     return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_METHODIST) || userRoles.includes(Role.ROLE_LECTERN);
   }
+
+  isSubmitStudyPlanEnabled() {
+    const userRoles = this.localStorageService.getCurrentUser().userRoles.map(userRole => userRole.role);
+    return userRoles.includes(Role.ROLE_ADMIN) || userRoles.includes(Role.ROLE_LECTERN_HEAD) || userRoles.includes(Role.ROLE_LECTERN)
+      || userRoles.includes(Role.ROLE_LECTERN_DEPUTY_HEAD);
+  }
+
+  isSubmitStudyPlanDisabled(): boolean {
+    return this.selectedStudyPlan.status !== StudyPlanStatus.Registered;
+  }
+
+  checkIsSelected(studyPlan: StudyPlan): boolean {
+    if (!this.selectedStudyPlan) {
+      return false;
+    }
+    return this.selectedStudyPlan.id === studyPlan.id;
+  }
+
 }

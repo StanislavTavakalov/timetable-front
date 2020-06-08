@@ -1,15 +1,25 @@
 .row {
   display: flex;
   flex-direction: row !important;
-  margin: 1%;
+  margin: 1% 1% 1% 0;
 }
 
 .column{
   display: flex;
   flex-direction: column !important;
-  margin: 1%;
+  margin: 1% 1% 1% 0;
 }
 
 p {
   margin: 0 0 0 0;
+}
+
+.butt {
+  vertical-align: top !important;
+  height: 20px;
+  width: 25px;
+}
+
+button {
+  font-size: 16px;
 }

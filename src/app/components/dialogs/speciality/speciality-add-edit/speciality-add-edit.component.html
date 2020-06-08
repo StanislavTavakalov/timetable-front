@@ -14,8 +14,8 @@
     </mat-form-field>
 
     <mat-form-field>
-      <textarea matInput placeholder="Описание специальности" [formControlName]="'description'"
-                matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+      <textarea matInput matTextareaAutosize matAutosizeMinRows=8 matAutosizeMaxRows=12 placeholder="Описание специальности" [formControlName]="'description'">
+      </textarea>
       <mat-error *ngIf="description.hasError('maxlength')"> Количество символов не должно превышать 10000!</mat-error>
       <mat-error *ngIf="description.hasError('required')"> Поле должно быть заполнено</mat-error>
     </mat-form-field>

@@ -18,8 +18,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <textarea matInput placeholder="Описание" [formControlName]="'description'"
-                matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+      <textarea matInput placeholder="Описание" [formControlName]="'description'"></textarea>
       <mat-error *ngIf="editSubjectForm.get('description').hasError('required')"> Необходимо заполнить поле</mat-error>
       <mat-error *ngIf="editSubjectForm.get('description').hasError('maxLength')"> Максимальная длина описания : 10000
         символов

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{title}}</h1>
 <mat-dialog-content>
-  <form [formGroup]="teacherForm">
+  <form [formGroup]="teacherForm" class="column">
     <mat-form-field>
       <input matInput placeholder="Имя:" [formControlName]="'name'" required>
       <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 1000!
@@ -73,7 +73,7 @@
 
     <mat-form-field>
         <textarea matInput placeholder="Дополнительная информация: " [formControlName]="'additionalInfo'"
-                  matAutosizeMinRows=1 matAutosizeMaxRows=10></textarea>
+                  matTextareaAutosize matAutosizeMinRows=8 matAutosizeMaxRows=12></textarea>
       <mat-error *ngIf="academicDegree.hasError('maxlength')"> Количество символов не должно превышать 10000!
       </mat-error>
     </mat-form-field>

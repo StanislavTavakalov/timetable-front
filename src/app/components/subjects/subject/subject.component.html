@@ -15,8 +15,8 @@
       <div class="row">
         <div style="width: 60%; word-wrap: break-word;">
           <p style=" font-size: 2em; margin-bottom: 2%"><b> Описание: </b></p>
-          <p style="font-size: 1em ;">
-            <b> {{subject.description}}</b>
+          <p style="font-size: 16px ;">
+             {{subject.description}}
           </p>
         </div>
         <div class="column " style="width: 40%;">
@@ -38,33 +38,44 @@
       <mat-divider></mat-divider>
 
       <!-- Нагрузки -->
-      <div class="column">
+      <div class="column" style="margin: 0">
         <p style="font-size: 2em"><b>Нагрузки: </b></p>
-        <div class="column" style="width: 30%; max-width: 100%" *ngFor="let severity of subject.severities">
-          <mat-card style=" justify-content: space-between">
-               {{severity.severity.name }}
-               {{ severity.hours + ' ч'}}
-          </mat-card>
+        <div class="row" style="margin: 0">
+          <div class="column" style="margin: 2% 1% 2% 0;" *ngFor="let severity of subject.severities" >
+            <mat-card>
+              <mat-card-title style="font-size: 18px">
+                {{severity.severity.name }}
+              </mat-card-title>
+              <mat-card-content>
+                Количество часов: {{ severity.hours + ' ч'}}
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
       </div>
       <mat-divider></mat-divider>
 
       <!-- Периодические Нагрузки -->
-      <div class="column">
+      <div class="column" style="margin: 0">
         <p style="font-size: 2em"><b>Периодические нагрузки: </b></p>
-        <div class="column" style="width: 30%; max-width: 100%" *ngFor="let pereodicSeveritySubject of subject.pereodicSeverities">
-          <mat-card style=" justify-content: space-between">
-            {{pereodicSeveritySubject.pereodicSeverity.name }}
-          </mat-card>
+        <div class="row" style="margin: 0">
+          <div class="column" style="margin: 2% 1% 2% 0;"
+               *ngFor="let pereodicSeveritySubject of subject.pereodicSeverities">
+            <mat-card>
+              <mat-card-title style="font-size: 18px">
+                {{pereodicSeveritySubject.pereodicSeverity.name }}
+              </mat-card-title>
+            </mat-card>
+          </div>
         </div>
       </div>
       <mat-divider></mat-divider>
 
-      <div style="width: 100%; margin-top: 1%">
-        <button mat-raised-button *ngIf="isDeleteEditSubjectEnabled()" (click)="onEditClick()">
+      <div style="width: 100%; margin-top: 2%;">
+        <button mat-raised-button style=" font-size: 16px !important; margin-right: 1%" *ngIf="isDeleteEditSubjectEnabled()" (click)="onEditClick()">
           Редактировать
         </button>
-        <button mat-raised-button *ngIf="isDeleteEditSubjectEnabled()" (click)="deleteSubject()">  Удалить </button>
+        <button mat-raised-button style=" font-size: 16px !important;" *ngIf="isDeleteEditSubjectEnabled()" (click)="deleteSubject()"> Удалить</button>
       </div>
     </div>
   </div>
