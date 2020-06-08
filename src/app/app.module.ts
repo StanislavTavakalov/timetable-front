@@ -38,7 +38,8 @@ import { DeaneryStaffMainComponent } from './components/deanery-staff-main/deane
 import { GroupsAndFlowsComponent } from './components/groups-and-flows/groups-and-flows.component';
 import { GroupsDatatableComponent } from './components/groups-and-flows/groups-datatable/groups-datatable.component';
 import { FlowsDatatableComponent } from './components/groups-and-flows/flows-datatable/flows-datatable.component';
-
+import {MatPaginatorIntl} from '@angular/material';
+import {MatPaginatorIntlRu} from './matPaginatorIntlRu';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { FlowsDatatableComponent } from './components/groups-and-flows/flows-dat
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: MatPaginatorIntl, useClass: MatPaginatorIntlRu},
   ],
   bootstrap: [AppComponent]
 })
