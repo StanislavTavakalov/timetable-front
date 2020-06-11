@@ -34,7 +34,6 @@ export class FlowComponent implements OnInit {
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    console.log(this.flows);
     this.deaneryId = this.localStorageService.observableDeanery.getValue().id;
     this.dataSource = new MatTableDataSource<Flow>(this.flows);
     this.dataSource.paginator = this.paginator;
@@ -102,7 +101,7 @@ export class FlowComponent implements OnInit {
       if (result != null) {
         this.flowService.editFlow(result).subscribe( flow => {
           this.updateGroups(flowO, result);
-          this.flows[this.flows.indexOf(flowO)] = flow;
+          this.flows[this.flows.indexOf(flowO)] = result;
           this.dataSource.data = this.flows;
           this.table.renderRows();
           this.notifierService.notify('success', 'Поток успешно изменен');

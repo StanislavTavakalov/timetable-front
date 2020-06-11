@@ -1,18 +1,20 @@
 ﻿<div style="display:flex; height: 50%;width:100%;">
-  <table #table mat-table [dataSource]="plans" class="mat-elevation-z8"
-         style="width: 12%; margin-left: 2%; margin-top: 1%; align-items: center">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
-      <td [class.gold]="element.id == selectedId" mat-cell *matCellDef="let element" > {{element.name}} </td>
-    </ng-container>
+  <div style=" width: 12%; margin-left: 2%; margin-top: 1%; overflow: auto; max-height: 400px;">
+    <table #table mat-table [dataSource]="plans" class="mat-elevation-z8"
+           style="width: 100%;  align-items: center">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
+        <td [class.gold]="element.id == selectedId" mat-cell *matCellDef="let element" > {{element.name}} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumnsStudyPlans"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnsStudyPlans;"
-        class="example-element-row"
-        (click)="onSelect(row)"></tr>
-  </table>
-  <div class="timetable-container" style="margin-left: 3%; margin-top: 1%; ">
-    <table class="timetable" id="timetable" border="1" align="center">
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsStudyPlans"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsStudyPlans;"
+          class="example-element-row"
+          (click)="onSelect(row)"></tr>
+    </table>
+  </div>
+  <div class="timetable-container" style="margin-left: 3%; margin-top: 1%; overflow: auto; max-height: 400px; width: 65%">
+    <table class="timetable" id="timetable" border="1" align="center" style="width: 100%">
       <tbody>
         <tr>
           <td [attr.colspan]="num">{{selectedPlan?.name}}</td>
@@ -72,7 +74,7 @@
       </tbody>
     </table>
   </div>
-  <div class="freeHours" *ngIf="editMode">
+  <div class="freeHours" *ngIf="editMode"  style="overflow: auto; max-height: 400px;">
     <ul class="plans">
       <div>
         <table border="1">
@@ -92,12 +94,12 @@
   </div>
 </div>
 
-<div class="control-panel" >
-  <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
+<div class="control-panel" style="margin-top: 7%;">
+  <div class="control-panel-inner-block mat-elevation-z21">
     <button mat-raised-button class="control-button" *ngIf="isDeleteEditAddStudyPlanEnabled()"  (click)="updateStudyPlan()">Редактировать учебный план</button>
     <button mat-raised-button class="control-button" *ngIf="!editMode && isDeleteEditAddStudyPlanEnabled()" (click)="editModeOn()"  > Редактировать</button>
-    <button mat-raised-button class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="add()"> Сохранить</button>
-    <button mat-raised-button class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="exitEditableMode()"> Отменить</button>
+    <button mat-raised-button color="primary" class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="add()"> Сохранить</button>
+    <button mat-raised-button color="warn" class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="exitEditableMode()"> Отменить</button>
 	  <button mat-raised-button class="control-button" *ngIf="this.selectedPlan != null" routerLink="/lectern/{{lectern?.id}}/schedule/{{selectedPlan?.id}}">График образовательного процесса</button>
   </div>
 </div>

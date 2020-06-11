@@ -111,6 +111,7 @@ export class TimetableComponent implements OnInit {
 
   onSelect(plan: StudyPlan): void {
     this.selectedPlan = plan;
+    this.selectedId = plan.id;
     this.editPlan = JSON.parse(JSON.stringify(this.selectedPlan));
     this.semsEven = this.selectedPlan.countOfSem;
     if (this.selectedPlan.countOfSem % 2 !== 0) {
@@ -142,6 +143,10 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
+    if (isNaN(event.currentTarget.value)) {
+      event.currentTarget.value = this.subject.semesters[numberOfSem].hoursPerWeek;
+      return;
+    }
     if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek *
         this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10) *
         this.selectedPlan.weeks[numberOfSem].count) < 0) {
@@ -163,6 +168,10 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
+    if (isNaN(event.currentTarget.value)) {
+      event.currentTarget.value = this.subject.semesters[numberOfSem].creditUnits;
+      return;
+    }
     if ((this.subject.freeHours + this.subject.semesters[numberOfSem].hoursPerWeek *
          this.selectedPlan.weeks[numberOfSem].count - parseInt(event.currentTarget.value, 10) *
          this.selectedPlan.coefficient * this.selectedPlan.weeks[numberOfSem].count) < 0) {
@@ -179,14 +188,6 @@ export class TimetableComponent implements OnInit {
       this.selectedPlan.weeks[numberOfSem].count;
     if (event.currentTarget.style.background === 'red') {
       event.currentTarget.style.background = 'green';
-    }
-  }
-
-  public editModeChange(): void {
-    if (this.editMode === true) {
-      this.editMode = false;
-    } else {
-      this.editMode = true;
     }
   }
 

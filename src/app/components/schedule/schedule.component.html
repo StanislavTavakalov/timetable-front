@@ -1,4 +1,4 @@
-﻿<div style="margin-left:3%;overflow: auto;max-width: 90%">
+﻿<div style="margin-left:3%;overflow: auto;max-width: 90%; max-height: 270px">
   <table border="1" style="text-align: center; font-size: 20px">
     <tbody>
       <tr>
@@ -151,7 +151,7 @@
   </table>
 </div>
 
-<div style="overflow:auto;max-height: 25%;margin-left: 5%; margin-top:3%;font-size: 20px;width: 30%">
+<div style="overflow:auto;max-height: 250px;margin-left: 5%; margin-top:3%;font-size: 20px;width: 30%">
   <table border="1" style="width: 100%;">
     <tbody *ngIf="occupations?.length">
       <tr *ngFor="let occupation of occupations">
@@ -166,8 +166,9 @@
 <div class="control-panel" style="margin-top:5%">
   <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
     <button  mat-raised-button class="control-button" *ngIf="isDeleteEditAddStudyPlanEnabled()" (click)="addOccupation()">Добавить нагрузку</button>
-    <button  mat-raised-button class="control-button" *ngIf="isDeleteEditAddStudyPlanEnabled()"  (click)="saveSchedule()">Сохранить</button>
+    <button  mat-raised-button class="control-button" color="primary" *ngIf="isDeleteEditAddStudyPlanEnabled()"  (click)="saveSchedule()">Сохранить</button>
 	  <button  mat-raised-button class="control-button" *ngIf="this.studyPlanId != null && isDeleteEditAddStudyPlanEnabled()" (click)="addCourse()">Добавить курс</button>
     <button  mat-raised-button class="control-button" *ngIf="this.schedule != null && isDeleteEditAddStudyPlanEnabled()" (click)="deleteCourse()">Удалить курс</button>
+    <button mat-raised-button class="control-button" *ngIf="this.studyPlanId != null" routerLink="/lectern/{{lecternId}}/distribution_courses_semesters/{{studyPlanId}}">Вернуться к учебному плану</button>
   </div>
 </div>

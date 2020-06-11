@@ -19,6 +19,7 @@ export class CreateEditFlowComponent implements OnInit {
   value: string;
   groupsList: Group[];
   newGroups: Group[] = [];
+  idList: string[] = [];
 
   constructor(public dialogRef: MatDialogRef<CreateEmployeeComponent>,
               private flowService: FlowService,
@@ -30,6 +31,9 @@ export class CreateEditFlowComponent implements OnInit {
       this.flow = new Flow();
     } else {
       this.flow = this.data.flow;
+      this.flow.groups.forEach((group) => {
+        this.idList.push(group.id);
+      });
     }
     this.formGroup = new FormGroup({
       name: new FormControl(this.flow.name, [Validators.required, Validators.maxLength(1000)]),

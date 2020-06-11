@@ -7,7 +7,7 @@
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <mat-select id="groups" formControlName="groups" required class="form-control" (selectionChange)="valuesf(3,$event)" multiple>
+    <mat-select [ngModel]="idList"  id="groups" formControlName="groups" required class="form-control" (selectionChange)="valuesf(3,$event)" multiple>
       <mat-option *ngFor="let group of groupsList" [value]="group?.id">{{group?.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="groups.hasError('required')"> Поле должно быть заполнено</mat-error>
