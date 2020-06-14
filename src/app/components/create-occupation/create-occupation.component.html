@@ -2,7 +2,7 @@
 
   <mat-form-field [formGroup]="formGroup">
     <input id="symbol" formControlName="symbol" class="form-control" required matInput placeholder="Символ" (change)="saveValue(1,$event)">
-	<mat-error *ngIf="symbol.hasError('maxlength')"> Количество символов не должно превышать 5!</mat-error>
+	  <mat-error *ngIf="symbol.hasError('maxlength')"> Количество символов не должно превышать 5!</mat-error>
     <mat-error *ngIf="symbol.hasError('required')"> Поле должно быть заполнено</mat-error>
   </mat-form-field>
 

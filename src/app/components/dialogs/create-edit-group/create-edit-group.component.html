@@ -8,13 +8,14 @@
 
   <mat-form-field [formGroup]="formGroup">
     <input id="description" formControlName="description" class="form-control" matInput placeholder="Описание">
-    <mat-error *ngIf="description.hasError('maxlength')"> Количество символов не должно превышать 255!</mat-error>
+    <mat-error *ngIf="description.hasError('maxlength')"> Количество символов не должно превышать 10000!</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
     <input id="count" formControlName="count" required class="form-control" matInput placeholder="Количество студентов" >
-    <mat-error *ngIf="count.hasError('maxlength')"> Количество студентов не должно превышать 99</mat-error>
+    <mat-error *ngIf="count.hasError('max')"> Количество студентов не должно превышать 99</mat-error>
     <mat-error *ngIf="count.hasError('required')"> Поле должно быть заполнено</mat-error>
+    <mat-error *ngIf="count.hasError('pattern')">Поле должно только цифры</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">

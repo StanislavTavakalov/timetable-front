@@ -35,8 +35,8 @@ export class FormForCreationComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      coefficient: new FormControl('', [Validators.required, Validators.min(1), Validators.max(15), Validators.pattern('[0-9]{1,2}')]),
-      course: new FormControl('', [Validators.required, Validators.min(0), Validators.max(12), Validators.pattern('[0-9]{1,2}')]),
+      coefficientH: new FormControl('', [Validators.required, Validators.min(1), Validators.max(15), Validators.pattern('[0-9]{1,2}')]),
+      course: new FormControl('', [Validators.required, Validators.min(1), Validators.max(12), Validators.pattern('[0-9]{1,2}')]),
     });
     this.plan = this.data.studyplan;
     if (this.plan.subjects !== undefined && this.plan.subjects.length !== 0) {
@@ -51,6 +51,13 @@ export class FormForCreationComponent implements OnInit {
     this.countOfSem = 0;
   }
 
+  get coefficientH(): FormControl {
+    return this.formGroup.get('coefficientH') as FormControl;
+  }
+
+  get course(): FormControl {
+    return this.formGroup.get('course') as FormControl;
+  }
 
   public add(): void {
     if (this.formGroup.valid && this.formGroupHours.valid) {

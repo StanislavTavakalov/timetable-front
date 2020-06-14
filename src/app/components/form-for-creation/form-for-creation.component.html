@@ -2,10 +2,16 @@
 
   <mat-form-field [formGroup]="formGroup">
 	  <input id="course" formControlName="course" required class="form-control" matInput placeholder="Количество семестров" (change)="valuesf(0,$event)">
+    <mat-error *ngIf="course.hasError('max')"> Количество семестров не должно превышать 12</mat-error>
+    <mat-error *ngIf="course.hasError('required')"> Поле должно быть заполнено</mat-error>
+    <mat-error *ngIf="course.hasError('pattern')">Поле должно только цифры</mat-error>
   </mat-form-field>
 
   <mat-form-field [formGroup]="formGroup">
-    <input id="coefficient" formControlName="coefficient" required class="form-control" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">
+    <input id="coefficientH" formControlName="coefficientH" required class="form-control" matInput placeholder="Коэффициент часов в неделю к зачету" (change)="valuesf(2,$event)">
+    <mat-error *ngIf="coefficientH.hasError('max')"> коэффициент не должно превышать 15</mat-error>
+    <mat-error *ngIf="coefficientH.hasError('required')"> Поле должно быть заполнено</mat-error>
+    <mat-error *ngIf="course.hasError('pattern')">Поле должно только цифры</mat-error>
   </mat-form-field>
 
   <a  *ngFor="let dummy of ' '.repeat(countOfSem).split(''), let i = index" style="position:relative">
