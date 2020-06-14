@@ -429,7 +429,7 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
       this.displayedPereodicSeverityColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
       this.displayedSeverityColumnsForSubjects.forEach(res => finalColumnsToDisplay.push(res));
       finalColumnsToDisplay.push('auditLessons');
-      finalColumnsToDisplay.push('edit-icon');
+      // finalColumnsToDisplay.push('edit-icon');
       finalColumnsToDisplay.push('delete-icon');
     } else {
       finalColumnsToDisplay.push('position');
@@ -480,15 +480,6 @@ export class StudyPlanComponent implements OnInit, AfterViewInit {
     const index = this.getIndex(this.selectedStudyPlan);
     this.tables.toArray()[index].dataSource = new MatTableDataSource(this.selectedStudyPlan.subjects);
     this.tables.toArray()[index].renderRows();
-  }
-
-  applyTemplateFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.templateDataSource.filter = filterValue.trim().toLowerCase();
-
-    // if (this.templateDataSource.paginator) {
-    //   this.templateDataSource.paginator.firstPage();
-    // }
   }
 
   isDeleteEditAddStudyPlanEnabled() {

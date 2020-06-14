@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th .prototypes {
+  width: 90%;
+}
+
+
+td, th .icons {
+  width: 10%;
+  text-align: end;
+}
+
+
+.column {
+  display: flex;
+  flex-direction: row !important;
+}

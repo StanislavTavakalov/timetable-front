@@ -40,6 +40,7 @@ import { GroupsDatatableComponent } from './components/groups-and-flows/groups-d
 import { FlowsDatatableComponent } from './components/groups-and-flows/flows-datatable/flows-datatable.component';
 import {MatPaginatorIntl} from '@angular/material';
 import {MatPaginatorIntlRu} from './matPaginatorIntlRu';
+import { SubjectTemplatesDatatableComponent } from './components/study-plan/subject-templates-datatable/subject-templates-datatable.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {MatPaginatorIntlRu} from './matPaginatorIntlRu';
     DeaneryStaffMainComponent,
     GroupsAndFlowsComponent,
     GroupsDatatableComponent,
-    FlowsDatatableComponent
+    FlowsDatatableComponent,
+    SubjectTemplatesDatatableComponent
   ],
   imports: [
     BrowserModule,
