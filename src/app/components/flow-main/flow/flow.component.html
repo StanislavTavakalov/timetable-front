@@ -12,13 +12,13 @@
       </ng-container>
 
       <ng-container matColumnDef="description">
-        <th style="width: 30%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание </th>
-        <td style="width: 30%; text-align: left;"mat-cell *matCellDef="let element"> {{element.description}} </td>
+        <th style="width: 35%" mat-header-cell *matHeaderCellDef mat-sort-header> Описание </th>
+        <td style="width: 35%; text-align: left;"mat-cell *matCellDef="let element"> {{element.description}} </td>
       </ng-container>
 
       <ng-container matColumnDef="groups">
-        <th style="width: 20%" mat-header-cell *matHeaderCellDef mat-sort-header> Группы </th>
-        <ng-container style="width: 20%; text-align: left;"mat-cell *matCellDef="let element">
+        <th style="width: 15%" mat-header-cell *matHeaderCellDef> Группы </th>
+        <ng-container style="width: 15%; text-align: left;"mat-cell *matCellDef="let element">
           <tr *ngFor="let group of element.groups"> {{group.name}}</tr>
         </ng-container>
       </ng-container>

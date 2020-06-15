@@ -73,7 +73,7 @@ export class DeaneryComponent implements OnInit {
   public viewStaff(id) {
     const dialogRef = this.dialog.open(TeacherViewComponent, {
       width: '80%',
-      height: '80%',
+      height: '60%',
       data: {lectern: id},
       scrollStrategy: this.overlay.scrollStrategies.noop()
     }) ;

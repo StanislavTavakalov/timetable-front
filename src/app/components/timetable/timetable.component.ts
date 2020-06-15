@@ -143,7 +143,7 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
-    if (isNaN(event.currentTarget.value)) {
+    if (isNaN(event.currentTarget.value) || parseInt(event.currentTarget.value, 10) < 0 || parseInt(event.currentTarget.value, 10) > 150) {
       event.currentTarget.value = this.subject.semesters[numberOfSem].hoursPerWeek;
       return;
     }
@@ -168,7 +168,7 @@ export class TimetableComponent implements OnInit {
     this.subject = this.editPlan.subjects.find((discipline) => {
       return discipline.id === id;
     });
-    if (isNaN(event.currentTarget.value)) {
+    if (isNaN(event.currentTarget.value) || parseInt(event.currentTarget.value, 10) < 0 || parseInt(event.currentTarget.value, 10) > 10) {
       event.currentTarget.value = this.subject.semesters[numberOfSem].creditUnits;
       return;
     }
