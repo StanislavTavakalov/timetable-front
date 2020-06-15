@@ -14,6 +14,12 @@
     </mat-form-field>
 
     <mat-form-field>
+      <input matInput placeholder="Код специальности" [formControlName]="'code'"  required>
+      <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 100!</mat-error>
+      <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
       <textarea matInput matTextareaAutosize matAutosizeMinRows=8 matAutosizeMaxRows=12 placeholder="Описание специальности" [formControlName]="'description'">
       </textarea>
       <mat-error *ngIf="description.hasError('maxlength')"> Количество символов не должно превышать 10000!</mat-error>

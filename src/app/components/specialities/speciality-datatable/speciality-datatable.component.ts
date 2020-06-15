@@ -33,7 +33,7 @@ export class SpecialityDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('specialityTable', {static: false}) specialityTable: MatTable<Speciality>;
 
   @Input() specialities: Speciality[];
-  displayedColumns: string[] = ['abbreviation', 'name', 'description', 'icons'];
+  displayedColumns: string[] = ['abbreviation', 'name', 'code', 'description', 'icons'];
   dataSource: MatTableDataSource<Speciality>;
   editSpecialityDialogSubscription: Subscription;
   deleteSpecialityDialogSubscription: Subscription;

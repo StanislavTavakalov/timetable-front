@@ -1,18 +1,19 @@
 <h1 mat-dialog-title>{{title}}</h1>
 <mat-dialog-content>
   <form [formGroup]="teacherForm" class="column">
-    <mat-form-field>
-      <input matInput placeholder="Имя:" [formControlName]="'name'" required>
-      <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 1000!
-      </mat-error>
-      <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
-    </mat-form-field>
 
     <mat-form-field>
       <input matInput placeholder="Фамилия: " [formControlName]="'surname'" required>
       <mat-error *ngIf="surname.hasError('maxlength')"> Количество символов не должно превышать 1000!
       </mat-error>
       <mat-error *ngIf="surname.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Имя:" [formControlName]="'name'" required>
+      <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 1000!
+      </mat-error>
+      <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
     </mat-form-field>
 
     <mat-form-field>

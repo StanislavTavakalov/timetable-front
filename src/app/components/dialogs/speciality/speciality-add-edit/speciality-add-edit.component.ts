@@ -45,6 +45,7 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
       name: [speciality.name, [Validators.required, Validators.maxLength(1000)]],
       description: [speciality.description, [Validators.maxLength(10000)]],
       abbreviation: [speciality.abbreviation, [Validators.required, Validators.maxLength(255)]],
+      code: [speciality.code, [Validators.required, Validators.maxLength(100)]]
     });
   }
 
@@ -60,6 +61,9 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
     return this.specialityForm.get('abbreviation') as FormControl;
   }
 
+  get code(): FormControl {
+    return this.specialityForm.get('code') as FormControl;
+  }
   onCancelClick() {
     this.dialogRef.close({isOperationCompleted: false, operationResult: null, errorMessage: null});
   }
@@ -118,6 +122,7 @@ export class SpecialityAddEditComponent implements OnInit, OnDestroy {
     speciality.name = this.specialityForm.controls.name.value;
     speciality.description = this.specialityForm.controls.description.value;
     speciality.abbreviation = this.specialityForm.controls.abbreviation.value;
+    speciality.code = this.specialityForm.controls.code.value;
   }
 
   private createSpecialityCopy(speciality: Speciality): Speciality {

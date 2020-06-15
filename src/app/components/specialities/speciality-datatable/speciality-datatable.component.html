@@ -18,10 +18,15 @@
       <td style="width: 25%" mat-cell  *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="code">
+      <th style="width: 15%" mat-header-cell  *matHeaderCellDef mat-sort-header> Код специальности </th>
+      <td style="width: 15%;" mat-cell  *matCellDef="let row"> {{row.code}} </td>
+    </ng-container>
+
     <!-- Description Column -->
     <ng-container matColumnDef="description">
-      <th style="width: 45%" mat-header-cell class="description" *matHeaderCellDef mat-sort-header> Описание специальности</th>
-      <td style="width: 45%; overflow: hidden" mat-cell class="description" *matCellDef="let element"> {{printerUtilityService.printValue(element.description)}} </td>
+      <th style="width: 30%" mat-header-cell class="description" *matHeaderCellDef mat-sort-header> Описание специальности</th>
+      <td style="width: 30%; overflow: hidden" mat-cell class="description" *matCellDef="let element"> {{printerUtilityService.printValue(element.description)}} </td>
     </ng-container>
 
     <!-- Icons Column -->

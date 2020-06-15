@@ -35,7 +35,7 @@ export class TeacherDatatableComponent implements OnInit, OnDestroy {
   @ViewChild('teacherTable', {static: false}) teacherTable: MatTable<Teacher>;
 
   @Input() teachers: Teacher[];
-  displayedColumns: string[] = ['name', 'surname', 'patronymic', 'position', 'academicRank',
+  displayedColumns: string[] = ['surname', 'name', 'patronymic', 'position', 'academicRank',
     'academicDegree', 'staffType', 'icons'];
   dataSource: MatTableDataSource<Teacher>;
   editTeacherDialogSubscription: Subscription;

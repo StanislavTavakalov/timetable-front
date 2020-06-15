@@ -3,4 +3,5 @@ export class Speciality {
   public name: string;
   public abbreviation: string;
   public description: string;
+  public code: string;
 }
