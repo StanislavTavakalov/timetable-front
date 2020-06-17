@@ -14,7 +14,7 @@
               [ngStyle]="{'background-color': checkIsSelected(studyPlan) ? 'gold' : 'white' }">
           <span> Регистрационный номер: {{printerUtilityService.printRegisterNumber(studyPlan.registerNumber)}}
             || {{studyPlan.name}}
-            || {{studyPlan.speciality.name}} || {{printerUtilityService.printEducationForm(studyPlan.educationForm)}}
+            || {{studyPlan.speciality.code + " "}} {{studyPlan.speciality.name}} || {{printerUtilityService.printEducationForm(studyPlan.educationForm)}}
             || {{printerUtilityService.printStudyPlanStatus(studyPlan.status)}} || {{studyPlan.year}} </span>
           </td>
 
