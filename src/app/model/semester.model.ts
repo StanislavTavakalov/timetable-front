@@ -1,5 +1,5 @@
 export class Semester {
-  id: number;
+  id: string;
   number: number;
   hoursPerWeek: number;
   creditUnits: number;

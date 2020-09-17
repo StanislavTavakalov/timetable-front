@@ -1,0 +1,91 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<mat-dialog-content>
+  <form [formGroup]="teacherForm" class="column">
+
+    <mat-form-field>
+      <input matInput placeholder="Фамилия: " [formControlName]="'surname'" required>
+      <mat-error *ngIf="surname.hasError('maxlength')"> Количество символов не должно превышать 1000!
+      </mat-error>
+      <mat-error *ngIf="surname.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Имя:" [formControlName]="'name'" required>
+      <mat-error *ngIf="name.hasError('maxlength')"> Количество символов не должно превышать 1000!
+      </mat-error>
+      <mat-error *ngIf="name.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Отчество: " [formControlName]="'patronymic'" required>
+      <mat-error *ngIf="patronymic.hasError('maxlength')"> Количество символов не должно превышать 1000!
+      </mat-error>
+      <mat-error *ngIf="patronymic.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Должность:" [formControlName]="'position'" required>
+      <mat-error *ngIf="position.hasError('maxlength')"> Количество символов не должно превышать 1000!
+      </mat-error>
+      <mat-error *ngIf="position.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Научное звание: " [formControlName]="'academicRank'">
+      <mat-error *ngIf="academicRank.hasError('maxlength')"> Количество символов не должно превышать 1000!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Научная степень: " [formControlName]="'academicDegree'">
+      <mat-error *ngIf="academicDegree.hasError('maxlength')"> Количество символов не должно превышать 1000!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Аббревиатура научной степени: " [formControlName]="'academicDegreeAbbreviation'">
+      <mat-error *ngIf="academicDegreeAbbreviation.hasError('maxlength')"> Количество символов не должно превышать 255!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="В штатном составе: " [formControlName]="'staffType'" required>
+        <mat-option *ngFor="let staffType of staffTypeList" [value]="staffType">
+          {{localizeStaffType(staffType)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="isCountOfHoursShouldBeDisplayed()" required>
+      <input type="number" matInput placeholder="Количестество часов: " [formControlName]="'rate'">
+      <mat-error *ngIf="rate.hasError('max')"> Количество часов не может быть больше 9999!</mat-error>
+      <mat-error *ngIf="rate.hasError('min')"> Количество часов не может быть больше 1!</mat-error>
+      <mat-error *ngIf="rate.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="isStaffRateShouldBeDisplayed()">
+      <mat-select placeholder="Количество ставки: " [formControlName]="'rate'" required>
+        <mat-option *ngFor="let rate of rateList" [value]="rate">
+          {{rate}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="staffType.hasError('required')"> Поле должно быть заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <textarea matInput placeholder="Дополнительная информация: " [formControlName]="'additionalInfo'"
+                  matTextareaAutosize matAutosizeMinRows=8 matAutosizeMaxRows=12></textarea>
+      <mat-error *ngIf="academicDegree.hasError('maxlength')"> Количество символов не должно превышать 10000!
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="controls">
+  <mat-spinner *ngIf="loading" diameter="40" color="primary">
+  </mat-spinner>
+  <button mat-button color="primary" (click)="onConfirmClick()" [disabled]="teacherForm.invalid">
+    Подтвердить
+  </button>
+  <button mat-button color="warn" (click)=onCancelClick()> Отмена</button>
+</mat-dialog-actions>
+

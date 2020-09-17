@@ -1,0 +1,95 @@
+<mat-form-field>
+  <mat-label>Фильтр</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по преподавателям...">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table #teacherTable mat-table [dataSource]="dataSource" matSort>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th style="width: 15%" mat-header-cell *matHeaderCellDef mat-sort-header> Имя</th>
+      <td style="width: 15%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+
+    <!-- Surname Column -->
+    <ng-container matColumnDef="surname">
+      <th style="width: 15%" mat-header-cell *matHeaderCellDef mat-sort-header> Фамилия</th>
+      <td style="width: 15%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.surname}} </td>
+    </ng-container>
+
+    <!-- Patronymic Column -->
+    <ng-container matColumnDef="patronymic">
+      <th style="width: 15%" mat-header-cell *matHeaderCellDef mat-sort-header> Отчество</th>
+      <td style="width: 15%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.patronymic}} </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th style="width: 12.5%" mat-header-cell *matHeaderCellDef mat-sort-header> Должность</th>
+      <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.position}} </td>
+    </ng-container>
+
+    <!-- Academic Rank Column -->
+    <ng-container matColumnDef="academicRank">
+      <th style="width: 12.5%" mat-header-cell *matHeaderCellDef mat-sort-header> Научное звание</th>
+      <td style="width: 12.5%; overflow: hidden;" mat-cell
+          *matCellDef="let row"> {{printerUtilityService.printValue(row.academicRank)}} </td>
+    </ng-container>
+
+    <!-- Academic Degree Column -->
+    <ng-container matColumnDef="academicDegree">
+      <th style="width: 12.5%;" mat-header-cell *matHeaderCellDef mat-sort-header> Научная степень</th>
+      <td style="width: 12.5%; overflow: hidden;" mat-cell *matCellDef="let row">
+        {{printerUtilityService.printAcademicDegree(row.academicDegree, row.academicDegreeAbbreviation)}}
+      </td>
+    </ng-container>
+
+    <!-- Staff Type Column -->
+    <ng-container matColumnDef="staffType">
+      <th style="width: 12.5%;" mat-header-cell *matHeaderCellDef mat-sort-header> В штатном расписании</th>
+      <td style="width: 12.5%; overflow: hidden;" mat-cell
+          *matCellDef="let row"> {{printerUtilityService.printStaffType(row.staffType, row.rate)}} </td>
+    </ng-container>
+
+    <!--    &lt;!&ndash; Additional Info Column &ndash;&gt;-->
+    <!--    <ng-container matColumnDef="additionalInfo">-->
+    <!--      <th style="width: 30%" mat-header-cell *matHeaderCellDef mat-sort-header> Дополнительная информация</th>-->
+    <!--      <td style="width: 30%; overflow: hidden;" mat-cell *matCellDef="let row"> {{row.additionalInfo}} </td>-->
+    <!--    </ng-container>-->
+
+
+    <!-- Icons Column -->
+    <ng-container matColumnDef="icons">
+      <th style="text-align: end" mat-header-cell class="icons" *matHeaderCellDef>
+        <span class="material-icons" *ngIf="isLinkTeacherEnabled()" (click)="linkTeachers()" style="cursor: pointer"
+              matTooltip="Связать учителей">
+          link
+        </span>
+        <span class="material-icons" *ngIf="isDeleteEditAddTeacherEnabled()" (click)="addNewTeacher()" style="cursor: pointer"
+              matTooltip="Добавить преподавателя">
+              add_circle
+         </span>
+      </th>
+
+      <td style="text-align: end; width: 10%" mat-cell class="icons" *matCellDef="let teacher">
+         <span class="material-icons" *ngIf="isDeleteEditAddTeacherEnabled()" (click)="editTeacher(teacher)" style="cursor: pointer"
+               matTooltip="Редактировать преподавателя">
+             edit
+         </span>
+        <span class="material-icons" *ngIf="isDeleteEditAddTeacherEnabled()" (click)="deleteTeacher(teacher)" style="cursor: pointer"
+              matTooltip="Удалить преподавателя">
+             delete
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>
+
+

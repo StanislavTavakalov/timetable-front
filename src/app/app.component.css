@@ -284,3 +284,17 @@ svg#clouds {
     visibility: hidden;
   }
 }
+
+::ng-deep .mat-tooltip {
+  font-size: 14px !important;
+}
+
+:host {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1;
+}

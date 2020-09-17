@@ -1,27 +1,47 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {StudyPlanComponent} from './components/study-plan/study-plan.component';
-import {TestComponent} from './components/test/test.component';
-import { TimetableComponent} from './components/timetable/timetable.component';
-import { EditableModeComponent} from './components/editable-mode/editable-mode.component';
-import { FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
+import {TimetableComponent} from './components/timetable/timetable.component';
+import {FormForCreationComponent} from './components/form-for-creation/form-for-creation.component';
+import {ScheduleComponent} from './components/schedule/schedule.component';
+import {SpecialitiesComponent} from './components/specialities/specialities.component';
+import {SubjectsComponent} from './components/subjects/subjects.component';
+import {TeachersComponent} from './components/teachers/teachers.component';
+import {SubjectAddEditComponent} from './components/subjects/subject-add-edit/subject-add-edit.component';
+import {SubjectComponent} from './components/subjects/subject/subject.component';
+import {DeaneryMainComponent} from './components/deanery-main/deanery-main.component';
+import {DeaneryStaffMainComponent} from './components/deanery-staff-main/deanery-staff-main.component';
+import {GroupMainComponent} from './components/group-main/group-main.component';
+import {FlowMainComponent} from './components/flow-main/flow-main.component';
+import {GroupsAndFlowsComponent} from './components/groups-and-flows/groups-and-flows.component';
 
 
 
 const routes: Routes = [
-  { path: 'study-plan', component: StudyPlanComponent },
-  { path: 'test', component: TestComponent },
-
-  { path: 'timetable', component: TimetableComponent },
-  { path: 'creation', component: FormForCreationComponent },
-  { path: 'edit', component: EditableModeComponent },
-  { path: '**', redirectTo: 'study-plan' }
-
-  // { path: 'heroes', component: HeroesComponent }
+  {path: 'lectern/:id/distribution_courses_semesters', component: TimetableComponent},
+  {path: 'lectern/:id/distribution_courses_semesters/:sp_id', component: TimetableComponent},
+  {path: 'creation', component: FormForCreationComponent},
+  {path: 'lectern/:id/schedule/:idStudyPlan', component: ScheduleComponent},
+  {path: 'deanery/:id', component: DeaneryMainComponent},
+  {path: 'deanery/:id/lecterns', component: DeaneryMainComponent},
+  {path: 'deanery/:id/staff', component: DeaneryStaffMainComponent},
+  {path: 'deanery/:id/groups', component: GroupMainComponent},
+  {path: 'deanery/:id/flows', component: FlowMainComponent},
+  {path: 'lectern/:id', component: SpecialitiesComponent},
+  {path: 'lectern/:id/study-plans', component: StudyPlanComponent},
+  {path: 'lectern/:id/subjects/subject-edit/:subjectId', component: SubjectAddEditComponent},
+  {path: 'lectern/:id/subjects/subject-edit', component: SubjectAddEditComponent},
+  {path: 'lectern/:id/subjects/:subjectId', component: SubjectComponent},
+  {path: 'lectern/:id/subjects', component: SubjectsComponent},
+  {path: 'lectern/:id/groups_and_flows', component: GroupsAndFlowsComponent},
+  {path: 'lectern/:id/specialities', component: SpecialitiesComponent},
+  {path: 'lectern/:id/teachers', component: TeachersComponent},
+  {path: '**', redirectTo: 'lectern/:id'}
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

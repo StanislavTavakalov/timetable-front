@@ -1,0 +1,17 @@
+<h2 mat-dialog-title align="center"> Детали учебного плана </h2>
+<mat-dialog-content>
+  <div class="column">
+    <span> Имя плана: {{this.currentStudyPlan.name}}</span>
+    <span> Специальность: {{this.currentStudyPlan.speciality.name}}</span>
+    <span> Форма обучения: {{printerUtilityService.printEducationForm(this.currentStudyPlan.educationForm)}}</span>
+    <span> Статус: {{printerUtilityService.printStudyPlanStatus(this.currentStudyPlan.status)}} </span>
+    <span> Дата назначения статуса: {{this.currentStudyPlan.statusApplyDate | date}} </span>
+    <span> Регистрационный номер: {{printerUtilityService.printValue(this.currentStudyPlan.registerNumber)}}  </span>
+    <span> Дата назначения регистрационного номера: {{printerUtilityService.printValue(this.currentStudyPlan.registerNumberApplyDate | date)}} </span>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="study-plan-delete-dialog-controls">
+  <button mat-button style="width: 100%" color="warn" (click)=onCloseClick()> Закрыть</button>
+</mat-dialog-actions>
+
+

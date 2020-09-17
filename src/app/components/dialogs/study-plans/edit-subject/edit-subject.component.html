@@ -1,0 +1,84 @@
+<h1 mat-dialog-title> Редактировать предмет </h1>
+<mat-dialog-content>
+  <form [formGroup]="editSubjectForm">
+
+    <mat-form-field>
+      <input matInput placeholder="Название предмета: " [formControlName]="'name'" required>
+      <mat-error *ngIf="editSubjectForm.get('name').hasError('required')"> Необходимо заполнить поле</mat-error>
+      <mat-error *ngIf="editSubjectForm.get('name').hasError('maxLength')"> Максимальная длина названия: 1000 символов
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Аббревиатура: " [formControlName]="'abbreviation'" required>
+      <mat-error *ngIf="editSubjectForm.get('abbreviation').hasError('required')"> Необходимо заполнить поле</mat-error>
+      <mat-error *ngIf="editSubjectForm.get('abbreviation').hasError('maxLength')"> Максимальная длина аббериатуры : 255
+        символов
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Описание" [formControlName]="'description'"></textarea>
+      <mat-error *ngIf="editSubjectForm.get('description').hasError('required')"> Необходимо заполнить поле</mat-error>
+      <mat-error *ngIf="editSubjectForm.get('description').hasError('maxLength')"> Максимальная длина описания : 10000
+        символов
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <p style="font-size: 18px"> Часы: {{getCurrentFreeHoursValue()}} (свободные)
+        / {{getCurrentSumOfHoursValue()}} (всего) </p>
+
+    </div>
+    <mat-error *ngIf="editSubjectForm.controls.freeHours.errors"> Переназначьте часы на нагрузках!</mat-error>
+    <div class="column">
+      <div formArrayName="pereodicSeverities"
+           *ngFor="let pereodicSeverity of editSubjectForm.get('pereodicSeverities')['controls']; let pereodicSeverityIndex = index;">
+        <div [formGroupName]="pereodicSeverityIndex" class="column">
+
+          <div class="row">
+            <p style="font-size: 18px"> {{pereodicSeverity.get('pereodicSeverity').get('name').value}} </p>
+            <button mat-icon-button color="primary" style="margin-left: 2%"
+                    (click)="selectSemestersForPereodicSeverity(pereodicSeverity)">
+              <mat-icon> edit</mat-icon>
+            </button>
+          </div>
+          <div class="row">
+            <div class="row"
+                 *ngFor="let semesterNumber of pereodicSeverity.get('semesterNumbers')['controls']; let semesterNumberIndex = index;">
+              <mat-chip-list>
+                <mat-chip>{{semesterNumber.get('number').value}}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" formArrayName="severities"
+         *ngFor="let severitySubj of editSubjectForm.get('severities')['controls']; let severityIndex = index;">
+      <div [formGroupName]="severityIndex" class="row" style="align-items: center">
+
+        <p style="font-size: 18px"> {{severitySubj.get('severity').get('name').value}} </p>
+        <mat-form-field appearance="legacy" style="margin-left: 2%">
+          <input matInput type="number" formControlName="hours" placeholder="Количество часов">
+          <mat-error *ngIf="severitySubj.get('hours').hasError('max')">
+            Укажите количество часов от 1 до 999
+          </mat-error>
+          <mat-error *ngIf="severitySubj.get('hours').hasError('min')"> Укажите количество часов от 1 до 999 </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions class="controls">
+  <button mat-button color="primary" (click)="confirm()" [disabled]="editSubjectForm.invalid">
+    Подтвердить
+  </button>
+  <button mat-button color="warn" (click)=onCancelClick()> Закрыть</button>
+</mat-dialog-actions>
+
+
+

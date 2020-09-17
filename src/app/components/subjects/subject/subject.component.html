@@ -1,0 +1,86 @@
+<mat-spinner *ngIf="loading;else mainContent" diameter="150" mode="indeterminate" color="primary" class="spinner">
+</mat-spinner>
+<ng-template #mainContent>
+  <div *ngIf="this.subject; else subjectNotFound" style="margin: auto; width: 60%;">
+
+    <div class="column" style="height: 100%">
+      <!--    Name-->
+      <div class="row" style="width: 100%; margin-bottom: 2%">
+        <h1> {{subject.name}}  </h1>
+        <h1>({{subject.abbreviation}})</h1>
+      </div>
+      <mat-divider></mat-divider>
+
+      <!--    Description -->
+      <div class="row">
+        <div style="width: 60%; word-wrap: break-word;">
+          <p style=" font-size: 2em; margin-bottom: 2%"><b> Описание: </b></p>
+          <p style="font-size: 16px ;">
+             {{subject.description}}
+          </p>
+        </div>
+        <div class="column " style="width: 40%;">
+          <div class="row" style="margin: 2%; justify-content: space-between">
+            <p style=" font-size: 2em;"><b> Кафедра: </b></p>
+            <p style=" font-size: 2em;"> {{subject.department}}</p>
+          </div>
+          <div class="row" style="justify-content: space-between; margin: 2%">
+            <p style=" font-size: 2em;"><b> Шаблон: </b></p>
+            <p style=" font-size: 2em;">{{this.isTemplate(subject.template)}} </p>
+          </div>
+
+          <div class="row" style="justify-content: space-between; margin: 2%" *ngIf="subject.sumOfHours">
+            <p style=" font-size: 2em;"><b> Часов: </b></p>
+            <p style=" font-size: 2em;"> {{subject.sumOfHours}} </p>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+
+      <!-- Нагрузки -->
+      <div class="column" style="margin: 0">
+        <p style="font-size: 2em"><b>Нагрузки: </b></p>
+        <div class="row" style="margin: 0">
+          <div class="column" style="margin: 2% 1% 2% 0;" *ngFor="let severity of subject.severities" >
+            <mat-card>
+              <mat-card-title style="font-size: 18px">
+                {{severity.severity.name }}
+              </mat-card-title>
+              <mat-card-content>
+                Количество часов: {{ severity.hours + ' ч'}}
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+
+      <!-- Периодические Нагрузки -->
+      <div class="column" style="margin: 0">
+        <p style="font-size: 2em"><b>Периодические нагрузки: </b></p>
+        <div class="row" style="margin: 0">
+          <div class="column" style="margin: 2% 1% 2% 0;"
+               *ngFor="let pereodicSeveritySubject of subject.pereodicSeverities">
+            <mat-card>
+              <mat-card-title style="font-size: 18px">
+                {{pereodicSeveritySubject.pereodicSeverity.name }}
+              </mat-card-title>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div style="width: 100%; margin-top: 2%;">
+        <button mat-raised-button style=" font-size: 16px !important; margin-right: 1%" *ngIf="isDeleteEditSubjectEnabled()" (click)="onEditClick()">
+          Редактировать
+        </button>
+        <button mat-raised-button style=" font-size: 16px !important;" *ngIf="isDeleteEditSubjectEnabled()" (click)="deleteSubject()"> Удалить</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #subjectNotFound>
+  <h2 align="center"> Шаблон предмета не найден </h2>
+</ng-template>

@@ -1,16 +1,26 @@
-.timetable {
-text-align:center;
-width: 98%;
+.timetable-container {
+  margin-top:1%;
+  margin-left:3%;
+  text-align: center;
+}
 
+  .gold {
+   background-color: gold;
 }
 
 .vertical {
-    word-break: break-all;
+  word-break: break-all;
 }
 
 .vertical1 {
-    word-break: break-all;
+  word-break: break-all;
 }
+
+.freeHours {
+  margin-top:1%;
+  margin-left:1%;
+  }
+
 /* plansComponent's private CSS styles */
 .plans {
   margin: 0 0 2em 0;
@@ -18,40 +28,76 @@ width: 98%;
   padding: 0;
   width: 15em;
 }
+
 .plans li {
   cursor: pointer;
   position: relative;
   left: 0;
-  background-color: #EEE;
-  margin: .5em;
+
+  margin: 2em;
   padding: .3em 0;
   height: 1.6em;
   border-radius: 4px;
 }
+
 .plans li:hover {
   color: #607D8B;
   background-color: #DDD;
   left: .1em;
 }
+
 .plans li.selected {
   background-color: #CFD8DC;
   color: white;
 }
+
 .plans li.selected:hover {
   background-color: #BBD8DC;
   color: white;
 }
+
 .plans .badge {
   display: inline-block;
   font-size: small;
-  color: white;
+  color: red;
   padding: 0.8em 0.7em 0 0.7em;
-  background-color:#405061;
+  background-color: #405061;
   line-height: 1em;
   position: relative;
   left: -1px;
   top: -4px;
   height: 1.8em;
+
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
+
+}
+
+
+.input1 {
+  width: 20%;
+  text-align: center;
+}
+
+.input2 {
+  width: 20%;
+  text-align: center;
+}
+
+.input3 {
+  width: 90%;
+  text-align: center;
+}
+
+
+/deep/ .mat-tooltip {
+  font-size: 17px;
+}
+
+div .control-panel-inner-block {
+
+  margin-top: 1%;
+  width: 65%;
+  margin-left: 17%;
+  display: flex;
 }

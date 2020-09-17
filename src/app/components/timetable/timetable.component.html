@@ -1,59 +1,110 @@
-﻿<table class="timetable" id="timetable" border="1" align="center">
-<tbody>
-	<tr>
-		<td [attr.colspan]="num">{{selectedPlan.name}}</td>
-	<tr>
-	<tr>
-		<td rowspan="8">№</td>
-		<td class="vertical1" rowspan="8" colspan="2" >Название</td>
-		<td [attr.colspan]="num1">Распределение по курсам и семестрам</td>
-		<td class="vertical" rowspan="8">Кафедра</td>
-	</tr>
-	<tr>
-		<td colspan="2" *ngFor="let dummy of ' '.repeat(cources).split(''), let i = index">{{i+1}}</td>
-	</tr>
-	<tr>
-		<td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{i+1}}</td>
-		<td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
-	</tr>
-	<tr>
-		<td [attr.colspan]="num1">Недель в семестре</td>
-	</tr>
-	<tr>
-		<td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{selectedPlan.weeks[i]}}</td>
-    <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
-	</tr>
-	<tr>
-		<td [attr.colspan]="num1">Часах в неделях/зачетных единиц</td>
-	</tr>
-	<tr>
-		<td *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{i+13}}</td>
-    <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
-	</tr>
-	<tr>
-		<td *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index" >час.н. / з.ед.</td>
-		<td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
-	</tr>
-	<tr *ngFor="let discipline of selectedDisciplines">
-     		 <td>{{discipline.numberOfDiscipline}}</td>
-		<td colspan="2"  >{{discipline.name}}</td>
-		<td  *ngFor="let dummy of ' '.repeat(selectedPlan.countOfSem).split(''), let i = index">{{discipline.semesters[i].hoursPerWeek}} / {{discipline.semesters[i].creditUnits }} </td>
-    <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
-		<td>{{discipline.department}}</td>
-	</tr>
-</tbody>
-</table>
+﻿<div style="display:flex; height: 50%;width:100%;">
+  <div style=" width: 12%; margin-left: 2%; margin-top: 1%; overflow: auto; max-height: 400px;">
+    <table #table mat-table [dataSource]="plans" class="mat-elevation-z8"
+           style="width: 100%;  align-items: center">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Учебные планы</th>
+        <td [class.gold]="element.id == selectedId" mat-cell *matCellDef="let element" > {{element.name}} </td>
+      </ng-container>
 
-<nav>
-  <a routerLink="/edit">Edit</a>
-</nav>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsStudyPlans"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsStudyPlans;"
+          class="example-element-row"
+          (click)="onSelect(row)"></tr>
+    </table>
+  </div>
+  <div class="timetable-container" style="margin-left: 3%; margin-top: 1%; overflow: auto; max-height: 400px; width: 65%">
+    <table class="timetable" id="timetable" border="1" align="center" style="width: 100%">
+      <tbody>
+        <tr>
+          <td [attr.colspan]="num">{{selectedPlan?.name}}</td>
+        <tr>
+        <tr>
+          <td rowspan="8">№</td>
+          <td class="vertical1" rowspan="8" colspan="2">Название</td>
+          <td [attr.colspan]="num1">Распределение по курсам и семестрам</td>
+          <td class="vertical" rowspan="8" >Кафедра</td>
+        </tr>
+        <tr>
+          <td colspan="2" *ngFor="let dummy of ' '.repeat(cources).split(''), let i = index">{{i+1}}</td>
+        </tr>
+        <tr>
+          <td  *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{i+1}}</td>
+          <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="num1">Недель в семестре</td>
+        </tr>
+        <tr>
+          <td  *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{selectedPlan?.weeks[i]?.count}}</td>
+          <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="num1">Часах в неделях/зачетных единиц</td>
+        </tr>
+        <tr>
+          <td *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index">{{i+13}}</td>
+          <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
+        </tr>
+        <tr>
+          <td *ngFor="let dummy of ' '.repeat(selectedPlan?.countOfSem).split(''), let i = index" >час.н. / з.ед.</td>
+          <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
+        </tr>
+        <ng-container *ngIf="!editMode" >
+          <tr *ngFor="let discipline of selectedPlan?.subjects">
+            <td>{{discipline.position}}</td>
+            <td colspan="2"  >{{discipline.name}}</td>
+            <td  *ngFor="let semester of discipline.semesters">{{semester?.hoursPerWeek}} / {{semester?.creditUnits }} </td>
+            <td  *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"> </td>
+            <td>{{discipline.department}}</td>
+          </tr>
+         </ng-container>
+        <ng-container *ngIf="editMode" >
+          <tr *ngFor="let discipline of editPlan?.subjects">
+            <td>{{discipline.position}}</td>
+            <td colspan="2"  >{{discipline.name}}</td>
+            <td  *ngFor="let semester of discipline.semesters "><input
+              (change)="changeHoursPerWeek($event,discipline.id,semester.number-1)" class="input1"
+              value="{{semester?.hoursPerWeek}}"> / <input
+              (change)="changeCreditUnit($event,discipline.id,semester.number-1)" class="input2" value="{{semester?.creditUnits}}"></td>
+            <td *ngFor="let dummy of ' '.repeat(semsLost).split(''), let i = index"></td>
+            <td>{{discipline.department}}</td>
+          </tr>
+         </ng-container >
+      </tbody>
+    </table>
+  </div>
+  <div class="freeHours" *ngIf="editMode"  style="overflow: auto; max-height: 400px;">
+    <ul class="plans">
+      <div>
+        <table border="1">
+          <tr>
+            <td>Дисциплина</td>
+            <td>Cвободные часы</td>
+            <td>Все часы</td>
+          </tr>
+          <tr *ngFor="let discipline of editPlan?.subjects">
+            <td matTooltip="{{discipline.name}}" class="tooltip">{{discipline.abbreviation}}</td>
+            <td>{{discipline.freeHours}}</td>
+            <td>{{discipline.sumOfHours}}</td>
+          </tr>
+        </table>
+      </div>
+    </ul>
+  </div>
+</div>
 
-<ul class="plans">
-  <li *ngFor="let plan of plans" [class.selected]="plan === selectedPlan"
-    (click)="onSelect(plan)">
-    <span class="badge">{{plan.id}}</span> {{plan.name}}
-  </li>
-</ul>
+<div class="control-panel" style="margin-top: 7%;">
+  <div class="control-panel-inner-block mat-elevation-z21">
+    <button mat-raised-button class="control-button" *ngIf="isDeleteEditAddStudyPlanEnabled()"  (click)="updateStudyPlan()">Редактировать учебный план</button>
+    <button mat-raised-button class="control-button" *ngIf="!editMode && isDeleteEditAddStudyPlanEnabled()" (click)="editModeOn()"  > Редактировать</button>
+    <button mat-raised-button color="primary" class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="add()"> Сохранить</button>
+    <button mat-raised-button color="warn" class="control-button" *ngIf="editMode && isDeleteEditAddStudyPlanEnabled()"  (click)="exitEditableMode()"> Отменить</button>
+	  <button mat-raised-button class="control-button" *ngIf="this.selectedPlan != null" routerLink="/lectern/{{lectern?.id}}/schedule/{{selectedPlan?.id}}">График образовательного процесса</button>
+  </div>
+</div>
+
+
 
 
 

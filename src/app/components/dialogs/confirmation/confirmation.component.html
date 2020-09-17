@@ -1,0 +1,11 @@
+
+<div class="confirmation-dialog">
+  <h2 mat-dialog-title align="center">{{message}}</h2>
+  <p align="center"> Вы уверены? </p>
+  <div class="confirmation-dialog-controls" align="center">
+    <button mat-button color="primary" (click)="onConfirmClick()" [mat-dialog-close]="" cdkFocusInitial>
+      Да
+    </button>
+    <button mat-button color="warn" (click)=onCancelClick()> Нет </button>
+  </div>
+</div>

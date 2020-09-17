@@ -1,0 +1,32 @@
+.study-plan-delete-dialog-controls {
+  margin-top: 1%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  font-size: 17px;
+}
+
+span:focus {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.column{
+  display: flex;
+  flex-direction: column !important;
+}
+
+.row {
+  display: flex;
+  flex-direction: row !important;
+
+}
+
+span {
+  margin: 1%;
+}

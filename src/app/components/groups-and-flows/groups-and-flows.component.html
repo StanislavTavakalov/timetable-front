@@ -1,0 +1,16 @@
+<mat-spinner *ngIf="isGroupsLoading || isFlowsLoading;else mainContent" diameter="150" mode="indeterminate"
+             color="primary" class="spinner">
+</mat-spinner>
+
+<ng-template #mainContent>
+  <div style="display: flex; flex-direction: column">
+    <div *ngIf="groupsTableVisible" class="table-content">
+      <h2> Группы: </h2>
+      <app-groups-datatable [groups]="groups"></app-groups-datatable>
+    </div>
+    <div *ngIf="flowsTableVisible" class="table-content">
+      <h2> Потоки: </h2>
+      <app-flows-datatable [flows]="flows"></app-flows-datatable>
+    </div>
+  </div>
+</ng-template>

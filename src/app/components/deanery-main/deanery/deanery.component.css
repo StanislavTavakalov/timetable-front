@@ -1,0 +1,20 @@
+/* Structure */
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.tableMain {
+  margin-left: 2%;
+  width: 96%;
+}
+
+.spinner{
+  margin: 10% auto auto;
+  height: 100%;
+  width: 100%;
+}

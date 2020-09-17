@@ -1,0 +1,65 @@
+<mat-form-field>
+  <mat-label>Фильтр</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по шаблонам...">
+</mat-form-field>
+
+<div class="mat-elevation-z8" style="width: 100%">
+  <table #subjectTemplateTable mat-table [dataSource]="dataSource" matSort>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="prototypes">
+      <th style="width: 90% !important;" mat-header-cell class="prototypes" *matHeaderCellDef> <p style="font-size: 18px; margin-left: 47%"> Шаблоны </p> </th>
+      <td style="width: 90% !important;" mat-cell class="prototypes" *matCellDef="let element"><p style="margin: 1%; text-align: center">{{element.name}}
+        ({{element.abbreviation}}) </p></td>
+    </ng-container>
+
+    <!-- Add subject to study plan -->
+    <ng-container matColumnDef="add-icon" stickyEnd>
+      <th style="width: 30% !important;" mat-header-cell class="icons" *matHeaderCellDef></th>
+      <td style="width: 30% !important;" mat-cell class="icons" *matCellDef="let subjectTemplate">
+        <div class="row"> </div>
+        <mat-icon (click)="addSubjectToStudyPlan(subjectTemplate)" matTooltip="Добавить предмет в план"> add_circle
+        </mat-icon>
+        <mat-icon [matTooltip]="printerUtilityService.printAdditionalSubjectTemplateInfo(subjectTemplate)"> info
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <!-- Display columns -->
+    <tr mat-header-row *matHeaderRowDef="['prototypes', 'add-icon']"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 7, 9]" showFirstLastButtons></mat-paginator>
+</div>
+
+
+<!--<mat-form-field>-->
+<!--  <mat-label>Фильтр</mat-label>-->
+<!--  <input matInput (keyup)="applyTemplateFilter($event)" placeholder="Поиск по шаблонам...">-->
+<!--</mat-form-field>-->
+
+<!--<table mat-table #tablePrototypes [dataSource]="templateDataSource" class="mat-elevation-z8" style="width: 100%">-->
+
+<!--  &lt;!&ndash; Name Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="prototypes">-->
+<!--    <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> Шаблоны</th>-->
+<!--    <td mat-cell *matCellDef="let element"> <p style="margin: 1%">{{element.name}} ({{element.abbreviation}}) </p> </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Add subject to study plan &ndash;&gt;-->
+<!--  <ng-container matColumnDef="add-icon" stickyEnd>-->
+<!--    <th mat-header-cell *matHeaderCellDef></th>-->
+<!--    <td mat-cell *matCellDef="let subjectTemplate" >-->
+<!--      <mat-icon (click)="addSubjectToStudyPlan(subjectTemplate)" matTooltip="Добавить предмет в план"> add_circle-->
+<!--      </mat-icon>-->
+<!--      <mat-icon [matTooltip]="printerUtilityService.printAdditionalSubjectTemplateInfo(subjectTemplate)"> info-->
+<!--      </mat-icon>-->
+<!--    </td>-->
+<!--  </ng-container>-->
+
+<!--  &lt;!&ndash; Display columns &ndash;&gt;-->
+<!--  <tr mat-header-row *matHeaderRowDef="['prototypes' ]"></tr>-->
+<!--  <tr mat-row *matRowDef="let row; columns: displayedColumnsSubjects;"></tr>-->
+<!--</table>-->
+

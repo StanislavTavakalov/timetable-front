@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>{{message}}</h1>
+<mat-dialog-content>
+  <form [formGroup]="createStudyPlanForm">
+    <mat-form-field>
+      <input matInput placeholder="Имя учебного плана: " [formControlName]="'studyPlanName'" required>
+      <mat-error *ngIf="studyPlanName.hasError('maxlength')"> Количество символов не должно превышать 1000!</mat-error>
+      <mat-error *ngIf="studyPlanName.hasError('required')"> Необходимо заполнить поле</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Количество семестров: " [formControlName]="'countOfSem'" required>
+      <mat-error *ngIf="countOfSem.hasError('min')"> Количество символов не должно быть меньше 1!</mat-error>
+      <mat-error *ngIf="countOfSem.hasError('max')"> Количество символов не должно превышать 12!</mat-error>
+      <mat-error *ngIf="countOfSem.hasError('required')"> Необходимо заполнить поле</mat-error>
+      <mat-error *ngIf="countOfSem.hasError('semNumberExposedError')"> Семестр не может быть
+        меньше {{this.maxSemNumberExposed}}, так уже он уже используется в нагрузке
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Коэффициент отношения часов в неделю к зачетным единицам: " [formControlName]="'coefficient'">
+      <mat-error *ngIf="coefficient.hasError('min')"> Коэффицент не может быть меньше 0!</mat-error>
+      <mat-error *ngIf="coefficient.hasError('max')"> Коэффицент не может быть больше 15!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Форма обучения: " [formControlName]="'educationForm'" required>
+        <mat-option *ngFor="let educationForm of educationFormList" [value]="educationForm">
+          {{localizeEducationForm(educationForm)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select [compareWith]="compareObjects" placeholder="Специальность: " [formControlName]="'speciality'"
+                  required>
+        <mat-option *ngFor="let speciality of specialityList" [value]="speciality">
+          {{speciality.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Год: " [formControlName]="'year'">
+      <mat-error *ngIf="coefficient.hasError('required')"> Необходимо заполнить поле</mat-error>
+      <mat-error *ngIf="coefficient.hasError('min')"> Год не может быть меньше 1900</mat-error>
+      <mat-error *ngIf="coefficient.hasError('max')"> Год не может быть больше 2100</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="controls">
+  <button mat-button color="primary" (click)="confirm()" [disabled]="createStudyPlanForm.invalid">
+    Сохранить
+  </button>
+  <button mat-button color="warn" (click)=onCancelClick()> Закрыть</button>
+</mat-dialog-actions>
+
+
+

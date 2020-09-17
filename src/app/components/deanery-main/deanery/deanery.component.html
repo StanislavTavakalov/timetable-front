@@ -1,0 +1,63 @@
+  <div class="tableMain">
+    <mat-form-field>
+      <mat-label>Фильтр</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Поиск по кафедрам">
+    </mat-form-field>
+    <div class="mat-elevation-z8">
+      <table #table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="name">
+          <th style="width: 15%" mat-header-cell  *matHeaderCellDef mat-sort-header> Название </th>
+          <td style="width: 15%"  mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fullname">
+          <th style="width: 18%" mat-header-cell  *matHeaderCellDef mat-sort-header> Полное назание </th>
+          <td style="width: 18%" mat-cell *matCellDef="let element"> {{element.fullname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th style="width: 24%" mat-header-cell  *matHeaderCellDef mat-sort-header> Описание </th>
+          <td style="width: 24%" mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="go">
+          <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                              routerLink="/lectern/{{element?.id}}/">Перейти</button> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="staff">
+          <th style="width: 9%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 9%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button"
+                                                               (click)="viewStaff(element.id)">Преподаватели</button> </td>
+        </ng-container>
+
+		<ng-container matColumnDef="pretimetble">
+          <th style="width: 9%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 9%" mat-cell *matCellDef="let element"><a href="http://localhost:8080/lectern/{{element.id}}/pretimetable"><button  mat-raised-button class="control-button">Рассписание</button></a></td>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+          <th style="width: 11%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 11%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" *ngIf="isDeleteEditAddLecternEnabled()" (click)="updateLectern(element)">Редактировать</button> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th style="width: 7%" mat-header-cell *matHeaderCellDef>  </th>
+          <td style="width: 7%" mat-cell *matCellDef="let element"> <button mat-raised-button class="control-button" *ngIf="isDeleteEditAddLecternEnabled()" (click)="deleteLectern(element)">Удалить</button> </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+
+  <div class="control-panel" style="margin-top:3%">
+    <div class="control-panel-inner-block mat-elevation-z21" style="top:80%">
+      <button  mat-raised-button class="control-button" *ngIf="isDeleteEditAddLecternEnabled()" (click)="addLectern()">Создать кафедру</button>
+    </div>
+  </div>
+
+
